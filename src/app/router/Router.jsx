@@ -62,6 +62,9 @@ import BusinessRisk from '../../pages/Business/BusinessRisk';
 import AddBusiness from '../../pages/Business/AddBusiness';
 import BusinessDocReview from '../../pages/Business/BusinessDocReview';
 import BusinessTaxonomy from '../../pages/Business/BusinessTaxonomy';
+import QuotationManagement from '../../pages/QuotationManagement';
+import BankingSettlementManagement from '../../pages/BankingSettlementManagement';
+import SOSManagement from '../../pages/SOSManagement';
 
 export function Router() {
   const { route } = useApp();
@@ -179,11 +182,11 @@ export function Router() {
     case ROUTES.materials:
       return <Placeholder title="Materials" activeTab="Materials" />;
     case ROUTES.quotations:
-      return <Placeholder title="Quotations" activeTab="Quotations" />;
+      return <QuotationManagement />;
     case ROUTES.wallet:
       return <Placeholder title="Wallet" activeTab="Wallet" />;
     case ROUTES.banking:
-      return <Placeholder title="Banking" activeTab="Banking" />;
+      return <BankingSettlementManagement />;
     case ROUTES.revenue:
       return <Placeholder title="Revenue" activeTab="Revenue" />;
     case ROUTES.referrals:
@@ -197,7 +200,7 @@ export function Router() {
     case ROUTES.reviews:
       return <Placeholder title="Reviews" activeTab="Reviews" />;
     case ROUTES.sos:
-      return <Placeholder title="SOS" activeTab="SOS" />;
+      return <SOSManagement />;
     case ROUTES.support:
       return <Placeholder title="Support" activeTab="Support" />;
     case ROUTES.settings:
@@ -477,31 +480,32 @@ export function Router() {
 
     // Quotation Management sub-routes
     case ROUTES.quotationSeller:
-      return <Placeholder title="Seller Quotations" activeTab="Quotation Management" />;
     case ROUTES.quotationCustomer:
-      return <Placeholder title="Customer Quotations" activeTab="Quotation Management" />;
+    case ROUTES.quotationCustomerDetails:
     case ROUTES.quotationRfq:
-      return <Placeholder title="RFQ Listing" activeTab="Quotation Management" />;
     case ROUTES.quotationCreateRfq:
-      return <Placeholder title="Create RFQ" activeTab="Quotation Management" />;
+    case ROUTES.quotationDetails:
     case ROUTES.quotationApprovals:
-      return <Placeholder title="Approval Queue" activeTab="Quotation Management" />;
+    case ROUTES.quotationApprovalDetail:
+    case ROUTES.quotationComparison:
     case ROUTES.quotationWinner:
-      return <Placeholder title="Winner Selection" activeTab="Quotation Management" />;
     case ROUTES.quotationNegotiation:
-      return <Placeholder title="Negotiation Center" activeTab="Quotation Management" />;
+    case ROUTES.quotationRevisions:
+    case ROUTES.quotationExpired:
+    case ROUTES.quotationRejected:
+    case ROUTES.quotationGeneratePo:
     case ROUTES.quotationOrders:
-      return <Placeholder title="Purchase Orders" activeTab="Quotation Management" />;
+    case ROUTES.quotationOrderDetails:
+    case ROUTES.quotationCommunication:
     case ROUTES.quotationCostOptimization:
-      return <Placeholder title="Cost Optimization" activeTab="Quotation Management" />;
     case ROUTES.quotationSellerPerformance:
-      return <Placeholder title="Seller Performance" activeTab="Quotation Management" />;
     case ROUTES.quotationAnalytics:
-      return <Placeholder title="Pricing Analytics" activeTab="Quotation Management" />;
+    case ROUTES.quotationPricingAnalytics:
     case ROUTES.quotationDisputes:
-      return <Placeholder title="Disputes" activeTab="Quotation Management" />;
+    case ROUTES.quotationHighValue:
+    case ROUTES.quotationBulkApproval:
     case ROUTES.quotationReports:
-      return <Placeholder title="Reports" activeTab="Quotation Management" />;
+      return <QuotationManagement />;
 
     // Wallet Management sub-routes
     case ROUTES.walletAll:
@@ -532,30 +536,33 @@ export function Router() {
       return <Placeholder title="Earnings Dashboard" activeTab="Wallet Management" />;
 
     // Banking & Settlements sub-routes
+    case ROUTES.bankingDashboard:
     case ROUTES.bankAccounts:
-      return <Placeholder title="Bank Accounts" activeTab="Banking & Settlements" />;
+    case ROUTES.bankAccountDetails:
+    case ROUTES.bankAccountAdd:
+    case ROUTES.bankAccountEdit:
     case ROUTES.bankBeneficiaries:
-      return <Placeholder title="Beneficiaries" activeTab="Banking & Settlements" />;
     case ROUTES.bankUpi:
-      return <Placeholder title="UPI Verification" activeTab="Banking & Settlements" />;
+    case ROUTES.bankVerificationQueue:
+    case ROUTES.bankVerificationDetail:
+    case ROUTES.withdrawalDashboard:
     case ROUTES.withdrawalRequests:
-      return <Placeholder title="Withdrawal Requests" activeTab="Banking & Settlements" />;
+    case ROUTES.withdrawalDetail:
     case ROUTES.withdrawalApprovals:
-      return <Placeholder title="Withdrawal Approvals" activeTab="Banking & Settlements" />;
+    case ROUTES.settlementDashboard:
     case ROUTES.settlementQueue:
-      return <Placeholder title="Settlement Queue" activeTab="Banking & Settlements" />;
+    case ROUTES.settlementDetail:
     case ROUTES.bulkSettlements:
-      return <Placeholder title="Bulk Settlements" activeTab="Banking & Settlements" />;
     case ROUTES.failedSettlements:
-      return <Placeholder title="Failed Settlements" activeTab="Banking & Settlements" />;
+    case ROUTES.bankingReconciliation:
+    case ROUTES.reconciliationDetails:
     case ROUTES.payoutProcessing:
-      return <Placeholder title="Payout Processing" activeTab="Banking & Settlements" />;
     case ROUTES.financeApprovals:
-      return <Placeholder title="Finance Approvals" activeTab="Banking & Settlements" />;
     case ROUTES.bankingAnalytics:
-      return <Placeholder title="Banking Analytics" activeTab="Banking & Settlements" />;
     case ROUTES.bankPerformance:
-      return <Placeholder title="Bank Performance" activeTab="Banking & Settlements" />;
+    case ROUTES.bankingReports:
+    case ROUTES.bankingSettings:
+      return <BankingSettlementManagement />;
 
     // Revenue Management sub-routes
     case ROUTES.revenueDashboard:
@@ -684,16 +691,33 @@ export function Router() {
       return <Placeholder title="Rating Analytics" activeTab="Reviews & Ratings" />;
 
     // SOS Management sub-routes
+    case ROUTES.sosDashboard:
     case ROUTES.sosActive:
-      return <Placeholder title="Active SOS" activeTab="SOS Management" />;
+    case ROUTES.sosDetails:
+    case ROUTES.sosDispatch:
     case ROUTES.sosResolved:
-      return <Placeholder title="Resolved SOS" activeTab="SOS Management" />;
     case ROUTES.sosEscalated:
-      return <Placeholder title="Escalated SOS" activeTab="SOS Management" />;
     case ROUTES.sosTracking:
-      return <Placeholder title="Emergency Tracking" activeTab="SOS Management" />;
     case ROUTES.sosIncidentReports:
-      return <Placeholder title="Incident Reports" activeTab="SOS Management" />;
+    case ROUTES.sosResponseQueue:
+    case ROUTES.sosCategories:
+    case ROUTES.sosContacts:
+    case ROUTES.sosCommunication:
+    case ROUTES.sosResources:
+    case ROUTES.sosInvestigationCenter:
+    case ROUTES.sosHeatmap:
+    case ROUTES.sosIncidentReportDetails:
+    case ROUTES.sosResolution:
+    case ROUTES.sosPerformance:
+    case ROUTES.sosAnalytics:
+    case ROUTES.sosFraud:
+    case ROUTES.sosInvestigation:
+    case ROUTES.sosReports:
+    case ROUTES.sosSettings:
+    case ROUTES.sosAuthority:
+    case ROUTES.sosAudit:
+    case ROUTES.sosCommandCenter:
+      return <SOSManagement />;
 
     // Support Center sub-routes
     case ROUTES.supportAll:
@@ -722,14 +746,42 @@ export function Router() {
       return <Placeholder title="Support Analytics" activeTab="Support Center" />;
 
     // Fraud Management routing cases
+    case ROUTES.fraudCenter:
     case ROUTES.fraudDashboard:
+    case ROUTES.fraudCases:
+    case ROUTES.fraudCaseDetails:
+    case ROUTES.fraudRiskMonitoring:
     case ROUTES.fraudUser:
     case ROUTES.fraudPartner:
+    case ROUTES.fraudEmployee:
     case ROUTES.fraudWallet:
+    case ROUTES.fraudPayment:
+    case ROUTES.fraudReferral:
+    case ROUTES.fraudKyc:
+    case ROUTES.fraudDevice:
+    case ROUTES.fraudIp:
+    case ROUTES.fraudGeo:
     case ROUTES.fraudBooking:
     case ROUTES.fraudInvestigations:
+    case ROUTES.fraudWorkspace:
+    case ROUTES.fraudAlerts:
     case ROUTES.fraudRisk:
+    case ROUTES.fraudCompliance:
+    case ROUTES.fraudAml:
+    case ROUTES.fraudAnalytics:
+    case ROUTES.fraudHeatmap:
+    case ROUTES.fraudReports:
+    case ROUTES.fraudResolution:
     case ROUTES.blacklistManagement:
+    case ROUTES.whitelistManagement:
+    case ROUTES.fraudAutomation:
+    case ROUTES.fraudCommunication:
+    case ROUTES.fraudAudit:
+    case ROUTES.fraudExecutive:
+    case ROUTES.fraudAssignment:
+    case ROUTES.fraudRecovery:
+    case ROUTES.fraudIntegrations:
+    case ROUTES.fraudSettings:
       return <FraudCenter />;
 
     // Reports & Analytics landing and sub-routes
