@@ -8,6 +8,13 @@ import OtpVerification from '../../pages/OtpVerification';
 import ResetPassword from '../../pages/ResetPassword';
 import PasswordResetSuccess from '../../pages/PasswordResetSuccess';
 import Dashboard from '../../pages/Dashboard';
+import RevenueDashboard from '../../pages/Dashboard/RevenueDashboard';
+import BookingAnalytics from '../../pages/Dashboard/BookingAnalytics';
+import UserAnalytics from '../../pages/Dashboard/UserAnalytics';
+import PartnerAnalytics from '../../pages/Dashboard/PartnerAnalytics';
+import ApprovalsDashboard from '../../pages/Dashboard/ApprovalsDashboard';
+import SystemHealth from '../../pages/Dashboard/SystemHealth';
+import ActivityCenter from '../../pages/Dashboard/ActivityCenter';
 import MaterialRequests from '../../pages/MaterialRequests';
 import NewMaterialRequest from '../../pages/MaterialRequests/NewRequest';
 import MaterialRequestDetails from '../../pages/MaterialRequests/Details';
@@ -33,6 +40,25 @@ import ApprovalQueue from '../../pages/ApprovalQueue';
 import FraudCenter from '../../pages/FraudCenter';
 import CommunicationsCenter from '../../pages/CommunicationsCenter';
 import Settlements from '../../pages/Settlements';
+import WalletDashboard from '../../pages/WalletManagement/WalletDashboard';
+import WalletAnalytics from '../../pages/WalletManagement/WalletAnalytics';
+import TransactionLedger from '../../pages/WalletManagement/TransactionLedger';
+import FraudMonitoringCenter from '../../pages/WalletManagement/FraudMonitoringCenter';
+import SettlementRequestQueue from '../../pages/WalletManagement/SettlementRequestQueue';
+import FinancialReconciliation from '../../pages/WalletManagement/FinancialReconciliation';
+import RefundApprovalQueue from '../../pages/WalletManagement/RefundApprovalQueue';
+import TransactionDetail from '../../pages/WalletManagement/TransactionDetail';
+import WalletAdjustmentCenter from '../../pages/WalletManagement/WalletAdjustmentCenter';
+import PenaltyManagement from '../../pages/WalletManagement/PenaltyManagement';
+import FrozenWalletListing from '../../pages/WalletManagement/FrozenWalletListing';
+import WalletListing from '../../pages/WalletManagement/WalletListing';
+import WalletDetails from '../../pages/WalletManagement/WalletDetails';
+import WalletFreezeCenter from '../../pages/WalletManagement/WalletFreezeCenter';
+import EarningsDashboard from '../../pages/WalletManagement/EarningsDashboard';
+import UserWallets from '../../pages/WalletManagement/UserWallets';
+import PartnerWallets from '../../pages/WalletManagement/PartnerWallets';
+import SellerWallets from '../../pages/WalletManagement/SellerWallets';
+import EmployeeWallets from '../../pages/WalletManagement/EmployeeWallets';
 import SupplierPerformance from '../../pages/MaterialRequests/SupplierPerformance';
 import ServiceCancellation from '../../pages/Bookings/ServiceCancellation';
 import SlaCompliance from '../../pages/Bookings/SlaCompliance';
@@ -97,7 +123,7 @@ export function Router() {
     case ROUTES.communications:
       return <CommunicationsCenter />;
     case ROUTES.settlements:
-      return <Settlements />;
+      return <SettlementRequestQueue />;
     case ROUTES.users:
       return <Users />;
       
@@ -180,8 +206,6 @@ export function Router() {
       return <Placeholder title="Materials" activeTab="Materials" />;
     case ROUTES.quotations:
       return <Placeholder title="Quotations" activeTab="Quotations" />;
-    case ROUTES.wallet:
-      return <Placeholder title="Wallet" activeTab="Wallet" />;
     case ROUTES.banking:
       return <Placeholder title="Banking" activeTab="Banking" />;
     case ROUTES.revenue:
@@ -215,19 +239,19 @@ export function Router() {
 
     // Dashboard sub-routes
     case ROUTES.dashboardRevenue:
-      return <Placeholder title="Revenue Dashboard" activeTab="Dashboard" />;
+      return <RevenueDashboard activeTab="Dashboard" />;
     case ROUTES.dashboardBookings:
-      return <Placeholder title="Booking Analytics" activeTab="Dashboard" />;
+      return <BookingAnalytics activeTab="Dashboard" />;
     case ROUTES.dashboardUsers:
-      return <Placeholder title="User Analytics" activeTab="Dashboard" />;
+      return <UserAnalytics activeTab="Dashboard" />;
     case ROUTES.dashboardPartners:
-      return <Placeholder title="Partner Analytics" activeTab="Dashboard" />;
+      return <PartnerAnalytics activeTab="Dashboard" />;
     case ROUTES.dashboardApprovals:
-      return <Placeholder title="Approval Dashboard" activeTab="Dashboard" />;
+      return <ApprovalsDashboard activeTab="Dashboard" />;
     case ROUTES.dashboardActivity:
-      return <Placeholder title="Activity Center" activeTab="Dashboard" />;
+      return <ActivityCenter activeTab="Dashboard" />;
     case ROUTES.dashboardSystemHealth:
-      return <Placeholder title="System Health" activeTab="Dashboard" />;
+      return <SystemHealth activeTab="Dashboard" />;
 
     // User Management sub-routes
     case ROUTES.addUser:
@@ -504,32 +528,43 @@ export function Router() {
       return <Placeholder title="Reports" activeTab="Quotation Management" />;
 
     // Wallet Management sub-routes
+    case ROUTES.walletDashboard:
+    case ROUTES.wallet:
+      return <WalletDashboard />;
     case ROUTES.walletAll:
-      return <Placeholder title="All Wallets" activeTab="Wallet Management" />;
+      return <WalletListing defaultType="All" />;
     case ROUTES.walletUser:
-      return <Placeholder title="User Wallets" activeTab="Wallet Management" />;
+      return <UserWallets />;
     case ROUTES.walletPartner:
-      return <Placeholder title="Partner Wallets" activeTab="Wallet Management" />;
+      return <PartnerWallets />;
     case ROUTES.walletSeller:
-      return <Placeholder title="Seller Wallets" activeTab="Wallet Management" />;
+      return <SellerWallets />;
     case ROUTES.walletEmployee:
-      return <Placeholder title="Employee Wallets" activeTab="Wallet Management" />;
+      return <EmployeeWallets />;
     case ROUTES.walletTransactions:
-      return <Placeholder title="Transactions" activeTab="Wallet Management" />;
+      return <TransactionLedger />;
     case ROUTES.walletRefunds:
-      return <Placeholder title="Refunds" activeTab="Wallet Management" />;
+      return <RefundApprovalQueue />;
     case ROUTES.walletPenalties:
-      return <Placeholder title="Penalties" activeTab="Wallet Management" />;
+      return <PenaltyManagement />;
     case ROUTES.walletFreeze:
-      return <Placeholder title="Freeze Wallets" activeTab="Wallet Management" />;
+      return <FrozenWalletListing />;
     case ROUTES.walletFraud:
-      return <Placeholder title="Fraud Monitoring" activeTab="Wallet Management" />;
+      return <FraudMonitoringCenter />;
     case ROUTES.walletAnalytics:
-      return <Placeholder title="Wallet Analytics" activeTab="Wallet Management" />;
+      return <WalletAnalytics />;
     case ROUTES.walletReconciliation:
-      return <Placeholder title="Reconciliation" activeTab="Wallet Management" />;
+      return <FinancialReconciliation />;
     case ROUTES.walletEarnings:
-      return <Placeholder title="Earnings Dashboard" activeTab="Wallet Management" />;
+      return <EarningsDashboard />;
+    case ROUTES.walletDetails:
+      return <WalletDetails />;
+    case ROUTES.transactionDetail:
+      return <TransactionDetail />;
+    case ROUTES.walletAdjustment:
+      return <WalletAdjustmentCenter />;
+    case ROUTES.walletFreezeCenter:
+      return <WalletFreezeCenter />;
 
     // Banking & Settlements sub-routes
     case ROUTES.bankAccounts:
@@ -559,7 +594,7 @@ export function Router() {
 
     // Revenue Management sub-routes
     case ROUTES.revenueDashboard:
-      return <Placeholder title="Revenue Dashboard" activeTab="Revenue Management" />;
+      return <RevenueDashboard activeTab="Revenue Management" />;
     case ROUTES.revenueOverview:
       return <Placeholder title="Revenue Overview" activeTab="Revenue Management" />;
     case ROUTES.revenueDaily:
