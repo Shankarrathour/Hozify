@@ -76,6 +76,12 @@ import BranchSuspend from '../../pages/Branches/BranchSuspend';
 import AddBranch from '../../pages/Branches/AddBranch';
 import BranchProfile from '../../pages/Branches/BranchProfile';
 import ManagerAssignment from '../../pages/Branches/ManagerAssignment';
+import CoverageMapping from '../../pages/Branches/CoverageMapping';
+import BranchServices from '../../pages/Branches/BranchServices';
+import BranchEmployees from '../../pages/Branches/BranchEmployees';
+import BranchBookings from '../../pages/Branches/BranchBookings';
+import BranchReviews from '../../pages/Branches/BranchReviews';
+import BranchAuditLogs from '../../pages/Branches/BranchAuditLogs';
 import ServiceAreas from '../../pages/ServiceAreas';
 import ServiceAreaCoverage from '../../pages/Services/ServiceAreaCoverage';
 import Services from '../../pages/Services';
@@ -126,6 +132,51 @@ import SupportOperationsOverview from '../../pages/SupportCenter/SupportOperatio
 import SupportAgentWorkspace from '../../pages/SupportCenter/SupportAgentWorkspace';
 import SupportAutomationRules from '../../pages/SupportCenter/SupportAutomationRules';
 import SupportCommunicationsDashboard from '../../pages/SupportCenter/SupportCommunicationsDashboard';
+import UserReviewsPage from '../../pages/Users/UserReviewsPage';
+import UserComplaintpage from '../../pages/Users/UserComplaintPage';
+import UserReferralsPage from '../../pages/Users/UserReferralsPage';
+import UserTimelineTab from '../../pages/Users/UserTimelineTab';
+import UserAuditLog from '../../pages/Users/UserAuditLog';
+import UserWalletsPage from '../../pages/Users/UserWalletsPage';
+import UserDocumentsPage from '../../pages/Users/UserDocumentsPage';
+import UserApprovalPage from '../../pages/Users/UserApprovalPage';
+import UserActivityLogs from '../../pages/Users/UserActivityLogs';
+import UserFraudMonitoringPage from '../../pages/Users/UserFraudMonitoring';
+import UserFraudMonitoring from '../../pages/Users/UserFraudMonitoring';
+import HomePageBanner from '../../pages/BannerManagement/HomePageBanner';
+import OfferBannersPage from '../../pages/BannerManagement/OfferBannersPage';
+import CategoryBannersPage from '../../pages/BannerManagement/CategoryBannerPage';
+import PopupBannersPage from '../../pages/BannerManagement/PopupBannerPage';
+import BannerSchedulingPage from '../../pages/BannerManagement/BannerSchedulingPage';
+import BannerAnalyticsPage from '../../pages/BannerManagement/BannerAnalysticsPage';
+import ReferralDashboard from '../../pages/ReferralManagement/ReferralDashboard';
+import ReferralListingPage from '../../pages/ReferralManagement/ReferralListingPage';
+import CampaignDashboard from '../../pages/ReferralManagement/CampaignDashboard';
+import CampaignListingPage from '../../pages/ReferralManagement/CampaignListingPage';
+import CreateCampaignPage from '../../pages/ReferralManagement/CreateCampaignPage';
+import RewardApprovalQueuePage from '../../pages/ReferralManagement/RewardApprovalQueuePage';
+import RewardSettlementsPage from '../../pages/ReferralManagement/RewardSettlementPage';
+import ConversionAnalyticsPage from '../../pages/ReferralManagement/ConversionAnalyticsPage';
+import ReferralSourcesPage from '../../pages/ReferralManagement/ReferralSourcesPage';
+import ReferrelLeaderboardPage from '../../pages/ReferralManagement/ReferralLeaderboardPage';
+import FraudDetectionPage from '../../pages/ReferralManagement/FraudDetectionPage';
+import InvestigationPage from '../../pages/ReferralManagement/InvestigationPage';
+import CouponManagement from '../../pages/ReferralManagement/CouponManagementPage';
+import CouponManagementPage from '../../pages/ReferralManagement/CouponManagementPage';
+import QRManagementPage from '../../pages/ReferralManagement/QRManagementPage';
+import SettlementReport from '../../pages/Report&Analytics/SettlementReportPage';
+import ReferralReport from '../../pages/Report&Analytics/ReferralReport';
+import CampaignReportPage from '../../pages/Report&Analytics/CampaignReportPage';
+import ExportCenterPage from '../../pages/Report&Analytics/ExportCenterPage';
+import PDFExportPage from '../../pages/Report&Analytics/PDFExportPage';
+import ExcelExportPage from '../../pages/Report&Analytics/ExcelExportPage';
+import CSVExportPage from '../../pages/Report&Analytics/CSVExportpage';
+import BookingReportPage from '../../pages/Report&Analytics/BookingReportPage';
+import UserReportPage from '../../pages/Report&Analytics/UserReportPage';
+import PartnerReportPage from '../../pages/Report&Analytics/PartnerReportPage';
+import EmployeeReportPage from '../../pages/Report&Analytics/EmployeeReportPage';
+import RevenueReportspage from '../../pages/Report&Analytics/RevenueReportPage';
+import WalletReportPage from '../../pages/Report&Analytics/WalletReportPage';
 
 const dynamicRoutePatterns = Object.values(ROUTES)
   .filter((route) => typeof route === 'string' && route.includes(':'))
@@ -243,7 +294,7 @@ export function Router() {
     case ROUTES.branchServiceAreas:
       return <ServiceAreas />;
     case ROUTES.branchCoverage:
-      return <ServiceAreas mode="coverage" />;
+      return <CoverageMapping />;
       
     // Services module & service areas mapping
     case ROUTES.serviceAreaCoverage:
@@ -319,28 +370,35 @@ export function Router() {
     // User Management sub-routes
     case ROUTES.addUser:
       return <Users />;
-    case ROUTES.userApprovals:
-      return <Placeholder title="User Approvals" activeTab="User Management" />;
+    case ROUTES.userApprovals: 
+      return <UserApprovalPage/>
     case ROUTES.blockedUsers:
       return <BlockedUsersPage />;
     case ROUTES.userWallets:
-      return <Placeholder title="User Wallets" activeTab="User Management" />;
+      // return <Placeholder title="User Wallets" activeTab="User Management" />;
+      return <UserWalletsPage/>
     case ROUTES.userReferrals:
-      return <Placeholder title="User Referrals" activeTab="User Management" />;
+      // return <Placeholder title="User Referrals" activeTab="User Management" />;
+      return <UserReferralsPage/>
     case ROUTES.userDocuments:
-      return <Placeholder title="User Documents" activeTab="User Management" />;
+      // return <Placeholder title="User Documents" activeTab="User Management" />;
+      return <UserDocumentsPage/>
     case ROUTES.userComplaints:
-      return <Placeholder title="User Complaints" activeTab="User Management" />;
+      // return <Placeholder title="User Complaints" activeTab="User Management" />;
+      return <UserComplaintpage/>
     case ROUTES.userReviews:
-      return <Placeholder title="User Reviews" activeTab="User Management" />;
+      // return <Placeholder title="User Reviews" activeTab="User Management" />;
+      return<UserReviewsPage/>
     case ROUTES.userTimeline:
-      return <Placeholder title="User Timeline" activeTab="User Management" />;
+      // return <Placeholder title="User Timeline" activeTab="User Management" />;
+      return <UserTimelineTab/>
     case ROUTES.userActivityLogs:
-      return <Placeholder title="User Activity Logs" activeTab="User Management" />;
+     return <UserActivityLogs/>
     case ROUTES.userFraudMonitoring:
-      return <Placeholder title="User Fraud Monitoring" activeTab="User Management" />;
+    return <UserFraudMonitoring/>
     case ROUTES.userAuditLogs:
-      return <Placeholder title="User Audit Logs" activeTab="User Management" />;
+      // return <Placeholder title="User Audit Logs" activeTab="User Management" />;
+      return <UserAuditLog/>
 
     // Partner Management sub-routes
     case ROUTES.ispPartners:
@@ -408,21 +466,21 @@ export function Router() {
     case ROUTES.branchAll:
       return <Placeholder title="All Branches" activeTab="Branch Management" />;
     case ROUTES.branchServices:
-      return <Placeholder title="Branch Services" activeTab="Branch Management" />;
+      return <BranchServices />;
     case ROUTES.branchEmployees:
-      return <Placeholder title="Branch Employees" activeTab="Branch Management" />;
+      return <BranchEmployees />;
     case ROUTES.branchBookings:
-      return <Placeholder title="Branch Bookings" activeTab="Branch Management" />;
+      return <BranchBookings />;
     case ROUTES.branchReviews:
-      return <Placeholder title="Branch Reviews" activeTab="Branch Management" />;
+      return <BranchReviews />;
     case ROUTES.branchAuditLogs:
-      return <Placeholder title="Audit Logs" activeTab="Branch Management" />;
+      return <BranchAuditLogs />;
 
     // Service Management sub-routes
     case ROUTES.serviceCategories:
       return <Services defaultTab="categories" />;
     case ROUTES.serviceSubCategories:
-      return <Services defaultTab="categories" />;
+      return <Services defaultTab="subcategories" />;
     case ROUTES.serviceAll:
       return <Services defaultTab="services" />;
     case ROUTES.serviceAdd:
@@ -442,7 +500,7 @@ export function Router() {
     case ROUTES.serviceMedia:
       return <Services defaultTab="media" />;
     case ROUTES.serviceAuditLogs:
-      return <Placeholder title="Audit Logs" activeTab="Service Management" />;
+      return <Services defaultTab="audit-logs" />;
 
     // Employee Management sub-routes
     case ROUTES.employeeAll:
@@ -721,33 +779,33 @@ export function Router() {
 
     // Referral Management sub-routes
     case ROUTES.referralDashboard:
-      return <Placeholder title="Referral Dashboard" activeTab="Referral Management" />;
+      return <ReferralDashboard/>
     case ROUTES.referralListing:
-      return <Placeholder title="Referral Listing" activeTab="Referral Management" />;
+      return <ReferralListingPage/>
     case ROUTES.referralCampaignDashboard:
-      return <Placeholder title="Campaign Dashboard" activeTab="Referral Management" />;
+      return <CampaignDashboard/>
     case ROUTES.referralCampaignListing:
-      return <Placeholder title="Campaign Listing" activeTab="Referral Management" />;
+      return <CampaignListingPage/>
     case ROUTES.referralCreateCampaign:
-      return <Placeholder title="Create Campaign" activeTab="Referral Management" />;
+      return <CreateCampaignPage/>
     case ROUTES.referralRewardApprovals:
-      return <Placeholder title="Reward Approval Queue" activeTab="Referral Management" />;
+      return <RewardApprovalQueuePage/>
     case ROUTES.referralRewardSettlements:
-      return <Placeholder title="Reward Settlements" activeTab="Referral Management" />;
+      return <RewardSettlementsPage/>
     case ROUTES.referralConversionAnalytics:
-      return <Placeholder title="Conversion Analytics" activeTab="Referral Management" />;
+      return <ConversionAnalyticsPage/>
     case ROUTES.referralSources:
-      return <Placeholder title="Referral Sources" activeTab="Referral Management" />;
+      return <ReferralSourcesPage/>
     case ROUTES.referralLeaderboard:
-      return <Placeholder title="Leaderboard" activeTab="Referral Management" />;
+      return <ReferrelLeaderboardPage/>
     case ROUTES.referralFraud:
-      return <Placeholder title="Referral Fraud Detection" activeTab="Referral Management" />;
+      return <FraudDetectionPage/>
     case ROUTES.referralInvestigations:
-      return <Placeholder title="Investigations" activeTab="Referral Management" />;
+      return <InvestigationPage/>
     case ROUTES.referralCoupons:
-      return <Placeholder title="Coupon Management" activeTab="Referral Management" />;
+      return <CouponManagementPage/>
     case ROUTES.referralQr:
-      return <Placeholder title="QR Management" activeTab="Referral Management" />;
+      return <QRManagementPage/>
 
     // Notification Center sub-routes
     case ROUTES.notificationsPush:
@@ -785,17 +843,17 @@ export function Router() {
 
     // Banner Management sub-routes
     case ROUTES.bannersHomepage:
-      return <Placeholder title="Homepage Banners" activeTab="Banner Management" />;
+      return <HomePageBanner/>
     case ROUTES.bannersOffer:
-      return <Placeholder title="Offer Banners" activeTab="Banner Management" />;
+      return <OfferBannersPage/>
     case ROUTES.bannersCategory:
-      return <Placeholder title="Category Banners" activeTab="Banner Management" />;
+      return <CategoryBannersPage/>
     case ROUTES.bannersPopup:
-      return <Placeholder title="Popup Banners" activeTab="Banner Management" />;
+      return <PopupBannersPage/>
     case ROUTES.bannersScheduling:
-      return <Placeholder title="Banner Scheduling" activeTab="Banner Management" />;
+      return <BannerSchedulingPage/>
     case ROUTES.bannersAnalytics:
-      return <Placeholder title="Banner Analytics" activeTab="Banner Management" />;
+      return <BannerAnalyticsPage/>
 
     // CMS Management sub-routes
     case ROUTES.cmsAboutUs:
@@ -945,22 +1003,35 @@ export function Router() {
     case ROUTES.reportsOperational:
       return <OperationalReports />;
     case ROUTES.analytics:
+       // return <Analytics />;
     case ROUTES.reportsBooking:
+      return <BookingReportPage/>
     case ROUTES.reportsUser:
+      return <UserReportPage/>
     case ROUTES.reportsPartner:
+      return <PartnerReportPage/>
     case ROUTES.reportsEmployee:
-    case ROUTES.reportsFinancial:
+      return <EmployeeReportPage/>
+    // case ROUTES.reportsFinancial:
     case ROUTES.reportsRevenue:
+      return <RevenueReportspage/>
     case ROUTES.reportsWallet:
+      return <WalletReportPage/>
     case ROUTES.reportsSettlement:
+      return <SettlementReport/>
     case ROUTES.reportsMarketing:
     case ROUTES.reportsReferral:
+      return <ReferralReport/>
     case ROUTES.reportsCampaign:
+      return <CampaignReportPage/>
     case ROUTES.exportCenter:
+      return <ExportCenterPage/>
     case ROUTES.pdfExports:
+      return <PDFExportPage/>
     case ROUTES.excelExports:
+      return <ExcelExportPage/>
     case ROUTES.csvExports:
-      return <Analytics />;
+      return <CSVExportPage/>
 
     // Role & Permission admin sub-routes
     case ROUTES.rolePermissions:

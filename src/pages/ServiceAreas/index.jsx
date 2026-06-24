@@ -229,6 +229,154 @@ export default function ServiceAreas({ mode = 'areas' }) {
 
         </div>
 
+        {/* --- ADDED Service Area KPIs & Table --- */}
+        <style>{`
+          .branch-kpi-grid {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 24px;
+            margin-top: 24px;
+          }
+          @media (min-width: 1024px) { .branch-kpi-grid { grid-template-columns: repeat(6, 1fr); } }
+          @media (min-width: 768px) and (max-width: 1023px) { .branch-kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+          @media (max-width: 767px) { .branch-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+          .branch-kpi-card {
+            padding: 16px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 105px;
+          }
+          .branch-kpi-card .truncate-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+          }
+        `}</style>
+        <section className="branch-kpi-grid">
+          <div className="branch-kpi-card">
+            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Total Service Areas</span>
+              <span>🗺️</span>
+            </span>
+            <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>850</strong>
+            <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>+12 new zones</span>
+          </div>
+
+          <div className="branch-kpi-card">
+            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Active Areas</span>
+              <span>✅</span>
+            </span>
+            <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>812</strong>
+            <div style={{ height: '4px', background: '#10b981', borderRadius: '2px', marginTop: '4px' }} />
+          </div>
+
+          <div className="branch-kpi-card">
+            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Coverage %</span>
+              <span>🌍</span>
+            </span>
+            <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>92%</strong>
+            <div style={{ height: '4px', background: '#3b82f6', borderRadius: '2px', marginTop: '4px' }} />
+          </div>
+
+          <div className="branch-kpi-card">
+            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Inactive Areas</span>
+              <span>⏸️</span>
+            </span>
+            <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>38</strong>
+            <div style={{ height: '4px', background: '#f59e0b', borderRadius: '2px', marginTop: '4px' }} />
+          </div>
+
+          <div className="branch-kpi-card">
+            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Top Area</span>
+              <span>⭐</span>
+            </span>
+            <strong className="truncate-text" style={{ fontSize: '15px', color: '#4f46e5', margin: '6px 0', fontWeight: '800' }}>Downtown Hub</strong>
+            <span className="truncate-text" style={{ fontSize: '11px', color: 'var(--muted)' }}>12k households covered</span>
+          </div>
+
+          <div className="branch-kpi-card">
+            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Expansion Ops</span>
+              <span>📈</span>
+            </span>
+            <strong className="truncate-text" style={{ fontSize: '15px', color: '#059669', margin: '6px 0', fontWeight: '800' }}>West Suburbs</strong>
+            <span className="truncate-text" style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>High Demand Signal</span>
+          </div>
+        </section>
+
+        <section className="panel partner-directory-panel" style={{ padding: '24px', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+            <h2 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: '0' }}>
+              Area Mapping Table
+            </h2>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div className="dash-search" style={{ width: '220px', margin: 0, height: '32px' }}>
+                <input
+                  placeholder="Search areas..."
+                  style={{ fontSize: '12px', paddingLeft: '8px' }}
+                />
+              </div>
+              <button className="secondary-action-btn" style={{ height: '32px', width: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <SlidersHorizontal size={14} />
+              </button>
+            </div>
+          </div>
+
+          <div className="table-wrap">
+            <table className="partner-table">
+              <thead>
+                <tr>
+                  <th>AREA ID</th>
+                  <th>AREA NAME</th>
+                  <th>BRANCH REGION</th>
+                  <th>SIZE (km²)</th>
+                  <th>HOUSEHOLDS</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span style={{ color: '#4f46e5', fontWeight: '700' }}>ARE-101</span></td>
+                  <td style={{ fontWeight: '700' }}>Downtown Zone A</td>
+                  <td>Central Metro</td>
+                  <td>12.4</td>
+                  <td>142,500</td>
+                  <td><span style={{ fontSize: '9px', fontWeight: '800', padding: '3px 8px', borderRadius: '4px', background: '#ecfdf5', color: '#059669' }}>ACTIVE</span></td>
+                  <td><button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}><Settings size={14} /></button></td>
+                </tr>
+                <tr>
+                  <td><span style={{ color: '#4f46e5', fontWeight: '700' }}>ARE-102</span></td>
+                  <td style={{ fontWeight: '700' }}>Riverview Corridor</td>
+                  <td>North Side</td>
+                  <td>8.2</td>
+                  <td>65,200</td>
+                  <td><span style={{ fontSize: '9px', fontWeight: '800', padding: '3px 8px', borderRadius: '4px', background: '#ecfdf5', color: '#059669' }}>ACTIVE</span></td>
+                  <td><button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}><Settings size={14} /></button></td>
+                </tr>
+                <tr>
+                  <td><span style={{ color: '#4f46e5', fontWeight: '700' }}>ARE-103</span></td>
+                  <td style={{ fontWeight: '700' }}>Liberty Peak Foothills</td>
+                  <td>West Suburbs</td>
+                  <td>24.5</td>
+                  <td>32,100</td>
+                  <td><span style={{ fontSize: '9px', fontWeight: '800', padding: '3px 8px', borderRadius: '4px', background: '#fef3c7', color: '#d97706' }}>PENDING</span></td>
+                  <td><button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}><Settings size={14} /></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
       </div>
     </AdminShell>
   );

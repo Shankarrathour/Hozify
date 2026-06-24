@@ -1,0 +1,264 @@
+import React from "react";
+import AdminShell from "../../components/layouts/AdminShell";
+
+export default function SettlementReport() {
+  const settlementLogs = [
+    {
+      id: "STL-01923-X",
+      merchant: "Aura Zero Retail",
+      initials: "AZ",
+      avatarBg: "bg-[#1e1b4b]",
+      date: "Oct 24, 2023 09:12 AM",
+      amount: "$12,450.00",
+      status: "SUCCESS",
+      statusStyle: "bg-emerald-50 text-emerald-600 border border-emerald-100",
+    },
+    {
+      id: "STL-90122-Y",
+      merchant: "Blue Line Logistics",
+      initials: "BL",
+      avatarBg: "bg-sky-100 text-sky-700",
+      date: "Oct 24, 2023 08:45 AM",
+      amount: "$8,122.50",
+      status: "PENDING",
+      statusStyle: "bg-amber-50 text-amber-600 border border-amber-100",
+    },
+    {
+      id: "STL-90121-Z",
+      merchant: "Nova Kitchens",
+      initials: "NK",
+      avatarBg: "bg-slate-200 text-slate-700",
+      date: "Oct 23, 2023 11:20 PM",
+      amount: "$3,900.00",
+      status: "FAILED",
+      statusStyle: "bg-rose-50 text-rose-500 border border-rose-100",
+    },
+    {
+      id: "STL-90120-W",
+      merchant: "Evolve Fitness",
+      initials: "EV",
+      avatarBg: "bg-[#120e3a] text-white",
+      date: "Oct 23, 2023 04:30 PM",
+      amount: "$15,700.00",
+      status: "SUCCESS",
+      statusStyle: "bg-emerald-50 text-emerald-600 border border-emerald-100",
+    },
+  ];
+
+  return (
+    <AdminShell activeTab="Reports & Analytics">
+      <div className="w-full min-h-screen bg-[#f8fafd] p-6 text-slate-800 antialiased">
+        
+        {/* HEADER SECTION */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h1 className="text-xl font-bold text-[#1a165a]">Settlement Reports</h1>
+            <p className="text-xs text-gray-400 mt-0.5">Real-time status of merchant fund transfers.</p>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">
+              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Last 30 Days
+            </button>
+            <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">
+              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              Filters
+            </button>
+          </div>
+        </div>
+
+        {/* TOP METRICS 3-CARDS GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+          {/* Settled Volume Card */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">SETTLED VOLUME</span>
+            <div className="flex items-baseline gap-2 mt-1.5">
+              <h2 className="text-2xl font-bold text-slate-900">$4,281,092.40</h2>
+              <span className="text-emerald-500 font-bold text-[11px] flex items-center">↗ 12%</span>
+            </div>
+            <p className="text-[11px] text-gray-400 font-medium mt-1">vs previous period</p>
+            <div className="absolute top-5 right-5 text-gray-300">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            </div>
+          </div>
+
+          {/* Pending Payouts Card */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">PENDING PAYOUTS</span>
+              <div className="flex items-baseline gap-2 mt-1.5">
+                <h2 className="text-2xl font-bold text-slate-900">128</h2>
+                <span className="text-gray-400 font-medium text-xs">Active Queue</span>
+              </div>
+            </div>
+            <div className="w-full bg-gray-100 h-1 rounded-full mt-4 overflow-hidden">
+              <div className="h-full bg-slate-900 rounded-full" style={{ width: "45%" }}></div>
+            </div>
+            <div className="absolute top-5 right-5 text-gray-300">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+
+          {/* Error Rate Card */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">ERROR RATE</span>
+            <div className="flex items-baseline gap-2 mt-1.5">
+              <h2 className="text-2xl font-bold text-slate-900">0.02%</h2>
+              <span className="text-emerald-500 font-bold text-[11px]">↓ 0.01%</span>
+            </div>
+            <p className="text-[11px] text-gray-400 font-medium mt-1">Stable performance</p>
+            <div className="absolute top-5 right-5 text-gray-300">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        {/* MIDDLE SECTION - GRAPH AREA & STATUS BREAKDOWN */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+          {/* Daily Settlement Volume Graph Placeholder Container */}
+          <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between min-h-[320px]">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xs font-bold text-slate-900">Daily Settlement Volume</h3>
+              <div className="flex items-center gap-4 text-[10px] font-bold text-gray-400">
+                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-slate-900 block"></span> Success</span>
+                <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-slate-200 block"></span> Pending</span>
+              </div>
+            </div>
+
+            {/* Simulated Blank Graph Grid Space with Day Labels */}
+            <div className="w-full flex-1 flex items-end justify-between px-2 pt-8 pb-2">
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Mon</div>
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Tue</div>
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Wed</div>
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Thu</div>
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Fri</div>
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Sat</div>
+              <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Sun</div>
+            </div>
+          </div>
+
+          {/* Status Breakdown Panel */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between">
+            <div>
+              <h3 className="text-xs font-bold text-slate-900 mb-4">Status Breakdown</h3>
+              
+              <div className="space-y-3.5">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center gap-2 font-medium text-slate-600">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 block"></span> Successful Settlements
+                  </span>
+                  <span className="font-bold text-slate-900">94.2%</span>
+                </div>
+
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center gap-2 font-medium text-slate-600">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 block"></span> Pending Verification
+                  </span>
+                  <span className="font-bold text-slate-900">5.1%</span>
+                </div>
+
+                <div className="flex justify-between items-center text-xs border-b border-gray-100 pb-4">
+                  <span className="flex items-center gap-2 font-medium text-slate-600">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 block"></span> Failed/Flagged
+                  </span>
+                  <span className="font-bold text-slate-900">0.7%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Embedded Visual Tech Artwork Box from image_88fe8c.png */}
+            <div className="w-full h-24 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg relative overflow-hidden flex items-center justify-center p-3">
+              <div className="w-full h-full opacity-20 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:10px_10px]"></div>
+              <div className="absolute w-16 h-10 border border-white/20 rounded transform rotate-12 bg-white/5 flex flex-col justify-between p-1.5">
+                <div className="w-3 h-1.5 bg-white/40 rounded-sm"></div>
+                <div className="w-full h-1 bg-white/20 rounded-full"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* BOTTOM SECTION - SETTLEMENT LOGS TABLE */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+          <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100">
+            <h3 className="text-xs font-bold text-slate-900">Settlement Logs</h3>
+            <div className="flex items-center gap-3 text-gray-400">
+              <button className="hover:text-gray-600">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 15H19" /></svg>
+              </button>
+              <button className="hover:text-gray-600 font-bold text-sm">•••</button>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="bg-[#f8fafd] text-gray-400 uppercase text-[10px] font-bold tracking-wider border-b border-gray-200">
+                  <th className="p-4 pl-6 font-semibold">Settlement ID</th>
+                  <th className="p-4 font-semibold">Merchant</th>
+                  <th className="p-4 font-semibold">Date / Time</th>
+                  <th className="p-4 font-semibold">Amount</th>
+                  <th className="p-4 font-semibold">Status</th>
+                  <th className="p-4 text-center pr-6"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-slate-700 font-medium">
+                {settlementLogs.map((log, index) => (
+                  <tr key={index} className="hover:bg-slate-50/50 group transition-colors">
+                    {/* ID */}
+                    <td className="p-4 pl-6 text-slate-500 font-semibold">{log.id}</td>
+                    
+                    {/* Merchant Profile */}
+                    <td className="p-4 flex items-center gap-2.5">
+                      <div className={`w-6 h-6 rounded-full ${log.avatarBg} text-[9px] font-bold flex items-center justify-center`}>
+                        {log.initials}
+                      </div>
+                      <span className="font-bold text-slate-800">{log.merchant}</span>
+                    </td>
+                    
+                    {/* Timestamp */}
+                    <td className="p-4 text-gray-400 font-medium">{log.date}</td>
+                    
+                    {/* Value */}
+                    <td className="p-4 text-slate-900 font-bold">{log.amount}</td>
+                    
+                    {/* State Tag */}
+                    <td className="p-4">
+                      <span className={`px-2 py-0.5 rounded font-black text-[9px] tracking-wide ${log.statusStyle}`}>
+                        {log.status}
+                      </span>
+                    </td>
+                    
+                    {/* Row Pointer Arrow */}
+                    <td className="p-4 text-center pr-6 text-gray-300 group-hover:text-gray-500 transition-colors cursor-pointer">
+                      ➔
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Table Footer Pagination Layout */}
+          <div className="flex justify-between items-center px-6 py-4 border-t border-gray-100 text-xs text-gray-400 font-medium">
+            <span>Showing 4 of 1,280 results</span>
+            <div className="flex items-center gap-1">
+              <button className="p-1 border border-gray-200 bg-white rounded text-gray-400 hover:bg-gray-50 cursor-not-allowed">
+                🡨
+              </button>
+              <button className="p-1 border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">
+                🡪
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </AdminShell>
+  );
+}

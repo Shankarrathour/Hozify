@@ -19,6 +19,7 @@ import { usersMockData } from './usersMockData';
 import UserAddPage from './UserAddPage';
 import UserDetailsPage from './UserDetailsPage';
 import UserEditModal from './UserEditModal';
+import UserReviewsPage from './UserReviewsPage';
 
 const statusOptions = ['All', 'Active', 'Suspended', 'Blocked'];
 
@@ -185,10 +186,10 @@ export default function Users() {
               <p className="page-subtitle">Manage customer accounts, statuses, activity, wallet, and documents.</p>
             </div>
             <div className="partners-header-buttons">
-              <button className="primary-action-btn" type="button" onClick={() => navigate(ROUTES.addUser)}>
+              {/* <button className="primary-action-btn" type="button" onClick={() => navigate(ROUTES.addUser)}>
                 <Plus size={16} />
                 <span>Create User</span>
-              </button>
+              </button> */}
             </div>
           </div>
 

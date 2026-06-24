@@ -157,26 +157,69 @@ export default function BranchSchedule() {
             </div>
 
             {/* Bottom Row Statistics */}
-            <div className="kpi-grid" style={{ gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '16px' }}>
-              <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-                <span style={{ fontSize: '8px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Active Staff</span>
-                <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>12/14</strong>
-                <span style={{ fontSize: '10px', color: '#10b981', fontWeight: '700' }}>+2 from last month</span>
+            <style>{`
+              .schedule-kpi-grid {
+                display: grid;
+                gap: 16px;
+                margin-top: 16px;
+              }
+              @media (min-width: 1024px) { .schedule-kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+              @media (min-width: 768px) and (max-width: 1023px) { .schedule-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+              @media (max-width: 767px) { .schedule-kpi-grid { grid-template-columns: repeat(1, 1fr); } }
+              .schedule-kpi-card {
+                padding: 20px;
+                background: #fff;
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                min-height: 120px;
+                overflow: hidden;
+              }
+              .schedule-kpi-card-header {
+                font-size: 10px;
+                font-weight: 800;
+                color: var(--muted);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              }
+              .schedule-kpi-card-value {
+                font-size: 32px;
+                font-weight: 700;
+                color: var(--text);
+                margin: 8px 0;
+                word-break: break-word;
+                line-height: 1.1;
+              }
+              .schedule-kpi-card-footer {
+                font-size: 11px;
+                font-weight: 700;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            `}</style>
+            <div className="schedule-kpi-grid">
+              <div className="schedule-kpi-card">
+                <span className="schedule-kpi-card-header">Active Staff</span>
+                <strong className="schedule-kpi-card-value">12/14</strong>
+                <span className="schedule-kpi-card-footer" style={{ color: '#10b981' }}>+2 from last month</span>
               </div>
-              <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-                <span style={{ fontSize: '8px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Monthly Uptime</span>
-                <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>98.2%</strong>
-                <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: '700' }}>-0.4% maintenance</span>
+              <div className="schedule-kpi-card">
+                <span className="schedule-kpi-card-header">Monthly Uptime</span>
+                <strong className="schedule-kpi-card-value">98.2%</strong>
+                <span className="schedule-kpi-card-footer" style={{ color: '#ef4444' }}>-0.4% Maintenance</span>
               </div>
-              <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-                <span style={{ fontSize: '8px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Public Holidays</span>
-                <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>02</strong>
-                <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Next: Oct 13</span>
+              <div className="schedule-kpi-card">
+                <span className="schedule-kpi-card-header">Public Holidays</span>
+                <strong className="schedule-kpi-card-value">02</strong>
+                <span className="schedule-kpi-card-footer" style={{ color: 'var(--muted)' }}>Next: Oct 13</span>
               </div>
-              <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-                <span style={{ fontSize: '8px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Leave Pending</span>
-                <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>05</strong>
-                <span style={{ fontSize: '10px', color: '#4f46e5', fontWeight: '800' }}>Requires approval</span>
+              <div className="schedule-kpi-card">
+                <span className="schedule-kpi-card-header">Leave Pending</span>
+                <strong className="schedule-kpi-card-value">05</strong>
+                <span className="schedule-kpi-card-footer" style={{ color: '#3b82f6' }}>Requires Approval</span>
               </div>
             </div>
 

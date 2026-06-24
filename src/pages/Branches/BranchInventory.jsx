@@ -52,48 +52,92 @@ export default function BranchInventory() {
       </div>
 
       {/* Top Section KPIs Row */}
-      <section className="kpi-grid" style={{ gridTemplateColumns: 'repeat(6, minmax(0, 1fr))', marginBottom: '24px', gap: '16px' }}>
+      <style>{`
+        .branch-kpi-grid {
+          display: grid;
+          gap: 16px;
+          margin-bottom: 24px;
+        }
+        @media (min-width: 1024px) { .branch-kpi-grid { grid-template-columns: repeat(6, 1fr); } }
+        @media (min-width: 768px) and (max-width: 1023px) { .branch-kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 767px) { .branch-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+        .branch-kpi-card {
+          padding: 16px;
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: 8px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 105px;
+        }
+        .branch-kpi-card .truncate-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+        }
+      `}</style>
+      <section className="branch-kpi-grid">
         
         {/* Total Branches */}
-        <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-          <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Total Branches</span>
-          <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>1,240</strong>
-          <span style={{ fontSize: '10px', color: '#10b981', fontWeight: '700' }}>+4.2% vs last month</span>
+        <div className="branch-kpi-card">
+          <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Total Branches</span>
+            <span>🏢</span>
+          </span>
+          <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>1,240</strong>
+          <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>+4.2% vs last month</span>
         </div>
 
         {/* Active */}
-        <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-          <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Active</span>
-          <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>980</strong>
-          <div style={{ height: '3px', background: '#10b981', borderRadius: '1.5px', marginTop: '6px' }} />
+        <div className="branch-kpi-card">
+          <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Active</span>
+            <span>✅</span>
+          </span>
+          <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>980</strong>
+          <div style={{ height: '4px', background: '#10b981', borderRadius: '2px', marginTop: '4px' }} />
         </div>
 
         {/* Pending */}
-        <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-          <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Pending</span>
-          <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>150</strong>
-          <div style={{ height: '3px', background: '#f59e0b', borderRadius: '1.5px', marginTop: '6px' }} />
+        <div className="branch-kpi-card">
+          <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Pending</span>
+            <span>⏳</span>
+          </span>
+          <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>150</strong>
+          <div style={{ height: '4px', background: '#f59e0b', borderRadius: '2px', marginTop: '4px' }} />
         </div>
 
         {/* Suspended */}
-        <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-          <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Suspended</span>
-          <strong style={{ display: 'block', fontSize: '20px', color: 'var(--text)', margin: '2px 0' }}>110</strong>
-          <div style={{ height: '3px', background: '#ef4444', borderRadius: '1.5px', marginTop: '6px' }} />
+        <div className="branch-kpi-card">
+          <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Suspended</span>
+            <span>🚨</span>
+          </span>
+          <strong style={{ display: 'block', fontSize: '22px', color: 'var(--text)', margin: '6px 0' }}>110</strong>
+          <div style={{ height: '4px', background: '#ef4444', borderRadius: '2px', marginTop: '4px' }} />
         </div>
 
         {/* Top Performance */}
-        <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-          <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Top Perf.</span>
-          <strong style={{ display: 'block', fontSize: '14px', color: 'var(--text)', margin: '4px 0 2px' }}>Austin - N</strong>
-          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>9.8 Satisfaction Rate</span>
+        <div className="branch-kpi-card">
+          <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Top Perf.</span>
+            <span>📈</span>
+          </span>
+          <strong className="truncate-text" style={{ fontSize: '15px', color: '#4f46e5', margin: '6px 0', fontWeight: '800' }}>Austin - North</strong>
+          <span className="truncate-text" style={{ fontSize: '11px', color: 'var(--muted)' }}>9.8 Satisfaction Rate</span>
         </div>
 
         {/* Low Performance */}
-        <div className="kpi-card" style={{ padding: '14px', background: '#fff', border: '1px solid var(--line)' }}>
-          <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Low Perf.</span>
-          <strong style={{ display: 'block', fontSize: '14px', color: 'var(--text)', margin: '4px 0 2px' }}>Miami - C</strong>
-          <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: '700' }}>12% Growth Drop</span>
+        <div className="branch-kpi-card">
+          <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Low Perf.</span>
+            <span>📉</span>
+          </span>
+          <strong className="truncate-text" style={{ fontSize: '15px', color: '#ef4444', margin: '6px 0', fontWeight: '800' }}>Miami - Central</strong>
+          <span className="truncate-text" style={{ fontSize: '11px', color: '#ef4444', fontWeight: '700' }}>12% Growth Drop</span>
         </div>
 
       </section>
