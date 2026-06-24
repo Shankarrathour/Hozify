@@ -1,164 +1,425 @@
-import React from 'react';
-import { AlertTriangle, ShieldAlert, Users, TrendingUp } from 'lucide-react';
-import AdminShell from '../../components/layouts/AdminShell';
-import { mockFraudAlerts } from './data/mockData';
-import { useApp } from '../../hooks/useApp';
-import { ROUTES } from '../../config/routes';
+import React from "react";
+import AdminShell from "../../components/layouts/AdminShell";
+import {
+  AlertTriangle,
+  Undo2,
+  TrendingUp,
+  Bell,
+  Globe,
+} from "lucide-react";
 
 export default function FraudMonitoringCenter() {
-  const { navigate } = useApp();
-
-  const handleInvestigate = (id) => {
-    navigate(ROUTES.riskInvestigation.replace(':id', id));
-  };
-
-  const handleFreeze = () => {
-    navigate(ROUTES.walletFreezeCenter);
-  };
-
   return (
     <AdminShell
-      activeTab="Wallet Management"
-      brandText="HOZIFY Wallet"
-      brandSubText="Global Ledger v1.2"
-      headerTitle="Financial Admin"
-      searchPlaceholder="Search risk events..."
+      activeTab="Fraud"
+      searchPlaceholder="Search Wallet IDs or Hash..."
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px 0' }}>
-        
-        {/* Title */}
-        <div>
-          <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>
-            Wallet Fraud Monitoring Ledger
-          </h1>
-          <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '4px 0 0' }}>
-            Real-time financial risk monitoring, duplicate payout audits, and automated chargeback detection flags.
-          </p>
-        </div>
+      <div className="min-h-screen max-w-full text-slate-800 p-6 space-y-6 font-sans overflow-x-hidden">
 
-        {/* 4 Risk KPIs */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-          {[
-            { title: 'High Risk Wallets', value: '3 Active', label: 'Requires Action', color: '#d32929', bg: '#fee2e2', icon: ShieldAlert },
-            { title: 'Chargeback Value', value: '₹42,500', label: '2 Active Cases', color: '#b45309', bg: '#fffbeb', icon: AlertTriangle },
-            { title: 'Abnormal Activity', value: '14 Alerts', label: 'System Flagged', color: '#1e40af', bg: '#eff6ff', icon: TrendingUp },
-            { title: 'Fake Transactions', value: '0 Active', label: 'All Resolved', color: '#07956f', bg: '#ecfdf5', icon: Users }
-          ].map((kpi, idx) => {
-            const Icon = kpi.icon;
-            return (
-              <div key={idx} className="panel" style={{ padding: '20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    {kpi.title}
-                  </span>
-                  <div style={{ height: '28px', width: '28px', borderRadius: '6px', background: kpi.bg, color: kpi.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon size={14} />
-                  </div>
-                </div>
-                <strong style={{ display: 'block', fontSize: '20px', fontWeight: '850', color: 'var(--text)', marginTop: '12px' }}>
-                  {kpi.value}
-                </strong>
-                <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '4px' }}>
-                  {kpi.label}
+        {/* ================= TOP METRIC CARDS GRID ================= */}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+
+          {/* High Risk Wallets */}
+
+          <div className="bg-white rounded p-4 border border-slate-100 flex flex-col justify-between shadow-xs w-full">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  High Risk Wallets
                 </span>
+
+                <h2 className="text-3xl font-black text-slate-950 mt-1">
+                  428
+                </h2>
               </div>
-            );
-          })}
+
+              <div className="bg-rose-50 p-2 rounded text-rose-600">
+                <AlertTriangle size={18} />
+              </div>
+            </div>
+
+            <p className="text-[11px] font-bold text-rose-600 mt-4 flex items-center gap-1">
+              <TrendingUp size={12} />
+              +12.4%
+              <span className="text-slate-400 font-medium">
+                vs last week
+              </span>
+            </p>
+          </div>
+
+          {/* Chargeback Alerts */}
+
+          <div className="bg-white rounded p-4 border border-slate-100 flex flex-col justify-between shadow-xs w-full">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Chargeback Alerts
+                </span>
+
+                <h2 className="text-3xl font-black text-rose-900 mt-1">
+                  86
+                </h2>
+              </div>
+
+              <div className="bg-rose-50 p-2 rounded text-rose-800">
+                <Undo2 size={18} />
+              </div>
+            </div>
+
+            <p className="text-[11px] font-bold text-rose-900 mt-4 flex items-center gap-1">
+              <Bell size={12} />
+              14 Pending Review
+            </p>
+          </div>
+
+          {/* Abnormal Activity */}
+
+          <div className="bg-white rounded p-4 border border-slate-100 flex flex-col justify-between shadow-xs w-full sm:col-span-2 lg:col-span-1">
+            <div className="flex justify-between items-start">
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Abnormal Activity
+                </span>
+
+                <h2 className="text-3xl font-black text-emerald-700 mt-1">
+                  1,204
+                </h2>
+              </div>
+
+              <div className="bg-[#1e1591] p-2 rounded text-white">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <p className="text-[11px] font-bold text-emerald-600 mt-4 flex items-center gap-1">
+              <span>✓</span>
+              92% mitigation rate
+            </p>
+          </div>
+
         </div>
+                {/* ================= MIDDLE SECTION: TREND VS RISK FEED ================= */}
 
-        {/* Audit list and risk score charts */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '20px', alignItems: 'stretch' }}>
-          
-          {/* Active Risk Alerts */}
-          <div className="panel" style={{ padding: '24px' }}>
-            <h2 style={{ fontSize: '14px', fontWeight: '850', color: 'var(--text)', margin: '0 0 16px' }}>
-              Active Fraud Risk Alerts
-            </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
 
-            <div className="table-wrap">
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
-                <thead>
-                  <tr style={{ background: '#f4eff8', borderBottom: '1px solid var(--line)' }}>
-                    <th style={{ padding: '10px 12px', color: 'var(--muted)', fontWeight: '800', fontSize: '10px' }}>ALERT TYPE</th>
-                    <th style={{ padding: '10px 12px', color: 'var(--muted)', fontWeight: '800', fontSize: '10px' }}>OWNER</th>
-                    <th style={{ padding: '10px 12px', color: 'var(--muted)', fontWeight: '800', fontSize: '10px' }}>RISK SCORE</th>
-                    <th style={{ padding: '10px 12px', color: 'var(--muted)', fontWeight: '800', fontSize: '10px' }}>STATUS</th>
-                    <th style={{ padding: '10px 12px', color: 'var(--muted)', fontWeight: '800', fontSize: '10px', textAlign: 'right' }}>ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mockFraudAlerts.map((alertItem) => (
-                    <tr key={alertItem.id} style={{ borderBottom: '1px solid var(--lavender)' }}>
-                      <td style={{ padding: '12px' }}>
-                        <strong style={{ display: 'block', color: 'var(--text)' }}>{alertItem.type}</strong>
-                        <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginTop: '2px' }}>{alertItem.description}</span>
-                      </td>
-                      <td style={{ padding: '12px', fontWeight: '750' }}>{alertItem.owner}</td>
-                      <td style={{ padding: '12px' }}>
-                        <span style={{
-                          fontSize: '11px',
-                          fontWeight: '800',
-                          color: alertItem.riskScore > 70 ? '#d32929' : alertItem.riskScore > 40 ? '#b45309' : '#07956f'
-                        }}>
-                          {alertItem.riskScore}%
-                        </span>
-                      </td>
-                      <td style={{ padding: '12px' }}>
-                        <span style={{
-                          fontSize: '9px',
-                          fontWeight: '850',
-                          background: alertItem.status === 'High Risk' ? '#fee2e2' : alertItem.status === 'Under Review' ? '#fffbeb' : '#ecfdf5',
-                          color: alertItem.status === 'High Risk' ? '#d32929' : alertItem.status === 'Under Review' ? '#b45309' : '#07956f',
-                          padding: '2px 6px',
-                          borderRadius: '4px'
-                        }}>
-                          {alertItem.status}
-                        </span>
-                      </td>
-                      <td style={{ padding: '12px', textAlign: 'right' }}>
-                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                          <button
-                            onClick={() => handleInvestigate(alertItem.id)}
-                            style={{ border: 'none', background: 'transparent', color: '#25108f', fontSize: '12px', fontWeight: '800', cursor: 'pointer', padding: 0 }}
-                          >
-                            Investigate
-                          </button>
-                          <button
-                            onClick={handleFreeze}
-                            style={{ border: 'none', background: 'transparent', color: '#d32929', fontSize: '12px', fontWeight: '800', cursor: 'pointer', padding: 0 }}
-                          >
-                            Freeze
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {/* Left Block: Fraud Trend vs Total Transactions Histogram */}
+
+          <div className="lg:col-span-2 bg-white rounded p-5 border border-slate-100 flex flex-col justify-between shadow-xs w-full">
+
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm font-bold text-slate-900">
+                Fraud Trend vs Total Transactions
+              </h3>
+
+              <div className="flex border border-slate-200 rounded text-[10px] font-bold text-slate-500 overflow-hidden">
+                <button className="px-2.5 py-1 bg-white hover:bg-slate-50">
+                  1H
+                </button>
+                <button className="px-2.5 py-1 bg-white hover:bg-slate-50">
+                  24H
+                </button>
+                <button className="px-2.5 py-1 bg-white hover:bg-slate-50">
+                  7D
+                </button>
+              </div>
+            </div>
+
+            {/* Histogram */}
+
+            <div className="my-6 relative h-56 w-full flex items-end justify-between px-2 pt-4">
+
+              <div className="absolute inset-x-0 top-1/4 border-t border-slate-100" />
+              <div className="absolute inset-x-0 top-2/4 border-t border-slate-100" />
+              <div className="absolute inset-x-0 top-3/4 border-t border-slate-100" />
+
+              <div className="bg-slate-100 w-[7%] h-[20%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[40%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[50%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[35%] rounded-t-xs" />
+              <div className="bg-slate-100 w-[7%] h-[60%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[75%] rounded-t-xs" />
+              <div className="bg-[#b91c1c] w-[7%] h-[80%] rounded-t-xs" />
+              <div className="bg-slate-100 w-[7%] h-[45%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[30%] rounded-t-xs" />
+              <div className="bg-slate-100 w-[7%] h-[65%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[75%] rounded-t-xs" />
+              <div className="bg-[#b91c1c] w-[7%] h-[88%] rounded-t-xs" />
+              <div className="bg-slate-200/70 w-[7%] h-[70%] rounded-t-xs" />
+            </div>
+
+            <div className="flex justify-between text-[10px] font-bold text-slate-400 tracking-wide px-1">
+              <span>00:00</span>
+              <span>06:00</span>
+              <span>12:00</span>
+              <span>18:00</span>
+              <span>23:59</span>
+            </div>
+
+          </div>
+
+          {/* Right Block: Live Risk Feed Alerts */}
+
+          <div className="bg-white rounded p-5 border border-slate-100 flex flex-col justify-between shadow-xs w-full">
+
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-rose-600 animate-pulse" />
+                <h3 className="text-sm font-bold text-slate-900">
+                  Live Risk Feed
+                </h3>
+              </div>
+
+              <span className="text-[10px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase">
+                Live
+              </span>
+            </div>
+
+            {/* SCROLL REMOVED HERE */}
+
+            <div className="space-y-4 pt-4">
+                            <div className="border-l-2 border-rose-600 pl-3 space-y-1.5">
+
+                <div className="flex justify-between text-[10px] font-bold">
+                  <span className="text-rose-600 uppercase tracking-wider">
+                    Critical Priority
+                  </span>
+                  <span className="text-slate-400">12:44:01</span>
+                </div>
+
+                <h4 className="text-xs font-black text-slate-900">
+                  Mass Login Failure Sequence
+                </h4>
+
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  IP: 192.168.1.42 attempted 45 auth calls in 2s.
+                </p>
+
+                <div className="flex gap-2 pt-1">
+                  <button className="flex-1 text-center bg-[#b91c1c] hover:bg-rose-700 text-white font-bold text-[10px] py-1 rounded uppercase tracking-wider">
+                    Block IP
+                  </button>
+
+                  <button className="flex-1 text-center bg-white border border-slate-300 hover:bg-slate-50 text-slate-600 font-bold text-[10px] py-1 rounded uppercase tracking-wider">
+                    Ignore
+                  </button>
+                </div>
+
+              </div>
+
+              <div className="border-l-2 border-amber-500 pl-3 space-y-1.5">
+
+                <div className="flex justify-between text-[10px] font-bold">
+                  <span className="text-amber-600 uppercase tracking-wider">
+                    High Risk
+                  </span>
+
+                  <span className="text-slate-400">
+                    12:42:33
+                  </span>
+                </div>
+
+                <h4 className="text-xs font-black text-slate-900">
+                  Large Cross-Border Transfer
+                </h4>
+
+                <p className="text-[11px] text-slate-500 leading-normal">
+                  Amount: $18,200.00 to Bank of Russia.
+                </p>
+
+                <button className="w-full text-center bg-white border border-indigo-900 hover:bg-indigo-50 text-[#1e1591] font-black text-[10px] py-1.5 rounded uppercase tracking-wide">
+                  Hold Funds
+                </button>
+
+              </div>
+
+              <div className="bg-slate-50/80 p-2 border-l-2 border-slate-400 pl-3 space-y-1">
+
+                <div className="flex justify-between text-[10px] font-bold">
+                  <span className="text-slate-500 uppercase tracking-wider">
+                    Investigation Log
+                  </span>
+
+                  <span className="text-slate-400">
+                    12:35:12
+                  </span>
+                </div>
+
+                <h4 className="text-xs font-bold text-slate-700">
+                  Agent J. Doe closed case #9921
+                </h4>
+
+                <p className="text-[10px] text-slate-400 italic">
+                  "False positive triggered by VPN change."
+                </p>
+
+              </div>
+
             </div>
           </div>
 
-          {/* Risk Score gauge placeholder */}
-          <div className="panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h2 style={{ fontSize: '14px', fontWeight: '850', color: 'var(--text)', margin: 0 }}>
-              System Risk Trend
-            </h2>
+        </div>
+                {/* ================= LOWER ROW SECTION: TABLE & WORLD MAP ================= */}
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', background: '#fafafa', padding: '20px', borderRadius: '8px', border: '1px solid var(--line)' }}>
-              <div style={{ position: 'relative', width: '100px', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg width="100%" height="100%" viewBox="0 0 36 36">
-                  <circle cx="18" cy="18" r="16" fill="none" stroke="#e2e8f0" strokeWidth="3.5" />
-                  <circle cx="18" cy="18" r="16" fill="none" stroke="#d32929" strokeWidth="4.5" strokeDasharray="32 100" strokeDashoffset="0" strokeLinecap="round" />
-                </svg>
-                <div style={{ position: 'absolute', textAlign: 'center' }}>
-                  <strong style={{ fontSize: '20px', color: '#d32929', display: 'block' }}>32%</strong>
-                  <span style={{ fontSize: '9px', color: 'var(--muted)', fontWeight: '800' }}>Overall Risk</span>
-                </div>
-              </div>
-              <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: '750', textAlign: 'center' }}>
-                Current threat level: <strong>STABLE</strong>
-              </span>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+
+          {/* Bottom Left: Fraud Wallets Entry Ledger Table */}
+
+          <div className="lg:col-span-2 bg-white rounded border border-slate-200 overflow-hidden shadow-xs w-full">
+
+            <div className="overflow-x-auto">
+
+              <table className="w-full text-left text-xs border-collapse">
+
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <th className="px-5 py-3.5">Wallet ID</th>
+                    <th className="px-5 py-3.5 text-right">Amount</th>
+                    <th className="px-5 py-3.5">Risk Level</th>
+                    <th className="px-5 py-3.5">Pattern</th>
+                    <th className="px-5 py-3.5 text-center">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody className="divide-y divide-slate-100 font-medium text-slate-600">
+
+                  <tr className="hover:bg-slate-50/60 transition-colors">
+
+                    <td className="px-5 py-4 font-mono font-bold text-slate-900">
+                      WL-8291-XX
+                    </td>
+
+                    <td className="px-5 py-4 text-right font-black text-rose-600">
+                      -$42,500.00
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <span className="text-[9px] font-extrabold bg-rose-50 text-rose-700 px-2 py-0.5 rounded-xs uppercase">
+                        Critical
+                      </span>
+                    </td>
+
+                    <td className="px-5 py-4 text-slate-500">
+                      Rapid Outflow Burst
+                    </td>
+
+                    <td className="px-5 py-4 text-center">
+                      <button className="text-[#1e1591] hover:underline font-bold text-xs">
+                        Review
+                      </button>
+                    </td>
+
+                  </tr>
+
+                  <tr className="hover:bg-slate-50/60 transition-colors">
+
+                    <td className="px-5 py-4 font-mono font-bold text-slate-900">
+                      WL-0112-AB
+                    </td>
+
+                    <td className="px-5 py-4 text-right font-black text-rose-600">
+                      -$1,200.00
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <span className="text-[9px] font-extrabold bg-amber-50 text-amber-700 px-2 py-0.5 rounded-xs uppercase">
+                        High
+                      </span>
+                    </td>
+
+                    <td className="px-5 py-4 text-slate-500">
+                      Geolocation Mismatch
+                    </td>
+
+                    <td className="px-5 py-4 text-center">
+                      <button className="text-[#1e1591] hover:underline font-bold text-xs">
+                        Review
+                      </button>
+                    </td>
+
+                  </tr>
+
+                </tbody>
+
+              </table>
+
             </div>
+
+          </div>
+                    {/* Bottom Right: Dark Network Map Graphic */}
+
+          <div className="bg-[#050814] rounded border border-zinc-900 flex flex-col justify-between text-white relative overflow-hidden min-h-[225px] shadow-lg w-full">
+
+            <div className="absolute inset-0 opacity-40 pointer-events-none bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:12px_12px]" />
+
+            <svg className="absolute inset-0 w-full h-full opacity-40 stroke-indigo-400 stroke-[0.5] fill-none">
+
+              <path
+                d="M 30,50 Q 120,20 220,90 T 340,40"
+                strokeDasharray="3 3"
+              />
+
+              <path
+                d="M 60,140 Q 180,90 290,160"
+              />
+
+              <circle
+                cx="30"
+                cy="50"
+                r="2"
+                className="fill-indigo-400 animate-pulse"
+              />
+
+              <circle
+                cx="220"
+                cy="90"
+                r="3"
+                className="fill-rose-500"
+              />
+
+              <circle
+                cx="290"
+                cy="160"
+                r="3"
+                className="fill-rose-400 animate-ping"
+              />
+
+            </svg>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+
+            <div className="relative z-10 flex flex-col items-center justify-center flex-1 py-8">
+
+              <div className="relative mb-3 bg-white text-slate-950 p-2.5 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] border border-slate-200">
+                <Globe
+                  size={22}
+                  className="stroke-[2.5]"
+                />
+              </div>
+
+              <h4 className="text-[10px] font-black tracking-[0.2em] text-slate-300 uppercase">
+                Real-Time Origin Map
+              </h4>
+
+              <p className="text-[9px] text-slate-500 font-medium tracking-wide mt-1 max-w-[210px] text-center leading-normal">
+                Live geographical plotting of concurrent suspicious token
+                network nodes.
+              </p>
+
+            </div>
+
           </div>
 
         </div>
@@ -167,3 +428,4 @@ export default function FraudMonitoringCenter() {
     </AdminShell>
   );
 }
+            

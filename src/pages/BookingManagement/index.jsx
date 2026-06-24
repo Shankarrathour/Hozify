@@ -7,7 +7,6 @@ import {
   Ban,
   BarChart3,
   Bell,
-  CalendarDays,
   CheckCircle2,
   ClipboardCheck,
   Clock,
@@ -360,7 +359,6 @@ const employees = [
 const routeMeta = {
   [ROUTES.bookings]: { screen: 'dashboard', title: 'Booking Dashboard', subtitle: 'Real-time operational control across booking lifecycle.' },
   [ROUTES.bookingAll]: { screen: 'listing', title: 'All Bookings', subtitle: 'Master registry of all bookings and deployments.' },
-  [ROUTES.bookingCreate]: { screen: 'create', title: 'Manual Booking', subtitle: 'Create an admin booking with customer, service, schedule, and allocation.' },
   [ROUTES.bookingPending]: { screen: 'status', status: 'Pending', title: 'Pending Bookings', subtitle: 'Bookings requiring dispatch or operations review.' },
   [ROUTES.bookingAssigned]: { screen: 'status', status: 'Assigned', title: 'Assigned Bookings', subtitle: 'Bookings with partner, branch, or employee assignment.' },
   [ROUTES.bookingAccepted]: { screen: 'status', status: 'Accepted', title: 'Accepted Bookings', subtitle: 'Bookings accepted by service teams.' },
@@ -598,7 +596,6 @@ function ListingScreen({ bookings, handlers }) {
         </div>
         <ActionButton icon={Download} onClick={() => handlers.toast('Booking export prepared.')}>Export</ActionButton>
         <ActionButton icon={SlidersHorizontal} onClick={() => handlers.toast('Bulk action drawer opened.')}>Bulk Actions</ActionButton>
-        <ActionButton icon={ClipboardCheck} variant="primary" onClick={handlers.create}>Create Booking</ActionButton>
       </section>
 
       <section className="booking-filter-panel">
@@ -631,37 +628,6 @@ function StatusScreen({ bookings, status, handlers, title }) {
       </section>
       <BookingTable rows={rows} {...handlers} />
     </>
-  );
-}
-
-function CreateScreen({ onToast }) {
-  return (
-    <section className="booking-create-grid">
-      <div className="booking-form-stack">
-        {[
-          ['Client & Service Selection', ['Customer selection', 'Service selection']],
-          ['Logistics & Schedule', ['Location details', 'Date & time picker', 'Estimated duration']],
-          ['Resource Allocation', ['Partner selection', 'Employee selection']]
-        ].map(([title, fields]) => (
-          <article className="booking-panel booking-form-section" key={title}>
-            <h3>{title}</h3>
-            <div className="booking-filter-grid">
-              {fields.map((field) => <input key={field} placeholder={field} />)}
-            </div>
-          </article>
-        ))}
-      </div>
-      <aside className="booking-price-card">
-        <h3>Booking Overview</h3>
-        <div><span>Base Price</span><strong>₹980.00</strong></div>
-        <div><span>Premium Uplift</span><strong>₹150.00</strong></div>
-        <div><span>GST</span><strong>₹111.00</strong></div>
-        <div><span>Platform Fee</span><strong>₹45.00</strong></div>
-        <div className="total"><span>Total Amount</span><strong>₹1,266.00</strong></div>
-        <button type="button" onClick={() => onToast('Manual booking confirmed locally.')}>Confirm Booking</button>
-        <button className="secondary" type="button" onClick={() => onToast('Draft saved.')}>Save as Draft</button>
-      </aside>
-    </section>
   );
 }
 
@@ -1143,7 +1109,7 @@ export default function BookingManagement() {
       navigate(ROUTES.bookingInvoices);
     },
     openListing: () => navigate(ROUTES.bookingAll),
-    create: () => navigate(ROUTES.bookingCreate),
+
     toast
   };
 
@@ -1152,7 +1118,7 @@ export default function BookingManagement() {
     if (meta.screen === 'dashboard') return <DashboardScreen bookings={bookings} handlers={handlers} />;
     if (meta.screen === 'listing') return <ListingScreen bookings={bookings} handlers={handlers} />;
     if (meta.screen === 'status') return <StatusScreen bookings={bookings} status={meta.status} title={meta.title} handlers={handlers} />;
-    if (meta.screen === 'create') return <CreateScreen onToast={toast} />;
+
     if (meta.screen === 'assignment') return <AssignmentScreen bookings={bookings} onToast={toast} />;
     if (meta.screen === 'board') return <BoardScreen bookings={bookings} handlers={handlers} />;
     if (meta.screen === 'otp') return <OtpScreen bookings={bookings} onToast={toast} />;
@@ -1195,7 +1161,6 @@ export default function BookingManagement() {
           </div>
           <div className="booking-page-actions">
             <ActionButton icon={Bell} onClick={() => toast('Operational alerts refreshed.')}>Alerts</ActionButton>
-            <ActionButton icon={CalendarDays} variant="primary" onClick={() => navigate(ROUTES.bookingCreate)}>Create Booking</ActionButton>
           </div>
         </div>
         {content()}

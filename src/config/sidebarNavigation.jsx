@@ -52,7 +52,6 @@ export const sidebarNavigation = [
         label: 'Users',
         children: [
           { label: 'All Users', route: ROUTES.users },
-          { label: 'Add User', route: ROUTES.addUser },
           { label: 'User Approvals', route: ROUTES.userApprovals },
           { label: 'Blocked Users', route: ROUTES.blockedUsers }
         ]
@@ -86,7 +85,6 @@ export const sidebarNavigation = [
         label: 'Partners',
         children: [
           { label: 'All Partners', route: ROUTES.partners },
-          { label: 'Add Partner', route: ROUTES.addPartner },
           { label: 'ISP Partners', route: ROUTES.ispPartners },
           { label: 'BSP Partners', route: ROUTES.bspPartners },
           { label: 'Business Sellers', route: ROUTES.businessSellers }
@@ -172,7 +170,6 @@ export const sidebarNavigation = [
     icon: Network,
     children: [
       { label: 'All Branches', route: ROUTES.branches },
-      { label: 'Add Branch', route: ROUTES.addBranch },
       { label: 'Branch Approvals', route: ROUTES.branchApproval },
       { label: 'Branch Services', route: ROUTES.branchServices },
       { label: 'Branch Employees', route: ROUTES.branchEmployees },
@@ -194,7 +191,6 @@ export const sidebarNavigation = [
       { label: 'Categories', route: ROUTES.serviceCategories },
       { label: 'Sub Categories', route: ROUTES.serviceSubCategories },
       { label: 'All Services', route: ROUTES.services },
-      { label: 'Add Service', route: ROUTES.serviceAdd },
       { label: 'Service Approvals', route: ROUTES.serviceApprovals },
       { label: 'Pricing Management', route: ROUTES.servicePricing },
       { label: 'Commission Management', route: ROUTES.serviceCommission },
@@ -212,7 +208,6 @@ export const sidebarNavigation = [
     icon: Contact,
     children: [
       { label: 'All Employees', route: ROUTES.employeeAll },
-      { label: 'Add Employee', route: ROUTES.employeeAdd },
       { label: 'Branch Managers', route: ROUTES.branchManagers },
       { label: 'Assignments', route: ROUTES.employeeAssignments },
       { label: 'Availability Board', route: ROUTES.employeeAvailability },
@@ -235,8 +230,7 @@ export const sidebarNavigation = [
       {
         label: 'Bookings',
         children: [
-          { label: 'All Bookings', route: ROUTES.bookingAll },
-          { label: 'Create Booking', route: ROUTES.bookingCreate }
+          { label: 'All Bookings', route: ROUTES.bookingAll }
         ]
       },
       {

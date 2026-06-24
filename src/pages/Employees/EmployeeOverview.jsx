@@ -79,7 +79,7 @@ const kycAlerts = [
   }
 ];
 
-export default function EmployeeOverview({ onNavigateToWorkforce, onNavigateToAddEmployee }) {
+export default function EmployeeOverview({ onNavigateToWorkforce }) {
   return (
     <div className="employee-overview-flow">
       {/* Title Header */}
@@ -93,10 +93,6 @@ export default function EmployeeOverview({ onNavigateToWorkforce, onNavigateToAd
             <Calendar size={16} />
             <span style={{ fontWeight: '700', fontSize: '13px' }}>Last 30 Days</span>
           </div>
-
-          <button className="primary-action-btn font-bold" type="button" onClick={onNavigateToAddEmployee}>
-            <span>+ Add Employee</span>
-          </button>
         </div>
       </div>
 

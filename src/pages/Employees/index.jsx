@@ -6,7 +6,6 @@ import EmployeeOverview from './EmployeeOverview';
 import EmployeeWorkforce from './EmployeeWorkforce';
 import EmployeeProfile from './EmployeeProfile';
 import AvailabilityBoard from './AvailabilityBoard';
-import AddEmployee from './AddEmployee';
 import PerformanceDashboard from './PerformanceDashboard';
 import EmployeeReports from './EmployeeReports';
 import AttendanceDashboard from './AttendanceDashboard';
@@ -18,7 +17,6 @@ export default function Employees({ defaultTab }) {
   const getDefaultTab = () => {
     if (defaultTab) return defaultTab;
     if (route === ROUTES.employeeAll) return 'Workforce';
-    if (route === ROUTES.employeeAdd) return 'AddEmployee';
     if (route === ROUTES.employeeAvailability) return 'Availability';
     if (route === ROUTES.performance) return 'Performance';
     if (route === ROUTES.reports) return 'Reports';
@@ -37,10 +35,6 @@ export default function Employees({ defaultTab }) {
   const handleSelectEmployee = (emp) => {
     setSelectedEmployee(emp);
     setActiveTab('Profile');
-  };
-
-  const handleOnboardingComplete = (newEmp) => {
-    navigate(ROUTES.employeeAll);
   };
 
   const employeeTabRoutes = {
@@ -63,27 +57,21 @@ export default function Employees({ defaultTab }) {
         return (
           <EmployeeOverview
             onNavigateToWorkforce={() => navigate(ROUTES.employeeAll)}
-            onNavigateToAddEmployee={() => navigate(ROUTES.employeeAdd)}
           />
         );
       case 'Workforce':
         return (
           <EmployeeWorkforce
             onSelectEmployee={handleSelectEmployee}
-            onNavigateToAddEmployee={() => navigate(ROUTES.employeeAdd)}
           />
         );
       case 'Availability':
         return (
-          <AvailabilityBoard
-            onNavigateToAddEmployee={() => navigate(ROUTES.employeeAdd)}
-          />
+          <AvailabilityBoard />
         );
       case 'Performance':
         return (
-          <PerformanceDashboard
-            onNavigateToAddEmployee={() => navigate(ROUTES.employeeAdd)}
-          />
+          <PerformanceDashboard />
         );
       case 'Attendance':
         return (
@@ -107,18 +95,10 @@ export default function Employees({ defaultTab }) {
             }}
           />
         );
-      case 'AddEmployee':
-        return (
-          <AddEmployee
-            onBack={() => navigate(ROUTES.employeeAll)}
-            onComplete={handleOnboardingComplete}
-          />
-        );
       default:
         return (
           <EmployeeOverview
             onNavigateToWorkforce={() => navigate(ROUTES.employeeAll)}
-            onNavigateToAddEmployee={() => navigate(ROUTES.employeeAdd)}
           />
         );
     }

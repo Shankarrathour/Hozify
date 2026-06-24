@@ -21,7 +21,7 @@ export default function ManagerAssignment() {
   const handleAction = (id, actionType) => {
     if (actionType === 'Assign') {
       alert(`Success: Manager assigned to target branch!`);
-      navigate(ROUTES.addBranch);
+      navigate(ROUTES.branches);
     } else if (actionType === 'Remove') {
       setCandidates(candidates.map(c => c.id === id ? { ...c, loadVal: 0, status: 'Available' } : c));
     }

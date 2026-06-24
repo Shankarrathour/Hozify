@@ -73,7 +73,7 @@ const initialWorkforce = [
   }
 ];
 
-export default function EmployeeWorkforce({ onSelectEmployee, onNavigateToAddEmployee }) {
+export default function EmployeeWorkforce({ onSelectEmployee }) {
   const [branchFilter, setBranchFilter] = useState('All Branches');
   const [cityFilter, setCityFilter] = useState('All Cities');
   const [typeFilter, setTypeFilter] = useState('All Types');
@@ -102,9 +102,6 @@ export default function EmployeeWorkforce({ onSelectEmployee, onNavigateToAddEmp
           <button className="secondary-action-btn" type="button">
             <Download size={16} />
             <span>Export CSV</span>
-          </button>
-          <button className="primary-action-btn font-bold" type="button" onClick={onNavigateToAddEmployee}>
-            <span>+ Add Employee</span>
           </button>
         </div>
       </div>

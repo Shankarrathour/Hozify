@@ -34,8 +34,9 @@ import DisputeCenter from '../../pages/MaterialRequests/DisputeCenter';
 import MaterialReturns from '../../pages/MaterialRequests/MaterialReturns';
 import MaterialAnalytics from '../../pages/MaterialRequests/MaterialAnalytics';
 import Partners from '../../pages/Partners';
+import ISPPartners from '../../pages/Partners/ISPPartners';
 import PartnerDetails from '../../pages/PartnerDetails';
-import AddPartnerWizard from '../../pages/Partners/AddPartnerWizard';
+
 import ApprovalQueue from '../../pages/ApprovalQueue';
 import FraudCenter from '../../pages/FraudCenter';
 import CommunicationsCenter from '../../pages/CommunicationsCenter';
@@ -73,9 +74,15 @@ import KYCModule from '../../pages/KYC';
 import Branches from '../../pages/Branches';
 import BranchSchedule from '../../pages/Branches/BranchSchedule';
 import BranchSuspend from '../../pages/Branches/BranchSuspend';
-import AddBranch from '../../pages/Branches/AddBranch';
+
 import BranchProfile from '../../pages/Branches/BranchProfile';
 import ManagerAssignment from '../../pages/Branches/ManagerAssignment';
+import CoverageMapping from '../../pages/Branches/CoverageMapping';
+import BranchServices from '../../pages/Branches/BranchServices';
+import BranchEmployees from '../../pages/Branches/BranchEmployees';
+import BranchBookings from '../../pages/Branches/BranchBookings';
+import BranchReviews from '../../pages/Branches/BranchReviews';
+import BranchAuditLogs from '../../pages/Branches/BranchAuditLogs';
 import ServiceAreas from '../../pages/ServiceAreas';
 import ServiceAreaCoverage from '../../pages/Services/ServiceAreaCoverage';
 import Services from '../../pages/Services';
@@ -126,6 +133,31 @@ import SupportOperationsOverview from '../../pages/SupportCenter/SupportOperatio
 import SupportAgentWorkspace from '../../pages/SupportCenter/SupportAgentWorkspace';
 import SupportAutomationRules from '../../pages/SupportCenter/SupportAutomationRules';
 import SupportCommunicationsDashboard from '../../pages/SupportCenter/SupportCommunicationsDashboard';
+import BSPPartners from '../../pages/Partners/BSPPartners';
+import PartnersReviews from '../../pages/Partners/PartnersReviews';
+import PartnerApprovals from '../../pages/Partners/PartnerApprovals';
+import BusinessSellers from '../../pages/Partners/BusinessSellers';
+import KYCApprovals from '../../pages/Partners/KYCApprovals';
+import ServiceApprovals from '../../pages/Partners/ServiceApprovals';
+import BranchApprovals from '../../pages/Partners/BranchApprovals';
+import PartnerBanking from '../../pages/Partners/PartnerBanking';
+import PartnerEmployees from '../../pages/Partners/PartnerEmployees';
+import PartnerBranches from '../../pages/Partners/PartnerBranches';
+import PartnerServices from '../../pages/Partners/PartnerServices';
+import PartnerRevenue from '../../pages/Partners/PartnerRevenue';
+import PartnerFraudMonitoring from '../../pages/Partners/PartnerFraudMonitoring';
+import PartnerAuditLogs from '../../pages/Partners/PartnerAuditLogs';
+import EmailCampaign from '../../pages/NotificationCenter/EmailCampaign';
+import NotificationTemplates from '../../pages/NotificationCenter/NotificationTemplates';
+import AudienceSegments from '../../pages/NotificationCenter/AudienceSegments';
+import ScheduledCampaigns from '../../pages/NotificationCenter/ScheduledCampaigns';
+import GSTVerification from '../../pages/Business/GSTVerification';
+import PANVerification from '../../pages/Business/PANVerification';
+import RegistrationVerification from '../../pages/Business/RegistrationVerification';
+import OwnershipVerification from '../../pages/Business/OwnerShipVerification';
+import BusinessBranches from '../../pages/Business/BusinessBranches';
+import AuditLogs from '../../pages/Business/AuditLogs';
+
 
 const dynamicRoutePatterns = Object.values(ROUTES)
   .filter((route) => typeof route === 'string' && route.includes(':'))
@@ -163,12 +195,7 @@ export function Router() {
     case ROUTES.partnerDetails:
       return <PartnerDetails />;
     
-    // Consolidated onboarding flow routes
-    case ROUTES.addPartner:
-    case ROUTES.onboardingAddress:
-    case ROUTES.addServices:
-    case ROUTES.addBanking:
-      return <AddPartnerWizard />;
+
       
     case ROUTES.approvalQueue:
       return <ApprovalQueue />;
@@ -233,8 +260,7 @@ export function Router() {
       return <BranchSuspend />;
     case ROUTES.branchCompliance:
       return <Branches defaultTab="Compliance" />;
-    case ROUTES.addBranch:
-      return <AddBranch />;
+
     case ROUTES.branchProfile:
       return <BranchProfile />;
     case ROUTES.branchManagerAssignment:
@@ -243,7 +269,7 @@ export function Router() {
     case ROUTES.branchServiceAreas:
       return <ServiceAreas />;
     case ROUTES.branchCoverage:
-      return <ServiceAreas mode="coverage" />;
+      return <CoverageMapping />;
       
     // Services module & service areas mapping
     case ROUTES.serviceAreaCoverage:
@@ -317,8 +343,6 @@ export function Router() {
       return <ConversionAnalytics activeTab="Dashboard" />;
 
     // User Management sub-routes
-    case ROUTES.addUser:
-      return <Users />;
     case ROUTES.userApprovals:
       return <Placeholder title="User Approvals" activeTab="User Management" />;
     case ROUTES.blockedUsers:
@@ -344,51 +368,52 @@ export function Router() {
 
     // Partner Management sub-routes
     case ROUTES.ispPartners:
-      return <Placeholder title="ISP Partners" activeTab="Partner Management" />;
+      return <ISPPartners />;
     case ROUTES.bspPartners:
-      return <Placeholder title="BSP Partners" activeTab="Partner Management" />;
+        return <BSPPartners />;
     case ROUTES.businessSellers:
-      return <Placeholder title="Business Sellers" activeTab="Partner Management" />;
+      return <BusinessSellers/>
     case ROUTES.partnerApprovals:
-      return <Placeholder title="Partner Approvals" activeTab="Partner Management" />;
+      return <PartnerApprovals/>
     case ROUTES.kycApprovals:
-      return <Placeholder title="KYC Approvals" activeTab="Partner Management" />;
+      return <KYCApprovals/>
     case ROUTES.partnerServiceApprovals:
-      return <Placeholder title="Service Approvals" activeTab="Partner Management" />;
+      return <ServiceApprovals/>
     case ROUTES.branchApprovals:
-      return <Placeholder title="Branch Approvals" activeTab="Partner Management" />;
+      return <BranchApprovals/>
     case ROUTES.partnerWallets:
-      return <Placeholder title="Partner Wallets" activeTab="Partner Management" />;
+      return <PartnerWallets/>
     case ROUTES.partnerBanking:
-      return <Placeholder title="Partner Banking" activeTab="Partner Management" />;
+      return <PartnerBanking/>
     case ROUTES.partnerEmployees:
-      return <Placeholder title="Partner Employees" activeTab="Partner Management" />;
+      return <PartnerEmployees/>
     case ROUTES.partnerBranches:
-      return <Placeholder title="Partner Branches" activeTab="Partner Management" />;
+      return <PartnerBranches/>
     case ROUTES.partnerServices:
-      return <Placeholder title="Partner Services" activeTab="Partner Management" />;
+      return <PartnerServices/>
     case ROUTES.partnerReviews:
-      return <Placeholder title="Partner Reviews" activeTab="Partner Management" />;
-    case ROUTES.partnerRevenue:
-      return <Placeholder title="Partner Revenue" activeTab="Partner Management" />;
-    case ROUTES.partnerFraud:
-      return <Placeholder title="Partner Fraud" activeTab="Partner Management" />;
-    case ROUTES.partnerAuditLogs:
-      return <Placeholder title="Partner Audit Logs" activeTab="Partner Management" />;
+      return<PartnersReviews/>
 
+      // return <Placeholder title="Partner Reviews" activeTab="Partner Management" />;
+    case ROUTES.partnerRevenue:
+    return <PartnerRevenue/>
+    case ROUTES.partnerFraud:
+      return <PartnerFraudMonitoring/>
+    case ROUTES.partnerAuditLogs:
+      return <PartnerAuditLogs/>
     // Business Management sub-routes
     case ROUTES.businessAll:
       return <Placeholder title="All Businesses" activeTab="Business Management" />;
     case ROUTES.businessGst:
-      return <Placeholder title="GST Verification" activeTab="Business Management" />;
+      return <GSTVerification/>
     case ROUTES.businessPan:
-      return <Placeholder title="PAN Verification" activeTab="Business Management" />;
+      return <PANVerification/>
     case ROUTES.businessRegVerification:
-      return <Placeholder title="Registration Verification" activeTab="Business Management" />;
+      return <RegistrationVerification/>
     case ROUTES.businessOwnership:
-      return <Placeholder title="Ownership Verification" activeTab="Business Management" />;
+      return <OwnershipVerification/>
     case ROUTES.businessBranches:
-      return <Placeholder title="Business Branches" activeTab="Business Management" />;
+      return <BusinessBranches/>
     case ROUTES.businessServices:
       return <Placeholder title="Business Services" activeTab="Business Management" />;
     case ROUTES.businessEmployees:
@@ -402,27 +427,26 @@ export function Router() {
     case ROUTES.businessFraud:
       return <Placeholder title="Fraud Investigation" activeTab="Business Management" />;
     case ROUTES.businessAuditLogs:
-      return <Placeholder title="Audit Logs" activeTab="Business Management" />;
-
+      return <AuditLogs/>
     // Branch Management sub-routes
     case ROUTES.branchAll:
       return <Placeholder title="All Branches" activeTab="Branch Management" />;
     case ROUTES.branchServices:
-      return <Placeholder title="Branch Services" activeTab="Branch Management" />;
+      return <BranchServices />;
     case ROUTES.branchEmployees:
-      return <Placeholder title="Branch Employees" activeTab="Branch Management" />;
+      return <BranchEmployees />;
     case ROUTES.branchBookings:
-      return <Placeholder title="Branch Bookings" activeTab="Branch Management" />;
+      return <BranchBookings />;
     case ROUTES.branchReviews:
-      return <Placeholder title="Branch Reviews" activeTab="Branch Management" />;
+      return <BranchReviews />;
     case ROUTES.branchAuditLogs:
-      return <Placeholder title="Audit Logs" activeTab="Branch Management" />;
+      return <BranchAuditLogs />;
 
     // Service Management sub-routes
     case ROUTES.serviceCategories:
       return <Services defaultTab="categories" />;
     case ROUTES.serviceSubCategories:
-      return <Services defaultTab="categories" />;
+      return <Services defaultTab="subcategories" />;
     case ROUTES.serviceAll:
       return <Services defaultTab="services" />;
     case ROUTES.serviceAdd:
@@ -442,13 +466,11 @@ export function Router() {
     case ROUTES.serviceMedia:
       return <Services defaultTab="media" />;
     case ROUTES.serviceAuditLogs:
-      return <Placeholder title="Audit Logs" activeTab="Service Management" />;
+      return <Services defaultTab="audit-logs" />;
 
     // Employee Management sub-routes
     case ROUTES.employeeAll:
       return <Employees defaultTab="Workforce" />;
-    case ROUTES.employeeAdd:
-      return <Employees defaultTab="AddEmployee" />;
     case ROUTES.employeeAvailability:
       return <Employees defaultTab="Availability" />;
     case ROUTES.branchManagers:
@@ -470,7 +492,6 @@ export function Router() {
 
     // Booking Management sub-routes
     case ROUTES.bookingAll:
-    case ROUTES.bookingCreate:
     case ROUTES.bookingPending:
     case ROUTES.bookingAssigned:
     case ROUTES.bookingAccepted:
@@ -757,13 +778,13 @@ export function Router() {
     case ROUTES.notificationsWhatsapp:
       return <WhatsAppCampaigns activeTab="Notification Center" />;
     case ROUTES.notificationsEmail:
-      return <Placeholder title="Email Campaigns" activeTab="Notification Center" />;
+      return <EmailCampaign/>
     case ROUTES.notificationsTemplates:
-      return <Placeholder title="Notification Templates" activeTab="Notification Center" />;
+      return <NotificationTemplates/>
     case ROUTES.notificationsAudience:
-      return <Placeholder title="Audience Segments" activeTab="Notification Center" />;
+      return <AudienceSegments/>
     case ROUTES.notificationsScheduled:
-      return <Placeholder title="Scheduled Campaigns" activeTab="Notification Center" />;
+      return <ScheduledCampaigns/>
     case ROUTES.notificationsAutomation:
       return <AutomationDashboard activeTab="Notification Center" />;
     case ROUTES.notificationsDelivery:

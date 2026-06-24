@@ -8,7 +8,6 @@ import {
   Landmark,
   Download,
   Layers,
-  Plus,
   MoreVertical,
   ChevronLeft,
   ChevronRight
@@ -127,9 +126,7 @@ export default function Partners() {
     navigate(ROUTES.partnerDetails);
   };
 
-  const handleAddPartner = () => {
-    navigate(ROUTES.addPartner);
-  };
+
 
   const filteredPartners = partnersList.filter((p) => {
     const matchesFilter = filter === 'All' || p.status === filter;
@@ -169,10 +166,6 @@ export default function Partners() {
           <button className="secondary-action-btn" type="button">
             <Layers size={16} />
             <span>Bulk Actions</span>
-          </button>
-          <button className="primary-action-btn" type="button" onClick={handleAddPartner}>
-            <Plus size={16} />
-            <span>Add Partner</span>
           </button>
         </div>
       </div>
