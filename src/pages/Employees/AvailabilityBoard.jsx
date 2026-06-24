@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, MapPin, AlertCircle, Plus, Calendar, ExternalLink } from 'lucide-react';
+import { Search, MapPin, AlertCircle, Calendar, ExternalLink } from 'lucide-react';
 
 const columnsData = {
   Available: [
@@ -50,7 +50,7 @@ const columnsData = {
   ]
 };
 
-export default function AvailabilityBoard({ onNavigateToAddEmployee }) {
+export default function AvailabilityBoard() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filterCards = (cards) => {
@@ -263,31 +263,6 @@ export default function AvailabilityBoard({ onNavigateToAddEmployee }) {
         </div>
 
       </div>
-
-      {/* Floating Action Button */}
-      <button
-        onClick={onNavigateToAddEmployee}
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          width: '50px',
-          height: '50px',
-          borderRadius: '50%',
-          backgroundColor: '#4f46e5',
-          color: '#fff',
-          border: 'none',
-          boxShadow: '0 4px 12px rgba(79, 70, 229, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          zIndex: 99
-        }}
-        aria-label="Add new availability entry"
-      >
-        <Plus size={24} />
-      </button>
 
     </div>
   );

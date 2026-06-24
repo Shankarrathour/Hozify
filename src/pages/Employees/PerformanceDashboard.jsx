@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, Users, Star, Award, BarChart3, ArrowUpRight, HelpCircle, ShieldAlert, Plus } from 'lucide-react';
+import { TrendingUp, Users, Star, Award, BarChart3, ArrowUpRight, HelpCircle, ShieldAlert } from 'lucide-react';
 
 const topPerformers = [
   { name: 'Alex Murphy', revenue: '$12,450', score: '98%', status: 'PROMOTED', statusBg: '#e0e7ff', statusColor: '#4f46e5', initials: 'AM', bg: '#e0e7ff', color: '#4f46e5' },
@@ -13,7 +13,7 @@ const improvementQueue = [
   { name: 'Rick Peters', revenue: '$4,050', score: '64%', action: 'TRAINING', initials: 'RP', bg: '#e0f2fe', color: '#0284c7' }
 ];
 
-export default function PerformanceDashboard({ onNavigateToAddEmployee }) {
+export default function PerformanceDashboard() {
   const [trendRange, setTrendRange] = useState('Monthly');
 
   return (
@@ -290,31 +290,6 @@ export default function PerformanceDashboard({ onNavigateToAddEmployee }) {
         </div>
 
       </div>
-
-      {/* Floating Action Button */}
-      <button
-        onClick={onNavigateToAddEmployee}
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          width: '50px',
-          height: '50px',
-          borderRadius: '50%',
-          backgroundColor: '#4f46e5',
-          color: '#fff',
-          border: 'none',
-          boxShadow: '0 4px 12px rgba(79, 70, 229, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          zIndex: 99
-        }}
-        aria-label="Add new performance record"
-      >
-        <Plus size={24} />
-      </button>
 
     </div>
   );

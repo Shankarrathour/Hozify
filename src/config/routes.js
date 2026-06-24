@@ -9,10 +9,6 @@ export const ROUTES = {
   dashboard: '/dashboard',
   partners: '/partners',
   partnerDetails: '/partner-details',
-  addPartner: '/partners/add',
-  onboardingAddress: '/partners/onboarding-address',
-  addServices: '/partners/add-services',
-  addBanking: '/partners/add-banking',
   approvalQueue: '/partners/approval-queue',
   fraudCenter: '/fraud-detection',
   communications: '/communications',
@@ -58,7 +54,6 @@ export const ROUTES = {
   branchSchedule: '/branches/schedule',
   branchSuspend: '/branches/suspend',
   branchCompliance: '/branches/compliance',
-  addBranch: '/branches/add',
   branchProfile: '/branches/profile',
   branchManagerAssignment: '/branches/assign-manager',
   serviceAreas: '/service-areas',
@@ -79,7 +74,6 @@ export const ROUTES = {
   dashboardConversionAnalytics: '/dashboard/conversion-analytics',
 
   // User Management sub-routes
-  addUser: '/users/add',
   userApprovals: '/users/approvals',
   blockedUsers: '/users/blocked',
   userWallets: '/users/wallets',
@@ -170,7 +164,6 @@ export const ROUTES = {
 
   // Employee Management sub-routes
   employeeAll: '/employees/all',
-  employeeAdd: '/employees/add',
   employeeAvailability: '/employees/availability',
   branchManagers: '/employees/branch-managers',
   employeeAssignments: '/employees/assignments',
@@ -183,7 +176,6 @@ export const ROUTES = {
 
   // Booking Management sub-routes
   bookingAll: '/bookings/all',
-  bookingCreate: '/bookings/create',
   bookingPending: '/bookings/pending',
   bookingAssigned: '/bookings/assigned',
   bookingAccepted: '/bookings/accepted',

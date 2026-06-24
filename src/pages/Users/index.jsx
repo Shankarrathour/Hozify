@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   Edit3,
   Eye,
-  Plus,
   RotateCcw,
   ShieldAlert,
   UserCheck,
@@ -16,7 +15,7 @@ import KpiCard from '../../features/dashboard/KpiCard';
 import { ROUTES } from '../../config/routes';
 import { useApp } from '../../hooks/useApp';
 import { usersMockData } from './usersMockData';
-import UserAddPage from './UserAddPage';
+
 import UserDetailsPage from './UserDetailsPage';
 import UserEditModal from './UserEditModal';
 
@@ -53,7 +52,7 @@ export default function Users() {
     registrationDate: ''
   });
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [isAddingUser, setIsAddingUser] = useState(false);
+
   const [editingUser, setEditingUser] = useState(null);
   const [feedback, setFeedback] = useState('');
 
@@ -61,12 +60,6 @@ export default function Users() {
     setSelectedUserId(null);
     setEditingUser(null);
 
-    if (route === ROUTES.addUser) {
-      setIsAddingUser(true);
-      return;
-    }
-
-    setIsAddingUser(false);
     setFilters((current) => ({
       ...current,
       status: route === ROUTES.blockedUsers ? 'Blocked' : 'All'
@@ -135,14 +128,7 @@ export default function Users() {
     showFeedback(`${updatedUser.name} updated successfully.`);
   };
 
-  const saveNewUser = (newUser, mode) => {
-    setUsers((current) => [newUser, ...current]);
-    showFeedback(`${newUser.name} created successfully.`);
-    if (mode !== 'addMore') {
-      setIsAddingUser(false);
-      navigate(ROUTES.users);
-    }
-  };
+
 
   const selectedUser = selectedUserId ? users.find((user) => user.id === selectedUserId) : null;
 
@@ -165,12 +151,7 @@ export default function Users() {
         </div>
       )}
 
-      {isAddingUser ? (
-        <UserAddPage
-          onBack={() => navigate(ROUTES.users)}
-          onSave={saveNewUser}
-        />
-      ) : selectedUser ? (
+      {selectedUser ? (
         <UserDetailsPage
           user={selectedUser}
           onBack={() => setSelectedUserId(null)}
@@ -184,12 +165,7 @@ export default function Users() {
               <h1 className="page-title">User Management</h1>
               <p className="page-subtitle">Manage customer accounts, statuses, activity, wallet, and documents.</p>
             </div>
-            <div className="partners-header-buttons">
-              <button className="primary-action-btn" type="button" onClick={() => navigate(ROUTES.addUser)}>
-                <Plus size={16} />
-                <span>Create User</span>
-              </button>
-            </div>
+
           </div>
 
           <section className="kpi-grid user-management-kpis">
