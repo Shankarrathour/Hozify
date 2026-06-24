@@ -68,6 +68,14 @@ import Users from '../../pages/Users';
 import BlockedUsersPage from '../../pages/Users/BlockedUsersPage';
 import BookingManagement from '../../pages/BookingManagement';
 import Placeholder from '../../pages/Placeholder';
+import AboutUs from '../../pages/CMSManagement/AboutUs';
+import RefundPolicy from '../../pages/CMSManagement/RefundPolicy';
+import ContactUs from '../../pages/CMSManagement/ContactUs';
+import TermsAndConditions from '../../pages/CMSManagement/TermsAndConditions';
+import Faqs from '../../pages/CMSManagement/Faqs';
+import PrivacyPolicy from '../../pages/CMSManagement/PrivacyPolicy';
+import Blogs from '../../pages/CMSManagement/Blogs';
+import SeoSettings from '../../pages/CMSManagement/SeoSettings';
 import Employees from '../../pages/Employees';
 import KYCModule from '../../pages/KYC';
 import Branches from '../../pages/Branches';
@@ -181,6 +189,75 @@ import BusinessHeaderTabs from '../../pages/Business/BusinessHeaderTabs';
 import BusinessReviews from '../../pages/Business/BusinessReviews';
 import BusinessServices from '../../pages/Business/BusinessServices';
 import FraudInvestigation from '../../pages/Business/FraudInvestigation';
+import UserReviewsPage from '../../pages/Users/UserReviewsPage';
+import UserComplaintpage from '../../pages/Users/UserComplaintPage';
+import UserReferralsPage from '../../pages/Users/UserReferralsPage';
+import UserTimelineTab from '../../pages/Users/UserTimelineTab';
+import UserAuditLog from '../../pages/Users/UserAuditLog';
+import UserWalletsPage from '../../pages/Users/UserWalletsPage';
+import UserDocumentsPage from '../../pages/Users/UserDocumentsPage';
+import UserApprovalPage from '../../pages/Users/UserApprovalPage';
+import UserActivityLogs from '../../pages/Users/UserActivityLogs';
+import UserFraudMonitoringPage from '../../pages/Users/UserFraudMonitoring';
+import UserFraudMonitoring from '../../pages/Users/UserFraudMonitoring';
+import HomePageBanner from '../../pages/BannerManagement/HomePageBanner';
+import OfferBannersPage from '../../pages/BannerManagement/OfferBannersPage';
+import CategoryBannersPage from '../../pages/BannerManagement/CategoryBannerPage';
+import PopupBannersPage from '../../pages/BannerManagement/PopupBannerPage';
+import BannerSchedulingPage from '../../pages/BannerManagement/BannerSchedulingPage';
+import BannerAnalyticsPage from '../../pages/BannerManagement/BannerAnalysticsPage';
+import ReferralDashboard from '../../pages/ReferralManagement/ReferralDashboard';
+import ReferralListingPage from '../../pages/ReferralManagement/ReferralListingPage';
+import CampaignDashboard from '../../pages/ReferralManagement/CampaignDashboard';
+import CampaignListingPage from '../../pages/ReferralManagement/CampaignListingPage';
+import CreateCampaignPage from '../../pages/ReferralManagement/CreateCampaignPage';
+import RewardApprovalQueuePage from '../../pages/ReferralManagement/RewardApprovalQueuePage';
+import RewardSettlementsPage from '../../pages/ReferralManagement/RewardSettlementPage';
+import ConversionAnalyticsPage from '../../pages/ReferralManagement/ConversionAnalyticsPage';
+import ReferralSourcesPage from '../../pages/ReferralManagement/ReferralSourcesPage';
+import ReferrelLeaderboardPage from '../../pages/ReferralManagement/ReferralLeaderboardPage';
+import FraudDetectionPage from '../../pages/ReferralManagement/FraudDetectionPage';
+import InvestigationPage from '../../pages/ReferralManagement/InvestigationPage';
+import CouponManagement from '../../pages/ReferralManagement/CouponManagementPage';
+import CouponManagementPage from '../../pages/ReferralManagement/CouponManagementPage';
+import QRManagementPage from '../../pages/ReferralManagement/QRManagementPage';
+import SettlementReport from '../../pages/Report&Analytics/SettlementReportPage';
+import ReferralReport from '../../pages/Report&Analytics/ReferralReport';
+import CampaignReportPage from '../../pages/Report&Analytics/CampaignReportPage';
+import ExportCenterPage from '../../pages/Report&Analytics/ExportCenterPage';
+import PDFExportPage from '../../pages/Report&Analytics/PDFExportPage';
+import ExcelExportPage from '../../pages/Report&Analytics/ExcelExportPage';
+import CSVExportPage from '../../pages/Report&Analytics/CSVExportpage';
+import BookingReportPage from '../../pages/Report&Analytics/BookingReportPage';
+import UserReportPage from '../../pages/Report&Analytics/UserReportPage';
+import PartnerReportPage from '../../pages/Report&Analytics/PartnerReportPage';
+import EmployeeReportPage from '../../pages/Report&Analytics/EmployeeReportPage';
+import RevenueReportspage from '../../pages/Report&Analytics/RevenueReportPage';
+import WalletReportPage from '../../pages/Report&Analytics/WalletReportPage';
+import GeneralSettings from '../../pages/Settings/GeneralSettings';
+import PlatformConfiguration from '../../pages/Settings/PlatformConfiguration';
+import CommissionSettings from '../../pages/Settings/CommissionSettings';
+import TaxSettings from '../../pages/Settings/TaxSettings';
+import SettlementSettings from '../../pages/Settings/SettlementSettings';
+import WalletSettings from '../../pages/Settings/WalletSettings';
+import PaymentGatewaySettings from '../../pages/Settings/PaymentGatewaySettings';
+import SmsGatewayManagement from '../../pages/Settings/SmsGatewayManagement';
+import WhatsAppApiIntegration from '../../pages/Settings/WhatsAppApiIntegration';
+import EmailSmtpIntegration from '../../pages/Settings/EmailSmtpIntegration';
+import GoogleMapsApiIntegration from '../../pages/Settings/GoogleMapsApiIntegration';
+import BackupManagement from '../../pages/Settings/BackupManagement';
+import MaintenanceMode from '../../pages/Settings/MaintenanceMode';
+import SystemLogs from '../../pages/Settings/SystemLogs';
+import SecuritySettings from '../../pages/Settings/SecuritySettings';
+import PasswordPolicies from '../../pages/Settings/PasswordPolicies';
+import SessionManagement from '../../pages/Settings/SessionManagement';
+import SystemAuditLogs from '../../pages/Settings/SystemAuditLogs';
+import BookingReports from '../../pages/Analytics/BookingReports';
+import MarketingReports from '../../pages/Analytics/MarketingReports';
+import PartnerReports from '../../pages/Analytics/PartnerReports';
+import EmployeeReports from '../../pages/Analytics/EmployeeReports';
+import RevenueReports from '../../pages/Analytics/RevenueReports';
+
 const dynamicRoutePatterns = Object.values(ROUTES)
   .filter((route) => typeof route === 'string' && route.includes(':'))
   .map((route) => ({
@@ -368,26 +445,37 @@ export function Router() {
     // User Management sub-routes
     case ROUTES.userApprovals:
       return <Placeholder title="User Approvals" activeTab="User Management" />;
+    case ROUTES.addUser:
+      return <Users />;
+    case ROUTES.userApprovals: 
+      return <UserApprovalPage/>
     case ROUTES.blockedUsers:
       return <BlockedUsersPage />;
     case ROUTES.userWallets:
-      return <Placeholder title="User Wallets" activeTab="User Management" />;
+      // return <Placeholder title="User Wallets" activeTab="User Management" />;
+      return <UserWalletsPage/>
     case ROUTES.userReferrals:
-      return <Placeholder title="User Referrals" activeTab="User Management" />;
+      // return <Placeholder title="User Referrals" activeTab="User Management" />;
+      return <UserReferralsPage/>
     case ROUTES.userDocuments:
-      return <Placeholder title="User Documents" activeTab="User Management" />;
+      // return <Placeholder title="User Documents" activeTab="User Management" />;
+      return <UserDocumentsPage/>
     case ROUTES.userComplaints:
-      return <Placeholder title="User Complaints" activeTab="User Management" />;
+      // return <Placeholder title="User Complaints" activeTab="User Management" />;
+      return <UserComplaintpage/>
     case ROUTES.userReviews:
-      return <Placeholder title="User Reviews" activeTab="User Management" />;
+      // return <Placeholder title="User Reviews" activeTab="User Management" />;
+      return<UserReviewsPage/>
     case ROUTES.userTimeline:
-      return <Placeholder title="User Timeline" activeTab="User Management" />;
+      // return <Placeholder title="User Timeline" activeTab="User Management" />;
+      return <UserTimelineTab/>
     case ROUTES.userActivityLogs:
-      return <Placeholder title="User Activity Logs" activeTab="User Management" />;
+     return <UserActivityLogs/>
     case ROUTES.userFraudMonitoring:
-      return <Placeholder title="User Fraud Monitoring" activeTab="User Management" />;
+    return <UserFraudMonitoring/>
     case ROUTES.userAuditLogs:
-      return <Placeholder title="User Audit Logs" activeTab="User Management" />;
+      // return <Placeholder title="User Audit Logs" activeTab="User Management" />;
+      return <UserAuditLog/>
 
     // Partner Management sub-routes
     case ROUTES.ispPartners:
@@ -467,6 +555,10 @@ export function Router() {
       return <BranchAuditLogs />;
 
     // Service Management sub-routes
+    case ROUTES.serviceCreation:
+      return <Services defaultTab="creation" />;
+    case ROUTES.serviceActivation:
+      return <Services defaultTab="activation" />;
     case ROUTES.serviceCategories:
       return <Services defaultTab="categories" />;
     case ROUTES.serviceSubCategories:
@@ -480,7 +572,7 @@ export function Router() {
     case ROUTES.servicePricing:
       return <Services defaultTab="pricing" />;
     case ROUTES.serviceCommission:
-      return <Services defaultTab="pricing" />;
+      return <Services defaultTab="commission" />;
     case ROUTES.servicePerformance:
       return <Services defaultTab="dashboard" />;
     case ROUTES.serviceAnalytics:
@@ -498,21 +590,21 @@ export function Router() {
     case ROUTES.employeeAvailability:
       return <Employees defaultTab="Availability" />;
     case ROUTES.branchManagers:
-      return <Placeholder title="Branch Managers" activeTab="Employee Management" />;
+      return <Employees defaultTab="BranchManagers" />;
     case ROUTES.employeeAssignments:
-      return <Placeholder title="Assignments" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeAssignments" />;
     case ROUTES.employeeDocuments:
-      return <Placeholder title="Employee Documents" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeDocuments" />;
     case ROUTES.employeeEarnings:
-      return <Placeholder title="Earnings" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeEarnings" />;
     case ROUTES.employeeRatings:
-      return <Placeholder title="Ratings & Reviews" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeRatings" />;
     case ROUTES.employeeKyc:
-      return <Placeholder title="Employee KYC" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeKyc" />;
     case ROUTES.employeeAnalytics:
-      return <Placeholder title="Employee Analytics" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeAnalytics" />;
     case ROUTES.employeeAuditLogs:
-      return <Placeholder title="Audit Logs" activeTab="Employee Management" />;
+      return <Employees defaultTab="EmployeeAuditLogs" />;
 
     // Booking Management sub-routes
     case ROUTES.bookingAll:
@@ -774,33 +866,33 @@ export function Router() {
 
     // Referral Management sub-routes
     case ROUTES.referralDashboard:
-      return <Placeholder title="Referral Dashboard" activeTab="Referral Management" />;
+      return <ReferralDashboard/>
     case ROUTES.referralListing:
-      return <Placeholder title="Referral Listing" activeTab="Referral Management" />;
+      return <ReferralListingPage/>
     case ROUTES.referralCampaignDashboard:
-      return <Placeholder title="Campaign Dashboard" activeTab="Referral Management" />;
+      return <CampaignDashboard/>
     case ROUTES.referralCampaignListing:
-      return <Placeholder title="Campaign Listing" activeTab="Referral Management" />;
+      return <CampaignListingPage/>
     case ROUTES.referralCreateCampaign:
-      return <Placeholder title="Create Campaign" activeTab="Referral Management" />;
+      return <CreateCampaignPage/>
     case ROUTES.referralRewardApprovals:
-      return <Placeholder title="Reward Approval Queue" activeTab="Referral Management" />;
+      return <RewardApprovalQueuePage/>
     case ROUTES.referralRewardSettlements:
-      return <Placeholder title="Reward Settlements" activeTab="Referral Management" />;
+      return <RewardSettlementsPage/>
     case ROUTES.referralConversionAnalytics:
-      return <Placeholder title="Conversion Analytics" activeTab="Referral Management" />;
+      return <ConversionAnalyticsPage/>
     case ROUTES.referralSources:
-      return <Placeholder title="Referral Sources" activeTab="Referral Management" />;
+      return <ReferralSourcesPage/>
     case ROUTES.referralLeaderboard:
-      return <Placeholder title="Leaderboard" activeTab="Referral Management" />;
+      return <ReferrelLeaderboardPage/>
     case ROUTES.referralFraud:
-      return <Placeholder title="Referral Fraud Detection" activeTab="Referral Management" />;
+      return <FraudDetectionPage/>
     case ROUTES.referralInvestigations:
-      return <Placeholder title="Investigations" activeTab="Referral Management" />;
+      return <InvestigationPage/>
     case ROUTES.referralCoupons:
-      return <Placeholder title="Coupon Management" activeTab="Referral Management" />;
+      return <CouponManagementPage/>
     case ROUTES.referralQr:
-      return <Placeholder title="QR Management" activeTab="Referral Management" />;
+      return <QRManagementPage/>
 
     // Notification Center sub-routes
     case ROUTES.notificationsPush:
@@ -838,35 +930,35 @@ export function Router() {
 
     // Banner Management sub-routes
     case ROUTES.bannersHomepage:
-      return <Placeholder title="Homepage Banners" activeTab="Banner Management" />;
+      return <HomePageBanner/>
     case ROUTES.bannersOffer:
-      return <Placeholder title="Offer Banners" activeTab="Banner Management" />;
+      return <OfferBannersPage/>
     case ROUTES.bannersCategory:
-      return <Placeholder title="Category Banners" activeTab="Banner Management" />;
+      return <CategoryBannersPage/>
     case ROUTES.bannersPopup:
-      return <Placeholder title="Popup Banners" activeTab="Banner Management" />;
+      return <PopupBannersPage/>
     case ROUTES.bannersScheduling:
-      return <Placeholder title="Banner Scheduling" activeTab="Banner Management" />;
+      return <BannerSchedulingPage/>
     case ROUTES.bannersAnalytics:
-      return <Placeholder title="Banner Analytics" activeTab="Banner Management" />;
+      return <BannerAnalyticsPage/>
 
     // CMS Management sub-routes
     case ROUTES.cmsAboutUs:
-      return <Placeholder title="About Us" activeTab="CMS Management" />;
+      return <AboutUs />;
     case ROUTES.cmsTerms:
-      return <Placeholder title="Terms & Conditions" activeTab="CMS Management" />;
+      return <TermsAndConditions />;
     case ROUTES.cmsPrivacy:
-      return <Placeholder title="Privacy Policy" activeTab="CMS Management" />;
+      return <PrivacyPolicy />;
     case ROUTES.cmsRefund:
-      return <Placeholder title="Refund Policy" activeTab="CMS Management" />;
+      return <RefundPolicy />;
     case ROUTES.cmsContactUs:
-      return <Placeholder title="Contact Us" activeTab="CMS Management" />;
+      return <ContactUs />;
     case ROUTES.cmsFaqs:
-      return <Placeholder title="FAQs" activeTab="CMS Management" />;
+      return <Faqs />;
     case ROUTES.cmsBlogs:
-      return <Placeholder title="Blogs" activeTab="CMS Management" />;
+      return <Blogs />;
     case ROUTES.cmsSeo:
-      return <Placeholder title="SEO Settings" activeTab="CMS Management" />;
+      return <SeoSettings />;
 
     // Reviews & Ratings sub-routes
     case ROUTES.reviewsUser:
@@ -998,22 +1090,50 @@ export function Router() {
     case ROUTES.reportsOperational:
       return <OperationalReports />;
     case ROUTES.analytics:
+       // return <Analytics />;
     case ROUTES.reportsBooking:
+      return <BookingReportPage/>
     case ROUTES.reportsUser:
+      return <UserReportPage/>
     case ROUTES.reportsPartner:
+      return <PartnerReportPage/>
     case ROUTES.reportsEmployee:
-    case ROUTES.reportsFinancial:
+      return <EmployeeReportPage/>
+    // case ROUTES.reportsFinancial:
     case ROUTES.reportsRevenue:
-    case ROUTES.reportsWallet:
-    case ROUTES.reportsSettlement:
-    case ROUTES.reportsMarketing:
-    case ROUTES.reportsReferral:
-    case ROUTES.reportsCampaign:
-    case ROUTES.exportCenter:
-    case ROUTES.pdfExports:
-    case ROUTES.excelExports:
-    case ROUTES.csvExports:
+      return <RevenueReportspage/>
+    case ROUTES.reportsBooking:
+      return <BookingReports />;
+    case ROUTES.analytics:
+    case ROUTES.reportsUser:
       return <Analytics />;
+    case ROUTES.reportsPartner:
+      return <PartnerReports />;
+    case ROUTES.reportsEmployee:
+      return <EmployeeReports />;
+    case ROUTES.reportsFinancial:
+      return <Analytics />;
+    case ROUTES.reportsRevenue:
+      return <RevenueReports />;
+    case ROUTES.reportsWallet:
+      return <WalletReportPage/>
+    case ROUTES.reportsSettlement:
+      return <SettlementReport/>
+      return <Analytics />;
+    case ROUTES.reportsMarketing:
+      return <MarketingReports />;
+    case ROUTES.reportsReferral:
+      return <ReferralReport/>
+    case ROUTES.reportsCampaign:
+      return <CampaignReportPage/>
+    case ROUTES.exportCenter:
+      return <ExportCenterPage/>
+    case ROUTES.pdfExports:
+      return <PDFExportPage/>
+    case ROUTES.excelExports:
+      return <ExcelExportPage/>
+    case ROUTES.csvExports:
+      return <CSVExportPage/>
 
     // Role & Permission admin sub-routes
     case ROUTES.rolePermissions:
@@ -1033,41 +1153,41 @@ export function Router() {
 
     // Settings sub-routes
     case ROUTES.settingsPlatformGeneral:
-      return <Placeholder title="Platform General Settings" activeTab="Settings" />;
+      return <GeneralSettings />;
     case ROUTES.settingsPlatformConfig:
-      return <Placeholder title="Platform Configuration" activeTab="Settings" />;
+      return <PlatformConfiguration />;
     case ROUTES.settingsFinancialCommission:
-      return <Placeholder title="Commission Settings" activeTab="Settings" />;
+      return <CommissionSettings />;
     case ROUTES.settingsFinancialTax:
-      return <Placeholder title="Tax Settings" activeTab="Settings" />;
+      return <TaxSettings />;
     case ROUTES.settingsFinancialWallet:
-      return <Placeholder title="Wallet Settings" activeTab="Settings" />;
+      return <WalletSettings />;
     case ROUTES.settingsFinancialSettlement:
-      return <Placeholder title="Settlement Settings" activeTab="Settings" />;
+      return <SettlementSettings />;
     case ROUTES.settingsIntegrationPayment:
-      return <Placeholder title="Payment Gateway Integration" activeTab="Settings" />;
+      return <PaymentGatewaySettings />;
     case ROUTES.settingsIntegrationSms:
-      return <Placeholder title="SMS Gateway Integration" activeTab="Settings" />;
+      return <SmsGatewayManagement />;
     case ROUTES.settingsIntegrationWhatsapp:
-      return <Placeholder title="WhatsApp API Integration" activeTab="Settings" />;
+      return <WhatsAppApiIntegration />;
     case ROUTES.settingsIntegrationEmail:
-      return <Placeholder title="Email SMTP Integration" activeTab="Settings" />;
+      return <EmailSmtpIntegration />;
     case ROUTES.settingsIntegrationGoogleMaps:
-      return <Placeholder title="Google Maps API Integration" activeTab="Settings" />;
+      return <GoogleMapsApiIntegration />;
     case ROUTES.settingsSecurityGeneral:
-      return <Placeholder title="Security Settings" activeTab="Settings" />;
+      return <SecuritySettings />;
     case ROUTES.settingsSecurityPassword:
-      return <Placeholder title="Password Policies" activeTab="Settings" />;
+      return <PasswordPolicies />;
     case ROUTES.settingsSecuritySession:
-      return <Placeholder title="Session Management" activeTab="Settings" />;
+      return <SessionManagement />;
     case ROUTES.settingsSecurityAudit:
-      return <Placeholder title="Audit Logs" activeTab="Settings" />;
+      return <SystemAuditLogs />;
     case ROUTES.settingsSystemBackup:
-      return <Placeholder title="Backup Management" activeTab="Settings" />;
+      return <BackupManagement />;
     case ROUTES.settingsSystemMaintenance:
-      return <Placeholder title="Maintenance Mode" activeTab="Settings" />;
+      return <MaintenanceMode />;
     case ROUTES.settingsSystemLogs:
-      return <Placeholder title="System Logs" activeTab="Settings" />;
+      return <SystemLogs />;
 
     default:
       return <RoleSelection />;

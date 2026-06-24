@@ -172,7 +172,7 @@ export default function UserAddPage({ onBack, onSave }) {
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="page-title">Add User</h1>
+          <h1 className="page-title"></h1>
           <p className="page-subtitle">Create a customer account with required profile, address, verification, and status details.</p>
         </div>
       </div>

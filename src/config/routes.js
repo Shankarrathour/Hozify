@@ -147,6 +147,8 @@ export const ROUTES = {
   branchAuditLogs: '/branches/audit-logs',
 
   // Service Management sub-routes
+  serviceCreation: '/services/creation',
+  serviceActivation: '/services/activation',
   serviceCategories: '/services/categories',
   serviceSubCategories: '/services/sub-categories',
   serviceAll: '/services/all',

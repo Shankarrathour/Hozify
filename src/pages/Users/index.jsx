@@ -18,6 +18,7 @@ import { usersMockData } from './usersMockData';
 
 import UserDetailsPage from './UserDetailsPage';
 import UserEditModal from './UserEditModal';
+import UserReviewsPage from './UserReviewsPage';
 
 const statusOptions = ['All', 'Active', 'Suspended', 'Blocked'];
 

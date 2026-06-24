@@ -11,6 +11,16 @@ import EmployeeReports from './EmployeeReports';
 import AttendanceDashboard from './AttendanceDashboard';
 import LeaveManagement from './LeaveManagement';
 
+// New imported components
+import BranchManagers from './BranchManagers';
+import EmployeeAssignments from './EmployeeAssignments';
+import EmployeeDocuments from './EmployeeDocuments';
+import EmployeeKyc from './EmployeeKyc';
+import EmployeeRatings from './EmployeeRatings';
+import EmployeeEarnings from './EmployeeEarnings';
+import EmployeeAuditLogs from './EmployeeAuditLogs';
+import EmployeeAnalytics from './EmployeeAnalytics';
+
 export default function Employees({ defaultTab }) {
   const { route, navigate } = useApp();
   
@@ -18,6 +28,14 @@ export default function Employees({ defaultTab }) {
     if (defaultTab) return defaultTab;
     if (route === ROUTES.employeeAll) return 'Workforce';
     if (route === ROUTES.employeeAvailability) return 'Availability';
+    if (route === ROUTES.branchManagers) return 'BranchManagers';
+    if (route === ROUTES.employeeAssignments) return 'EmployeeAssignments';
+    if (route === ROUTES.employeeDocuments) return 'EmployeeDocuments';
+    if (route === ROUTES.employeeKyc) return 'EmployeeKyc';
+    if (route === ROUTES.employeeRatings) return 'EmployeeRatings';
+    if (route === ROUTES.employeeEarnings) return 'EmployeeEarnings';
+    if (route === ROUTES.employeeAuditLogs) return 'EmployeeAuditLogs';
+    if (route === ROUTES.employeeAnalytics) return 'EmployeeAnalytics';
     if (route === ROUTES.performance) return 'Performance';
     if (route === ROUTES.reports) return 'Reports';
     if (route === ROUTES.attendance) return 'Attendance';
@@ -40,11 +58,19 @@ export default function Employees({ defaultTab }) {
   const employeeTabRoutes = {
     Overview: ROUTES.employees,
     Workforce: ROUTES.employeeAll,
+    BranchManagers: ROUTES.branchManagers,
+    EmployeeAssignments: ROUTES.employeeAssignments,
     Availability: ROUTES.employeeAvailability,
-    Performance: ROUTES.performance,
     Attendance: ROUTES.attendance,
     LeaveManagement: ROUTES.leaveManagement,
-    Reports: ROUTES.reports
+    EmployeeDocuments: ROUTES.employeeDocuments,
+    EmployeeKyc: ROUTES.employeeKyc,
+    Performance: ROUTES.performance,
+    EmployeeRatings: ROUTES.employeeRatings,
+    EmployeeEarnings: ROUTES.employeeEarnings,
+    Reports: ROUTES.reports,
+    EmployeeAnalytics: ROUTES.employeeAnalytics,
+    EmployeeAuditLogs: ROUTES.employeeAuditLogs
   };
 
   const handleTabClick = (tabId) => {
@@ -65,6 +91,22 @@ export default function Employees({ defaultTab }) {
             onSelectEmployee={handleSelectEmployee}
           />
         );
+      case 'BranchManagers':
+        return <BranchManagers />;
+      case 'EmployeeAssignments':
+        return <EmployeeAssignments />;
+      case 'EmployeeDocuments':
+        return <EmployeeDocuments />;
+      case 'EmployeeKyc':
+        return <EmployeeKyc />;
+      case 'EmployeeRatings':
+        return <EmployeeRatings />;
+      case 'EmployeeEarnings':
+        return <EmployeeEarnings />;
+      case 'EmployeeAuditLogs':
+        return <EmployeeAuditLogs />;
+      case 'EmployeeAnalytics':
+        return <EmployeeAnalytics />;
       case 'Availability':
         return (
           <AvailabilityBoard />
@@ -107,11 +149,19 @@ export default function Employees({ defaultTab }) {
   const showTabHeader = [
     'Overview',
     'Workforce',
+    'BranchManagers',
+    'EmployeeAssignments',
     'Availability',
-    'Performance',
     'Attendance',
     'LeaveManagement',
-    'Reports'
+    'EmployeeDocuments',
+    'EmployeeKyc',
+    'Performance',
+    'EmployeeRatings',
+    'EmployeeEarnings',
+    'Reports',
+    'EmployeeAnalytics',
+    'EmployeeAuditLogs'
   ].includes(activeTab);
 
   return (
@@ -126,11 +176,19 @@ export default function Employees({ defaultTab }) {
           {[
             { id: 'Overview', label: 'Overview' },
             { id: 'Workforce', label: 'Workforce Directory' },
+            { id: 'BranchManagers', label: 'Branch Managers' },
+            { id: 'EmployeeAssignments', label: 'Assignments' },
             { id: 'Availability', label: 'Availability Board' },
-            { id: 'Performance', label: 'Performance' },
             { id: 'Attendance', label: 'Attendance' },
             { id: 'LeaveManagement', label: 'Leave Management' },
-            { id: 'Reports', label: 'Reports & Analytics' }
+            { id: 'EmployeeDocuments', label: 'Documents' },
+            { id: 'EmployeeKyc', label: 'KYC & Verification' },
+            { id: 'Performance', label: 'Performance' },
+            { id: 'EmployeeRatings', label: 'Ratings & Reviews' },
+            { id: 'EmployeeEarnings', label: 'Earnings' },
+            { id: 'Reports', label: 'Reports' },
+            { id: 'EmployeeAnalytics', label: 'Analytics' },
+            { id: 'EmployeeAuditLogs', label: 'Audit Logs' }
           ].map((tab) => (
             <button
               key={tab.id}

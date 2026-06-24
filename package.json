@@ -12,6 +12,7 @@
     "@tailwindcss/vite": "^4.3.1",
     "@vitejs/plugin-react": "latest",
     "lucide-react": "latest",
+    "qrcode.react": "^4.2.0",
     "react": "latest",
     "react-dom": "latest",
     "recharts": "^3.8.1",
