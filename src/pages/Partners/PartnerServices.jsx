@@ -41,7 +41,7 @@ export default function PartnerServices() {
 
             <div>
               <span className="rounded-full bg-white/10 px-4 py-2 text-xs font-bold tracking-[0.3em]">
-                SERVICE CONTROL CENTER
+                SERVICE CONTROL CENTERs
               </span>
 
               <h1 className="mt-6 text-4xl font-bold">
