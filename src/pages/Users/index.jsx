@@ -355,6 +355,10 @@ export default function Users() {
                   <strong style={{ color: 'var(--materio-text-main)' }}>{drawerUser.mobile}</strong>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--materio-text-muted)' }}>Address</span>
+                  <strong style={{ color: 'var(--materio-text-main)', textAlign: 'right', maxWidth: '200px' }}>{drawerUser.address || 'Not Provided'}</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: 'var(--materio-text-muted)' }}>Joined</span>
                   <strong style={{ color: 'var(--materio-text-main)' }}>{drawerUser.registrationDate}</strong>
                 </div>
@@ -369,6 +373,10 @@ export default function Users() {
                   <strong style={{ color: 'var(--materio-text-main)' }}>₹{(drawerUser.wallet?.balance || 0).toFixed(2)}</strong>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--materio-text-muted)' }}>Referral Earnings</span>
+                  <strong style={{ color: 'var(--materio-text-main)' }}>₹{(drawerUser.referralEarnings || 0).toFixed(2)}</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: 'var(--materio-text-muted)' }}>Total Bookings</span>
                   <strong style={{ color: 'var(--materio-text-main)' }}>{drawerUser.bookingHistory?.length || 0}</strong>
                 </div>
@@ -378,6 +386,15 @@ export default function Users() {
                     <Star size={14} fill="#FFAB00" color="#FFAB00" />
                     {getRating(drawerUser.id)}
                   </div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--materio-text-muted)' }}>Audit Logs</span>
+                  <button 
+                    type="button" 
+                    style={{ background: 'transparent', border: 'none', color: 'var(--materio-primary)', fontWeight: 600, cursor: 'pointer', padding: 0 }}
+                  >
+                    View Logs ({drawerUser.auditLogsCount || 12})
+                  </button>
                 </div>
               </div>
             </div>
