@@ -1,0 +1,434 @@
+HOZIFY ADMIN PANEL
+FUNCTIONAL & DEVELOPMENT SCOPE OF WORK (SOW)
+PROJECT OVERVIEW
+HOZIFY is a service marketplace and operations management platform where customers can book services, partners can manage businesses and branches, sellers can provide quotations and materials, and administrators can control and monitor the complete ecosystem.
+The Admin Panel will act as the central command center for platform operations, user management, partner approvals, booking monitoring, wallet settlements, revenue tracking, reporting, support management, and fraud prevention.
+The system must support Role Based Access Control (RBAC), multi-level approvals, real-time tracking, analytics dashboards, and scalable business workflows.
+
+MODULE 1
+AUTHENTICATION & ACCESS CONTROL
+Objective
+Provide secure login and permission-based access for all internal staff.
+Features
+Login
+Users can login using:
+Email + Password
+Mobile + Password
+Forgot Password
+User enters email/mobile ↓ OTP Verification ↓ New Password Creation
+Session Management
+Active Sessions
+Login History
+Device Logs
+Logout From All Devices
+Role Management
+Supported Roles
+Super Admin
+Admin
+Operations Team
+KYC Team
+Finance Team
+Support Team
+Permission Management
+Permissions should be configurable.
+Examples
+user.view user.edit booking.view booking.edit wallet.approve
+System should generate sidebar and module visibility based on permissions.
+
+MODULE 2
+DASHBOARD
+Objective
+Provide complete business visibility.
+KPI Cards
+Total Users
+Total Partners
+Total BSP
+Total ISP
+Total Sellers
+Active Bookings
+Revenue
+Wallet Balance
+Pending Approvals
+Charts
+Revenue Growth
+Monthly Bookings
+User Registrations
+Partner Registrations
+Widgets
+Recent Bookings
+Recent Registrations
+Recent Transactions
+Recent Tickets
+Filters
+Today
+Weekly
+Monthly
+Custom Date Range
+
+MODULE 3
+USER MANAGEMENT
+Objective
+Manage customer accounts.
+Features
+User Listing
+Columns
+Name
+Mobile
+Email
+Status
+Registration Date
+User Profile
+Contains
+Personal Details
+Addresses
+Wallet
+Referrals
+Booking History
+Documents
+Actions
+View
+Edit
+Suspend
+Block
+Activate
+Search & Filters
+Mobile
+Email
+Status
+Registration Date
+
+MODULE 4
+PARTNER MANAGEMENT
+Objective
+Manage service providers.
+Partner Types
+ISP
+BSP
+Seller
+Features
+Partner Profile
+Basic Details
+Business Details
+Services
+Wallet
+Ratings
+Revenue
+Approvals
+Approve Partner Reject Partner Request Re-upload
+Financial Information
+Bank Accounts
+Settlements
+Wallet Transactions
+
+MODULE 5
+KYC MANAGEMENT
+Objective
+Verify identity and compliance.
+Supported Documents
+Aadhaar
+PAN
+Driving License
+Voter ID
+Selfie
+Video KYC
+Workflow
+Submitted ↓ Under Review ↓ Approved
+OR
+Submitted ↓ Rejected ↓ Re-upload Required
+Features
+Document Preview
+Zoom View
+Approval Notes
+Rejection Reasons
+Audit Logs
+
+MODULE 6
+BUSINESS MANAGEMENT
+Objective
+Manage partner businesses.
+Features
+Business Profile
+Name
+GST
+PAN
+Address
+Registration Details
+Approval Workflow
+Pending Approved Rejected
+Business Insights
+Revenue
+Bookings
+Branches
+Employees
+
+MODULE 7
+BRANCH MANAGEMENT
+Features
+Branch Details
+Branch Name
+Location
+Services
+Employees
+Tabs
+Overview
+Employees
+Bookings
+Revenue
+Reviews
+Actions
+Activate
+Deactivate
+Edit
+
+MODULE 8
+SERVICE MANAGEMENT
+Features
+Categories
+Create and manage service categories.
+Subcategories
+Manage child categories.
+Service Pricing
+Base Price
+Dynamic Price
+Platform Fee
+Approval Workflow
+Partner Creates Service ↓ Admin Reviews ↓ Approve / Reject
+
+MODULE 9
+SERVICE AREA MANAGEMENT
+Objective
+Control service coverage.
+Features
+Google Maps Integration
+Polygon Mapping
+Radius Selection
+City Coverage
+Admin should be able to visually view service boundaries.
+
+MODULE 10
+EMPLOYEE MANAGEMENT
+Features
+Branch Managers
+Service Professionals
+Profile Information
+Contact Details
+Assigned Branch
+Assigned Services
+Booking History
+
+MODULE 11
+BOOKING MANAGEMENT
+Objective
+Track complete booking lifecycle.
+Booking Statuses
+Pending Accepted Assigned In Progress Completed Cancelled Closed
+Booking Details
+Customer Information
+Partner Information
+Employee Information
+Payment Information
+Material Information
+Invoice Information
+Review Information
+Timeline
+Every event should be recorded.
+Example
+Booking Created Partner Assigned Partner Accepted Professional Assigned Work Started Work Completed
+
+MODULE 12
+LIVE TRACKING
+Features
+Google Maps Tracking
+Live Route
+ETA
+Current Location
+Admin can monitor all active bookings.
+
+MODULE 13
+MATERIAL REQUEST MANAGEMENT
+Features
+Partner Creates Request ↓ Seller Receives Request ↓ Seller Submits Quotation ↓ Admin Approval
+Track:
+Quantity
+Status
+Delivery Timeline
+
+MODULE 14
+QUOTATION MANAGEMENT
+Features
+Seller Quotation Submission
+Quotation Comparison Matrix
+Compare:
+Price
+Delivery Time
+Quantity
+Seller Rating
+Approve Best Quotation
+
+MODULE 15
+WALLET MANAGEMENT
+Features
+Wallet Dashboard
+Wallet Transactions
+Credits
+Debits
+Penalties
+Fraud Flags
+Wallet Freeze
+
+MODULE 16
+BANKING & SETTLEMENTS
+Features
+Withdrawal Requests
+Settlement Approvals
+Bank Account Verification
+Settlement History
+
+MODULE 17
+REVENUE MANAGEMENT
+Features
+Revenue Dashboard
+Commission Tracking
+Partner Revenue
+Platform Revenue
+Financial Reports
+
+MODULE 18
+REFERRAL MANAGEMENT
+Features
+Referral Campaigns
+Referral Rewards
+Referral Analytics
+Referral Conversion Tracking
+
+MODULE 19
+NOTIFICATION CENTER
+Channels
+Push Notifications
+SMS
+WhatsApp
+Email
+Features
+Templates
+Campaigns
+Scheduling
+Delivery Tracking
+
+MODULE 20
+BANNER MANAGEMENT
+Features
+Home Banners
+Offer Banners
+Category Banners
+Popup Banners
+Scheduling
+Activation Control
+
+MODULE 21
+CMS MANAGEMENT
+Pages
+About Us
+Terms & Conditions
+Privacy Policy
+Refund Policy
+Contact Us
+Rich Text Editor Required
+
+MODULE 22
+REVIEWS & RATINGS
+Features
+Review Moderation
+Rating Monitoring
+Abuse Detection
+Review Removal
+
+MODULE 23
+SOS MANAGEMENT
+Features
+Emergency Request Monitoring
+Customer Details
+Location Tracking
+Resolution Logs
+
+MODULE 24
+SUPPORT & TICKET SYSTEM
+Ticket Types
+Booking
+Payment
+Wallet
+Technical
+Features
+Ticket Assignment
+Replies
+Escalations
+Resolution Tracking
+
+MODULE 25
+FRAUD MANAGEMENT
+Features
+Wallet Freeze
+Account Suspension
+Abuse Detection
+Fraud Monitoring Dashboard
+Activity Logs
+
+MODULE 26
+REPORTS & ANALYTICS
+Reports
+Users
+Partners
+Bookings
+Revenue
+Wallet
+Referrals
+Sellers
+Export Formats
+PDF
+Excel
+CSV
+
+MODULE 27
+ROLE & PERMISSION MANAGEMENT
+Features
+Create Role
+Edit Role
+Delete Role
+Assign Permissions
+Assign Staff
+Permission Matrix
+Module Level Permissions
+Action Level Permissions
+Example
+Booking Module
+View Create Edit Delete Approve
+All permissions should be configurable from Admin Panel.
+
+NON-FUNCTIONAL REQUIREMENTS
+Security
+JWT Authentication
+Role Based Access
+Audit Logs
+Activity Logs
+Performance
+Server Side Pagination
+Lazy Loading
+Optimized Queries
+Scalability
+Modular Architecture
+Service-Based Structure
+Deployment
+Production Ready Build
+Environment Management
+Backup Strategy
+
+FINAL DELIVERABLES
+Frontend Admin Panel
+Backend APIs
+Database Design
+Role Permission System
+Notification Engine
+Wallet System
+Booking Engine
+Reporting System
+Deployment Setup
+Technical Documentation
