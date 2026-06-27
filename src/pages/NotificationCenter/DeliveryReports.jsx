@@ -251,7 +251,7 @@ export default function DeliveryReports({ activeTab = 'Notification Center' }) {
             </div>
 
             <div style={{ overflowX: 'auto', flex: 1 }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left', minWidth: '600px' }}>
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left', minWidth: '600px' }}>
                 <thead>
                   <tr style={{ background: 'var(--soft)', borderBottom: '1px solid var(--line)' }}>
                     <th style={{ padding: '12px 16px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase', fontSize: '10px' }}>Recipient</th>
@@ -352,7 +352,7 @@ export default function DeliveryReports({ activeTab = 'Notification Center' }) {
                     </tr>
                   )}
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
             {/* Footer / Pagination info */}

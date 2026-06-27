@@ -92,7 +92,7 @@ export default function CampaignListing() {
         {/* ================= CAMPAIGNS TABLE ================= */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500">
                   <th className="p-4 w-12 text-center">
@@ -256,7 +256,7 @@ export default function CampaignListing() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Pagination Footer */}

@@ -161,7 +161,7 @@ export default function PartnerReports() {
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
                   {['Partner Name', 'Type', 'Region', 'Health Score', 'Uptime', 'SLA Status'].map(col => (
@@ -207,7 +207,7 @@ export default function PartnerReports() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Pagination */}

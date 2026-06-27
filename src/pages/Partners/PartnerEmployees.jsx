@@ -143,7 +143,7 @@ export default function PartnerEmployees() {
 
   </div>
 
-  <table className="w-full">
+  <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
 
     <thead className="bg-slate-50">
 
@@ -215,7 +215,7 @@ export default function PartnerEmployees() {
 
     </tbody>
 
-  </table>
+  </table></div>
 
 </div>
 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

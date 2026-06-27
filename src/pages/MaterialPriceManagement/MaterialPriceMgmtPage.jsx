@@ -160,7 +160,7 @@ export default function MaterialPriceMgmtPage() {
 
         {/* Table */}
         <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
             <thead>
               <tr className="custom-table-header">
                 <th style={{ padding: '16px 24px' }}>MATERIAL ID</th>
@@ -217,7 +217,7 @@ export default function MaterialPriceMgmtPage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
       </div>

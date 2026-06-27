@@ -107,7 +107,7 @@ export default function FraudDetectionPage() {
               </button>
             </div>
 
-            <table className="w-full text-sm">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-sm">
               <thead className="text-left text-gray-500 border-b">
                 <tr>
                   <th className="py-2">Entity</th>
@@ -165,7 +165,7 @@ export default function FraudDetectionPage() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* RIGHT PANEL */}

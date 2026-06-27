@@ -332,7 +332,7 @@ export default function ServiceAreas({ mode = 'areas' }) {
           </div>
 
           <div className="table-wrap">
-            <table className="partner-table">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
               <thead>
                 <tr>
                   <th>AREA ID</th>
@@ -373,7 +373,7 @@ export default function ServiceAreas({ mode = 'areas' }) {
                   <td><button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}><Settings size={14} /></button></td>
                 </tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
         </section>
 

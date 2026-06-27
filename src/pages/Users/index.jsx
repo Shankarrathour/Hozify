@@ -228,7 +228,7 @@ export default function Users() {
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <table className="materio-table">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="materio-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -304,7 +304,7 @@ export default function Users() {
                   )
                 })}
               </tbody>
-            </table>
+            </table></div>
           </div>
           
           <div style={{ padding: '16px 24px', borderTop: '1px solid var(--materio-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

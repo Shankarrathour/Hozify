@@ -217,7 +217,7 @@ export default function BSPPartners() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/30 text-xs font-bold uppercase tracking-wider text-slate-400">
                   <th className="px-6 py-4">Business</th>
@@ -262,7 +262,7 @@ export default function BSPPartners() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           <div className="border-t border-slate-100 px-6 py-4 flex items-center justify-between text-xs text-slate-400">

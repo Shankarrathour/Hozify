@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function Toggle({ checked, onChange, disabled = false, label = '' }) {
+export default function Toggle({ checked, onChange, disabled = false, label = '', defaultChecked = false }) {
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
+  
+  const isControlled = checked !== undefined;
+  const isChecked = isControlled ? checked : internalChecked;
+
+  const handleClick = () => {
+    if (disabled) return;
+    if (!isControlled) {
+      setInternalChecked(!isChecked);
+    }
+    if (onChange) {
+      onChange(!isChecked);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       <div 
-        onClick={() => !disabled && onChange(!checked)}
+        onClick={handleClick}
         style={{
           width: '40px',
           height: '22px',
-          background: checked ? '#4f46e5' : '#e2e8f0',
+          background: isChecked ? '#4f46e5' : '#e2e8f0',
           borderRadius: '11px',
           position: 'relative',
           cursor: disabled ? 'not-allowed' : 'pointer',
@@ -24,7 +39,7 @@ export default function Toggle({ checked, onChange, disabled = false, label = ''
             borderRadius: '50%',
             position: 'absolute',
             top: '2px',
-            left: checked ? '20px' : '2px',
+            left: isChecked ? '20px' : '2px',
             boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
             transition: 'left 0.2s ease'
           }}

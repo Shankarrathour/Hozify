@@ -98,7 +98,7 @@ export default function CampaignReportPage() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="text-gray-400 border-b border-gray-100 uppercase text-[10px] font-bold tracking-wider">
                     <th className="pb-3 pl-2">Campaign Name</th>
@@ -167,7 +167,7 @@ export default function CampaignReportPage() {
                     <td className="py-4 text-right pr-2 font-bold text-slate-900">7.4x</td>
                   </tr>
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 

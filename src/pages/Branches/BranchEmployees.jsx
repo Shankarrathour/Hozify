@@ -150,7 +150,7 @@ export default function BranchEmployees() {
           </div>
 
           <div className="table-wrap">
-            <table className="partner-table">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
               <thead>
                 <tr>
                   <th>EMPLOYEE</th>
@@ -202,7 +202,7 @@ export default function BranchEmployees() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
 
             {filteredEmployees.length === 0 && (
               <div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>

@@ -167,7 +167,7 @@ export default function QRManagementPage() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs md:text-sm">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse text-xs md:text-sm">
               <thead>
                 <tr className="bg-[#f5f7fc] text-gray-400 uppercase text-[10px] font-bold tracking-wider border-b border-gray-200">
                   <th className="p-4 pl-6">Campaign Name</th>
@@ -212,7 +212,7 @@ export default function QRManagementPage() {
                   <td className="p-4 text-center pr-6 font-bold text-gray-400 cursor-pointer hover:text-gray-600">•••</td>
                 </tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

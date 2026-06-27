@@ -50,7 +50,7 @@ export default function CouponManagementPage() {
 
             {/* DATA TABLE */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs md:text-sm border-collapse">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs md:text-sm border-collapse">
                 <thead className="bg-[#fcfdfe] border-b border-gray-200 text-gray-500 font-medium">
                   <tr>
                     <th className="p-4">Coupon Code</th>
@@ -127,7 +127,7 @@ export default function CouponManagementPage() {
                     <td className="p-4 text-center font-bold text-gray-400 cursor-pointer hover:text-gray-600">•••</td>
                   </tr>
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
             {/* TABLE PAGINATION */}

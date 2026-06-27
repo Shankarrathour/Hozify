@@ -146,7 +146,7 @@ export default function PartnerAuditLogs() {
             </h2>
           </div>
 
-          <table className="w-full">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
             <thead className="bg-slate-100">
               <tr>
                 <th className="px-6 py-4 text-left">User</th>
@@ -174,7 +174,7 @@ export default function PartnerAuditLogs() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
 
         </div>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">

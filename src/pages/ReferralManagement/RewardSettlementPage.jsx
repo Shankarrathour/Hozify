@@ -174,7 +174,7 @@ export default function RewardSettlementsPage() {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full min-w-[1200px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[1200px]">
 
               <thead className="bg-slate-100">
                 <tr className="text-left text-xs uppercase text-slate-600">
@@ -256,7 +256,7 @@ export default function RewardSettlementsPage() {
                 ))}
 
               </tbody>
-            </table>
+            </table></div>
 
           </div>
                     <div className="flex justify-between items-center p-4 border-t border-slate-200 bg-slate-50">

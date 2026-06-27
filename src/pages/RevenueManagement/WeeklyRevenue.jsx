@@ -164,7 +164,7 @@ export default function WeeklyRevenue() {
             </h3>
           </div>
 
-          <table className="w-full">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
 
             <thead>
               <tr className="bg-slate-50 text-left">
@@ -202,7 +202,7 @@ export default function WeeklyRevenue() {
 
             </tbody>
 
-          </table>
+          </table></div>
 
         </div>
 

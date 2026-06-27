@@ -122,7 +122,7 @@ export default function InvestigationPage() {
 
           {/* TABLE */}
           <div className="overflow-x-auto">
-            <table className="w-full text-sm min-w-[700px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-sm min-w-[700px]">
 
               <thead className="text-left text-gray-500 border-b">
                 <tr>
@@ -222,7 +222,7 @@ export default function InvestigationPage() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

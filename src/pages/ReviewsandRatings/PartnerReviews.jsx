@@ -215,7 +215,7 @@ export default function PartnerReviews() {
 
           {/* Interactive Core Table Matrix Frame Layout */}
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50/70 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                   <th className="px-6 py-4">Partner</th>
@@ -306,7 +306,7 @@ export default function PartnerReviews() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Footer: Dynamic Items per page selection and pagination links */}

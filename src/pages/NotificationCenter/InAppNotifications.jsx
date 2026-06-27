@@ -254,7 +254,7 @@ export default function InAppNotifications({ activeTab = 'Notification Center' }
           </div>
 
           <div className="table-wrap">
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
               <thead>
                 <tr style={{ background: 'var(--soft)', borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '12px 16px', width: '40px' }}>
@@ -327,7 +327,7 @@ export default function InAppNotifications({ activeTab = 'Notification Center' }
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>

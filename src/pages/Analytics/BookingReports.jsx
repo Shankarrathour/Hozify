@@ -182,7 +182,7 @@ export default function BookingReports() {
                 </div>
               </div>
               <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                   <thead>
                     <tr style={{ borderBottom: '1.5px solid #f1f5f9' }}>
                       {['Booking ID', 'Customer', 'Service Type', 'Status', 'Date', 'Revenue'].map(col => (
@@ -209,7 +209,7 @@ export default function BookingReports() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </table></div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid #f1f5f9' }}>
                 <span style={{ fontSize: '12px', color: '#94a3b8' }}>Previous</span>

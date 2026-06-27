@@ -586,7 +586,7 @@ export default function FeaturedManagement() {
             </div>
 
             <div className="table-wrap">
-              <table className="approval-queue-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
                 <thead>
                   <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--line)' }}>
                     <th style={{ padding: '10px 8px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase', fontSize: '10px' }}>Service Name</th>
@@ -652,7 +652,7 @@ export default function FeaturedManagement() {
                     );
                   })}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 

@@ -28,10 +28,10 @@ export default function CommissionSettings() {
             </p>
           </div>
           <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
-            <button type="button" style={{ padding: '0 20px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="button" style={{ padding: '0 20px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
               Discard Changes
             </button>
-            <button type="button" style={{ padding: '0 24px', height: '40px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="button" style={{ padding: '0 24px', height: '40px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
               Save Structures
             </button>
           </div>
@@ -121,13 +121,13 @@ export default function CommissionSettings() {
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '28px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Category-Level Overrides</h2>
-                <button type="button" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer', padding: 0 }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="button" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer', padding: 0 }}>
                   <Plus size={16} /> Add Category Rule
                 </button>
               </div>
 
               <div style={{ border: '1px solid #e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                       <th style={{ padding: '16px', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Category Name</th>
@@ -178,7 +178,7 @@ export default function CommissionSettings() {
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table></div>
                 <div style={{ padding: '16px', textAlign: 'center', borderTop: '1px solid #e2e8f0', background: '#fafafa' }}>
                   <a href="#" style={{ fontSize: '12px', fontWeight: '700', color: 'var(--muted)', textDecoration: 'none' }}>View All 42 Categories</a>
                 </div>

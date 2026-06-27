@@ -188,7 +188,7 @@ export default function UserReviewsPage() {
                 </h3>
               </div>
 
-              <table className="w-full">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
                 <thead>
                   <tr className="bg-slate-50 text-left text-sm">
                     <th className="p-4">BOOKING ID</th>
@@ -237,7 +237,7 @@ export default function UserReviewsPage() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
 
             </div>
 

@@ -190,7 +190,7 @@ export default function PopupBannersPage() {
         {/* LIVE POPUP CAMPAIGNS OVERVIEW DATA-TABLE */}
         <div className="bg-white rounded-3xl border border-slate-400 shadow-sm p-6 space-y-4 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[850px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse min-w-[850px]">
               <thead>
                 <tr className="border-b border-slate-100 text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
                   <th className="pb-3 px-4 w-[30%]">Campaign & Preview</th>
@@ -259,7 +259,7 @@ export default function PopupBannersPage() {
                   footerText="Starts in 3d"
                 />
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* TABLE FOOTER WITH PAGINATION INTERFACE */}

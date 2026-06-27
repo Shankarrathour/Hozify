@@ -171,7 +171,7 @@ export default function WalletReportPage() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-[#f8fafd] text-gray-400 border-b border-gray-200/60 uppercase text-[9px] font-black tracking-wider">
                   <th className="py-3.5 px-6">Transaction ID</th>
@@ -280,7 +280,7 @@ export default function WalletReportPage() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Footer Pagination */}

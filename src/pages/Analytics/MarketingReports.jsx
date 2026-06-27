@@ -207,7 +207,7 @@ export default function MarketingReports() {
             </div>
             
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
                     {['Campaign Name', 'Type', 'Status', 'Impressions', 'CTR', 'ROI'].map(col => (
@@ -234,7 +234,7 @@ export default function MarketingReports() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 
@@ -274,7 +274,7 @@ export default function MarketingReports() {
               <span style={{ fontSize: '12px', fontWeight: '600', color: '#4f46e5', cursor: 'pointer' }}>View All →</span>
             </div>
             
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
                   {['Source', 'Referrals', 'CR%', 'Value'].map(col => (
@@ -297,7 +297,7 @@ export default function MarketingReports() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Anomalies Detected */}

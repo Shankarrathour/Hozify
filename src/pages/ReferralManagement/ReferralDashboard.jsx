@@ -246,7 +246,7 @@ export default function ReferralDashboard() {
           </div>
          
          <div className="overflow-x-auto">
-          <table className="w-full min-w-[900px]">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[900px]">
 
             <thead className="bg-slate-50">
 
@@ -304,7 +304,7 @@ export default function ReferralDashboard() {
 
             </tbody>
 
-          </table>
+          </table></div>
           </div>
 
         </div>

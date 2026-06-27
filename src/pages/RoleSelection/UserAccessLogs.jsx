@@ -146,7 +146,7 @@ export default function UserAccessLogs() {
            ========================================== */}
         <div className="bg-white border border-slate-200 rounded-2xl shadow-2xs overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                   <th className="p-3.5 pl-4 w-28">Log ID</th>
@@ -227,7 +227,7 @@ export default function UserAccessLogs() {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Engine Footer */}

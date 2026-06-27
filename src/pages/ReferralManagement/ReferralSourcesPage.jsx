@@ -258,7 +258,7 @@ export default function ReferralSourcesPage() {
             </div>
                         <div className="overflow-x-auto">
 
-              <table className="w-full min-w-[700px]">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[700px]">
 
                 <thead className="bg-slate-100">
 
@@ -304,7 +304,7 @@ export default function ReferralSourcesPage() {
                   ))}
 
                 </tbody>
-              </table>
+              </table></div>
 
             </div>
 

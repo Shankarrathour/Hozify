@@ -70,7 +70,7 @@ export default function SmsGatewayManagement() {
                       <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0 }}>Automatically reroute via MessageBird if Twilio latency &gt; 500ms</p>
                     </div>
                   </div>
-                  <div style={{ width: '40px', height: '24px', background: '#1e1b4b', borderRadius: '12px', padding: '2px', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', cursor: 'pointer' }}>
+                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#1e1b4b', borderRadius: '12px', padding: '2px', boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', cursor: 'pointer' }}>
                     <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%' }}></div>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export default function SmsGatewayManagement() {
                   <input type="text" value="109283746505928" readOnly style={{ width: '100%', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 12px', height: '40px', fontSize: '13px', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', background: '#f8fafc' }} />
                 </div>
 
-                <button style={{ width: '100%', height: '40px', background: '#fff', border: '1px solid #1e1b4b', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#1e1b4b', cursor: 'pointer', marginTop: 'auto' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: '#fff', border: '1px solid #1e1b4b', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#1e1b4b', cursor: 'pointer', marginTop: 'auto' }}>
                   Configure Webhooks
                 </button>
               </div>
@@ -114,7 +114,7 @@ export default function SmsGatewayManagement() {
               <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '24px', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                   <h3 style={{ fontSize: '14px', fontWeight: '700', color: 'var(--text)', margin: 0 }}>Message Templates</h3>
-                  <button style={{ background: 'none', border: 'none', fontSize: '10px', fontWeight: '800', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer', padding: 0 }}>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '10px', fontWeight: '800', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer', padding: 0 }}>
                     + New Template
                   </button>
                 </div>
@@ -181,7 +181,7 @@ export default function SmsGatewayManagement() {
                     <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16a34a' }}></span> Balance Healthy
                   </div>
                 </div>
-                <button style={{ height: '36px', padding: '0 16px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '600', color: '#fff', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '600', color: '#fff', cursor: 'pointer' }}>
                   Add Funds
                 </button>
               </div>
@@ -239,16 +239,16 @@ export default function SmsGatewayManagement() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
             <h2 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--text)', margin: 0 }}>Recent Logs</h2>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <button style={{ height: '32px', padding: '0 12px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '12px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 12px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '12px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}>
                 All Channels
               </button>
-              <button style={{ height: '32px', padding: '0 12px', background: '#fff', border: '1px solid #1e1b4b', borderRadius: '4px', fontSize: '12px', fontWeight: '600', color: '#1e1b4b', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 12px', background: '#fff', border: '1px solid #1e1b4b', borderRadius: '4px', fontSize: '12px', fontWeight: '600', color: '#1e1b4b', cursor: 'pointer' }}>
                 View All Logs
               </button>
             </div>
           </div>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
                 <th style={{ padding: '0 0 12px', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Timestamp</th>
@@ -293,7 +293,7 @@ export default function SmsGatewayManagement() {
                 <td style={{ padding: '16px 0', fontSize: '12px', color: 'var(--muted)' }}>180ms</td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
       </div>

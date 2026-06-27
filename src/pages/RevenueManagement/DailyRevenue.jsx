@@ -174,7 +174,7 @@ export default function DailyRevenue() {
             </button>
           </div>
 
-          <table className="w-full">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
 
             <thead>
               <tr className="bg-slate-50 text-xs uppercase text-slate-500">
@@ -224,7 +224,7 @@ export default function DailyRevenue() {
               ))}
             </tbody>
 
-          </table>
+          </table></div>
 
         </div>
 

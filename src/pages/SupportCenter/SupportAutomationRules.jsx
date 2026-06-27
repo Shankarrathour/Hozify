@@ -501,7 +501,7 @@ export default function SupportAutomationRules({ activeTab = 'Support Center' })
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--line)', color: 'var(--muted)' }}>
                   <th style={{ padding: '10px 12px', fontWeight: '800', fontSize: '10.5px' }}>TRIGGER RULE NAME</th>
@@ -572,7 +572,7 @@ export default function SupportAutomationRules({ activeTab = 'Support Center' })
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

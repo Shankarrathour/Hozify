@@ -160,7 +160,7 @@ export default function BranchCompliance() {
             </div>
 
             <div className="table-wrap">
-              <table className="partner-table">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
                 <thead>
                   <tr>
                     <th>BRANCH ID</th>
@@ -202,7 +202,7 @@ export default function BranchCompliance() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </section>
 

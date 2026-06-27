@@ -153,7 +153,7 @@ function MapPanel({ full }) {
 function Table({ columns, rows, actions, selectable }) {
   return (
     <div className="sos-table-wrap">
-      <table className="sos-table">
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="sos-table">
         <thead>
           <tr>
             {selectable && <th><input type="checkbox" /></th>}
@@ -170,7 +170,7 @@ function Table({ columns, rows, actions, selectable }) {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

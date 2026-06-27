@@ -325,7 +325,7 @@ export default function SupportOperationsList({ activeTab = 'Support Center', de
         {/* Tickets Queue Table */}
         <div className="panel" style={{ padding: '0', background: '#fff', overflow: 'hidden' }}>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13.5px', textAlign: 'left', minWidth: '850px' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13.5px', textAlign: 'left', minWidth: '850px' }}>
               <thead>
                 <tr style={{ background: 'var(--soft)', borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '16px 20px', width: '40px' }}>
@@ -540,7 +540,7 @@ export default function SupportOperationsList({ activeTab = 'Support Center', de
                   ))
                 )}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table pagination footer */}

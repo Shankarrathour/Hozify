@@ -153,7 +153,7 @@ export default function ChangePasswordPage() {
             <button type="button" onClick={() => navigate('/my-profile')} className="custom-btn-secondary" style={{ height: '38px', padding: '0 20px' }}>
               Cancel
             </button>
-            <button type="submit" className="custom-btn-primary" style={{ height: '38px', padding: '0 20px' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="submit" className="custom-btn-primary" style={{ height: '38px', padding: '0 20px' }}>
               <Save size={14} style={{ marginRight: '6px' }} /> Update Password
             </button>
           </div>

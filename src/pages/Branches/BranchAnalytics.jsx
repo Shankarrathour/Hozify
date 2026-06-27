@@ -244,7 +244,7 @@ export default function BranchAnalytics() {
           </div>
 
           <div className="table-wrap">
-            <table className="approval-queue-table" style={{ width: '100%', minWidth: 'auto' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table" style={{ width: '100%', minWidth: 'auto' }}>
               <thead>
                 <tr>
                   <th style={{ padding: '10px 14px', fontSize: '10px' }}>SERVICE NAME</th>
@@ -267,7 +267,7 @@ export default function BranchAnalytics() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

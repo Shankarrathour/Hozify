@@ -157,7 +157,7 @@ export default function ReferralListingPage() {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full min-w-[1000px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[1000px]">
 
               <thead className="bg-slate-100">
 
@@ -224,7 +224,7 @@ export default function ReferralListingPage() {
 
               </tbody>
 
-            </table>
+            </table></div>
 
           </div>
                     <div className="flex flex-col md:flex-row justify-between items-center p-4 border-t border-slate-200">

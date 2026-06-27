@@ -129,7 +129,7 @@ export default function PartnerReviewDashboard() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-slate-100 bg-slate-50 text-xs font-bold tracking-wider text-slate-400 uppercase">
                       <th className="px-6 py-3.5">Incident ID</th>
@@ -170,7 +170,7 @@ export default function PartnerReviewDashboard() {
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table></div>
               </div>
             </div>
 

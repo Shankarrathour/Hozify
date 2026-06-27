@@ -295,7 +295,7 @@ export default function PartnerBanking() {
 
   </div>
 
-  <table className="w-full">
+  <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
 
     <thead className="bg-slate-50">
 
@@ -377,7 +377,7 @@ export default function PartnerBanking() {
 
     </tbody>
 
-  </table>
+  </table></div>
 
 </div>
 {/* ================= INSIGHTS ================= */}

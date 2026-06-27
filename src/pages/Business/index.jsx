@@ -293,7 +293,7 @@ export default function BusinessRegistry() {
                 </div>
 
                 <div className="table-wrap">
-                  <table className="approval-queue-table">
+                  <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table">
                     <thead>
                       <tr>
                         <th>BUSINESS NAME</th>
@@ -343,7 +343,7 @@ export default function BusinessRegistry() {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table></div>
                 </div>
               </section>
             ) : (
@@ -430,7 +430,7 @@ export default function BusinessRegistry() {
 
                 {/* Table list */}
                 <div className="table-wrap">
-                  <table className="approval-queue-table">
+                  <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table">
                     <thead>
                       <tr>
                         <th style={{ width: '40px', padding: '12px 16px' }}><input type="checkbox" aria-label="Select all businesses" /></th>
@@ -518,7 +518,7 @@ export default function BusinessRegistry() {
                           </tr>
                         ))}
                     </tbody>
-                  </table>
+                  </table></div>
                 </div>
 
                 {/* Footer details */}
@@ -562,7 +562,7 @@ export default function BusinessRegistry() {
               </div>
 
               <div className="table-wrap">
-                <table className="partner-table">
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
                   <thead>
                     <tr>
                       <th style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', padding: '12px 16px' }}>BUSINESS ID</th>
@@ -616,7 +616,7 @@ export default function BusinessRegistry() {
                         </tr>
                       ))}
                   </tbody>
-                </table>
+                </table></div>
               </div>
             </section>
           </>

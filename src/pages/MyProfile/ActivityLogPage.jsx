@@ -84,7 +84,7 @@ export default function ActivityLogPage() {
 
         {/* Audit Table */}
         <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#f8fafc', borderBottom: '1px solid var(--line)' }}>
                 <th style={{ padding: '14px 20px', fontSize: '11px', fontWeight: '800', color: 'var(--text)', textTransform: 'uppercase' }}>Log ID</th>
@@ -139,7 +139,7 @@ export default function ActivityLogPage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
       </div>

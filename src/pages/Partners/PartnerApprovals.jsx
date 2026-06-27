@@ -157,7 +157,7 @@ export default function partnerApprovals() {
 
           {/* Responsive Table */}
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/70 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
                   <th className="px-6 py-3.5">Partner</th>
@@ -303,7 +303,7 @@ export default function partnerApprovals() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Pagination Controls */}

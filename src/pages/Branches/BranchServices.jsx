@@ -153,7 +153,7 @@ export default function BranchServices() {
           </div>
 
           <div className="table-wrap">
-            <table className="partner-table">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
               <thead>
                 <tr>
                   <th>SERVICE ID</th>
@@ -204,7 +204,7 @@ export default function BranchServices() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
             
             {filteredServices.length === 0 && (
               <div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>

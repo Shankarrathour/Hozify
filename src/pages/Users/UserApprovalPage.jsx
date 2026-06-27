@@ -457,7 +457,7 @@ export default function UserApprovalPage() {
 
         {/* TABLE */}
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "900px" }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: "100%", borderCollapse: "collapse", minWidth: "900px" }}>
             <thead>
               <tr style={{ background: "#f8fafc", borderBottom: "1px solid #f1f5f9" }}>
                 {["USER PROFILE", "SUBMISSION DATE", "TYPE", "DOC STATUS", "ACTIONS"].map(col => (
@@ -484,7 +484,7 @@ export default function UserApprovalPage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         {/* TABLE FOOTER */}

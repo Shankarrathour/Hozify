@@ -283,7 +283,7 @@ export default function CampaignDashboard() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[900px]">
 
               <thead className="bg-slate-100">
                 <tr>
@@ -326,7 +326,7 @@ export default function CampaignDashboard() {
 
               </tbody>
 
-            </table>
+            </table></div>
           </div>
 
           <div className="flex justify-between items-center p-5 border-t border-slate-200">

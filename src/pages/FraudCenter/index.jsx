@@ -598,7 +598,7 @@ function FraudTable({ title, rows = fraudCases, navigate, onDrawer }) {
         <button type="button"><Filter size={16} />Filter</button>
       </div>
       <div className="fraud-table-wrap">
-        <table className="fraud-table">
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="fraud-table">
           <thead>
             <tr>
               <th>Case ID</th>
@@ -628,7 +628,7 @@ function FraudTable({ title, rows = fraudCases, navigate, onDrawer }) {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </div>
       <footer className="fraud-table-foot">Showing 1-4 of 248 cases <span>1&nbsp;&nbsp;2&nbsp;&nbsp;3&nbsp;&nbsp;...&nbsp;&nbsp;62</span></footer>
     </section>
@@ -731,10 +731,10 @@ function AuditTable() {
     <section className="fraud-card wide">
       <div className="fraud-card-head"><h3>Audit Trail</h3><button>Export</button></div>
       <div className="fraud-table-wrap">
-        <table className="fraud-table">
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="fraud-table">
           <thead><tr><th>Timestamp</th><th>Actor</th><th>Event Type</th><th>Action</th><th>IP</th></tr></thead>
           <tbody>{auditLogs.map((log) => <tr key={log.time}><td>{log.time}</td><td>{log.actor}</td><td>{log.type}</td><td>{log.action}</td><td>{log.ip}</td></tr>)}</tbody>
-        </table>
+        </table></div>
       </div>
     </section>
   );
@@ -781,10 +781,10 @@ function WebhookTable() {
     <section className="fraud-card wide">
       <div className="fraud-card-head"><h3>Webhook Log</h3><button>All Events</button></div>
       <div className="fraud-table-wrap">
-        <table className="fraud-table">
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="fraud-table">
           <thead><tr><th>Timestamp</th><th>Provider</th><th>Event Type</th><th>Status</th><th>Response</th></tr></thead>
           <tbody>{integrationRows.map((row, index) => <tr key={row.provider}><td>14:2{index}:01.042</td><td>{row.provider}</td><td>{row.product}</td><td><StatusBadge status={row.response} /></td><td>View JSON</td></tr>)}</tbody>
-        </table>
+        </table></div>
       </div>
     </section>
   );

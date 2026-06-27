@@ -121,7 +121,7 @@ export default function EmployeeAuditLogs() {
             </div>
 
             <div className="table-wrap" style={{ overflowX: 'auto' }}>
-              <table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid var(--line)' }}>
                     <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Timestamp</th>
@@ -159,7 +159,7 @@ export default function EmployeeAuditLogs() {
                       </tr>
                     )}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
         </div>

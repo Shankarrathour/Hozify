@@ -135,7 +135,7 @@ export default function AuditLogs() {
 
           {/* Data Table */}
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[900px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse min-w-[900px]">
               <thead>
                 <tr className="border-b border-[#E4E4E7] bg-[#F4F4F5] text-[11px] font-bold uppercase tracking-wider text-[#71717A]">
                   <th className="py-3.5 px-5">Timestamp</th>
@@ -274,7 +274,7 @@ export default function AuditLogs() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Pagination Section Footer */}

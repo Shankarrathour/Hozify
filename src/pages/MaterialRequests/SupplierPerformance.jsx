@@ -321,7 +321,7 @@ export default function SupplierPerformance() {
           </div>
 
           <div className="table-wrap">
-            <table className="partner-table" style={{ border: 'none' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table" style={{ border: 'none' }}>
               <thead>
                 <tr style={{ background: '#f4eff8' }}>
                   <th style={{ padding: '12px 16px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textAlign: 'left', borderRadius: '6px 0 0 6px' }}>SUPPLIER NAME</th>
@@ -359,7 +359,7 @@ export default function SupplierPerformance() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Footer */}

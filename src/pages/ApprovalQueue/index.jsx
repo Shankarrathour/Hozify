@@ -166,7 +166,7 @@ export default function ApprovalQueue() {
         </div>
 
         <div className="table-wrap">
-          <table className="approval-queue-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table">
             <thead>
               <tr>
                 <th>PARTNER</th>
@@ -221,7 +221,7 @@ export default function ApprovalQueue() {
                 );
               })}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <div className="directory-table-footer">

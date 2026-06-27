@@ -164,7 +164,7 @@ export default function Settlements() {
         </div>
 
         <div className="table-wrap">
-          <table className="approval-queue-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table">
             <thead>
               <tr>
                 <th>RECIPIENT BANK</th>
@@ -229,7 +229,7 @@ export default function Settlements() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <div className="directory-table-footer">

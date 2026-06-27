@@ -142,7 +142,7 @@ export default function ComparisonHub() {
         border: '1px solid var(--line)',
         overflow: 'hidden'
       }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
           <thead>
             <tr style={{ borderBottom: '1px solid var(--line)' }}>
               <th style={{
@@ -333,7 +333,7 @@ export default function ComparisonHub() {
             </tr>
 
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       {/* Bottom Recommendation & Projection Section */}

@@ -215,7 +215,7 @@ export default function DelayMonitoring() {
           {/* DELAY TABLE MATRIX FEED */}
           <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-black tracking-wider text-slate-400 uppercase">
                     <th className="py-3 px-4">INCIDENT / JOB ID</th>
@@ -262,7 +262,7 @@ export default function DelayMonitoring() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 

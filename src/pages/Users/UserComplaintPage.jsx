@@ -135,7 +135,7 @@ export default function UserComplaintsPage() {
             </div>
           </div>
 
-          <table className="w-full">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
             <thead>
               <tr className="bg-slate-50 text-left">
                 <th className="p-4">Ticket ID</th>
@@ -204,7 +204,7 @@ export default function UserComplaintsPage() {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         {/* Support Note */}

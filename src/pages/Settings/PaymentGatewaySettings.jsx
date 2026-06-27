@@ -1,5 +1,6 @@
 import React from 'react';
 import { CreditCard, Copy, Eye, CheckCircle, HelpCircle, FileText, ToggleRight, Activity, Server } from 'lucide-react';
+import Toggle from '../../components/common/Toggle';
 import AdminShell from '../../components/layouts/AdminShell';
 
 export default function PaymentGatewaySettings() {
@@ -23,10 +24,10 @@ export default function PaymentGatewaySettings() {
             </p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button style={{ padding: '0 16px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ padding: '0 16px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <FileText size={16} /> Audit Logs
             </button>
-            <button style={{ padding: '0 16px', height: '40px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '600', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ padding: '0 16px', height: '40px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '600', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                Save All Changes
             </button>
           </div>
@@ -51,7 +52,7 @@ export default function PaymentGatewaySettings() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span style={{ fontSize: '13px', color: 'var(--text)', fontWeight: '500' }}>Live Mode</span>
-                  <ToggleRight size={32} color="#1e1b4b" fill="#1e1b4b" strokeWidth={1} style={{ cursor: 'pointer' }} />
+                  <Toggle defaultChecked={true} />
                 </div>
               </div>
 
@@ -78,7 +79,7 @@ export default function PaymentGatewaySettings() {
                   <div style={{ flex: 1, border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 12px', height: '40px', background: '#f8fafc', display: 'flex', alignItems: 'center' }}>
                     <input type="text" value="https://api.reportingengine.io/v1/webhooks/stripe" readOnly style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none', fontSize: '13px', color: 'var(--text)', fontFamily: 'monospace' }} />
                   </div>
-                  <button style={{ height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', cursor: 'pointer', color: '#64748b' }}>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', cursor: 'pointer', color: '#64748b' }}>
                     <Copy size={16} />
                   </button>
                 </div>
@@ -116,7 +117,7 @@ export default function PaymentGatewaySettings() {
                 </div>
               </div>
 
-              <button style={{ width: '100%', height: '40px', background: '#3730a3', border: 'none', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer', marginTop: '24px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.target.style.background = '#4338ca'} onMouseLeave={(e) => e.target.style.background = '#3730a3'}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: '#3730a3', border: 'none', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer', marginTop: '24px', transition: 'background 0.2s' }} onMouseEnter={(e) => e.target.style.background = '#4338ca'} onMouseLeave={(e) => e.target.style.background = '#3730a3'}>
                 Refresh Diagnostics
               </button>
             </div>
@@ -152,7 +153,7 @@ export default function PaymentGatewaySettings() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#16a34a', fontSize: '13px', fontWeight: '600' }}>
                   <CheckCircle size={16} /> Verified credentials
                 </div>
-                <button style={{ background: 'none', border: 'none', color: 'var(--text)', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: 'var(--text)', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
                   Re-configure
                 </button>
               </div>
@@ -181,7 +182,7 @@ export default function PaymentGatewaySettings() {
               </div>
 
               <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
-                 <button style={{ width: '100%', height: '40px', background: '#fff', border: '1px solid #1e1b4b', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#1e1b4b', cursor: 'pointer', transition: 'background 0.2s' }} onMouseEnter={(e) => e.target.style.background = '#f8fafc'} onMouseLeave={(e) => e.target.style.background = '#fff'}>
+                 <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: '#fff', border: '1px solid #1e1b4b', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#1e1b4b', cursor: 'pointer', transition: 'background 0.2s' }} onMouseEnter={(e) => e.target.style.background = '#f8fafc'} onMouseLeave={(e) => e.target.style.background = '#fff'}>
                    Connect Razorpay
                  </button>
               </div>
@@ -200,7 +201,7 @@ export default function PaymentGatewaySettings() {
                 <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0, maxWidth: '600px', lineHeight: '1.5' }}>Read our comprehensive guide on securing your endpoint secrets and handling asynchronous event notifications efficiently.</p>
               </div>
             </div>
-            <button style={{ padding: '0 20px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer', transition: 'background 0.2s' }} onMouseEnter={(e) => e.target.style.background = '#f1f5f9'} onMouseLeave={(e) => e.target.style.background = '#fff'}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ padding: '0 20px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer', transition: 'background 0.2s' }} onMouseEnter={(e) => e.target.style.background = '#f1f5f9'} onMouseLeave={(e) => e.target.style.background = '#fff'}>
               Documentation
             </button>
           </div>

@@ -260,7 +260,7 @@ export default function GeofenceLogs() {
            ========================================== */}
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200 text-slate-400 font-black uppercase tracking-wider text-[10px]">
                   <th className="py-3 px-4 flex items-center gap-1">Log ID <ArrowUpDown className="h-3 w-3" /></th>
@@ -330,7 +330,7 @@ export default function GeofenceLogs() {
                   </tr>
                 )}
               </tbody>
-            </table>
+            </table></div>
           </div>
           
           <div className="p-3 bg-slate-50 border-t border-slate-100 text-[11px] font-bold text-slate-400 text-right">

@@ -25,7 +25,7 @@ export default function SystemBackupMaintenance() {
               Configure automated redundancy and system availability protocols.
             </p>
           </div>
-          <button style={{ height: '40px', padding: '0 20px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 20px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Play size={14} fill="#fff" /> Trigger Manual Backup
           </button>
         </div>
@@ -69,24 +69,24 @@ export default function SystemBackupMaintenance() {
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Frequency</label>
                 <div style={{ display: 'flex', border: '1px solid #e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
-                  <button style={{ flex: 1, height: '36px', background: '#312e81', border: 'none', color: '#fff', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Daily</button>
-                  <button style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Weekly</button>
-                  <button style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Monthly</button>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#312e81', border: 'none', color: '#fff', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Daily</button>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Weekly</button>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Monthly</button>
                 </div>
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Retention Policy</label>
                 <div style={{ display: 'flex', alignItems: 'center', height: '36px', gap: '20px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>7 DAYS</span>
-                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', borderBottom: '1px solid #0f172a', paddingBottom: '2px' }}>30 DAYS DEFAULT</span>
-                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>90 DAYS</span>
+                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>7 DAYS</span>
+                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', borderBottom: '1px solid #0f172a', paddingBottom: '2px' }}>30 DAYS DEFAULT</span>
+                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>90 DAYS</span>
                 </div>
               </div>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '24px' }}>
               <span style={{ fontSize: '12px', color: '#64748b' }}>Last successful sync: <span style={{ color: '#0f172a', fontWeight: '600' }}>2 hours ago</span></span>
-              <button style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                 Update Credentials
               </button>
             </div>
@@ -106,7 +106,7 @@ export default function SystemBackupMaintenance() {
                 <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 2px' }}>System Status</h4>
                 <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>All systems operational</p>
               </div>
-              <div style={{ width: '40px', height: '24px', background: '#cbd5e1', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-start', cursor: 'pointer' }}>
+              <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#cbd5e1', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-start', cursor: 'pointer' }}>
                 <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function SystemBackupMaintenance() {
               <span style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>REQUIRES ADMIN 2FA CONFIRMATION</span>
             </div>
 
-            <button style={{ width: '100%', height: '40px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
               Save Maintenance State
             </button>
           </div>
@@ -139,13 +139,13 @@ export default function SystemBackupMaintenance() {
                 <Search size={14} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '11px' }} />
                 <input type="text" placeholder="Search points..." style={{ height: '36px', width: '240px', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 12px 0 32px', fontSize: '12px', outline: 'none' }} />
               </div>
-              <button style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Filter size={14} /> Filter
               </button>
             </div>
           </div>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                 <th style={{ padding: '16px 24px', fontSize: '10px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>ID</th>
@@ -172,7 +172,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -195,7 +195,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -218,7 +218,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -241,7 +241,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px', opacity: 0.5 }}>
-                    <button style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'not-allowed' }} />
@@ -249,7 +249,7 @@ export default function SystemBackupMaintenance() {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
 
       </div>

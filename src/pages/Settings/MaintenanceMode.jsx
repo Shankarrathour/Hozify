@@ -39,7 +39,7 @@ export default function MaintenanceMode() {
               <h4 style={{ fontSize: '14px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Current System Status</h4>
               <p style={{ fontSize: '12px', color: '#16a34a', margin: 0, fontWeight: '600' }}>All systems operational (Live)</p>
             </div>
-            <div style={{ width: '56px', height: '32px', background: '#e2e8f0', borderRadius: '16px', display: 'flex', alignItems: 'center', padding: '3px', boxSizing: 'border-box', justifyContent: 'flex-start', cursor: 'pointer', transition: 'all 0.2s' }}>
+            <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '56px', height: '32px', background: '#e2e8f0', borderRadius: '16px', display: 'flex', alignItems: 'center', padding: '3px', boxSizing: 'border-box', justifyContent: 'flex-start', cursor: 'pointer', transition: 'all 0.2s' }}>
               <div style={{ width: '26px', height: '26px', background: '#fff', borderRadius: '50%', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></div>
             </div>
           </div>
@@ -59,10 +59,10 @@ export default function MaintenanceMode() {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
-            <button style={{ height: '44px', padding: '0 24px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', fontWeight: '700', color: '#475569', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '44px', padding: '0 24px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', fontWeight: '700', color: '#475569', cursor: 'pointer' }}>
               Discard Changes
             </button>
-            <button style={{ height: '44px', padding: '0 32px', background: '#312e81', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '44px', padding: '0 32px', background: '#312e81', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
               Save Maintenance State
             </button>
           </div>

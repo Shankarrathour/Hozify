@@ -249,7 +249,7 @@ export default function PartnerFraudMonitoring() {
 
   <div className="overflow-x-auto">
 
-    <table className="w-full">
+    <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
 
       <thead className="bg-slate-50">
         <tr className="text-left text-sm text-slate-500">
@@ -363,7 +363,7 @@ export default function PartnerFraudMonitoring() {
 
       </tbody>
 
-    </table>
+    </table></div>
 
   </div>
 

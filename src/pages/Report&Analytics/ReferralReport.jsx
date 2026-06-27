@@ -139,7 +139,7 @@ export default function ReferralReport() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="text-gray-400 border-b border-gray-100 uppercase text-[10px] font-bold tracking-wider">
                     <th className="pb-3 pl-2">Source</th>
@@ -190,7 +190,7 @@ export default function ReferralReport() {
                     <td className="py-3.5 text-right pr-2 font-bold text-slate-900">$4,120</td>
                   </tr>
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 

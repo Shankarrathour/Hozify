@@ -160,7 +160,7 @@ export default function ServiceSubCategories({ onAddSubCategory }) {
         </div>
 
         <div className="table-wrap">
-          <table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead style={{ background: '#f8fafc' }}>
               <tr>
                 <th style={{ padding: '14px 24px', fontSize: '11px', color: '#64748b', fontWeight: '800', textAlign: 'left' }}>SUB CATEGORY INFO</th>
@@ -216,7 +216,7 @@ export default function ServiceSubCategories({ onAddSubCategory }) {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
 
           {filteredSubCategories.length === 0 && (
             <div style={{ padding: '60px', textAlign: 'center' }}>

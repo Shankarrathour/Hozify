@@ -64,7 +64,7 @@ export default function GoogleMapsApiIntegration() {
                     <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Enable address resolution and reverse geocoding</p>
                   </div>
                 </div>
-                <div style={{ width: '40px', height: '24px', background: '#09090b', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
+                <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#09090b', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
                   <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%' }}></div>
                 </div>
               </div>
@@ -93,10 +93,10 @@ export default function GoogleMapsApiIntegration() {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-                <button style={{ height: '40px', padding: '0 20px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 20px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', cursor: 'pointer' }}>
                   Send Test Query
                 </button>
-                <button style={{ height: '40px', padding: '0 24px', background: '#09090b', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 24px', background: '#09090b', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
                   Update Provider
                 </button>
               </div>
@@ -114,7 +114,7 @@ export default function GoogleMapsApiIntegration() {
                   <ImageIcon size={16} color="#0f172a" />
                   <span style={{ fontSize: '12px', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>VISUAL PREVIEW</span>
                 </div>
-                <button style={{ background: 'none', border: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                   <Maximize size={12} /> Expand
                 </button>
               </div>
@@ -206,7 +206,7 @@ export default function GoogleMapsApiIntegration() {
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)', position: 'relative' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <span style={{ fontSize: '12px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>SYSTEM LOGS</span>
-                <button style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                   View All
                 </button>
               </div>
@@ -227,7 +227,7 @@ export default function GoogleMapsApiIntegration() {
               </div>
 
               {/* Overlapping Help Button */}
-              <div style={{ position: 'absolute', bottom: '-16px', right: '-16px', width: '48px', height: '48px', background: '#09090b', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
+              <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ position: 'absolute', bottom: '-16px', right: '-16px', width: '48px', height: '48px', background: '#09090b', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
                 <HelpCircle size={24} color="#fff" />
               </div>
             </div>

@@ -137,7 +137,7 @@ export default function BlockedUsersPage() {
         </div>
 
         <div className="table-wrap blocked-users-table-wrap">
-          <table className="partner-table user-management-table blocked-users-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table user-management-table blocked-users-table">
             <thead>
               <tr>
                 <th>NAME</th>
@@ -199,7 +199,7 @@ export default function BlockedUsersPage() {
                 );
               })}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <div className="directory-table-footer">

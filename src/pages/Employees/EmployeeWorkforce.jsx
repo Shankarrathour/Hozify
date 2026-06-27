@@ -181,7 +181,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
       {/* Directory Table Panel */}
       <section className="panel partner-directory-panel" style={{ marginBottom: '24px' }}>
         <div className="table-wrap">
-          <table className="partner-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
             <thead>
               <tr>
                 <th>EMPLOYEE ID</th>
@@ -282,7 +282,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         {/* Pager Footer */}

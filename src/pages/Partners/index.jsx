@@ -213,7 +213,7 @@ export default function Partners() {
         </div>
 
         <div className="table-wrap">
-          <table className="partner-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
             <thead>
               <tr>
                 <th>PARTNER ID</th>
@@ -274,7 +274,7 @@ export default function Partners() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <div className="directory-table-footer">

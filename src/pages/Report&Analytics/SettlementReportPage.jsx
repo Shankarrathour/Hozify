@@ -196,7 +196,7 @@ export default function SettlementReport() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-[#f8fafd] text-gray-400 uppercase text-[10px] font-bold tracking-wider border-b border-gray-200">
                   <th className="p-4 pl-6 font-semibold">Settlement ID</th>
@@ -241,7 +241,7 @@ export default function SettlementReport() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Footer Pagination Layout */}

@@ -156,7 +156,7 @@ export default function RewardApprovalQueuePage() {
 
           <div className="overflow-x-auto">
 
-            <table className="w-full min-w-[1100px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[1100px]">
 
               <thead className="bg-slate-100">
                 <tr className="text-left text-xs uppercase text-slate-600">
@@ -255,7 +255,7 @@ export default function RewardApprovalQueuePage() {
                 ))}
 
               </tbody>
-            </table>
+            </table></div>
 
           </div>
 

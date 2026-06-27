@@ -866,8 +866,45 @@ button.secondary-action-btn:hover,
 .global-content {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
   padding: 0 24px 24px;
+}
+
+.global-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.global-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.global-content::-webkit-scrollbar-thumb {
+  background: rgba(37, 16, 143, 0.2);
+  border-radius: 99px;
+}
+
+.global-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(37, 16, 143, 0.4);
+}
+
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-responsive::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.table-responsive::-webkit-scrollbar-track {
+  background: transparent;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(37, 16, 143, 0.15);
+  border-radius: 99px;
 }
 
 @media (max-width: 1024px) {

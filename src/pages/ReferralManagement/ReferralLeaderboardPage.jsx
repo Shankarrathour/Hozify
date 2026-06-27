@@ -142,7 +142,7 @@ export default function ReferralLeaderboardPage() {
           </div>
 
           {/* table */}
-          <table className="w-full text-base">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-base">
             <thead className="bg-slate-100 text-left text-sm">
               <tr>
                 <th className="p-4">Rank</th>
@@ -168,7 +168,7 @@ export default function ReferralLeaderboardPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
 
         </div>
       </div>

@@ -24,7 +24,7 @@ export default function SystemAuditLogs() {
               Comprehensive immutable record of all system-level activities and security events.
             </p>
           </div>
-          <button style={{ height: '40px', padding: '0 20px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 20px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
             <Download size={14} /> Export CSV
           </button>
         </div>
@@ -33,12 +33,12 @@ export default function SystemAuditLogs() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div style={{ display: 'flex', background: '#f1f5f9', borderRadius: '8px', padding: '4px' }}>
-              <button style={{ height: '32px', padding: '0 16px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>All Logs</button>
-              <button style={{ height: '32px', padding: '0 16px', background: 'transparent', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: '#475569', cursor: 'pointer' }}>Errors</button>
-              <button style={{ height: '32px', padding: '0 16px', background: 'transparent', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: '#475569', cursor: 'pointer' }}>Security</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 16px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>All Logs</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 16px', background: 'transparent', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: '#475569', cursor: 'pointer' }}>Errors</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 16px', background: 'transparent', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: '#475569', cursor: 'pointer' }}>Security</button>
             </div>
             
-            <button style={{ height: '40px', padding: '0 16px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '12px', fontWeight: '600', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '12px', fontWeight: '600', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <Calendar size={14} /> Last 24 Hours
             </button>
           </div>
@@ -56,7 +56,7 @@ export default function SystemAuditLogs() {
         {/* Main Table Container */}
         <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)', marginBottom: '24px', overflow: 'hidden' }}>
           
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                 <th style={{ padding: '16px 24px', fontSize: '10px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>TIMESTAMP</th>
@@ -203,21 +203,21 @@ export default function SystemAuditLogs() {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table></div>
 
           {/* Pagination Footer */}
           <div style={{ padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #e2e8f0', background: '#fff' }}>
             <span style={{ fontSize: '12px', color: '#475569' }}>Showing <b>1</b> to <b>5</b> of <b>12,402</b> logs</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <button style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#cbd5e1', cursor: 'not-allowed' }}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#cbd5e1', cursor: 'not-allowed' }}>
                 <ChevronLeft size={14} />
               </button>
-              <button style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', border: 'none', borderRadius: '6px', color: '#fff', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>1</button>
-              <button style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>2</button>
-              <button style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>3</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f172a', border: 'none', borderRadius: '6px', color: '#fff', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>1</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>2</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>3</button>
               <span style={{ color: '#94a3b8', fontSize: '12px', margin: '0 4px' }}>...</span>
-              <button style={{ padding: '0 8px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>2481</button>
-              <button style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ padding: '0 8px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}>2481</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', color: '#475569', cursor: 'pointer' }}>
                 <ChevronRight size={14} />
               </button>
             </div>

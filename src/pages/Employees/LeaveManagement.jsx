@@ -90,7 +90,7 @@ export default function LeaveManagement() {
         </div>
 
         <div className="table-wrap">
-          <table className="partner-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
             <thead>
               <tr>
                 <th>EMPLOYEE</th>
@@ -161,7 +161,7 @@ export default function LeaveManagement() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         <div className="directory-table-footer">

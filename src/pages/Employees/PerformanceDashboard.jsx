@@ -198,7 +198,7 @@ export default function PerformanceDashboard() {
           </div>
 
           <div className="table-wrap" style={{ border: '1px solid #e1dce8', borderRadius: '8px', overflow: 'hidden' }}>
-            <table className="approval-queue-table" style={{ width: '100%', minWidth: 'auto' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table" style={{ width: '100%', minWidth: 'auto' }}>
               <thead>
                 <tr>
                   <th style={{ padding: '10px 14px', fontSize: '10px' }}>EMPLOYEE</th>
@@ -232,7 +232,7 @@ export default function PerformanceDashboard() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 
@@ -249,7 +249,7 @@ export default function PerformanceDashboard() {
           </div>
 
           <div className="table-wrap" style={{ border: '1px solid #e1dce8', borderRadius: '8px', overflow: 'hidden' }}>
-            <table className="approval-queue-table" style={{ width: '100%', minWidth: 'auto' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table" style={{ width: '100%', minWidth: 'auto' }}>
               <thead>
                 <tr>
                   <th style={{ padding: '10px 14px', fontSize: '10px' }}>EMPLOYEE</th>
@@ -285,7 +285,7 @@ export default function PerformanceDashboard() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

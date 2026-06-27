@@ -173,7 +173,7 @@ export default function SupplierComparison() {
         {/* Evaluation Attribute Matrix Table */}
         <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', overflow: 'hidden' }}>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
               <thead>
                 <tr style={{ background: '#f8fafc', borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '20px 24px', fontSize: '11px', fontWeight: '800', color: '#7a7688', textTransform: 'uppercase', width: '25%' }}>Evaluation Attribute</th>
@@ -299,7 +299,7 @@ export default function SupplierComparison() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

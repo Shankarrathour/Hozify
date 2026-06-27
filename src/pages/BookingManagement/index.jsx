@@ -467,7 +467,7 @@ function BookingTable({
 
   return (
     <div className="booking-table-wrap">
-      <table className="booking-table">
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="booking-table">
         <thead>
           <tr>
             <th>Booking ID</th>
@@ -508,7 +508,7 @@ function BookingTable({
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }
@@ -742,12 +742,12 @@ function RefundScreen({ bookings, onToast }) {
         <KpiCard title="Failed Refunds" value="3" icon={AlertTriangle} trend="-18%" tone="red" />
       </section>
       <div className="booking-table-wrap">
-        <table className="booking-table">
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="booking-table">
           <thead><tr><th>Booking</th><th>Customer</th><th>Amount</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody>{rows.map((row) => (
             <tr key={row.id}><td>{row.id}</td><td>{row.customer}</td><td>{money(row.amount)}</td><td>{row.refundReason}</td><td><StatusBadge tone={row.status === 'Refunded' ? 'success' : 'warning'}>{row.status}</StatusBadge></td><td><div className="booking-row-actions"><button type="button" onClick={() => onToast('Refund approved.')}>Approve</button><button type="button" onClick={() => onToast('Refund rejected.')}>Reject</button></div></td></tr>
           ))}</tbody>
-        </table>
+        </table></div>
       </div>
     </>
   );

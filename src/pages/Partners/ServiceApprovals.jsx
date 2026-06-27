@@ -168,7 +168,7 @@ export default function ServiceApprovals() {
           
           {/* DESKTOP TABLE VIEW */}
           <div className="hidden lg:block">
-            <table className="w-full text-left border-collapse table-fixed">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse table-fixed">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/70 text-[11px] font-bold tracking-wider text-slate-400 uppercase">
                   <th className="w-[24%] px-6 py-4">Partner Details</th>
@@ -255,7 +255,7 @@ export default function ServiceApprovals() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* MOBILE RESPONSIVE CARD VIEW (Anti-Horizontal Scroll) */}

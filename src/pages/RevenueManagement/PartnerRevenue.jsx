@@ -215,7 +215,7 @@ export default function PartnerRevenue() {
 
             </div>
 
-            <table className="w-full">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
 
               <thead>
                 <tr className="bg-slate-50 text-left">
@@ -250,7 +250,7 @@ export default function PartnerRevenue() {
 
               </tbody>
 
-            </table>
+            </table></div>
 
           </div>
 

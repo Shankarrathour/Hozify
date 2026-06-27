@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus, ShieldCheck, AlertTriangle, MoreVertical, Upload, CheckSquare, Square, Pencil, CheckCircle2 } from 'lucide-react';
+import Toggle from '../../components/common/Toggle';
 import AdminShell from '../../components/layouts/AdminShell';
 
 export default function TaxSettings() {
@@ -79,9 +80,7 @@ export default function TaxSettings() {
                     <p style={{ fontSize: '12px', color: 'var(--muted)', margin: 0 }}>Enable tax-free transactions between registered EU entities.</p>
                   </div>
                   {/* Toggle Switch On */}
-                  <div style={{ width: '40px', height: '22px', background: '#1e1b4b', borderRadius: '11px', position: 'relative', cursor: 'pointer', flexShrink: 0 }}>
-                    <div style={{ width: '18px', height: '18px', background: '#fff', borderRadius: '50%', position: 'absolute', top: '2px', right: '2px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-                  </div>
+                  <Toggle defaultChecked={true} />
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', border: '1px solid #e2e8f0', borderRadius: '6px' }}>
@@ -90,9 +89,7 @@ export default function TaxSettings() {
                     <p style={{ fontSize: '12px', color: 'var(--muted)', margin: 0 }}>Apply jurisdiction-specific DST for multi-national digital advertising revenue.</p>
                   </div>
                   {/* Toggle Switch Off */}
-                  <div style={{ width: '40px', height: '22px', background: '#e2e8f0', borderRadius: '11px', position: 'relative', cursor: 'pointer', flexShrink: 0 }}>
-                    <div style={{ width: '18px', height: '18px', background: '#fff', borderRadius: '50%', position: 'absolute', top: '2px', left: '2px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-                  </div>
+                  <Toggle defaultChecked={false} />
                 </div>
               </div>
             </div>
@@ -107,7 +104,7 @@ export default function TaxSettings() {
               </div>
 
               <div>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
                       <th style={{ padding: '0 0 16px', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Region</th>
@@ -148,7 +145,7 @@ export default function TaxSettings() {
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table></div>
               </div>
             </div>
 

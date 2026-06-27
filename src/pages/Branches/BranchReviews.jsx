@@ -154,7 +154,7 @@ export default function BranchReviews() {
           </div>
 
           <div className="table-wrap">
-            <table className="partner-table">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
               <thead>
                 <tr>
                   <th>DATE</th>
@@ -208,7 +208,7 @@ export default function BranchReviews() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
 
             {filteredReviews.length === 0 && (
               <div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>

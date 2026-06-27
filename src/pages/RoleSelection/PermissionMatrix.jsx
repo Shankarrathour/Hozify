@@ -247,7 +247,7 @@ export default function PermissionMatrix() {
 
             {/* Modern Minimalism Grid Framework Table */}
             <div className="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/20">
-              <table className="w-full text-left border-collapse">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50/80 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                     <th className="p-3 w-5/12">Module Architecture Scope</th>
@@ -303,7 +303,7 @@ export default function PermissionMatrix() {
                     );
                   })}
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
             {/* Table Meta Engine Logs Footer */}

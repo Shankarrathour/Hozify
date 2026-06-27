@@ -136,7 +136,7 @@ export default function BusinessTaxonomy() {
             </div>
 
             <div className="table-wrap">
-              <table className="approval-queue-table">
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="approval-queue-table">
                 <thead>
                   <tr>
                     <th>CATEGORY NAME</th>
@@ -184,7 +184,7 @@ export default function BusinessTaxonomy() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
             {/* Pagination footer */}

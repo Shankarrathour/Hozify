@@ -195,7 +195,7 @@ export default function ActiveJobs() {
            ========================================== */}
         <div className="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/70 text-[10px] font-bold text-slate-400 tracking-wider uppercase">
                   <th className="py-3 px-5">JOB ID</th>
@@ -247,7 +247,7 @@ export default function ActiveJobs() {
                   ))
                 )}
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* TABLE INTERACTIVE PAGINATION PANEL FOOTER */}

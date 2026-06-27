@@ -169,7 +169,7 @@ function Modal({ title, body, onClose }) {
 function Table({ columns, rows, renderActions, selectable = false }) {
   return (
     <div className="quote-table-wrap">
-      <table className="quote-table">
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="quote-table">
         <thead><tr>{selectable && <th><input type="checkbox" /></th>}{columns.map((c) => <th key={c.key}>{c.label}</th>)}{renderActions && <th>Actions</th>}</tr></thead>
         <tbody>
           {rows.map((row) => (
@@ -180,7 +180,7 @@ function Table({ columns, rows, renderActions, selectable = false }) {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }
@@ -319,7 +319,7 @@ function ComparisonMatrix({ compact = false, setModal = () => {} }) {
     ['Response Time', '4.2h', '2.4h', '9.4h', '3.8h'],
     ['Final Score', '84', '98', '72', '89']
   ];
-  return <><div className="quote-matrix-wrap"><table className="quote-matrix"><thead><tr><th>Key Performance Indicators</th>{['Seller A', 'Seller B', 'Seller C', 'Seller D'].map((s, i) => <th className={i === 1 ? 'winner' : ''} key={s}>{i === 1 && <span className="quote-ribbon">Recommended</span>}<span className="quote-avatar"><Star size={18} /></span><strong>{s}</strong><small>{sellers[i].type}</small></th>)}</tr></thead><tbody>{rows.map((r) => <tr key={r[0]}><td>{r[0]}</td>{r.slice(1).map((v, i) => <td className={i === 1 ? 'winner' : ''} key={i}>{v}</td>)}</tr>)}{!compact && <tr><td>Winner Recommendation</td>{['View Profile', 'Approve Seller', 'View Profile', 'View Profile'].map((v, i) => <td className={i === 1 ? 'winner' : ''} key={v + i}><Btn variant={i === 1 ? 'primary' : 'ghost'} onClick={() => i === 1 && setModal(['Approve Seller B', 'Seller B will become the winning supplier.'])}>{v}</Btn><Btn>Negotiate</Btn></td>)}</tr>}</tbody></table></div>{!compact && <section className="quote-kpi-grid three"><article className="quote-card"><h3>Optimization Hint</h3><p>Choosing Seller B could reduce procurement cycle time by 65%.</p></article><article className="quote-card"><h3>Budget Impact</h3><p>Lead offer is 4.5% below allocated budget ceiling.</p></article><article className="quote-card"><h3>Risk Assessment</h3><p>Seller C has lowest price but limited historical data.</p></article></section>}</>;
+  return <><div className="quote-matrix-wrap"><div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="quote-matrix"><thead><tr><th>Key Performance Indicators</th>{['Seller A', 'Seller B', 'Seller C', 'Seller D'].map((s, i) => <th className={i === 1 ? 'winner' : ''} key={s}>{i === 1 && <span className="quote-ribbon">Recommended</span>}<span className="quote-avatar"><Star size={18} /></span><strong>{s}</strong><small>{sellers[i].type}</small></th>)}</tr></thead><tbody>{rows.map((r) => <tr key={r[0]}><td>{r[0]}</td>{r.slice(1).map((v, i) => <td className={i === 1 ? 'winner' : ''} key={i}>{v}</td>)}</tr>)}{!compact && <tr><td>Winner Recommendation</td>{['View Profile', 'Approve Seller', 'View Profile', 'View Profile'].map((v, i) => <td className={i === 1 ? 'winner' : ''} key={v + i}><Btn variant={i === 1 ? 'primary' : 'ghost'} onClick={() => i === 1 && setModal(['Approve Seller B', 'Seller B will become the winning supplier.'])}>{v}</Btn><Btn>Negotiate</Btn></td>)}</tr>}</tbody></table></div></div>{!compact && <section className="quote-kpi-grid three"><article className="quote-card"><h3>Optimization Hint</h3><p>Choosing Seller B could reduce procurement cycle time by 65%.</p></article><article className="quote-card"><h3>Budget Impact</h3><p>Lead offer is 4.5% below allocated budget ceiling.</p></article><article className="quote-card"><h3>Risk Assessment</h3><p>Seller C has lowest price but limited historical data.</p></article></section>}</>;
 }
 
 function Winner({ setModal }) {

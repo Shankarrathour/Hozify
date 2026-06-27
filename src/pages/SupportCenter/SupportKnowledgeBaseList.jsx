@@ -400,7 +400,7 @@ export default function SupportKnowledgeBaseList({ activeTab = 'Support Center' 
 
               {/* Table ledger */}
               <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '1px solid var(--line)', color: 'var(--muted)' }}>
                       <th style={{ padding: '10px 12px', fontWeight: '800', fontSize: '10.5px' }}>ARTICLE DETAILS</th>
@@ -486,7 +486,7 @@ export default function SupportKnowledgeBaseList({ activeTab = 'Support Center' 
                       ))
                     )}
                   </tbody>
-                </table>
+                </table></div>
               </div>
             </div>
 

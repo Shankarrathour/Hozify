@@ -78,7 +78,7 @@ export default function PasswordPolicies() {
                     <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Mixed Case</h4>
                     <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0 }}>Require uppercase &<br/>lowercase</p>
                   </div>
-                  <div style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
+                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
                     <div style={{ width: '16px', height: '16px', background: '#fff', borderRadius: '50%' }}></div>
                   </div>
                 </div>
@@ -89,7 +89,7 @@ export default function PasswordPolicies() {
                     <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Special Characters</h4>
                     <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0 }}>Require symbols (!, @, #, $,<br/>etc.)</p>
                   </div>
-                  <div style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
+                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
                     <div style={{ width: '16px', height: '16px', background: '#fff', borderRadius: '50%' }}></div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export default function PasswordPolicies() {
                     <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Numeric Values</h4>
                     <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0 }}>Require at least one number</p>
                   </div>
-                  <div style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
+                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
                     <div style={{ width: '16px', height: '16px', background: '#fff', borderRadius: '50%' }}></div>
                   </div>
                 </div>
@@ -155,9 +155,9 @@ export default function PasswordPolicies() {
               </div>
 
               <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
-                <button style={{ flex: 1, height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}>30d</button>
-                <button style={{ flex: 1, height: '36px', background: '#f8fafc', border: '1px solid #0f172a', borderRadius: '6px', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>90d</button>
-                <button style={{ flex: 1, height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}>180d</button>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}>30d</button>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#f8fafc', border: '1px solid #0f172a', borderRadius: '6px', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>90d</button>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}>180d</button>
               </div>
 
               <div style={{ background: '#fff', border: '1px solid #fecaca', borderRadius: '8px', padding: '16px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
@@ -185,14 +185,14 @@ export default function PasswordPolicies() {
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '6px 12px' }}>
-              <button style={{ background: 'none', border: 'none', padding: 0, color: 'var(--muted)', cursor: 'pointer', fontWeight: '700', fontSize: '16px' }}>-</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--muted)', cursor: 'pointer', fontWeight: '700', fontSize: '16px' }}>-</button>
               <span style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', minWidth: '24px', textAlign: 'center' }}>5</span>
-              <button style={{ background: 'none', border: 'none', padding: 0, color: 'var(--muted)', cursor: 'pointer', fontWeight: '700', fontSize: '16px' }}>+</button>
+              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--muted)', cursor: 'pointer', fontWeight: '700', fontSize: '16px' }}>+</button>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', borderLeft: '1px solid #e2e8f0', paddingLeft: '48px' }}>
               <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text)', maxWidth: '120px' }}>Prevent identical match check</span>
-              <div style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
+              <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
                 <div style={{ width: '16px', height: '16px', background: '#fff', borderRadius: '50%' }}></div>
               </div>
             </div>
@@ -201,13 +201,13 @@ export default function PasswordPolicies() {
 
         {/* Action Buttons */}
         <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '24px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '16px' }}>
-          <button style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', cursor: 'pointer', marginRight: '8px' }}>
+          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', cursor: 'pointer', marginRight: '8px' }}>
             Restore Defaults
           </button>
-          <button style={{ height: '36px', padding: '0 24px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 24px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
             Cancel changes
           </button>
-          <button style={{ height: '36px', padding: '0 24px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 24px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
             Deploy Updated Policy
           </button>
         </div>

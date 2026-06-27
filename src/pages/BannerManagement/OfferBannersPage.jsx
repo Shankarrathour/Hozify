@@ -248,7 +248,7 @@ export default function OfferBannersPage() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[700px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b border-slate-100 text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
                   <th className="pb-3 px-4">Campaign Name</th>
@@ -263,7 +263,7 @@ export default function OfferBannersPage() {
                 <CampaignRow name="Holiday Special 24" id="OFF-9821" targeting="Global / Premium" reach="84.2k" ctr="8.1%" change="▲ 2%" expiry="12 Oct 2024" urgent={true} />
                 <CampaignRow name="New User Welcome" id="OFF-7712" targeting="New Accounts" reach="12.5k" ctr="15.4%" change="▲ 4%" expiry="Evergreen" urgent={false} />
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

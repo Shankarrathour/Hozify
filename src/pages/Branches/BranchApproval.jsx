@@ -143,7 +143,7 @@ export default function BranchApproval() {
         </div>
 
         <div className="table-wrap">
-          <table className="partner-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
             <thead>
               <tr>
                 <th>BRANCH</th>
@@ -222,7 +222,7 @@ export default function BranchApproval() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </div>
 
         {/* Directory Table Footer */}

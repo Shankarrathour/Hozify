@@ -195,7 +195,7 @@ export default function PenaltyManagement() {
         {/* Listing Grid */}
         <div className="panel" style={{ padding: '24px' }}>
           <div className="table-wrap">
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
               <thead>
                 <tr style={{ background: '#f4eff8', borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '12px 16px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase', fontSize: '10px' }}>Penalty ID</th>
@@ -265,7 +265,7 @@ export default function PenaltyManagement() {
                   );
                 })}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

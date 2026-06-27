@@ -94,7 +94,7 @@ export default function ExportCenterPage() {
 
           {/* Data Table Core View */}
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-[#f8fafd] text-gray-400 border-b border-gray-200/60 uppercase text-[10px] font-bold tracking-wider">
                   <th className="py-4 px-6 w-[40%]">Report Name</th>
@@ -191,7 +191,7 @@ export default function ExportCenterPage() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Pagination Navigation Footer */}

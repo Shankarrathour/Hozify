@@ -357,7 +357,7 @@ export default function SupportCommunicationsDashboard({ activeTab = 'Support Ce
 
             {/* Activities Table */}
             <div style={{ overflowX: 'auto', flex: 1 }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid var(--line)', color: 'var(--muted)' }}>
                     <th style={{ padding: '10px 12px', fontWeight: '800', fontSize: '10px' }}>CHANNEL</th>
@@ -425,7 +425,7 @@ export default function SupportCommunicationsDashboard({ activeTab = 'Support Ce
                     })
                   )}
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
             {/* Pagination Footer */}

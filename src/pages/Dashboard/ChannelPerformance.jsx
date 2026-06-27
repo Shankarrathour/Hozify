@@ -185,7 +185,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
             </div>
 
             {/* Comparison Table */}
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left', marginTop: '4px' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left', marginTop: '4px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '8px 4px', color: 'var(--muted)', fontWeight: '800' }}>METRIC</th>
@@ -210,7 +210,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
                   <td style={{ padding: '10px 4px', fontWeight: '700' }}>9.1x</td>
                 </tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Card 2: WhatsApp vs Email */}
@@ -245,7 +245,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
             </div>
 
             {/* Comparison Table */}
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left', marginTop: '4px' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left', marginTop: '4px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '8px 4px', color: 'var(--muted)', fontWeight: '800' }}>METRIC</th>
@@ -270,7 +270,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
                   <td style={{ padding: '10px 4px', fontWeight: '700' }}>22.4x</td>
                 </tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
 
         </div>
@@ -438,7 +438,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left', minWidth: '650px' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left', minWidth: '650px' }}>
               <thead>
                 <tr style={{ background: 'var(--soft)', borderBottom: '1px solid var(--line)' }}>
                   <th style={{ padding: '12px 16px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase', fontSize: '10px' }}>Channel Segment</th>
@@ -513,7 +513,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

@@ -175,7 +175,7 @@ const referrals = user.referrals.referredUsers.map((name, index) => ({
     </div>
 
   </div>
-  <table className="w-full">
+  <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
   <thead>
     <tr className="bg-slate-50 text-left">
       <th className="p-4">User</th>
@@ -217,8 +217,8 @@ const referrals = user.referrals.referredUsers.map((name, index) => ({
       </tr>
     ))}
   </tbody>
-</table>
-<table className="w-full">
+</table></div>
+<div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full">
   <thead>
     <tr className="bg-slate-50 text-left">
       <th className="p-4">User</th>
@@ -260,7 +260,7 @@ const referrals = user.referrals.referredUsers.map((name, index) => ({
       </tr>
     ))}
   </tbody>
-</table>
+</table></div>
 <div className="bg-gradient-to-r from-orange-50 to-amber-50 border rounded-xl p-6 flex justify-between items-center">
 
   <div>

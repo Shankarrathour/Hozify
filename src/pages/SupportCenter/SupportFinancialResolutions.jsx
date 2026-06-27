@@ -168,7 +168,7 @@ export default function SupportFinancialResolutions({ activeTab = 'Support Cente
               </div>
 
               <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left', minWidth: '400px' }}>
+                <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left', minWidth: '400px' }}>
                   <thead>
                     <tr style={{ background: 'var(--soft)', borderBottom: '1px solid var(--line)' }}>
                       <th style={{ padding: '10px 14px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase', fontSize: '10px' }}>Ticket ID</th>
@@ -257,7 +257,7 @@ export default function SupportFinancialResolutions({ activeTab = 'Support Cente
                       })
                     )}
                   </tbody>
-                </table>
+                </table></div>
               </div>
             </div>
 

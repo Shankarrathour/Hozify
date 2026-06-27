@@ -294,7 +294,7 @@ export default function NotificationTemplates() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left text-xs">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full border-collapse text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   <th className="px-6 py-3">Template Name</th>
@@ -354,7 +354,7 @@ export default function NotificationTemplates() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

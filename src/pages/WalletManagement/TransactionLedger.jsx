@@ -63,7 +63,7 @@ export default function TransactionLedger() {
         {/* ================= MAIN TRANSACTION LEDGER TABLE ================= */}
         <div className="bg-white rounded text-slate-800 border border-slate-200 overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200 text-[10px] font-bold uppercase tracking-wider text-slate-500">
                   <th className="px-5 py-4">Transaction ID</th>
@@ -193,7 +193,7 @@ export default function TransactionLedger() {
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           {/* Table Control Pagination Footer Block */}

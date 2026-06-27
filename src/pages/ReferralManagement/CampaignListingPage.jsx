@@ -181,7 +181,7 @@ export default function CampaignListingPage() {
         <div className="bg-white border border-slate-400 rounded-xl overflow-hidden shadow-sm mb-6">
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1000px]">
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full min-w-[1000px]">
 
               <thead className="bg-slate-100">
                 <tr className="text-left text-xs uppercase text-slate-600">
@@ -244,7 +244,7 @@ export default function CampaignListingPage() {
 
               </tbody>
 
-            </table>
+            </table></div>
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 p-4 border-t border-slate-200">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
+import Toggle from '../../components/common/Toggle';
 import AdminShell from '../../components/layouts/AdminShell';
 
 export default function PlatformConfiguration() {
@@ -35,9 +36,7 @@ export default function PlatformConfiguration() {
                   <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Disable all public-facing services for scheduled maintenance.</p>
                 </div>
                 {/* Toggle Switch Off */}
-                <div style={{ width: '40px', height: '22px', background: '#e2e8f0', borderRadius: '11px', position: 'relative', cursor: 'pointer' }}>
-                  <div style={{ width: '18px', height: '18px', background: '#fff', borderRadius: '50%', position: 'absolute', top: '2px', left: '2px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-                </div>
+                <Toggle defaultChecked={false} />
               </div>
 
               <div style={{ marginBottom: '20px' }}>
@@ -62,17 +61,13 @@ export default function PlatformConfiguration() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text)' }}>Allow New Sign-ups</span>
                   {/* Toggle Switch On */}
-                  <div style={{ width: '40px', height: '22px', background: '#1e1b4b', borderRadius: '11px', position: 'relative', cursor: 'pointer' }}>
-                    <div style={{ width: '18px', height: '18px', background: '#fff', borderRadius: '50%', position: 'absolute', top: '2px', right: '2px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-                  </div>
+                  <Toggle defaultChecked={true} />
                 </div>
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text)' }}>Email Domain Whitelist</span>
                   {/* Toggle Switch Off */}
-                  <div style={{ width: '40px', height: '22px', background: '#e2e8f0', borderRadius: '11px', position: 'relative', cursor: 'pointer' }}>
-                    <div style={{ width: '18px', height: '18px', background: '#fff', borderRadius: '50%', position: 'absolute', top: '2px', left: '2px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-                  </div>
+                  <Toggle defaultChecked={false} />
                 </div>
 
                 <div style={{ borderTop: '1px solid #e2e8f0', margin: '8px 0 0', paddingTop: '20px' }}>
@@ -192,7 +187,7 @@ export default function PlatformConfiguration() {
             </div>
             
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                     <th style={{ padding: '12px 24px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Administrator</th>
@@ -232,7 +227,7 @@ export default function PlatformConfiguration() {
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 

@@ -324,13 +324,13 @@ function DashboardSection({ metrics, setActiveSection }) {
           <div className="kyc-mini-bars">{[30, 42, 56, 71, 85, 62].map((height, index) => <i key={index} style={{ height }} />)}</div>
         </Panel>
         <Panel title="Latest Submitted KYC">
-          <table className="kyc-flow-table compact">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table compact">
             <tbody>
               {latestSubmissions.map((row) => (
                 <tr key={row[0]}><td>{row[0]}</td><td>{row[1]}</td><td><button type="button" onClick={() => setActiveSection('Review')}>{row[2]}</button></td></tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </Panel>
         <Panel title="High Risk & Escalations" action={<Badge tone="danger">21 cases</Badge>}>
           {['Vanguard Logistics Ltd', 'Ahmed Al-Farsi', 'Cryptflow LLC'].map((item, index) => (
@@ -378,7 +378,7 @@ function StatusKycSection({ title, status, profiles, query, setQuery, setActiveS
           <button type="button" onClick={() => setQuery('')}>Clear Search</button>
         </div>
         <div className="table-wrap">
-          <table className="kyc-flow-table">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table">
             <thead>
               <tr>
                 <th>KYC ID</th>
@@ -424,7 +424,7 @@ function StatusKycSection({ title, status, profiles, query, setQuery, setActiveS
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
         </div>
       </Panel>
     </>
@@ -440,7 +440,7 @@ function QueueSection({ profiles, query, setQuery, setActiveSection, updateProfi
         <button type="button"><Filter size={14} />Clear Filters</button>
       </div>
       <div className="table-wrap">
-        <table className="kyc-flow-table">
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table">
           <thead><tr><th>KYC ID</th><th>User Name</th><th>User Type</th><th>Submitted Date</th><th>Verification Type</th><th>Risk Score</th><th>Status</th><th>Reviewer</th><th>Actions</th></tr></thead>
           <tbody>
             {profiles.map((row) => (
@@ -463,7 +463,7 @@ function QueueSection({ profiles, query, setQuery, setActiveSection, updateProfi
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </div>
       <div className="kyc-flow-bottom-kpis">
         <StatCard label="Average Review Time" value="4m 12s" sub="-8%" />
@@ -608,9 +608,9 @@ function BulkSection({ profiles, selectedIds, toggleSelected, bulkUpdate }) {
     <Panel title="KYC Approval Center" action={<Badge>{selectedIds.length} Profiles Selected</Badge>}>
       <div className="kyc-flow-filters"><button type="button">Risk Level: Low</button><button type="button">Doc Type: All</button><button type="button">Batch Size: 25 Profiles</button><button type="button"><Filter size={14} />Advanced Filters</button></div>
       <div className="kyc-bulk-bar"><span>{selectedIds.length} Profiles Selected</span><button type="button" onClick={() => bulkUpdate('Approved')}>Approve Selected</button><button type="button" className="danger" onClick={() => bulkUpdate('Rejected')}>Reject Selected</button><button type="button">Assign Reviewer</button></div>
-      <table className="kyc-flow-table"><thead><tr><th></th><th>Profile</th><th>Risk Score</th><th>Documents</th><th>Verification Score</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody>
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table"><thead><tr><th></th><th>Profile</th><th>Risk Score</th><th>Documents</th><th>Verification Score</th><th>Last Updated</th><th>Actions</th></tr></thead><tbody>
         {profiles.slice(0, 5).map((row, index) => <tr key={row.id}><td><input type="checkbox" checked={selectedIds.includes(row.id)} onChange={() => toggleSelected(row.id)} /></td><td><span className="kyc-person"><i>{row.avatar}</i>{row.name}</span></td><td><Progress value={row.risk} danger={row.risk > 70} /></td><td><FileText size={18} /></td><td><Badge tone="success">{98 - index}%</Badge></td><td>{20 + index * 8} mins ago</td><td><button type="button">Review</button></td></tr>)}
-      </tbody></table>
+      </tbody></table></div>
     </Panel>
   );
 }
@@ -619,9 +619,9 @@ function ReuploadSection({ showToast }) {
   return (
     <Panel title="Reupload Requests" action={<button className="primary-action-btn" type="button" onClick={() => showToast('Bulk notification sent via email and SMS.')}><Send size={14} />Bulk Notify</button>}>
       <div className="kyc-flow-stats four"><StatCard label="Pending Reuploads" value="42" sub="+12%" /><StatCard label="Avg Response Time" value="4.2h" /><StatCard label="Blurry Image Rate" value="18%" /><StatCard label="Successful Re-submits" value="94%" tone="success" /></div>
-      <table className="kyc-flow-table"><thead><tr><th>User</th><th>Rejected Document</th><th>Reason</th><th>Request Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table"><thead><tr><th>User</th><th>Rejected Document</th><th>Reason</th><th>Request Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>
         {reuploads.map((row) => <tr key={row[0]}><td>{row[0]}</td><td>{row[1]}</td><td><Badge tone="danger">{row[2]}</Badge></td><td>{row[3]}</td><td>{row[4]}</td><td><button type="button" onClick={() => showToast(`${row[0]} notified successfully.`)}>Re-notify</button></td></tr>)}
-      </tbody></table>
+      </tbody></table></div>
     </Panel>
   );
 }
@@ -693,7 +693,7 @@ function AuditSection() {
     <>
       <Panel title="Audit Logs">
         <div className="kyc-flow-filters"><button type="button">Oct 12, 2023 - Oct 19, 2023</button><button type="button">All Reviewers</button><button type="button">All Actions</button><button type="button" className="primary"><Filter size={14} />Apply Filters</button><button type="button"><Download size={14} />Export CSV</button></div>
-        <table className="kyc-flow-table"><thead><tr><th>Timestamp</th><th>Action</th><th>Performed By</th><th>IP Address</th><th>Entity ID</th><th>Remarks</th></tr></thead><tbody>{auditRows.map((row) => <tr key={row.join('-')}>{row.map((cell, index) => <td key={index}>{index === 1 ? <Badge tone={cell.includes('REJECTED') || cell.includes('FLAG') ? 'danger' : 'neutral'}>{cell}</Badge> : cell}</td>)}</tr>)}</tbody></table>
+        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table"><thead><tr><th>Timestamp</th><th>Action</th><th>Performed By</th><th>IP Address</th><th>Entity ID</th><th>Remarks</th></tr></thead><tbody>{auditRows.map((row) => <tr key={row.join('-')}>{row.map((cell, index) => <td key={index}>{index === 1 ? <Badge tone={cell.includes('REJECTED') || cell.includes('FLAG') ? 'danger' : 'neutral'}>{cell}</Badge> : cell}</td>)}</tr>)}</tbody></table></div>
         <div className="kyc-pagination"><button type="button">‹</button><button className="active" type="button">1</button><button type="button">2</button><button type="button">3</button><span>...</span><button type="button">50</button><button type="button">›</button></div>
       </Panel>
       <div className="kyc-flow-stats three"><StatCard label="Audit Integrity" value="SHA-256 verified" /><StatCard label="Average Daily Logs" value="4,812" /><StatCard label="Critical Warnings" value="0 Issues" tone="success" /></div>
@@ -705,7 +705,7 @@ function ReviewerSection({ showToast }) {
   return (
     <Panel title="Reviewer Assignment" action={<button className="primary-action-btn" type="button" onClick={() => showToast('Load distributed across available reviewers.')}>Smart Distribute Load</button>}>
       <div className="kyc-flow-stats three"><StatCard label="Total Reviewers" value="24" tone="success" /><StatCard label="Unassigned Cases" value="142" tone="danger" /><StatCard label="Average Throughput" value="89.4 Cases / Day" /></div>
-      <table className="kyc-flow-table"><thead><tr><th>Reviewer Name</th><th>Assigned Cases</th><th>Pending</th><th>Approval/Rejection</th><th>Capacity Status</th><th>Action</th></tr></thead><tbody>{reviewerRows.map((row) => <tr key={row[0]}>{row.map((cell, index) => <td key={cell}>{index === 4 ? <Badge tone={cell === 'Critical' ? 'danger' : 'neutral'}>{cell}</Badge> : cell}</td>)}<td><button type="button" onClick={() => showToast(`${row[0]} assigned to new queue.`)}>Assign</button></td></tr>)}</tbody></table>
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table"><thead><tr><th>Reviewer Name</th><th>Assigned Cases</th><th>Pending</th><th>Approval/Rejection</th><th>Capacity Status</th><th>Action</th></tr></thead><tbody>{reviewerRows.map((row) => <tr key={row[0]}>{row.map((cell, index) => <td key={cell}>{index === 4 ? <Badge tone={cell === 'Critical' ? 'danger' : 'neutral'}>{cell}</Badge> : cell}</td>)}<td><button type="button" onClick={() => showToast(`${row[0]} assigned to new queue.`)}>Assign</button></td></tr>)}</tbody></table></div>
       <div className="kyc-load-card"><BarChart3 size={34} /><div><strong>Automated Load Balancer</strong><span>AI suggested optimal redistribution of 14 cases from overloaded reviewers.</span></div><button type="button" onClick={() => showToast('Optimization applied.')}>Apply Optimization</button></div>
     </Panel>
   );
@@ -715,7 +715,7 @@ function RejectionSection({ showToast }) {
   return (
     <Panel title="Rejection Management">
       <div className="kyc-flow-stats four"><StatCard label="Total Rejections" value="1,284" tone="danger" /><StatCard label="Restore Rate" value="4.2%" /><StatCard label="Avg Review Time" value="18m" /><StatCard label="Top Category" value="ID Expiry" /></div>
-      <table className="kyc-flow-table"><thead><tr><th>User</th><th>Reason Category</th><th>Rejection Date</th><th>Reviewer Name</th><th>Verification Score</th><th>Actions</th></tr></thead><tbody>{rejectionRows.map((row) => <tr key={row[0]}>{row.map((cell, index) => <td key={cell}>{index === 1 ? <Badge tone="danger">{cell}</Badge> : cell}</td>)}<td><button type="button" onClick={() => showToast(`Reupload requested for ${row[0]}.`)}>Request Reupload</button></td></tr>)}</tbody></table>
+      <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="kyc-flow-table"><thead><tr><th>User</th><th>Reason Category</th><th>Rejection Date</th><th>Reviewer Name</th><th>Verification Score</th><th>Actions</th></tr></thead><tbody>{rejectionRows.map((row) => <tr key={row[0]}>{row.map((cell, index) => <td key={cell}>{index === 1 ? <Badge tone="danger">{cell}</Badge> : cell}</td>)}<td><button type="button" onClick={() => showToast(`Reupload requested for ${row[0]}.`)}>Request Reupload</button></td></tr>)}</tbody></table></div>
     </Panel>
   );
 }

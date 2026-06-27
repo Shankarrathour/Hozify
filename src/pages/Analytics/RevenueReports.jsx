@@ -253,7 +253,7 @@ export default function RevenueReports() {
           </div>
           
           <div style={{ overflowX: 'auto', padding: '0 8px 8px' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr>
                   {['Entity', 'Service', 'Date', 'Amount', 'Status'].map(col => (
@@ -276,7 +276,7 @@ export default function RevenueReports() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
           </div>
         </div>
 

@@ -58,7 +58,7 @@ export default function SecuritySettings() {
                     <p style={{ fontSize: '12px', color: 'var(--muted)', margin: '0 0 24px', lineHeight: '1.6', flex: 1 }}>
                       Use apps like Google Authenticator or Microsoft Authenticator to generate verification codes.
                     </p>
-                    <button style={{ width: '100%', height: '36px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '36px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
                       Set Up App
                     </button>
                   </div>
@@ -77,7 +77,7 @@ export default function SecuritySettings() {
                     <p style={{ fontSize: '12px', color: 'var(--muted)', margin: '0 0 24px', lineHeight: '1.6', flex: 1 }}>
                       Verification codes are sent to your mobile phone via text message. Phone ending in **** 4492.
                     </p>
-                    <button style={{ width: '100%', height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
                       Change Number
                     </button>
                   </div>
@@ -92,7 +92,7 @@ export default function SecuritySettings() {
                   <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: '0 0 8px' }}>Login Sessions</h2>
                   <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Review and manage your active web and mobile sessions.</p>
                 </div>
-                <button style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #ef4444', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#ef4444', cursor: 'pointer', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px' }}>
+                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #ef4444', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#ef4444', cursor: 'pointer', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px' }}>
                   <span style={{ lineHeight: '1.2' }}>Sign out of all<br/>devices</span>
                 </button>
               </div>
@@ -119,7 +119,7 @@ export default function SecuritySettings() {
                       <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0 }}>London, UK • 2 hours ago</p>
                     </div>
                   </div>
-                  <button style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '700', color: '#ef4444', cursor: 'pointer' }}>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '700', color: '#ef4444', cursor: 'pointer' }}>
                     Revoke
                   </button>
                 </div>
@@ -133,7 +133,7 @@ export default function SecuritySettings() {
                       <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0 }}>Berlin, DE • 4 days ago</p>
                     </div>
                   </div>
-                  <button style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '700', color: '#ef4444', cursor: 'pointer' }}>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '700', color: '#ef4444', cursor: 'pointer' }}>
                     Revoke
                   </button>
                 </div>
@@ -173,7 +173,7 @@ export default function SecuritySettings() {
                   <p style={{ fontSize: '11px', color: 'var(--muted)', margin: '0 0 16px', lineHeight: '1.5' }}>
                     Generate a set of one-time codes to use if you lose access to your authenticator.
                   </p>
-                  <button style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                     Generate New Codes
                   </button>
                 </div>
@@ -187,7 +187,7 @@ export default function SecuritySettings() {
                   <p style={{ fontSize: '11px', color: 'var(--text)', margin: '0 0 16px', fontWeight: '500' }}>
                     secondary_admin@hozify.com
                   </p>
-                  <button style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                     Change Email
                   </button>
                 </div>
