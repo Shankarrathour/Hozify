@@ -4,6 +4,8 @@ import {
   Laptop, Smartphone, Monitor, Shield, ArrowRight
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
+import Toggle from '../../components/common/Toggle';
 
 export default function SessionManagement() {
   return (
@@ -110,12 +112,10 @@ export default function SessionManagement() {
                   <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Enforce MFA</h4>
                   <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Mandatory for all admin sessions</p>
                 </div>
-                <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
-                  <div style={{ width: '16px', height: '16px', background: '#fff', borderRadius: '50%' }}></div>
-                </div>
+                <Toggle defaultChecked={true} />
               </div>
 
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '44px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '800', color: '#fff', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '100%', height: '44px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '800', color: '#fff', cursor: 'pointer' }}>
                 Update Security Policy
               </button>
             </div>
@@ -128,10 +128,10 @@ export default function SessionManagement() {
           <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e2e8f0' }}>
             <h2 style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', margin: 0 }}>Live Sessions</h2>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 16px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: '#475569', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '32px', padding: '0 16px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: '#475569', cursor: 'pointer' }}>
                 Export Logs
               </button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 16px', background: '#dc2626', border: 'none', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '32px', padding: '0 16px', background: '#dc2626', border: 'none', borderRadius: '6px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
                 Revoke All
               </button>
             </div>
@@ -165,7 +165,7 @@ export default function SessionManagement() {
                 </td>
                 <td style={{ padding: '16px 24px', fontSize: '12px', color: '#334155' }}>Just now</td>
                 <td style={{ padding: '16px 24px', textAlign: 'right' }}>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
                 </td>
               </tr>
 
@@ -186,7 +186,7 @@ export default function SessionManagement() {
                 </td>
                 <td style={{ padding: '16px 24px', fontSize: '12px', color: '#334155' }}>12 mins ago</td>
                 <td style={{ padding: '16px 24px', textAlign: 'right' }}>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
                 </td>
               </tr>
 
@@ -207,7 +207,7 @@ export default function SessionManagement() {
                 </td>
                 <td style={{ padding: '16px 24px', fontSize: '12px', color: '#334155' }}>34 mins ago</td>
                 <td style={{ padding: '16px 24px', textAlign: 'right' }}>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
                 </td>
               </tr>
 
@@ -228,13 +228,13 @@ export default function SessionManagement() {
                 </td>
                 <td style={{ padding: '16px 24px', fontSize: '12px', color: '#334155' }}>1 hour ago</td>
                 <td style={{ padding: '16px 24px', textAlign: 'right' }}>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#dc2626', cursor: 'pointer', padding: 0 }}>Revoke</button>
                 </td>
               </tr>
             </tbody>
           </table></div>
           <div style={{ padding: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
               View all sessions <ArrowRight size={14} />
             </button>
           </div>

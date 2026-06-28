@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import toast from 'react-hot-toast';
 export default function Toggle({ checked, onChange, disabled = false, label = '', defaultChecked = false }) {
   const [internalChecked, setInternalChecked] = useState(defaultChecked);
   
@@ -8,11 +8,14 @@ export default function Toggle({ checked, onChange, disabled = false, label = ''
 
   const handleClick = () => {
     if (disabled) return;
+    const newState = !isChecked;
     if (!isControlled) {
-      setInternalChecked(!isChecked);
+      setInternalChecked(newState);
     }
     if (onChange) {
-      onChange(!isChecked);
+      onChange(newState);
+    } else {
+      toast.success(newState ? 'Enabled successfully' : 'Disabled successfully');
     }
   };
 

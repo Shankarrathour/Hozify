@@ -4,6 +4,8 @@ import {
   Clock, User, MoreVertical, RotateCcw, ChevronDown
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
+import Toggle from '../../components/common/Toggle';
 
 export default function SystemBackupMaintenance() {
   return (
@@ -25,7 +27,7 @@ export default function SystemBackupMaintenance() {
               Configure automated redundancy and system availability protocols.
             </p>
           </div>
-          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 20px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 20px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Play size={14} fill="#fff" /> Trigger Manual Backup
           </button>
         </div>
@@ -69,24 +71,24 @@ export default function SystemBackupMaintenance() {
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Frequency</label>
                 <div style={{ display: 'flex', border: '1px solid #e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#312e81', border: 'none', color: '#fff', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Daily</button>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Weekly</button>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Monthly</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ flex: 1, height: '36px', background: '#312e81', border: 'none', color: '#fff', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Daily</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Weekly</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Monthly</button>
                 </div>
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Retention Policy</label>
                 <div style={{ display: 'flex', alignItems: 'center', height: '36px', gap: '20px' }}>
-                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>7 DAYS</span>
-                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', borderBottom: '1px solid #0f172a', paddingBottom: '2px' }}>30 DAYS DEFAULT</span>
-                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>90 DAYS</span>
+                  <span onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>7 DAYS</span>
+                  <span onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', borderBottom: '1px solid #0f172a', paddingBottom: '2px' }}>30 DAYS DEFAULT</span>
+                  <span onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>90 DAYS</span>
                 </div>
               </div>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '24px' }}>
               <span style={{ fontSize: '12px', color: '#64748b' }}>Last successful sync: <span style={{ color: '#0f172a', fontWeight: '600' }}>2 hours ago</span></span>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                 Update Credentials
               </button>
             </div>
@@ -106,9 +108,7 @@ export default function SystemBackupMaintenance() {
                 <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 2px' }}>System Status</h4>
                 <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>All systems operational</p>
               </div>
-              <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#cbd5e1', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-start', cursor: 'pointer' }}>
-                <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-              </div>
+              <Toggle defaultChecked={false} />
             </div>
 
             <div style={{ marginBottom: '24px' }}>
@@ -124,7 +124,7 @@ export default function SystemBackupMaintenance() {
               <span style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px' }}>REQUIRES ADMIN 2FA CONFIRMATION</span>
             </div>
 
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '100%', height: '40px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
               Save Maintenance State
             </button>
           </div>
@@ -139,7 +139,7 @@ export default function SystemBackupMaintenance() {
                 <Search size={14} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '11px' }} />
                 <input type="text" placeholder="Search points..." style={{ height: '36px', width: '240px', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 12px 0 32px', fontSize: '12px', outline: 'none' }} />
               </div>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Filter size={14} /> Filter
               </button>
             </div>
@@ -172,7 +172,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -195,7 +195,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -218,7 +218,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -241,7 +241,7 @@ export default function SystemBackupMaintenance() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px', opacity: 0.5 }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'not-allowed' }} />

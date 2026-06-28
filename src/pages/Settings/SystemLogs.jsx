@@ -4,6 +4,7 @@ import {
   ChevronLeft, ChevronRight 
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function SystemLogs() {
   return (
@@ -27,15 +28,15 @@ export default function SystemLogs() {
           </div>
           <div style={{ display: 'flex', gap: '16px' }}>
             <div style={{ display: 'flex', border: '1px solid #e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#f1f5f9', border: 'none', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>All Logs</button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#64748b', cursor: 'pointer' }}>Critical</button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#64748b', cursor: 'pointer' }}>Warnings</button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#64748b', cursor: 'pointer' }}>Info</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 16px', background: '#f1f5f9', border: 'none', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>All Logs</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#64748b', cursor: 'pointer' }}>Critical</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#64748b', cursor: 'pointer' }}>Warnings</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', fontSize: '12px', fontWeight: '700', color: '#64748b', cursor: 'pointer' }}>Info</button>
             </div>
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <Filter size={14} /> Advanced Filters
             </button>
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
               <Calendar size={14} /> Last 24 Hours
             </button>
           </div>
@@ -245,13 +246,13 @@ export default function SystemLogs() {
           <div style={{ padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #e2e8f0' }}>
             <span style={{ fontSize: '11px', color: '#64748b' }}>Showing 1-50 of 12,402 entries</span>
             <div style={{ display: 'flex', gap: '4px' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b' }}><ChevronLeft size={14} /></button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', background: '#1e1b4b', border: 'none', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: '11px', fontWeight: '700' }}>1</button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '11px', fontWeight: '700' }}>2</button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '11px', fontWeight: '700' }}>3</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b' }}><ChevronLeft size={14} /></button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '28px', height: '28px', background: '#1e1b4b', border: 'none', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', fontSize: '11px', fontWeight: '700' }}>1</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '11px', fontWeight: '700' }}>2</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '11px', fontWeight: '700' }}>3</button>
               <span style={{ width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', fontSize: '11px' }}>...</span>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '32px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '11px', fontWeight: '700' }}>249</button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b' }}><ChevronRight size={14} /></button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '32px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', fontSize: '11px', fontWeight: '700' }}>249</button>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '28px', height: '28px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b' }}><ChevronRight size={14} /></button>
             </div>
           </div>
         </div>

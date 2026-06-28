@@ -3,6 +3,7 @@ import {
   Mail, CheckCircle2, Activity, Sparkles, AlertTriangle, ArrowRight, ChevronDown 
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function EmailSmtpIntegration() {
   return (
@@ -90,10 +91,10 @@ export default function EmailSmtpIntegration() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 20px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 20px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#0f172a', cursor: 'pointer' }}>
                 Send Test Email
               </button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 24px', background: '#09090b', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 24px', background: '#09090b', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
                 Update Provider
               </button>
             </div>
@@ -132,7 +133,7 @@ export default function EmailSmtpIntegration() {
                   Our dedicated enterprise support team can assist with VPC peering and white-labeling.
                 </p>
               </div>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', transition: 'background 0.2s' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '100%', height: '40px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', transition: 'background 0.2s' }}>
                 Contact Support <ArrowRight size={14} />
               </button>
             </div>

@@ -3,7 +3,9 @@ import {
   BarChart2, ShieldCheck, Landmark, CheckCircle2, 
   MoreVertical, Plus, Info, ChevronDown 
 } from 'lucide-react';
+import Toggle from '../../components/common/Toggle';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function WalletSettings() {
   return (
@@ -26,10 +28,10 @@ export default function WalletSettings() {
             </p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer' }}>
               Discard Changes
             </button>
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 20px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '36px', padding: '0 20px', background: '#0f172a', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
               Save Configurations
             </button>
           </div>
@@ -50,9 +52,7 @@ export default function WalletSettings() {
                     <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Enable Wallet</h4>
                     <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Activate digital wallet for inward and outward transactions.</p>
                   </div>
-                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#0f172a', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
-                    <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%' }}></div>
-                  </div>
+                  <Toggle defaultChecked={true} />
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -60,9 +60,7 @@ export default function WalletSettings() {
                     <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Auto-Settlement</h4>
                     <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Automatically transfer funds to your primary bank account.</p>
                   </div>
-                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#e2e8f0', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-start', cursor: 'pointer' }}>
-                    <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}></div>
-                  </div>
+                  <Toggle defaultChecked={false} />
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -70,9 +68,7 @@ export default function WalletSettings() {
                     <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Withdrawal Notifications</h4>
                     <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Receive real-time alerts for all payout activities.</p>
                   </div>
-                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#0f172a', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
-                    <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%' }}></div>
-                  </div>
+                  <Toggle defaultChecked={true} />
                 </div>
               </div>
             </div>
@@ -199,9 +195,7 @@ export default function WalletSettings() {
                     <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Require code for all withdrawals.</p>
                   </div>
                 </div>
-                <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '36px', height: '20px', background: '#0f172a', borderRadius: '10px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
-                  <div style={{ width: '16px', height: '16px', background: '#fff', borderRadius: '50%' }}></div>
-                </div>
+                <Toggle defaultChecked={true} />
               </div>
 
               <span style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '16px' }}>APPROVED PAYOUT ACCOUNTS</span>
@@ -232,13 +226,13 @@ export default function WalletSettings() {
                       <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>**** 4410</p>
                     </div>
                   </div>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', padding: 0, color: '#94a3b8', cursor: 'pointer' }}>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', padding: 0, color: '#94a3b8', cursor: 'pointer' }}>
                     <MoreVertical size={16} />
                   </button>
                 </div>
               </div>
 
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '100%', height: '40px', background: '#fff', border: '1px dashed #cbd5e1', borderRadius: '8px', fontSize: '12px', fontWeight: '700', color: '#64748b', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ width: '100%', height: '40px', background: '#fff', border: '1px dashed #cbd5e1', borderRadius: '8px', fontSize: '12px', fontWeight: '700', color: '#64748b', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer' }}>
                 <Plus size={14} /> Link New Account
               </button>
             </div>

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import Toggle from '../../components/common/Toggle';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function PlatformConfiguration() {
+  const [level1Checked, setLevel1Checked] = useState(true);
+  const [level2Checked, setLevel2Checked] = useState(true);
   return (
     <AdminShell
       activeTab="Settings"
@@ -102,12 +105,21 @@ export default function PlatformConfiguration() {
                   <div style={{ position: 'relative' }}>
                     <select 
                       defaultValue="Self-Declaration"
-                      style={{ width: '100%', height: '40px', padding: '0 36px 0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', outline: 'none', appearance: 'none', backgroundColor: '#f8fafc' }}
+                      onChange={(e) => toast.success('Level 1 updated!')}
+                      style={{ width: '100%', height: '40px', padding: '0 36px 0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', outline: 'none', appearance: 'none', backgroundColor: '#f8fafc', cursor: 'pointer', opacity: level1Checked ? 1 : 0.6 }}
                     >
                       <option value="Self-Declaration">Self-Declaration</option>
+                      <option value="Document Upload">Document Upload</option>
+                      <option value="Manual Review">Manual Review</option>
                     </select>
-                    <div style={{ position: 'absolute', right: '12px', top: '12px', width: '14px', height: '14px', background: '#0f172a', borderRadius: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <div 
+                      onClick={() => {
+                        setLevel1Checked(!level1Checked);
+                        toast.success('Level 1 ' + (!level1Checked ? 'enabled' : 'disabled'));
+                      }}
+                      style={{ position: 'absolute', right: '12px', top: '12px', width: '14px', height: '14px', background: level1Checked ? '#0f172a' : '#fff', border: level1Checked ? 'none' : '1px solid #cbd5e1', borderRadius: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', zIndex: 10 }}
+                    >
+                      {level1Checked && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
                     </div>
                   </div>
                 </div>
@@ -127,12 +139,21 @@ export default function PlatformConfiguration() {
                   <div style={{ position: 'relative' }}>
                     <select 
                       defaultValue="Biometric ID Scan"
-                      style={{ width: '100%', height: '40px', padding: '0 36px 0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', outline: 'none', appearance: 'none', backgroundColor: '#f8fafc' }}
+                      onChange={(e) => toast.success('Level 2 updated!')}
+                      style={{ width: '100%', height: '40px', padding: '0 36px 0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', outline: 'none', appearance: 'none', backgroundColor: '#f8fafc', cursor: 'pointer', opacity: level2Checked ? 1 : 0.6 }}
                     >
                       <option value="Biometric ID Scan">Biometric ID Scan</option>
+                      <option value="Video KYC">Video KYC</option>
+                      <option value="In-Person Verification">In-Person Verification</option>
                     </select>
-                    <div style={{ position: 'absolute', right: '12px', top: '12px', width: '14px', height: '14px', background: '#0f172a', borderRadius: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <div 
+                      onClick={() => {
+                        setLevel2Checked(!level2Checked);
+                        toast.success('Level 2 ' + (!level2Checked ? 'enabled' : 'disabled'));
+                      }}
+                      style={{ position: 'absolute', right: '12px', top: '12px', width: '14px', height: '14px', background: level2Checked ? '#0f172a' : '#fff', border: level2Checked ? 'none' : '1px solid #cbd5e1', borderRadius: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', zIndex: 10 }}
+                    >
+                      {level2Checked && <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
                     </div>
                   </div>
                 </div>
@@ -168,10 +189,10 @@ export default function PlatformConfiguration() {
               </div>
 
               <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-                <button type="button" style={{ flex: 1, padding: '0 12px', height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+                <button type="button" style={{ flex: 1, padding: '0 12px', height: '36px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '4px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
                   Reset to Factory Defaults
                 </button>
-                <button type="button" style={{ flex: 1, padding: '0 12px', height: '36px', background: '#1e1b4b', border: 'none', borderRadius: '4px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+                <button type="button" style={{ flex: 1, padding: '0 12px', height: '36px', background: '#1e1b4b', border: 'none', borderRadius: '4px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
                   Update Thresholds
                 </button>
               </div>
@@ -233,10 +254,10 @@ export default function PlatformConfiguration() {
 
           {/* Action Buttons */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '16px', borderTop: '1px solid #e2e8f0', paddingTop: '24px' }}>
-            <button type="button" style={{ padding: '0 20px', height: '44px', background: '#f8fafc', border: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: '700', color: 'var(--muted)', cursor: 'pointer' }}>
+            <button type="button" style={{ padding: '0 20px', height: '44px', background: '#f8fafc', border: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: '700', color: 'var(--muted)', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
               Discard All Changes
             </button>
-            <button type="button" style={{ padding: '0 24px', height: '44px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button type="button" style={{ padding: '0 24px', height: '44px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: '700', color: '#fff', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
               Commit Configuration Changes
             </button>
           </div>

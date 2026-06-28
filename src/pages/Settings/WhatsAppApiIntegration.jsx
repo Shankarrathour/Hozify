@@ -4,6 +4,8 @@ import {
   Check, Edit2, Clock, BarChart, Plus, AlertCircle
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
+import Toggle from '../../components/common/Toggle';
 
 export default function WhatsAppApiIntegration() {
   return (
@@ -74,16 +76,14 @@ export default function WhatsAppApiIntegration() {
                       <p style={{ fontSize: '11px', color: '#64748b', margin: 0 }}>Automatically reroute via alternative gateways if Meta latency &gt; 500ms</p>
                     </div>
                   </div>
-                  <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ width: '40px', height: '24px', background: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '2px', boxSizing: 'border-box', justifyContent: 'flex-end', cursor: 'pointer' }}>
-                    <div style={{ width: '20px', height: '20px', background: '#fff', borderRadius: '50%' }}></div>
-                  </div>
+                  <Toggle defaultChecked={true} />
                 </div>
               </div>
               
               <div style={{ borderTop: '1px solid #e2e8f0', margin: '24px 0', padding: 0 }}></div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 24px', background: '#fff', border: '1px solid #0f172a', borderRadius: '6px', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 24px', background: '#fff', border: '1px solid #0f172a', borderRadius: '6px', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                   Configure Webhooks
                 </button>
               </div>
@@ -96,7 +96,7 @@ export default function WhatsAppApiIntegration() {
                   <h2 style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', margin: '0 0 4px' }}>Message Templates</h2>
                   <p style={{ fontSize: '12px', color: '#64748b', margin: 0 }}>Synced from Meta Business Manager</p>
                 </div>
-                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '6px', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '36px', padding: '0 16px', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '6px', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Plus size={14} /> NEW TEMPLATE
                 </button>
               </div>
@@ -153,7 +153,7 @@ export default function WhatsAppApiIntegration() {
               <span style={{ display: 'block', fontSize: '10px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '16px' }}>AVAILABLE CREDITS</span>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <div style={{ fontSize: '24px', fontWeight: '800', color: '#0f172a', lineHeight: '1' }}>$4,829.40</div>
-                <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', padding: '8px 16px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>
+                <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: '#0f172a', color: '#fff', border: 'none', borderRadius: '6px', padding: '8px 16px', fontSize: '12px', fontWeight: '700', cursor: 'pointer' }}>
                   Add Funds
                 </button>
               </div>
@@ -214,7 +214,7 @@ export default function WhatsAppApiIntegration() {
           <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e2e8f0' }}>
             <h2 style={{ fontSize: '14px', fontWeight: '800', color: '#0f172a', margin: 0 }}>Recent WhatsApp Logs</h2>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '32px', padding: '0 16px', background: '#fff', border: '1px solid #0f172a', borderRadius: '6px', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '32px', padding: '0 16px', background: '#fff', border: '1px solid #0f172a', borderRadius: '6px', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                 View All Logs
               </button>
             </div>

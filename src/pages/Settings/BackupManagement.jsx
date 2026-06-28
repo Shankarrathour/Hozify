@@ -3,6 +3,7 @@ import {
   Play, Cloud, Search, Filter, Clock, User, MoreVertical, ChevronDown
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function BackupManagement() {
   return (
@@ -24,7 +25,7 @@ export default function BackupManagement() {
               Configure automated redundancy protocols and manage system restore points.
             </p>
           </div>
-          <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '40px', padding: '0 20px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '40px', padding: '0 20px', background: '#312e81', border: 'none', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Play size={14} fill="#fff" /> Trigger Manual Backup
           </button>
         </div>
@@ -60,9 +61,9 @@ export default function BackupManagement() {
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Frequency</label>
                 <div style={{ display: 'flex', border: '1px solid #e2e8f0', borderRadius: '6px', overflow: 'hidden' }}>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#312e81', border: 'none', color: '#fff', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Daily</button>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Weekly</button>
-                  <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Monthly</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ flex: 1, height: '36px', background: '#312e81', border: 'none', color: '#fff', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Daily</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Weekly</button>
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ flex: 1, height: '36px', background: '#fff', border: 'none', borderLeft: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>Monthly</button>
                 </div>
               </div>
             </div>
@@ -76,9 +77,9 @@ export default function BackupManagement() {
               <div>
                 <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Retention Policy</label>
                 <div style={{ display: 'flex', alignItems: 'center', height: '36px', gap: '24px' }}>
-                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '12px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>7 DAYS</span>
-                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', borderBottom: '2px solid #0f172a', paddingBottom: '2px' }}>30 DAYS DEFAULT</span>
-                  <span onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ fontSize: '12px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>90 DAYS</span>
+                  <span onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ fontSize: '12px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>7 DAYS</span>
+                  <span onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', borderBottom: '2px solid #0f172a', paddingBottom: '2px' }}>30 DAYS DEFAULT</span>
+                  <span onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ fontSize: '12px', fontWeight: '800', color: '#94a3b8', cursor: 'pointer' }}>90 DAYS</span>
                 </div>
               </div>
             </div>
@@ -87,10 +88,10 @@ export default function BackupManagement() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '24px' }}>
             <span style={{ fontSize: '12px', color: '#64748b' }}>Last successful sync: <span style={{ color: '#0f172a', fontWeight: '600' }}>2 hours ago</span></span>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 16px', height: '36px', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 16px', height: '36px', fontSize: '12px', fontWeight: '800', color: '#0f172a', cursor: 'pointer' }}>
                 Update Credentials
               </button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: '#09090b', border: 'none', borderRadius: '6px', padding: '0 20px', height: '36px', fontSize: '12px', fontWeight: '800', color: '#fff', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: '#09090b', border: 'none', borderRadius: '6px', padding: '0 20px', height: '36px', fontSize: '12px', fontWeight: '800', color: '#fff', cursor: 'pointer' }}>
                 Save Configurations
               </button>
             </div>
@@ -106,7 +107,7 @@ export default function BackupManagement() {
                 <Search size={14} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '11px' }} />
                 <input type="text" placeholder="Search points..." style={{ height: '36px', width: '240px', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '0 12px 0 32px', fontSize: '12px', outline: 'none' }} />
               </div>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ height: '36px', padding: '0 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Filter size={14} /> Filter
               </button>
             </div>
@@ -139,7 +140,7 @@ export default function BackupManagement() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -162,7 +163,7 @@ export default function BackupManagement() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -185,7 +186,7 @@ export default function BackupManagement() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#0f172a', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'pointer' }} />
@@ -208,7 +209,7 @@ export default function BackupManagement() {
                 </td>
                 <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px', opacity: 0.5 }}>
-                    <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', fontSize: '11px', fontWeight: '800', color: '#94a3b8', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '6px' }}>
                       RESTORE
                     </button>
                     <MoreVertical size={16} color="#94a3b8" style={{ cursor: 'not-allowed' }} />

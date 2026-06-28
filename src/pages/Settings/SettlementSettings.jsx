@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, Clock, Plus, ShieldCheck, Zap, LayoutGrid, CalendarDays, UserCheck, DollarSign, Building, AlertOctagon, Pencil, Eye, MoreVertical, FileCheck, Activity, ShieldAlert, PauseCircle } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function SettlementSettings() {
   return (
@@ -39,20 +40,20 @@ export default function SettlementSettings() {
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
                 {/* Selected Card */}
-                <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ border: '2px solid #4338ca', borderRadius: '6px', padding: '16px', cursor: 'pointer', background: '#fafaff' }}>
+                <div onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ border: '2px solid #4338ca', borderRadius: '6px', padding: '16px', cursor: 'pointer', background: '#fafaff' }}>
                   <Zap size={24} style={{ color: '#4338ca', marginBottom: '12px' }} />
                   <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#4338ca', margin: '0 0 6px' }}>Daily</h3>
                   <p style={{ fontSize: '11px', color: '#4f46e5', margin: 0, lineHeight: '1.4' }}>Cleared every 24 hours. Best for high-velocity cash flow.</p>
                 </div>
                 
                 {/* Unselected Cards */}
-                <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ border: '1px solid #e2e8f0', borderRadius: '6px', padding: '16px', cursor: 'pointer' }}>
+                <div onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ border: '1px solid #e2e8f0', borderRadius: '6px', padding: '16px', cursor: 'pointer' }}>
                   <LayoutGrid size={24} style={{ color: '#94a3b8', marginBottom: '12px' }} />
                   <h3 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text)', margin: '0 0 6px' }}>Weekly</h3>
                   <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0, lineHeight: '1.4' }}>Batched every Monday at 00:00 UTC. Standard business cycle.</p>
                 </div>
 
-                <div onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ border: '1px solid #e2e8f0', borderRadius: '6px', padding: '16px', cursor: 'pointer' }}>
+                <div onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ border: '1px solid #e2e8f0', borderRadius: '6px', padding: '16px', cursor: 'pointer' }}>
                   <CalendarDays size={24} style={{ color: '#94a3b8', marginBottom: '12px' }} />
                   <h3 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text)', margin: '0 0 6px' }}>Monthly</h3>
                   <p style={{ fontSize: '11px', color: 'var(--muted)', margin: 0, lineHeight: '1.4' }}>Processed on the 1st of each month. Consolidates overhead.</p>
@@ -123,7 +124,7 @@ export default function SettlementSettings() {
                 <h2 style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', margin: '0 0 8px' }}>Bank Account Validation Rules</h2>
                 <p style={{ fontSize: '14px', color: '#64748B', margin: 0 }}>Security and compliance requirements for merchant payout accounts.</p>
               </div>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="button" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#312E81', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '14px', fontWeight: '600', color: '#fff', cursor: 'pointer', transition: 'background-color 0.2s', ':hover': { background: '#282568' } }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} type="button" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#312E81', border: 'none', borderRadius: '8px', padding: '10px 20px', fontSize: '14px', fontWeight: '600', color: '#fff', cursor: 'pointer', transition: 'background-color 0.2s', ':hover': { background: '#282568' } }}>
                 <Plus size={18} /> Add Custom Rule
               </button>
             </div>
@@ -210,9 +211,9 @@ export default function SettlementSettings() {
                   </td>
                   <td style={{ padding: '20px', textAlign: 'right', borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
                     </div>
                   </td>
                 </tr>
@@ -243,9 +244,9 @@ export default function SettlementSettings() {
                   </td>
                   <td style={{ padding: '20px', textAlign: 'right', borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
                     </div>
                   </td>
                 </tr>
@@ -276,9 +277,9 @@ export default function SettlementSettings() {
                   </td>
                   <td style={{ padding: '20px', textAlign: 'right', borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
                     </div>
                   </td>
                 </tr>
@@ -309,9 +310,9 @@ export default function SettlementSettings() {
                   </td>
                   <td style={{ padding: '20px', textAlign: 'right', borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
-                      <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Eye size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><Pencil size={18} /></button>
+                      <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '8px', borderRadius: '8px', transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f1f5f9'; e.currentTarget.style.color = '#334155'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#94a3b8'; }}><MoreVertical size={18} /></button>
                     </div>
                   </td>
                 </tr>
@@ -330,10 +331,10 @@ export default function SettlementSettings() {
             </div>
             
             <div style={{ display: 'flex', gap: '12px' }}>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="button" style={{ padding: '0 20px', height: '36px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '4px', fontSize: '11px', fontWeight: '800', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} type="button" style={{ padding: '0 20px', height: '36px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '4px', fontSize: '11px', fontWeight: '800', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer' }}>
                 Discard Changes
               </button>
-              <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="button" style={{ padding: '0 24px', height: '36px', background: '#fff', border: 'none', borderRadius: '4px', fontSize: '11px', fontWeight: '800', color: '#1e1b4b', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer' }}>
+              <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} type="button" style={{ padding: '0 24px', height: '36px', background: '#fff', border: 'none', borderRadius: '4px', fontSize: '11px', fontWeight: '800', color: '#1e1b4b', textTransform: 'uppercase', letterSpacing: '0.5px', cursor: 'pointer' }}>
                 Save Settings
               </button>
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Plus, ShieldCheck, AlertTriangle, MoreVertical, Upload, CheckSquare, Square, Pencil, CheckCircle2 } from 'lucide-react';
 import Toggle from '../../components/common/Toggle';
 import AdminShell from '../../components/layouts/AdminShell';
+import toast from 'react-hot-toast';
 
 export default function TaxSettings() {
   return (
@@ -24,10 +25,10 @@ export default function TaxSettings() {
             </p>
           </div>
           <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-            <button type="button" style={{ padding: '0 20px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+            <button type="button" style={{ padding: '0 20px', height: '40px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
               Discard Changes
             </button>
-            <button type="button" style={{ padding: '0 24px', height: '40px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer' }}>
+            <button type="button" style={{ padding: '0 24px', height: '40px', background: '#1e1b4b', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', color: '#fff', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
               Save Configuration
             </button>
           </div>
@@ -98,7 +99,7 @@ export default function TaxSettings() {
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '28px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Country-Specific Overrides</h2>
-                <button type="button" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer', padding: 0 }}>
+                <button type="button" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', fontSize: '13px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer', padding: 0 }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
                   <Plus size={16} /> Add Region
                 </button>
               </div>
@@ -121,7 +122,7 @@ export default function TaxSettings() {
                       <td style={{ padding: '16px 0', fontSize: '13px', color: 'var(--muted)' }}>Standard VAT</td>
                       <td style={{ padding: '16px 0', fontSize: '13px', fontWeight: '800', color: 'var(--text)' }}>20.0%</td>
                       <td style={{ padding: '16px 0', textAlign: 'right' }}>
-                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }}><Pencil size={16} /></button>
+                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}><Pencil size={16} /></button>
                       </td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
@@ -131,7 +132,7 @@ export default function TaxSettings() {
                       <td style={{ padding: '16px 0', fontSize: '13px', color: 'var(--muted)' }}>Mehrwertsteuer</td>
                       <td style={{ padding: '16px 0', fontSize: '13px', fontWeight: '800', color: 'var(--text)' }}>19.0%</td>
                       <td style={{ padding: '16px 0', textAlign: 'right' }}>
-                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }}><Pencil size={16} /></button>
+                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}><Pencil size={16} /></button>
                       </td>
                     </tr>
                     <tr>
@@ -141,7 +142,7 @@ export default function TaxSettings() {
                       <td style={{ padding: '16px 0', fontSize: '13px', color: 'var(--muted)' }}>State Sales Tax</td>
                       <td style={{ padding: '16px 0', fontSize: '13px', fontWeight: '800', color: 'var(--text)' }}>7.25%</td>
                       <td style={{ padding: '16px 0', textAlign: 'right' }}>
-                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }}><Pencil size={16} /></button>
+                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}><Pencil size={16} /></button>
                       </td>
                     </tr>
                   </tbody>
@@ -168,7 +169,7 @@ export default function TaxSettings() {
                       <span style={{ fontSize: '10px', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Expires: Dec 2024</span>
                     </div>
                   </div>
-                  <button style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer' }}><MoreVertical size={16} /></button>
+                  <button style={{ background: 'none', border: 'none', color: '#cbd5e1', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}><MoreVertical size={16} /></button>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', border: '1px dashed #fca5a5', background: '#fef2f2', borderRadius: '6px' }}>
@@ -179,11 +180,11 @@ export default function TaxSettings() {
                       <span style={{ fontSize: '10px', color: '#ef4444', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>Action Required</span>
                     </div>
                   </div>
-                  <button style={{ background: 'none', border: 'none', color: '#fca5a5', cursor: 'pointer' }}><MoreVertical size={16} /></button>
+                  <button style={{ background: 'none', border: 'none', color: '#fca5a5', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}><MoreVertical size={16} /></button>
                 </div>
               </div>
 
-              <button type="button" style={{ width: '100%', padding: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', border: '1px dashed #cbd5e1', background: '#fff', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+              <button type="button" style={{ width: '100%', padding: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', border: '1px dashed #cbd5e1', background: '#fff', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }} onClick={(e) => { e.preventDefault(); toast.success('Action completed successfully!'); }}>
                 <Upload size={16} /> Upload New Certificate
               </button>
             </div>

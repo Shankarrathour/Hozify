@@ -25,6 +25,8 @@ import { sidebarNavigation } from '../../config/sidebarNavigation';
 import { useShell } from './ShellContext';
 import { useToast } from '../../components/common/ToastNotification';
 import GlobalSearch from '../common/GlobalSearch';
+import brandLogo from '../../assets/logo.png';
+
 
 export default function GlobalAdminShell({ children }) {
   const { shellProps } = useShell();
@@ -226,6 +228,7 @@ export default function GlobalAdminShell({ children }) {
 
         .global-sidebar {
           border-right: none !important;
+          background-color: #1F2258 !important;
         }
 
         .global-header {
@@ -290,14 +293,21 @@ export default function GlobalAdminShell({ children }) {
       )}
 
       <aside className={`sidebar global-sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-brand">
-          <div className="sidebar-brand-icon">
-            <Briefcase size={20} />
-          </div>
-          <div className="sidebar-brand-text">
-            <strong>{brandText}</strong>
-            <span>{brandSubText}</span>
-          </div>
+        <div className="sidebar-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'transparent', padding: '24px 20px 0', marginBottom: '24px', height: 'auto', minHeight: 'auto', overflow: 'visible' }}>
+          <img 
+            src={brandLogo} 
+            alt="HOZIFY Partner Logo" 
+            style={{ 
+              width: '200px', 
+              height: 'auto', 
+              objectFit: 'contain',
+              background: 'transparent',
+              display: 'block'
+            }} 
+          />
+          <span style={{ fontSize: '14px', fontWeight: '500', color: '#FFFFFF', marginTop: '6px', textAlign: 'center' }}>
+            Enterprise Admin
+          </span>
         </div>
         
         <nav className="sidebar-nav">

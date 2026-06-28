@@ -393,7 +393,7 @@ export default function Dashboard() {
               <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                   <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>High-Priority Work Orders</h2>
-                  <button style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }} type="button">
+                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }} type="button">
                     View All
                   </button>
                 </div>
@@ -444,7 +444,7 @@ export default function Dashboard() {
                           </td>
                           <td style={{ padding: '14px 8px', fontSize: '13px', fontWeight: '700', color: 'var(--text)' }}>{order.value}</td>
                           <td style={{ padding: '14px 8px', textAlign: 'center' }}>
-                            <button style={{ border: 'none', background: 'transparent', color: 'var(--muted)', cursor: 'pointer' }} type="button">
+                            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ border: 'none', background: 'transparent', color: 'var(--muted)', cursor: 'pointer' }} type="button">
                               <MoreVertical size={16} />
                             </button>
                           </td>

@@ -3,6 +3,7 @@ import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { useToast } from '../../components/common/ToastNotification';
 import { Save, X, Eye, EyeOff, Lock, CheckCircle, Shield } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function ChangePasswordPage() {
   const { navigate } = useApp();
@@ -153,7 +154,7 @@ export default function ChangePasswordPage() {
             <button type="button" onClick={() => navigate('/my-profile')} className="custom-btn-secondary" style={{ height: '38px', padding: '0 20px' }}>
               Cancel
             </button>
-            <button onClick={(e) => { e.preventDefault(); alert("Action performed successfully"); }} type="submit" className="custom-btn-primary" style={{ height: '38px', padding: '0 20px' }}>
+            <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} type="submit" className="custom-btn-primary" style={{ height: '38px', padding: '0 20px' }}>
               <Save size={14} style={{ marginRight: '6px' }} /> Update Password
             </button>
           </div>
