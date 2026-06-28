@@ -1,5 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import AdminShell from '../../components/layouts/AdminShell';
+import { downloadDummyPDF } from '../../utils/downloadHelper';
 import {
   Download,
   ChevronDown,
@@ -90,7 +91,10 @@ export default function BookingReports() {
             <button style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: '10px', padding: '8px 14px', fontSize: '13px', fontWeight: '600', color: '#334155', cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
               Last 30 Days <ChevronDown size={14} color="#64748b" />
             </button>
-            <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#4f46e5', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', boxShadow: '0 2px 8px rgba(79,70,229,0.25)' }}>
+            <button 
+              onClick={() => downloadDummyPDF('Booking Reports', 'Total Bookings: 14,208\nRevenue: $1.78M\nSuccess Rate: 99.8%')}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#4f46e5', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', boxShadow: '0 2px 8px rgba(79,70,229,0.25)' }}
+            >
               <Download size={16} color="#fff" />
             </button>
           </div>
@@ -101,9 +105,11 @@ export default function BookingReports() {
           {KPI_CARDS.map(card => {
             const Icon = card.icon;
             return (
-              <div key={card.id} style={{ background: '#fff', borderRadius: '14px', border: '1px solid #e8edf3', padding: '18px 20px', boxShadow: '0 1px 6px rgba(15,23,42,0.05)', display: 'flex', flexDirection: 'column', gap: '10px', transition: 'box-shadow 0.2s', cursor: 'default' }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(79,70,229,0.10)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = '0 1px 6px rgba(15,23,42,0.05)'}>
+              <div 
+                key={card.id} 
+                className="report-kpi-card"
+                style={{ background: '#fff', borderRadius: '14px', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: '10px', cursor: 'pointer' }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '11px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{card.label}</span>
                   <div style={{ width: '34px', height: '34px', borderRadius: '9px', background: card.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

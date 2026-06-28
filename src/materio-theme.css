@@ -43,7 +43,7 @@ body {
 /* Sidebar Styling */
 .sidebar {
   width: 260px;
-  background: #E8E9FF; /* More noticeable light version of header color */
+  background: #7378d6; /* More noticeable light version of header color */
   border-right: 1px solid #D6D8F5;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.02);
   display: flex;
@@ -285,7 +285,7 @@ body {
 /* Header */
 .dash-header {
   height: 70px;
-  background: var(--materio-primary);
+  background: linear-gradient(90deg, #0F172A 0%, #111827 50%, #1E293B 100%) !important;
   backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
@@ -293,7 +293,7 @@ body {
   padding: 0 24px;
   margin: 16px 24px;
   border-radius: var(--materio-radius);
-  box-shadow: 0 4px 14px 0 rgba(67, 89, 113, 0.15); /* Subtle premium shadow */
+  box-shadow: 0 4px 14px rgba(4, 28, 53, 0.25);
   z-index: 90;
   color: #fff;
 }
@@ -823,3 +823,43 @@ button.secondary-action-btn:hover, .directory-filter-bar button:hover {
     display: none;
   }
 }
+/* ===== Header Override ===== */
+
+header.dash-header.global-header {
+  background: linear-gradient(90deg, #090d5a 0%, #0e2559 50%, #1c3153 100%) !important;
+  border-bottom: none !important;
+  color: #fff !important;
+}
+
+header.dash-header.global-header * {
+  color: #fff;
+}
+.header-center-search > div {
+    background: #fff !important;
+    border-radius: 999px !important;
+    padding: 2px !important;
+}
+
+/* KPI Cards Uniform Outline Hover Effect */
+.materio-card, 
+.bg-white.border.rounded-xl, 
+.bg-white.rounded-2xl.border, 
+.bg-white.p-4.rounded-xl.border,
+.user-detail-metric,
+.kpi-card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.materio-card:hover, 
+.bg-white.border.rounded-xl:hover, 
+.bg-white.rounded-2xl.border:hover, 
+.bg-white.p-4.rounded-xl.border:hover,
+.user-detail-metric:hover,
+.kpi-card:hover {
+  border-color: #2A2454 !important;
+  outline: 2px solid #2A2454 !important;
+  outline-offset: -1px;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(42, 36, 84, 0.12) !important;
+}
+

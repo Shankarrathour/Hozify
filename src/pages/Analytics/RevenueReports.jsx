@@ -1,5 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import AdminShell from '../../components/layouts/AdminShell';
+import { downloadDummyPDF } from '../../utils/downloadHelper';
 import {
   Calendar,
   TrendingUp,
@@ -62,7 +63,10 @@ export default function RevenueReports() {
               <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', color: '#334155', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
                 <Calendar size={16} color="#64748b" /> Last 30 Days
               </button>
-              <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#1e1b4b', border: 'none', borderRadius: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', color: '#fff', cursor: 'pointer', boxShadow: '0 4px 10px rgba(30,27,75,0.2)' }}>
+              <button 
+                onClick={() => downloadDummyPDF('Revenue Reports', 'Total Revenue: ₹14.2B\nPlatform Earnings: ₹1.4B\nSuccess rate: 99.8%')}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#1e1b4b', border: 'none', borderRadius: '8px', padding: '10px 16px', fontSize: '13px', fontWeight: '600', color: '#fff', cursor: 'pointer', boxShadow: '0 4px 10px rgba(30,27,75,0.2)' }}
+              >
                 <Download size={16} color="#fff" /> Generate Report
               </button>
             </div>
@@ -74,7 +78,11 @@ export default function RevenueReports() {
           {KPI_CARDS.map(card => {
             const Icon = card.icon;
             return (
-              <div key={card.id} style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}>
+              <div 
+                key={card.id} 
+                className="report-kpi-card"
+                style={{ background: '#fff', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}
+              >
                 <div style={{ position: 'absolute', top: '24px', right: '24px', width: '32px', height: '32px', background: '#f8fafc', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', border: '1px solid #e2e8f0' }}>
                   <Icon size={16} />
                 </div>

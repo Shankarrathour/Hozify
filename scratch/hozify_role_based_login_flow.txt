@@ -1,0 +1,118 @@
+HOZIFY
+ROLE BASED LOGIN & ACCESS FLOW
+AUTHENTICATION FLOW
+User Opens Admin Panel ↓ Login Screen
+Fields
+Email / Mobile
+Password
+↓ Credentials Validation ↓ JWT Token Generated ↓ Fetch User Role ↓ Load Permissions ↓ Redirect To Assigned Dashboard
+
+ROLE HIERARCHY
+Super Admin │ ├── Admin │ ├── Operations Manager │ ├── KYC Team │ ├── Finance Team │ └── Support Team
+
+1. SUPER ADMIN FLOW
+Highest Access Level
+Permissions
+✔ Full System Access ✔ Create Admin Users ✔ Create Roles ✔ Assign Permissions ✔ Revenue Access ✔ Wallet Access ✔ Fraud Access ✔ Reports Access ✔ System Settings
+Modules Visible
+Dashboard Users Partners KYC Business Branches Services Bookings Tracking Materials Quotations Wallet Banking Revenue Referrals Notifications CMS Reviews SOS Support Fraud Reports Roles & Permissions System Settings
+Flow
+Login ↓ Super Admin Dashboard ↓ Manage Entire Platform
+
+2. ADMIN FLOW
+Second Highest Access
+Permissions
+✔ Manage Users ✔ Manage Partners ✔ Manage Bookings ✔ Approve Services ✔ Approve Businesses ✔ Manage Notifications
+❌ Cannot Modify System Roles ❌ Cannot Access Core Settings
+Modules
+Dashboard Users Partners KYC Business Services Bookings Notifications Reports
+Flow
+Login ↓ Admin Dashboard ↓ Daily Operations Monitoring
+
+3. OPERATIONS TEAM FLOW
+Purpose
+Handle Daily Service Operations
+Permissions
+✔ View Bookings ✔ Assign Partners ✔ Track Services ✔ Monitor Branches ✔ Monitor Employees
+❌ Revenue Access ❌ Wallet Access ❌ Role Management
+Modules
+Dashboard Bookings Tracking Branches Employees Partners
+Flow
+Booking Created ↓ Operations Team Receives Alert ↓ Assign Partner ↓ Track Completion ↓ Close Booking
+
+4. KYC TEAM FLOW
+Purpose
+Verify Partner & Business Documents
+Permissions
+✔ View KYC ✔ Approve KYC ✔ Reject KYC ✔ Request Reupload
+❌ Booking Access ❌ Revenue Access ❌ Wallet Access
+Modules
+Dashboard Partner KYC Business KYC Documents
+Flow
+New KYC Submitted ↓ KYC Queue ↓ Review Documents ↓ Approve / Reject ↓ Status Updated
+
+5. FINANCE TEAM FLOW
+Purpose
+Manage Financial Operations
+Permissions
+✔ Wallet Management ✔ Withdrawals ✔ Settlements ✔ Revenue Reports ✔ Payment Monitoring
+❌ KYC Access ❌ User Management ❌ Role Management
+Modules
+Dashboard Wallet Banking Revenue Reports
+Flow
+Withdrawal Request ↓ Finance Review ↓ Approve Settlement ↓ Transfer Funds ↓ Update Wallet
+
+6. SUPPORT TEAM FLOW
+Purpose
+Resolve Customer Issues
+Permissions
+✔ View Tickets ✔ Respond Tickets ✔ Escalate Tickets
+❌ Revenue Access ❌ Wallet Access ❌ Role Management
+Modules
+Dashboard Support Tickets Users Bookings
+Flow
+Ticket Raised ↓ Support Queue ↓ Assign Agent ↓ Resolve Issue ↓ Close Ticket
+
+ROLE LOGIN REDIRECTION FLOW
+User Login ↓ System Reads Role
+IF Role = Super Admin → Super Admin Dashboard
+IF Role = Admin → Admin Dashboard
+IF Role = Operations → Operations Dashboard
+IF Role = KYC Team → KYC Dashboard
+IF Role = Finance Team → Finance Dashboard
+IF Role = Support Team → Support Dashboard
+
+PERMISSION ENGINE FLOW
+User Login ↓ Fetch Role
+Example
+Role = Finance Team
+↓
+Load Permissions
+wallet.view wallet.edit withdrawal.approve settlement.process
+↓
+Generate Sidebar
+Only Allowed Menus Visible
+↓
+API Permission Check
+If Permission Exists → Allow Request
+If Permission Missing → Return 403 Forbidden
+
+FUTURE CUSTOM ROLE FLOW
+Super Admin ↓ Create New Role
+Example
+Regional Manager
+↓
+Select Permissions
+Users View Bookings View Reports View
+↓
+Save Role
+↓
+Assign Staff
+↓
+Staff Gets Custom Dashboard
+
+SECURITY FLOW
+Login ↓ JWT Token ↓ Role Verification ↓ Permission Verification ↓ Module Access Check ↓ API Access Check ↓ Action Execution
+Every Action Logged
+Create Edit Delete Approve Reject
+Stored In Audit Logs

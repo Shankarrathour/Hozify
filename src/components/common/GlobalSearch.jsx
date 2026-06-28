@@ -105,17 +105,16 @@ export default function GlobalSearch() {
         style={{
           display: 'flex',
           alignItems: 'center',
-          background: 'rgba(255, 255, 255, 0.9)',
-          border: isFocused ? '1px solid #4f46e5' : '1px solid var(--line)',
-          borderRadius: '12px',
-          padding: '0 12px',
-          height: '42px',
+          background: '#1F2937',
+          border: isFocused ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '24px',
+          padding: '0 14px',
+          height: '38px',
           transition: 'all 0.25s ease',
-          boxShadow: isFocused ? '0 0 0 3px rgba(79, 70, 229, 0.1)' : 'none',
-          backdropFilter: 'blur(8px)',
+          boxShadow: isFocused ? '0 0 0 3px rgba(255, 255, 255, 0.05)' : 'none',
         }}
       >
-        <Search size={18} color={isFocused ? '#4f46e5' : 'var(--muted)'} style={{ flexShrink: 0 }} />
+        <Search size={16} color="#94A3B8" style={{ flexShrink: 0 }} />
         
         <input
           ref={inputRef}
@@ -128,15 +127,15 @@ export default function GlobalSearch() {
             if (e.key === 'Enter') executeSearch();
             if (e.key === 'Escape') inputRef.current?.blur();
           }}
-          placeholder="Search bookings, users, or services..."
+          placeholder="Global search operations..."
           style={{
             border: 'none',
             background: 'transparent',
             outline: 'none',
             width: '100%',
             padding: '0 12px',
-            fontSize: '14px',
-            color: 'var(--text)',
+            fontSize: '13px',
+            color: '#CBD5E1',
             fontWeight: '500'
           }}
         />

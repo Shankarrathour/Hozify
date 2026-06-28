@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useApp } from "../../hooks/useApp";
+import { ROUTES } from "../../config/routes";
+import { useToast } from "../../components/common/ToastNotification";
+import { triggerDownload, generateCSV } from "../../utils/downloadHelper";
 import {
   Filter,
   Download,
@@ -12,7 +16,6 @@ import {
   TrendingUp,
   TrendingDown,
 } from "lucide-react";
-
 
 const queueData = [
   {
@@ -195,7 +198,7 @@ function ApprovalRow({ row, onAction }) {
             <>
               <button
                 type="button"
-                onClick={() => onAction(row.id, "review")}
+                onClick={() => onAction(row, "review")}
                 style={{
                   background: "#0f172a", color: "#fff", border: "none",
                   borderRadius: "7px", padding: "7px 16px", fontSize: "12px",
@@ -210,7 +213,7 @@ function ApprovalRow({ row, onAction }) {
               <button
                 type="button"
                 title="Reject"
-                onClick={() => onAction(row.id, "reject")}
+                onClick={() => onAction(row, "reject")}
                 style={{
                   background: "#fff0f0", border: "1px solid #fecaca",
                   color: "#dc2626", borderRadius: "7px", padding: "7px 9px",
@@ -227,7 +230,7 @@ function ApprovalRow({ row, onAction }) {
             <>
               <button
                 type="button"
-                onClick={() => onAction(row.id, "approve")}
+                onClick={() => onAction(row, "approve")}
                 style={{
                   background: "#0f172a", color: "#fff", border: "none",
                   borderRadius: "7px", padding: "7px 16px", fontSize: "12px",
@@ -240,7 +243,7 @@ function ApprovalRow({ row, onAction }) {
               </button>
               <button
                 type="button"
-                onClick={() => onAction(row.id, "reject")}
+                onClick={() => onAction(row, "reject")}
                 style={{
                   background: "#fff", color: "#475569",
                   border: "1px solid #e2e8f0",
@@ -269,12 +272,53 @@ function ApprovalRow({ row, onAction }) {
 }
 
 export default function UserApprovalPage() {
+  const { navigate } = useApp();
+  const { addToast } = useToast();
   const [rows, setRows] = useState(queueData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filterDocStatus, setFilterDocStatus] = useState("All");
 
-  const handleAction = (id, action) => {
-    if (action === "approve" || action === "reject") {
-      setRows(prev => prev.filter(r => r.id !== id));
+  const filteredRows = rows.filter((r) => {
+    if (filterDocStatus === "All") return true;
+    if (filterDocStatus === "Pending") return r.docStatus.includes("Pending");
+    if (filterDocStatus === "Action") return r.docStatus.includes("Required") || r.docStatus.includes("Action");
+    return true;
+  });
+
+  const handleAction = (userRow, action) => {
+    if (action === "approve") {
+      setRows(prev => prev.filter(r => r.id !== userRow.id));
+      addToast(`KYC successfully approved for ${userRow.name}!`, "success");
+    } else if (action === "reject") {
+      setRows(prev => prev.filter(r => r.id !== userRow.id));
+      addToast(`KYC document submission rejected for ${userRow.name}.`, "success");
+    } else if (action === "review") {
+      navigate(ROUTES.userDocuments);
+      addToast(`Loading document vault for manual inspection: ${userRow.name}`, "success");
     }
+  };
+
+  const handleExportCSV = () => {
+    const csvContent = generateCSV(
+      ["Name", "Email", "SubmissionDate", "AccountType", "Status"],
+      filteredRows.map((r) => ({
+        Name: r.name,
+        Email: r.email,
+        SubmissionDate: r.date,
+        AccountType: r.type,
+        Status: r.docStatus,
+      }))
+    );
+    triggerDownload(csvContent, "kyc_approvals_queue.csv", "text/csv");
+    addToast("KYC pending approvals queue exported successfully!", "success");
+  };
+
+
+
+  const handlePageChange = (direction) => {
+    const nextPage = direction === "next" ? currentPage + 1 : Math.max(1, currentPage - 1);
+    setCurrentPage(nextPage);
+    addToast(`Switched approval list to page ${nextPage}`, "success");
   };
 
   return (
@@ -283,7 +327,7 @@ export default function UserApprovalPage() {
       headerTitle="User Approvals (KYC)"
       searchPlaceholder="Search bookings, users, or partners..."
     >
-      <div style={{ minHeight: "100vh", background: "#f8fafc" }}>
+      <div style={{ minHeight: "100vh", background: "#f8fafc", paddingBottom: "40px" }}>
 
       {/* PAGE HEADER */}
       <div style={{
@@ -303,21 +347,28 @@ export default function UserApprovalPage() {
         </div>
 
         <div style={{ display: "flex", gap: "10px" }}>
-          <button
-            type="button"
+          <select
+            value={filterDocStatus}
+            onChange={(e) => setFilterDocStatus(e.target.value)}
             style={{
-              display: "flex", alignItems: "center", gap: "6px",
-              border: "1px solid #e2e8f0", borderRadius: "8px",
-              padding: "8px 14px", background: "#fff",
-              fontSize: "12px", fontWeight: "700", color: "#475569",
+              border: "1px solid #e2e8f0",
+              borderRadius: "8px",
+              padding: "8px 14px",
+              background: "#fff",
+              fontSize: "12px",
+              fontWeight: "700",
+              color: "#475569",
               cursor: "pointer",
+              outline: "none",
             }}
           >
-            <Filter size={13} />
-            Filter
-          </button>
+            <option value="All">All Documents Status</option>
+            <option value="Pending">Pending Review</option>
+            <option value="Action">Action Required</option>
+          </select>
           <button
             type="button"
+            onClick={handleExportCSV}
             style={{
               display: "flex", alignItems: "center", gap: "6px",
               border: "1px solid #e2e8f0", borderRadius: "8px",
@@ -333,18 +384,12 @@ export default function UserApprovalPage() {
       </div>
 
       {/* KPI CARDS */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "16px",
-        marginBottom: "24px",
-      }}>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         {/* Pending Total */}
-        <div style={{
-          background: "#fff", borderRadius: "12px",
-          border: "1px solid #e2e8f0", padding: "20px 22px",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-        }}>
+        <div 
+          onClick={() => addToast("Total pending manual review items: 124", "success")}
+          className="bg-white border rounded-xl p-5 hover:shadow-md transition cursor-pointer"
+        >
           <p style={{ fontSize: "10px", fontWeight: "800", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.6px", margin: "0 0 8px" }}>
             Pending Total
           </p>
@@ -358,11 +403,10 @@ export default function UserApprovalPage() {
         </div>
 
         {/* Avg Processing Time */}
-        <div style={{
-          background: "#fff", borderRadius: "12px",
-          border: "1px solid #e2e8f0", padding: "20px 22px",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-        }}>
+        <div 
+          onClick={() => addToast("Platform average processing time is 4.2 hours.", "success")}
+          className="bg-white border rounded-xl p-5 hover:shadow-md transition cursor-pointer"
+        >
           <p style={{ fontSize: "10px", fontWeight: "800", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.6px", margin: "0 0 8px" }}>
             Avg. Processing Time
           </p>
@@ -376,12 +420,12 @@ export default function UserApprovalPage() {
         </div>
 
         {/* Verified Today */}
-        <div style={{
-          background: "#f0fdf4", borderRadius: "12px",
-          border: "1px solid #bbf7d0", padding: "20px 22px",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div 
+          onClick={() => addToast("48 identity verifications successfully closed today.", "success")}
+          className="bg-white border rounded-xl p-5 hover:shadow-md transition cursor-pointer"
+          style={{ background: "#f0fdf4", borderColor: "#bbf7d0" }}
+        >
+          <div style={{ display: "flex", justifyBetween: "space-between", alignItems: "flex-start", width: "100%" }}>
             <div>
               <p style={{ fontSize: "10px", fontWeight: "800", color: "#16a34a", textTransform: "uppercase", letterSpacing: "0.6px", margin: "0 0 8px" }}>
                 Verified Today
@@ -393,7 +437,7 @@ export default function UserApprovalPage() {
             <div style={{
               width: "34px", height: "34px", borderRadius: "8px",
               background: "#dcfce7", display: "flex", alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "center", marginLeft: "auto"
             }}>
               <CheckCircle2 size={18} style={{ color: "#16a34a" }} />
             </div>
@@ -404,12 +448,12 @@ export default function UserApprovalPage() {
         </div>
 
         {/* Escalated */}
-        <div style={{
-          background: "#fff5f5", borderRadius: "12px",
-          border: "1px solid #fecaca", padding: "20px 22px",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div 
+          onClick={() => addToast("7 complex cases escalated to compliance managers.", "success")}
+          className="bg-white border rounded-xl p-5 hover:shadow-md transition cursor-pointer"
+          style={{ background: "#fff5f5", borderColor: "#fecaca" }}
+        >
+          <div style={{ display: "flex", justifyBetween: "space-between", alignItems: "flex-start", width: "100%" }}>
             <div>
               <p style={{ fontSize: "10px", fontWeight: "800", color: "#dc2626", textTransform: "uppercase", letterSpacing: "0.6px", margin: "0 0 8px" }}>
                 Escalated
@@ -421,7 +465,7 @@ export default function UserApprovalPage() {
             <div style={{
               width: "34px", height: "34px", borderRadius: "8px",
               background: "#fee2e2", display: "flex", alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "center", marginLeft: "auto"
             }}>
               <AlertCircle size={18} style={{ color: "#dc2626" }} />
             </div>
@@ -448,7 +492,7 @@ export default function UserApprovalPage() {
             Verification Queue
           </h3>
           <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "11px" }}>
-            <span style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: "600", color: "#64748b" }}>
+            <span style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: "600", color: "#4f46e5" }}>
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4f46e5", display: "inline-block" }} />
               Priority
             </span>
@@ -477,10 +521,10 @@ export default function UserApprovalPage() {
               </tr>
             </thead>
             <tbody>
-              {rows.map(row => (
+              {filteredRows.map(row => (
                 <ApprovalRow key={row.id} row={row} onAction={handleAction} />
               ))}
-              {rows.length === 0 && (
+              {filteredRows.length === 0 && (
                 <tr>
                   <td colSpan={5} style={{ textAlign: "center", padding: "40px", color: "#94a3b8", fontSize: "13px", fontWeight: "600" }}>
                     No pending approvals. All caught up! 🎉
@@ -498,11 +542,12 @@ export default function UserApprovalPage() {
           borderTop: "1px solid #f1f5f9",
         }}>
           <p style={{ fontSize: "12px", color: "#94a3b8", fontWeight: "600", margin: 0 }}>
-            Showing <strong style={{ color: "#475569" }}>1 – 4</strong> of <strong style={{ color: "#475569" }}>124</strong> requests
+            Showing <strong style={{ color: "#475569" }}>1 – {filteredRows.length}</strong> of <strong style={{ color: "#475569" }}>124</strong> requests
           </p>
           <div style={{ display: "flex", gap: "8px" }}>
             <button
               type="button"
+              onClick={() => handlePageChange("prev")}
               style={{
                 display: "flex", alignItems: "center", gap: "4px",
                 border: "1px solid #e2e8f0", borderRadius: "7px",
@@ -516,6 +561,7 @@ export default function UserApprovalPage() {
             </button>
             <button
               type="button"
+              onClick={() => handlePageChange("next")}
               style={{
                 display: "flex", alignItems: "center", gap: "4px",
                 border: "none", borderRadius: "7px",

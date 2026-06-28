@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Search, ListFilter, ClipboardList, Clock, CheckCircle, RefreshCcw, FileText, X, AlertCircle
 } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const MOCK_ASSIGNMENTS = [
   { id: 'ASN-2010', employee: 'John Doe', branch: 'Downtown HQ', task: 'Monthly Inventory Audit', assignedBy: 'Michael Chen', date: 'Oct 12, 2026', status: 'ACTIVE' },
@@ -12,6 +13,7 @@ const MOCK_ASSIGNMENTS = [
 ];
 
 export default function EmployeeAssignments() {
+  const { addToast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -26,61 +28,77 @@ export default function EmployeeAssignments() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', paddingBottom: '40px' }}>
       
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Active Assignments details", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Active Assignments</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>142</strong>
-              <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700', marginTop: '4px', display: 'block' }}>Currently in progress</span>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Active Assignments</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>142</strong>
+              <span style={{ fontSize: '9px', color: '#10b981', fontWeight: '700', marginTop: '2px', display: 'block' }}>Currently in progress</span>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ClipboardList size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ClipboardList size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Pending tasks list", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Pending</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>38</strong>
-              <span style={{ fontSize: '11px', color: '#f59e0b', fontWeight: '700', marginTop: '4px', display: 'block' }}>Awaiting acknowledgment</span>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Pending</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>38</strong>
+              <span style={{ fontSize: '9px', color: '#f59e0b', fontWeight: '700', marginTop: '2px', display: 'block' }}>Awaiting acknowledgment</span>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Clock size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Clock size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Completed assignments records", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Completed</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>856</strong>
-              <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700', marginTop: '4px', display: 'block' }}>This month</span>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Completed</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>856</strong>
+              <span style={{ fontSize: '9px', color: '#10b981', fontWeight: '700', marginTop: '2px', display: 'block' }}>This month</span>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f0fdf4', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#f0fdf4', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CheckCircle size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Reassigned tasks metrics", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Reassigned Tasks</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>12</strong>
-              <span style={{ fontSize: '11px', color: '#ec4899', fontWeight: '700', marginTop: '4px', display: 'block' }}>Needs attention</span>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Reassigned Tasks</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>12</strong>
+              <span style={{ fontSize: '9px', color: '#ec4899', fontWeight: '700', marginTop: '2px', display: 'block' }}>Needs attention</span>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fdf2f8', color: '#ec4899', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <RefreshCcw size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#fdf2f8', color: '#ec4899', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <RefreshCcw size={14} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
+      <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', marginBottom: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
           <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Assignment Log</h3>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -97,7 +115,7 @@ export default function EmployeeAssignments() {
               className="dash-select" 
               value={statusFilter} 
               onChange={(e) => setStatusFilter(e.target.value)}
-              style={{ height: '34px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 12px', fontSize: '12px', color: 'var(--text)', background: '#fff' }}
+              style={{ height: '34px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 12px', fontSize: '12px', color: 'var(--text)', background: '#fff', outline: 'none', cursor: 'pointer', fontWeight: '700' }}
             >
               <option value="All">All Statuses</option>
               <option value="ACTIVE">Active</option>
@@ -140,7 +158,11 @@ export default function EmployeeAssignments() {
                       </span>
                     </td>
                     <td style={{ padding: '12px', textAlign: 'right' }}>
-                      <button onClick={() => setSelectedAssignment(row)} style={{ background: '#f8fafc', border: '1px solid var(--line)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', fontWeight: '700', padding: '6px 12px', borderRadius: '6px' }}>
+                      <button 
+                        onClick={() => { setSelectedAssignment(row); addToast(`Opening assignment details for ${row.id}`, "success"); }} 
+                        className="cursor-pointer"
+                        style={{ background: '#f8fafc', border: '1px solid var(--line)', color: 'var(--text)', fontSize: '12px', fontWeight: '700', padding: '6px 12px', borderRadius: '6px' }}
+                      >
                         Details
                       </button>
                     </td>
@@ -236,7 +258,9 @@ export default function EmployeeAssignments() {
                 Close
               </button>
               <button 
-                style={{ flex: 1, padding: '10px', background: '#4f46e5', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
+                onClick={() => addToast(`Opening status update console for ${selectedAssignment.id}`, "success")}
+                className="cursor-pointer"
+                style={{ flex: 1, padding: '10px', background: '#4f46e5', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '13px', fontWeight: '700' }}
               >
                 Update Status
               </button>

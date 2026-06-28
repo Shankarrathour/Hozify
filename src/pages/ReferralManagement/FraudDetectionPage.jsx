@@ -1,5 +1,6 @@
 import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 import {
   AlertTriangle,
   Ban,
@@ -10,6 +11,8 @@ import {
 } from "lucide-react";
 
 export default function FraudDetectionPage() {
+  const { addToast } = useToast();
+
   return (
     <AdminShell activeTab="Referrals">
       <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
@@ -26,91 +29,105 @@ export default function FraudDetectionPage() {
           </div>
 
           <div className="flex gap-2">
-            <button className="px-4 py-2 text-sm border rounded-lg bg-white hover:bg-gray-100">
+            <button 
+              onClick={() => addToast("Opening fraud analytics filter panel...", "success")}
+              className="px-3 py-1.5 text-xs font-bold border border-slate-300 rounded-lg bg-white hover:bg-gray-100 cursor-pointer transition-all shadow-sm"
+            >
               Filters
             </button>
-            <button className="px-4 py-2 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+            <button 
+              onClick={() => addToast("Exporting detailed fraud analysis report...", "success")}
+              className="px-3 py-1.5 text-xs font-bold bg-indigo-650 hover:bg-indigo-700 text-white rounded-lg cursor-pointer transition-all shadow-sm"
+            >
               Export Report
             </button>
           </div>
         </div>
 
         {/* TOP CARDS */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
           {/* GLOBAL SCORE */}
-          <div className="bg-gradient-to-br from-indigo-900 to-indigo-900 text-white p-5 rounded-xl shadow">
-            <div className="flex justify-between">
-              <h3 className="text-xs opacity-80">GLOBAL FRAUD SCORE</h3>
-              <span className="text-xs bg-white/20 px-2 py-1 rounded">LIVE</span>
+          <div 
+            onClick={() => addToast("Card clicked: Global Fraud Score details", "success")}
+            className="p-3 min-h-[80px] bg-white border border-slate-300 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition-all cursor-pointer"
+          >
+            <div className="flex justify-between items-start w-full">
+              <div>
+                <p className="text-[9px] uppercase tracking-widest font-extrabold text-slate-500">GLOBAL FRAUD SCORE</p>
+                <h3 className="text-lg font-black text-slate-900 mt-1 leading-tight">
+                  24.8 <span className="text-[10px] font-bold text-slate-400">/ 100</span>
+                </h3>
+              </div>
+              <span className="text-[8px] bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-extrabold border border-indigo-150">LIVE</span>
             </div>
-
-            <div className="mt-4 text-4xl font-bold">
-              24.8 <span className="text-lg font-normal">/100</span>
+            <div className="flex items-center justify-between mt-2 w-full">
+              <span className="text-[9px] text-slate-500 font-semibold">Risk level: Low-Med</span>
+              <div className="w-16 h-[3px] bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full bg-indigo-700 w-1/4 rounded-full"></div>
+              </div>
             </div>
-
-            <div className="mt-4 h-2 bg-white/20 rounded-full">
-              <div className="h-2 bg-white rounded-full w-1/4"></div>
-            </div>
-
-            <p className="text-sm mt-2 opacity-80">
-              Risk level: Low - Medium
-            </p>
           </div>
 
           {/* FLAGGED */}
-          <div className="bg-white p-5 rounded-xl shadow">
-            <div className="flex justify-between">
-              <h3 className="text-xs text-gray-500">FLAGGED REFERRALS</h3>
-              <AlertTriangle className="text-red-500" size={18} />
+          <div 
+            onClick={() => addToast("Card clicked: Flagged Referrals analysis", "success")}
+            className="p-3 min-h-[80px] bg-white border border-slate-300 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition-all cursor-pointer"
+          >
+            <div className="flex justify-between items-start w-full">
+              <div>
+                <p className="text-[9px] uppercase tracking-widest font-extrabold text-slate-500">FLAGGED REFERRALS</p>
+                <h3 className="text-lg font-black text-slate-900 mt-1 leading-tight">1,284</h3>
+              </div>
+              <div className="text-red-500 mt-0.5">
+                <AlertTriangle size={14} />
+              </div>
             </div>
-
-            <div className="text-3xl font-bold mt-3">1,284</div>
-            <p className="text-xs text-red-500 mt-1">+12% from yesterday</p>
-
-            <div className="mt-3 h-1.5 bg-gray-100 rounded-full">
-              <div className="h-1.5 bg-red-500 w-2/3 rounded-full"></div>
+            <div className="flex items-center justify-between mt-2 w-full">
+              <span className="text-[9px] text-red-500 font-semibold">+12% from yesterday</span>
+              <div className="w-16 h-[3px] bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full bg-red-500 w-2/3 rounded-full"></div>
+              </div>
             </div>
           </div>
 
           {/* BLOCKED */}
-          <div className="bg-white p-5 rounded-xl shadow">
-            <div className="flex justify-between">
-              <h3 className="text-xs text-gray-500">BLOCKED ACCOUNTS</h3>
-              <Ban className="text-gray-600" size={18} />
+          <div 
+            onClick={() => addToast("Card clicked: Blocked Accounts detailed logs", "success")}
+            className="p-3 min-h-[80px] bg-white border border-slate-300 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition-all cursor-pointer"
+          >
+            <div className="flex justify-between items-start w-full">
+              <div>
+                <p className="text-[9px] uppercase tracking-widest font-extrabold text-slate-500">BLOCKED ACCOUNTS</p>
+                <h3 className="text-lg font-black text-slate-900 mt-1 leading-tight">492</h3>
+              </div>
+              <div className="text-slate-600 mt-0.5">
+                <Ban size={14} />
+              </div>
             </div>
-
-            <div className="text-3xl font-bold mt-3">492</div>
-
-            <div className="mt-3 space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Bot detection</span>
-                <span className="font-medium">312</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Sybil attack</span>
-                <span className="font-medium">180</span>
-              </div>
+            <div className="flex items-center justify-between mt-2 w-full">
+              <span className="text-[9px] text-slate-500 font-semibold">Bot: 312 • Sybil: 180</span>
             </div>
           </div>
         </div>
 
         {/* MIDDLE */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-
           {/* TABLE */}
-          <div className="lg:col-span-2 bg-white rounded-xl shadow p-4">
+          <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-semibold">Recently Flagged Items</h2>
-              <button className="text-sm text-indigo-600">
+              <h2 className="font-bold text-sm text-slate-900">Recently Flagged Items</h2>
+              <button 
+                onClick={() => addToast("Opening full audit records logs page...", "success")}
+                className="text-xs font-bold text-indigo-700 hover:text-indigo-900 cursor-pointer"
+              >
                 View All Records
               </button>
             </div>
 
-            <table className="w-full text-sm">
-              <thead className="text-left text-gray-500 border-b">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead className="text-slate-500 border-b border-slate-100 font-bold uppercase text-[10px]">
                 <tr>
-                  <th className="py-2">Entity</th>
+                  <th className="py-2.5">Entity</th>
                   <th>Trigger</th>
                   <th>Risk</th>
                   <th>Time</th>
@@ -118,120 +135,128 @@ export default function FraudDetectionPage() {
               </thead>
 
               <tbody>
-
                 {/* ROW 1 */}
-                <tr className="border-b">
-                  <td className="py-3 font-medium">
+                <tr 
+                  onClick={() => addToast("Opening threat review for user_8921_beta", "success")}
+                  className="border-b border-slate-100 hover:bg-slate-50 transition-all cursor-pointer"
+                >
+                  <td className="py-3 font-bold text-slate-800">
                     user_8921_beta
-                    <p className="text-xs text-gray-400">192.168.1.104</p>
+                    <p className="text-[10px] text-gray-400 font-normal mt-0.5">192.168.1.104</p>
                   </td>
-                  <td>Rapid Referral Spiking</td>
+                  <td className="font-semibold text-slate-650">Rapid Referral Spiking</td>
                   <td>
-                    <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs">
+                    <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded text-[9px] font-extrabold border border-red-100">
                       CRITICAL 94
                     </span>
                   </td>
-                  <td className="text-gray-500">2 mins ago</td>
+                  <td className="text-gray-400 font-semibold">2 mins ago</td>
                 </tr>
 
                 {/* ROW 2 */}
-                <tr className="border-b">
-                  <td className="py-3 font-medium">
+                <tr 
+                  onClick={() => addToast("Opening threat review for referral_vortex_77", "success")}
+                  className="border-b border-slate-100 hover:bg-slate-50 transition-all cursor-pointer"
+                >
+                  <td className="py-3 font-bold text-slate-800">
                     referral_vortex_77
-                    <p className="text-xs text-gray-400">email mismatch</p>
+                    <p className="text-[10px] text-gray-400 font-normal mt-0.5">email mismatch</p>
                   </td>
-                  <td>Duplicate Account</td>
+                  <td className="font-semibold text-slate-650">Duplicate Account</td>
                   <td>
-                    <span className="bg-yellow-100 text-yellow-600 px-2 py-1 rounded text-xs">
+                    <span className="bg-yellow-50 text-yellow-600 px-2 py-0.5 rounded text-[9px] font-extrabold border border-yellow-100">
                       HIGH 72
                     </span>
                   </td>
-                  <td className="text-gray-500">14 mins ago</td>
+                  <td className="text-gray-400 font-semibold">14 mins ago</td>
                 </tr>
 
                 {/* ROW 3 */}
-                <tr>
-                  <td className="py-3 font-medium">
+                <tr 
+                  onClick={() => addToast("Opening threat review for shadow_walker_01", "success")}
+                  className="hover:bg-slate-50 transition-all cursor-pointer"
+                >
+                  <td className="py-3 font-bold text-slate-800">
                     shadow_walker_01
-                    <p className="text-xs text-gray-400">proxy detected</p>
+                    <p className="text-[10px] text-gray-400 font-normal mt-0.5">proxy detected</p>
                   </td>
-                  <td>VPN Usage</td>
+                  <td className="font-semibold text-slate-650">VPN Usage</td>
                   <td>
-                    <span className="bg-orange-100 text-orange-500 px-2 py-1 rounded text-xs">
+                    <span className="bg-orange-50 text-orange-500 px-2 py-0.5 rounded text-[9px] font-extrabold border border-orange-100">
                       MEDIUM 45
                     </span>
                   </td>
-                  <td className="text-gray-500">1 hour ago</td>
+                  <td className="text-gray-400 font-semibold">1 hour ago</td>
                 </tr>
-
               </tbody>
             </table>
           </div>
 
           {/* RIGHT PANEL */}
           <div className="space-y-4">
+            {/* THREAT DISTRIBUTION */}
+            <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+              <h3 className="font-bold text-sm text-slate-900 mb-4">Threat Distribution</h3>
 
-            {/* THREAT DISTRIBUTION (IMPROVED LIKE FIGMA) */}
-            <div className="bg-white p-4 rounded-xl shadow">
-              <h3 className="font-semibold mb-4">Threat Distribution</h3>
-
-              <div className="space-y-4 text-sm">
-
+              <div className="space-y-4 text-xs font-bold text-slate-650">
                 {/* BOT FARM */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span>Bot Farm Activity</span>
+                <div onClick={() => addToast("Threat type: Bot Farm details", "success")} className="cursor-pointer group">
+                  <div className="flex justify-between mb-1.5">
+                    <span className="group-hover:text-indigo-900">Bot Farm Activity</span>
                     <span>42%</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full">
-                    <div className="h-2 bg-indigo-600 rounded-full w-[42%]"></div>
+                  <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-indigo-600 rounded-full w-[42%]"></div>
                   </div>
                 </div>
 
                 {/* DUPLICATE IP */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span>Duplicate IP Usage</span>
+                <div onClick={() => addToast("Threat type: Duplicate IP details", "success")} className="cursor-pointer group">
+                  <div className="flex justify-between mb-1.5">
+                    <span className="group-hover:text-indigo-900">Duplicate IP Usage</span>
                     <span>28%</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full">
-                    <div className="h-2 bg-red-500 rounded-full w-[28%]"></div>
+                  <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-red-500 rounded-full w-[28%]"></div>
                   </div>
                 </div>
 
                 {/* VPN */}
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span>VPN / Tunnel Bypass</span>
+                <div onClick={() => addToast("Threat type: VPN details", "success")} className="cursor-pointer group">
+                  <div className="flex justify-between mb-1.5">
+                    <span className="group-hover:text-indigo-900">VPN / Tunnel Bypass</span>
                     <span>15%</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full">
-                    <div className="h-2 bg-orange-500 rounded-full w-[15%]"></div>
+                  <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-orange-50 rounded-full w-[15%]"></div>
                   </div>
                 </div>
-
               </div>
             </div>
 
             {/* AUTOMATION */}
-            <div className="bg-gray-900 text-white p-4 rounded-xl">
-              <h3 className="font-semibold">Automated Security</h3>
-              <p className="text-xs text-gray-300 mt-2">
-                AI is handling 82% mitigation tasks.
-              </p>
-
-              <div className="flex items-center gap-2 mt-3 text-green-400 text-sm">
-                <Activity size={16} /> Active
+            <div className="bg-slate-900 text-white p-4 rounded-xl shadow-sm flex flex-col justify-between min-h-[140px]">
+              <div>
+                <h3 className="font-bold text-sm">Automated Security</h3>
+                <p className="text-[10px] text-gray-300 mt-1 leading-relaxed">
+                  AI is handling 82% mitigation tasks.
+                </p>
               </div>
 
-              <button className="mt-3 w-full bg-white text-black py-2 rounded-lg text-sm">
+              <div className="flex items-center gap-2 mt-3 text-green-450 text-[10px] font-bold uppercase tracking-wider">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <span>Active</span>
+              </div>
+
+              <button 
+                onClick={() => addToast("Opening automated threat rules configuration console...", "success")}
+                className="mt-3 w-full bg-white hover:bg-slate-50 text-slate-900 font-bold py-2 rounded-lg text-xs transition-all cursor-pointer shadow-sm"
+              >
                 Configure Rules
               </button>
             </div>
-
           </div>
         </div>
-
       </div>
     </AdminShell>
   );

@@ -3,6 +3,7 @@ import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
 import AdminShell from '../../components/layouts/AdminShell';
 import BusinessHeaderTabs from './BusinessHeaderTabs';
+import { useToast } from '../../components/common/ToastNotification';
 import {
   Eye,
   Check,
@@ -10,27 +11,24 @@ import {
   Search,
   SlidersHorizontal,
   Download,
-  Printer,
   Plus,
   ArrowRight,
   ShieldAlert,
-  FileText,
   Building2,
   CheckCircle2,
-  XCircle,
-  HelpCircle,
   RefreshCw,
   MoreVertical,
   Edit2,
   UserCheck,
+  UserX,
   Ban,
-  Clock,
   RotateCcw,
   AlertOctagon
 } from 'lucide-react';
 
 export default function BusinessRegistry() {
   const { route, navigate } = useApp();
+  const { addToast } = useToast();
   const isComplianceTab = route === ROUTES.businessApproval;
   
   // Local toggles and filters
@@ -53,7 +51,7 @@ export default function BusinessRegistry() {
     {
       id: '#ENT-99201',
       name: 'Luminary Systems',
-      subCategory: 'Technology & AI',
+      subCategory: 'Tech',
       owner: 'Sarah Jenkins',
       location: 'Austin, TX',
       gstStatus: 'Verified',
@@ -65,7 +63,7 @@ export default function BusinessRegistry() {
     {
       id: '#ENT-88412',
       name: 'Aura Living',
-      subCategory: 'Furniture / Retail',
+      subCategory: 'Retail',
       owner: 'Marcus Thorne',
       location: 'Portland, OR',
       gstStatus: 'Pending',
@@ -77,7 +75,7 @@ export default function BusinessRegistry() {
     {
       id: '#ENT-44102',
       name: 'Velox Logistics',
-      subCategory: 'Transport',
+      subCategory: 'Logistics',
       owner: 'Elena Rodriguez',
       location: 'Miami, FL',
       gstStatus: 'Suspended',
@@ -119,8 +117,10 @@ export default function BusinessRegistry() {
       owner: bus.owner || 'Marcus Thorne'
     }));
 
+    addToast(`Loading details for ${bus.name}...`, "success");
+
     if (bus.status === 'Pending' || bus.gstStatus === 'Pending' || bus.risk) {
-      navigate(ROUTES.businessReview);
+      navigate(ROUTES.businessDocReview);
     } else if (bus.status === 'Suspended' || bus.gstStatus === 'Suspended') {
       navigate(ROUTES.businessSuspension);
     } else {
@@ -130,7 +130,8 @@ export default function BusinessRegistry() {
 
   const handleReviewClick = (e, bus) => {
     e.stopPropagation();
-    navigate(ROUTES.businessReview);
+    addToast(`Loading KYC documents vault for ${bus.name}...`, "success");
+    navigate(ROUTES.businessDocReview);
   };
 
   return (
@@ -140,7 +141,7 @@ export default function BusinessRegistry() {
       headerTabs={<BusinessHeaderTabs activeTab={isComplianceTab ? 'Compliance' : 'Directory'} />}
       searchPlaceholder="Search businesses..."
     >
-      <div className="business-registry-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div className="business-registry-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         
         {isComplianceTab ? (
           /* ================= COMPLIANCE VIEW (SCREEN 1 & SCREEN 5 TOGGLE) ================= */
@@ -160,32 +161,32 @@ export default function BusinessRegistry() {
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <button
                   className="secondary-action-btn"
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 12px', borderRadius: '6px' }}
-                  onClick={() => window.location.reload()}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 12px', borderRadius: '6px', cursor: 'pointer' }}
+                  onClick={() => { window.location.reload(); addToast("Registry list reloaded", "success"); }}
                   type="button"
                 >
                   <RefreshCw size={14} /> Refresh
                 </button>
                 <button
                   className="secondary-action-btn"
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 12px', borderRadius: '6px' }}
-                  onClick={() => alert('Exporting data...')}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 12px', borderRadius: '6px', cursor: 'pointer' }}
+                  onClick={() => addToast("Exporting business directory ledger...", "success")}
                   type="button"
                 >
                   Export
                 </button>
                 <button
                   className="secondary-action-btn"
-                  style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 12px', borderRadius: '6px' }}
-                  onClick={() => alert('Bulk Actions menu opened.')}
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 12px', borderRadius: '6px', cursor: 'pointer' }}
+                  onClick={() => addToast("Bulk Action operation menu opened.", "success")}
                   type="button"
                 >
                   Bulk Actions
                 </button>
                 <button
                   className="primary-btn"
-                  style={{ height: '36px', width: 'auto', padding: '0 16px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px' }}
-                  onClick={() => navigate(ROUTES.addBusiness)}
+                  style={{ height: '36px', width: 'auto', padding: '0 16px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', background: '#2A2454', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
+                  onClick={() => { navigate(ROUTES.addBusiness); addToast("Add Business form loaded.", "success"); }}
                   type="button"
                 >
                   <Plus size={14} /> Add Business
@@ -194,24 +195,24 @@ export default function BusinessRegistry() {
             </div>
 
             {/* KPI Cards Row (Screen 1 Dashboard Overview) */}
-            <div className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
+            <div className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '16px' }}>
               
               {/* Total Businesses */}
-              <div className="panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '110px' }}>
+              <div onClick={() => addToast("Platform registered businesses: 12,450", "success")} className="panel" style={{ padding: '12px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '80px', cursor: 'pointer' }}>
                 <div>
                   <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Total Businesses</span>
-                  <strong style={{ display: 'block', fontSize: '24px', color: 'var(--text)', marginTop: '6px' }}>12,450</strong>
+                  <strong style={{ display: 'block', fontSize: '18px', color: 'var(--text)', marginTop: '4px' }}>12,450</strong>
                 </div>
-                <span style={{ fontSize: '10px', color: '#4f46e5', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  📈 8.2% vs last month
+                <span style={{ fontSize: '9px', color: '#4f46e5', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                  📈 +8.2%
                 </span>
               </div>
 
               {/* Active */}
-              <div className="panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '110px' }}>
+              <div onClick={() => addToast("Active operational entities: 10,200", "success")} className="panel" style={{ padding: '12px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '80px', cursor: 'pointer' }}>
                 <div>
                   <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Active</span>
-                  <strong style={{ display: 'block', fontSize: '24px', color: 'var(--text)', marginTop: '6px' }}>10,200</strong>
+                  <strong style={{ display: 'block', fontSize: '18px', color: 'var(--text)', marginTop: '4px' }}>10,200</strong>
                 </div>
                 <div style={{ height: '4px', width: '100%', background: '#e2e8f0', borderRadius: '2px', overflow: 'hidden' }}>
                   <div style={{ width: '82%', height: '100%', background: '#10b981' }} />
@@ -221,56 +222,52 @@ export default function BusinessRegistry() {
               {/* Pending - Triggers toggle to verification queue view */}
               <div 
                 className="panel" 
-                onClick={() => setShowApprovalQueueOnly(!showApprovalQueueOnly)}
-                style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '110px', cursor: 'pointer', border: showApprovalQueueOnly ? '2px solid #4f46e5' : '1px solid var(--line)', transition: 'all 0.2s ease' }}
+                onClick={() => { setShowApprovalQueueOnly(!showApprovalQueueOnly); addToast(showApprovalQueueOnly ? "Switched to Business Management View" : "Switched to Approvals Queue", "success"); }}
+                style={{ padding: '12px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '80px', cursor: 'pointer', border: showApprovalQueueOnly ? '2px solid #4f46e5' : '1px solid var(--line)', transition: 'all 0.2s ease' }}
               >
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Pending</span>
-                    <span style={{ fontSize: '7px', fontWeight: '900', color: '#b45309', background: '#fef3c7', padding: '1px 4px', borderRadius: '3px' }}>Queue</span>
+                    <span style={{ fontSize: '7px', fontWeight: '900', color: '#b45309', background: '#fef3c7', padding: '1px 3px', borderRadius: '3px' }}>Queue</span>
                   </div>
-                  <strong style={{ display: 'block', fontSize: '24px', color: 'var(--text)', marginTop: '6px' }}>850</strong>
+                  <strong style={{ display: 'block', fontSize: '18px', color: 'var(--text)', marginTop: '4px' }}>850</strong>
                 </div>
-                <span style={{ fontSize: '10px', color: '#b45309', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                  ⏳ Action required soon
+                <span style={{ fontSize: '9px', color: '#b45309', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                  ⏳ Action soon
                 </span>
               </div>
 
               {/* Suspended */}
-              <div className="panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '110px' }}>
+              <div onClick={() => addToast("Suspended businesses: 120", "success")} className="panel" style={{ padding: '12px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '80px', cursor: 'pointer' }}>
                 <div>
                   <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Suspended</span>
-                  <strong style={{ display: 'block', fontSize: '24px', color: 'var(--text)', marginTop: '6px' }}>120</strong>
+                  <strong style={{ display: 'block', fontSize: '18px', color: 'var(--text)', marginTop: '4px' }}>120</strong>
                 </div>
-                <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                  ⚠ Critical status
+                <span style={{ fontSize: '9px', color: '#ef4444', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                  ⚠ Critical
                 </span>
               </div>
 
               {/* Top Revenue */}
-              <div className="panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '110px' }}>
+              <div onClick={() => addToast("Top revenue business target status: 80% achieved", "success")} className="panel" style={{ padding: '12px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '80px', cursor: 'pointer' }}>
                 <div>
                   <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Top Revenue</span>
-                  <strong style={{ display: 'block', fontSize: '24px', color: 'var(--text)', marginTop: '6px' }}>$2.4M</strong>
+                  <strong style={{ display: 'block', fontSize: '18px', color: 'var(--text)', marginTop: '4px' }}>$2.4M</strong>
                 </div>
                 <div>
                   <div style={{ height: '4px', width: '100%', background: '#e2e8f0', borderRadius: '2px', overflow: 'hidden' }}>
                     <div style={{ width: '80%', height: '100%', background: '#4f46e5' }} />
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', color: 'var(--muted)', marginTop: '4px', fontWeight: '700' }}>
-                    <span>Current Target</span>
-                    <span>$3.0M</span>
-                  </div>
                 </div>
               </div>
 
               {/* New Registrations */}
-              <div className="panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '110px' }}>
+              <div onClick={() => addToast("New registrations this week: 45", "success")} className="panel" style={{ padding: '12px', display: 'flex', flexDirection: 'column', justifySelf: 'stretch', justifyContent: 'space-between', minHeight: '80px', cursor: 'pointer' }}>
                 <div>
-                  <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>New Registrations</span>
-                  <strong style={{ display: 'block', fontSize: '24px', color: '#3b82f6', marginTop: '6px' }}>+45</strong>
+                  <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>New Regs</span>
+                  <strong style={{ display: 'block', fontSize: '18px', color: '#3b82f6', marginTop: '4px' }}>+45</strong>
                 </div>
-                <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>This week</span>
+                <span style={{ fontSize: '9px', color: 'var(--muted)', fontWeight: '700' }}>This week</span>
               </div>
 
             </div>
@@ -333,11 +330,11 @@ export default function BusinessRegistry() {
                           </td>
                           <td style={{ textAlign: 'right' }} onClick={(e) => e.stopPropagation()}>
                             <div style={{ display: 'inline-flex', gap: '6px' }}>
-                              <button onClick={(e) => handleReviewClick(e, bus)} className="btn-action-circle" style={{ height: '28px', width: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f1f5f9', border: 'none', color: '#334155' }} title="Review Page" type="button">
+                              <button onClick={(e) => handleReviewClick(e, bus)} className="btn-action-circle" style={{ height: '28px', width: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f1f5f9', border: 'none', color: '#334155', cursor: 'pointer' }} title="Review Page" type="button">
                                 <Eye size={13} />
                               </button>
-                              <button onClick={() => alert(`${bus.name} Approved.`)} className="btn-action-circle approve-green" type="button"><Check size={13} /></button>
-                              <button onClick={() => alert(`${bus.name} Rejected.`)} className="btn-action-circle reject-red" type="button"><X size={13} /></button>
+                              <button onClick={() => addToast(`${bus.name} successfully Approved!`, "success")} className="btn-action-circle approve-green" type="button" style={{ cursor: 'pointer' }}><Check size={13} /></button>
+                              <button onClick={() => addToast(`${bus.name} rejected and flagged.`, "success")} className="btn-action-circle reject-red" type="button" style={{ cursor: 'pointer' }}><X size={13} /></button>
                             </div>
                           </td>
                         </tr>
@@ -419,8 +416,8 @@ export default function BusinessRegistry() {
                   {/* Advanced Filters */}
                   <button
                     className="secondary-action-btn"
-                    style={{ height: '38px', display: 'flex', alignItems: 'center', gap: '6px', padding: '0 12px', border: '1px solid #4f46e5', color: '#4f46e5', background: '#fff', fontWeight: '700', fontSize: '12px', borderRadius: '6px' }}
-                    onClick={() => alert('Advanced filters toggled.')}
+                    style={{ height: '38px', display: 'flex', alignItems: 'center', gap: '6px', padding: '0 12px', border: '1px solid #4f46e5', color: '#4f46e5', background: '#fff', fontWeight: '700', fontSize: '12px', borderRadius: '6px', cursor: 'pointer' }}
+                    onClick={() => addToast("Advanced filter matrix panel opened.", "success")}
                     type="button"
                   >
                     <SlidersHorizontal size={14} /> Advanced Filters
@@ -498,18 +495,18 @@ export default function BusinessRegistry() {
                               <div style={{ display: 'inline-flex', gap: '6px' }}>
                                 {bus.status === 'Pending' ? (
                                   <>
-                                    <button onClick={() => navigate(ROUTES.businessReview)} className="btn-action-circle approve-green" type="button" title="Approve"><Check size={13} /></button>
-                                    <button onClick={() => alert('Rejected.')} className="btn-action-circle reject-red" type="button" title="Reject"><X size={13} /></button>
+                                    <button onClick={() => { navigate(ROUTES.businessDocReview); addToast(`Document Review loaded for ${bus.name}`, "success"); }} className="btn-action-circle approve-green" type="button" title="Approve" style={{ cursor: 'pointer' }}><Check size={13} /></button>
+                                    <button onClick={() => addToast(`Rejected registration for ${bus.name}.`, "success")} className="btn-action-circle reject-red" type="button" title="Reject" style={{ cursor: 'pointer' }}><X size={13} /></button>
                                   </>
                                 ) : bus.status === 'Suspended' ? (
                                   <>
-                                    <button onClick={() => navigate(ROUTES.businessSuspension)} className="btn-action-circle" style={{ background: '#f1f5f9', border: 'none', color: '#475569' }} type="button" title="Audit/History"><RotateCcw size={13} /></button>
-                                    <button onClick={() => alert('Critical Review Alerts')} className="btn-action-circle reject-red" type="button" title="Alerts"><AlertOctagon size={13} /></button>
+                                    <button onClick={() => { navigate(ROUTES.businessSuspension); addToast(`Loading suspension details for ${bus.name}`, "success"); }} className="btn-action-circle" style={{ background: '#f1f5f9', border: 'none', color: '#475569', cursor: 'pointer' }} type="button" title="Audit/History"><RotateCcw size={13} /></button>
+                                    <button onClick={() => addToast(`Critical review alerts fetched for ${bus.name}.`, "success")} className="btn-action-circle reject-red" type="button" title="Alerts" style={{ cursor: 'pointer' }}><AlertOctagon size={13} /></button>
                                   </>
                                 ) : (
                                   <>
-                                    <button onClick={(e) => { e.stopPropagation(); handleRowClick(bus); }} className="btn-action-circle" style={{ background: '#f1f5f9', border: 'none', color: '#475569' }} type="button" title="View details"><Eye size={13} /></button>
-                                    <button onClick={() => alert('Editing details...')} className="btn-action-circle" style={{ background: '#f1f5f9', border: 'none', color: '#475569' }} type="button" title="Edit"><Edit2 size={13} /></button>
+                                    <button onClick={(e) => { e.stopPropagation(); handleRowClick(bus); }} className="btn-action-circle" style={{ background: '#f1f5f9', border: 'none', color: '#475569', cursor: 'pointer' }} type="button" title="View details"><Eye size={13} /></button>
+                                    <button onClick={() => addToast(`Editing profile details for ${bus.name}`, "success")} className="btn-action-circle" style={{ background: '#f1f5f9', border: 'none', color: '#475569', cursor: 'pointer' }} type="button" title="Edit"><Edit2 size={13} /></button>
                                   </>
                                 )}
                                 <button className="btn-action-circle" style={{ background: 'transparent', border: 'none', color: 'var(--muted)' }} type="button"><MoreVertical size={13} /></button>
@@ -523,15 +520,15 @@ export default function BusinessRegistry() {
 
                 {/* Footer details */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '16px', flexWrap: 'wrap', gap: '12px' }}>
-                  <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: '600' }}>Showing 1 to 10 of 12,450 entries</span>
+                  <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: '600' }}>Showing 1 to 4 of 12,450 entries</span>
                   <div className="pagination-wrap" style={{ display: 'flex', gap: '6px' }}>
-                    <button className="pag-nav-btn" disabled type="button">Previous</button>
-                    <button className="pag-num-btn active" type="button">1</button>
-                    <button className="pag-num-btn" type="button">2</button>
-                    <button className="pag-num-btn" type="button">3</button>
+                    <button onClick={() => addToast("Previous page loaded", "success")} className="pag-nav-btn" type="button">Previous</button>
+                    <button onClick={() => addToast("Page 1 active", "success")} className="pag-num-btn active" type="button">1</button>
+                    <button onClick={() => addToast("Page 2 loaded", "success")} className="pag-num-btn" type="button">2</button>
+                    <button onClick={() => addToast("Page 3 loaded", "success")} className="pag-num-btn" type="button">3</button>
                     <span style={{ alignSelf: 'center', color: 'var(--muted)', padding: '0 4px' }}>...</span>
-                    <button className="pag-num-btn" type="button">1,245</button>
-                    <button className="pag-nav-btn" type="button">Next</button>
+                    <button onClick={() => addToast("Page 1,245 loaded", "success")} className="pag-num-btn" type="button">1,245</button>
+                    <button onClick={() => addToast("Next page loaded", "success")} className="pag-nav-btn" type="button">Next</button>
                   </div>
                 </div>
 
@@ -606,7 +603,7 @@ export default function BusinessRegistry() {
                           <td style={{ padding: '14px 16px', fontSize: '12px', color: 'var(--muted)' }}>{bus.regDate}</td>
                           <td style={{ padding: '14px 16px', textAlign: 'right' }}>
                             <button
-                              style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontWeight: '700', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                              style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontWeight: '700', fontSize: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                               onClick={(e) => { e.stopPropagation(); handleRowClick(bus); }}
                               type="button"
                             >

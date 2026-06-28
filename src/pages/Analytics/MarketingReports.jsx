@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import AdminShell from '../../components/layouts/AdminShell';
 import {
   Download,
@@ -121,7 +121,11 @@ export default function MarketingReports() {
           {KPI_CARDS.map(card => {
             const Icon = card.icon;
             return (
-              <div key={card.id} style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div 
+                key={card.id} 
+                className="report-kpi-card"
+                style={{ background: '#fff', borderRadius: '12px', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '11px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{card.label}</span>
                   {/*

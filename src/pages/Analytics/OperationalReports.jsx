@@ -19,6 +19,7 @@ import {
 import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
+import { downloadDummyPDF } from '../../utils/downloadHelper';
 
 export default function OperationalReports() {
   const { navigate } = useApp();
@@ -31,7 +32,7 @@ export default function OperationalReports() {
   ];
 
   const handleGenerateReport = () => {
-    alert('Generating & Exporting all selected reports...');
+    downloadDummyPDF('Operational Reports', 'Platform commission configuration rules, commissions metrics, and auto-settled transfers ledger.');
   };
 
   const handleNewSchedule = () => {

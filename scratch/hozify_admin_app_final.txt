@@ -1,0 +1,410 @@
+HOZIFY ADMIN APPLICATION
+Functional Understanding Document
+Project Overview
+The Hozify Admin Application is a centralized platform used to manage the complete Hozify ecosystem including Users, Service Providers, Business Service Providers (BSP), Business Sellers (BS), Bookings, Quotations, Orders, Payments, Wallets, Referrals, SOS Requests, Services, Materials, GST, Platform Revenue, and Reports.
+The Admin Panel will operate on a Role-Based Access Control (RBAC) system where each admin will have access only to assigned modules and permissions.
+
+1. Dashboard
+The dashboard will provide a complete overview of platform activities.
+Dashboard Statistics
+Total Users
+Total Partners
+Total BSP
+Total BS
+Total ISP
+Total Active Bookings
+Total Completed Bookings
+Total Orders
+Total Revenue
+Platform Earnings
+GST Collection
+Open SOS Requests
+Open Support Tickets
+Wallet Transactions
+Active Service Providers
+Live Monitoring
+Live Bookings
+Live Service Providers
+Live Orders
+Live SOS Cases
+
+2. Role Management & Authorization
+Only Super Admin can create and manage roles.
+Features
+Create Role
+Edit Role
+Delete Role
+Create Admin Users
+Assign Roles
+Assign Permissions
+Login Audit Logs
+Activity Logs
+Example Roles
+Super Admin
+Operations Admin
+Finance Admin
+Support Admin
+Approval Admin
+
+3. User Management
+Manage all customer accounts.
+Features
+User Listing
+User Profile Details
+User Wallet
+User Booking History
+User Payment History
+User Referral History
+Favorite Addresses
+Emergency Contacts
+Language Preferences
+Actions
+Activate User
+Suspend User
+Delete User
+Restore User
+Audit Logs
+Track all user activities including:
+Login
+Profile Update
+Booking Creation
+Payments
+Wallet Transactions
+SOS Requests
+
+4. Partner Management
+Partner Types:
+ISP
+Independent Service Provider
+KYC Required:
+Aadhaar
+PAN
+Selfie
+Bank Details
+BSP
+Business Service Provider
+Personal KYC:
+Aadhaar
+PAN
+Business KYC:
+GST
+Business PAN
+Registration Documents
+BS
+Business Seller
+Personal KYC
+Business KYC
+Features
+KYC Verification
+Business Verification
+Service Mapping
+Branch Management
+Employee Management
+Wallet Monitoring
+
+5. Referral Management
+Features
+Referral Rules
+Referral Rewards
+Influencer Referrals
+Referral Earnings
+Referral Tracking
+
+6. SOS Management
+Emergency Management Module
+Features
+SOS Listing
+User Information
+Emergency Contact
+Live Location
+Booking Details
+Assigned Executive
+Resolution Status
+Status Flow
+Open→ Assigned→ Investigating→ Resolved→ Closed
+
+7. Payment Management
+Manage all platform transactions.
+Features
+Payment Listing
+Transaction Details
+Failed Payments
+Refunds
+Settlements
+Withdrawal Requests
+Payment Approval System
+Status
+Pending→ Processing→ Success→ Failed→ Refunded→ Settled
+Monitoring
+Fraud Detection
+Suspicious Activities
+Account Monitoring
+
+8. Booking Management
+Manage complete booking lifecycle.
+Flow
+Booking Created→ Partner Assigned→ Accepted→ Work Started→ Material Request→ Quotation→ Order→ Installation→ Payment→ OTP Verification→ Closed
+Actions
+Reassign
+Escalate
+Cancel
+Force Close
+
+9. Quotation Management
+Features
+Service Provider Quotations
+Seller Quotations
+Admin Approval
+Customer Approval
+Quotation History
+
+10. Order Management
+Features
+Order Listing
+Material Details
+Seller Details
+Delivery Tracking
+Installation Tracking
+Invoice Management
+Status
+Created→ Processing→ Dispatched→ Delivered→ Installed→ Closed
+
+11. Location Management
+Features
+Country
+State
+City
+Area
+Pincode
+Service Radius
+
+12. Service Management
+Features
+Service Categories
+Sub Categories
+Service Creation
+Service Mapping
+Service Activation
+
+13. Price Management
+Features
+Service Pricing
+Labor Charges
+Dynamic Pricing
+Emergency Charges
+Peak Hour Charges
+
+14. Offer Management
+Features
+Coupons
+Promo Codes
+Discounts
+Campaigns
+Seasonal Offers
+
+15. User & Partner Menu Management
+Admin can dynamically control:
+User App Menus
+Partner App Menus
+Feature Visibility
+Without App Update
+
+16. Admin Panel Menu Management
+Role Based Sidebar Control.
+Admin can decide:
+Which role can access which menu
+Which actions can be performed
+
+17. Reward Management
+Features
+Cashback
+Loyalty Points
+Referral Rewards
+Influencer Rewards
+
+18. Wallet Management
+Wallet Types
+User Wallet
+Partner Wallet
+Influencer Wallet
+Features
+Credit
+Debit
+Freeze
+Unfreeze
+Withdrawals
+
+19. Support / FAQ / Help
+Features
+Ticket Management
+FAQ Management
+Help Center
+Ticket Resolution Workflow
+Ticket Flow:
+Open→ Assigned→ In Progress→ Resolved→ Closed
+
+20. Performance Management
+ISP Performance
+Ratings
+Acceptance Rate
+Completion Rate
+Earnings
+BSP Performance
+Business Revenue
+Branch Performance
+Employee Performance
+BS Performance
+Order Completion
+Delivery Success
+Seller Ratings
+
+21. Notification Management
+Channels
+SMS
+Email
+WhatsApp
+Push Notifications
+Templates
+OTP
+Booking
+Payment
+Referral
+
+22. GST Management
+Features
+GST Configuration
+Tax Rules
+HSN Codes
+GST Reports
+GST Invoices
+
+23. Platform Fee Management
+Features
+Commission Rules
+Platform Charges
+Settlement Rules
+
+24. Live Location Tracking
+Features
+User Tracking
+Partner Tracking
+Employee Tracking
+Active Booking Tracking
+
+25. Documentation Center
+Manage
+KYC Documents
+GST Documents
+Agreements
+Contracts
+Business Registrations
+
+26. Material Management
+Features
+Material Categories
+Inventory
+Stock Management
+Material Requests
+Material Orders
+
+27. Material Price Management
+Features
+Purchase Price
+Selling Price
+Profit Margin
+Price History
+
+28. Favorite Address Management
+Features
+Home Address
+Office Address
+Saved Locations
+
+29-49 Reports Management
+Generate Reports For:
+Users
+Partners
+Bookings
+Quotations
+Orders
+Materials
+Payments
+Wallets
+Referrals
+SOS
+GST
+Revenue
+Services
+Ratings
+Offers
+Locations
+Export Formats:
+PDF
+Excel
+CSV
+
+50. Policy Management
+Manage:
+Privacy Policy
+Refund Policy
+Cancellation Policy
+
+51. Terms & Conditions Management
+Separate Terms For:
+Users
+ISP
+BSP
+BS
+Employees
+Version Control Supported
+
+52. Approval Management
+Central Approval Queue
+Includes:
+KYC Approval
+Partner Approval
+Branch Approval
+Service Approval
+Quotation ApprovalUser AprrovalMaterial Approval
+
+53. Banner & Image Management
+Manage:
+Home Banners
+Offer Banners
+Marketing Banners
+Promotional Images
+
+54. Statistics & Analytics
+Real-Time KPIs and Charts for all modules.
+
+55. User App Management
+User Features
+User Menus
+User Configurations
+
+56. Partner App Management
+Partner Features
+Partner Roles
+Partner Configurations
+
+57. App Feature Management
+Feature Toggle System
+Enable or Disable features without app update.
+
+58. Role Management
+Master RBAC System
+Roles
+Permissions
+Access Levels
+
+59. Document Management
+Contracts
+Agreements
+KYC Documents
+Verification Records
+
+60. Role Based Menu Mapping
+Control menu visibility based on role permissions throughout the platform.
+
+Conclusion
+The Hozify Admin Application will serve as a complete enterprise-grade control center to manage all users, partners, services, bookings, quotations, orders, payments, wallets, materials, referrals, GST, platform revenue, support operations, and analytics through a secure role-based architecture.

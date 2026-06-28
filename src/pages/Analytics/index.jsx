@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
 import AdminShell from '../../components/layouts/AdminShell';
+import { downloadDummyPDF } from '../../utils/downloadHelper';
 import {
   Download,
   Calendar,
@@ -155,7 +156,7 @@ export default function Analytics() {
                 
                 <button
                   style={{ display: 'flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line)', background: '#fff', color: 'var(--text)', fontSize: '12px', fontWeight: '700', height: '32px', padding: '0 12px', borderRadius: '6px' }}
-                  onClick={() => alert('Exporting data...')}
+                  onClick={() => downloadDummyPDF('Analytics Export', 'Consolidated System Analytics Performance Ledger.')}
                   type="button"
                 >
                   Export Data

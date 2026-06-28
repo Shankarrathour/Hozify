@@ -1,5 +1,6 @@
 import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 
 import {
   Search,
@@ -16,6 +17,8 @@ import {
 } from "lucide-react";
 
 export default function RegistrationVerification() {
+  const { addToast } = useToast();
+
   return (
     <AdminShell>
 
@@ -54,6 +57,7 @@ export default function RegistrationVerification() {
         </h1>
 </div>
           <button
+            onClick={() => addToast("Application successfully flagged for operations review.", "success")}
             className="
               h-12
               rounded-md
@@ -63,14 +67,14 @@ export default function RegistrationVerification() {
               px-8
               text-[16px]
               font-medium
-            
-              
+              cursor-pointer
             "
           >
             Flag for Review
           </button>
 
           <button
+            onClick={() => addToast("Business registration application rejected.", "success")}
             className="
               h-12
               rounded-md
@@ -79,13 +83,14 @@ export default function RegistrationVerification() {
               text-white
               text-[16px]
               font-medium
-              
+              cursor-pointer
             "
           >
             Reject Application
           </button>
 
           <button
+            onClick={() => addToast("Business registration successfully verified and approved!", "success")}
             className="
               h-12
               rounded-md
@@ -94,6 +99,7 @@ export default function RegistrationVerification() {
               text-white
               text-[16px]
               font-medium
+              cursor-pointer
             "
           >
             Approve Registration

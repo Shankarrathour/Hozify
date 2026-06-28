@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import AdminShell from '../../components/layouts/AdminShell';
 import {
   Calendar,
@@ -79,7 +79,11 @@ export default function EmployeeReports() {
         {/* ── KPI CARDS ── */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
           {KPI_CARDS.map(card => (
-            <div key={card.id} style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+            <div 
+              key={card.id} 
+              className="report-kpi-card"
+              style={{ background: '#fff', borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}
+            >
               <span style={{ fontSize: '10px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{card.label}</span>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
                 <span style={{ fontSize: '26px', fontWeight: '800', color: '#0f172a', lineHeight: 1 }}>{card.value}</span>

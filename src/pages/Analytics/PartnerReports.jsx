@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import AdminShell from '../../components/layouts/AdminShell';
 import {
   Calendar,
@@ -111,7 +111,11 @@ export default function PartnerReports() {
         {/* ── KPI CARDS ── */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
           {KPI_CARDS.map(card => (
-            <div key={card.id} style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div 
+              key={card.id} 
+              className="report-kpi-card"
+              style={{ background: '#fff', borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}
+            >
               <span style={{ fontSize: '11px', fontWeight: '600', color: '#64748b' }}>{card.title}</span>
               <span style={{ fontSize: '24px', fontWeight: '800', color: '#0f172a', lineHeight: 1 }}>{card.value}</span>
               

@@ -23,7 +23,14 @@ import {
   Compass,
   Handshake,
   Briefcase,
-  MessageSquare
+  MessageSquare,
+  Layers,
+  Tag,
+  Trophy,
+  MapPin,
+  CreditCard,
+  Map,
+  CheckCircle2
 } from 'lucide-react';
 import { ROUTES } from './routes';
 
@@ -185,6 +192,11 @@ export const sidebarNavigation = [
       { label: 'Compliance Center', route: ROUTES.branchCompliance },
       { label: 'Audit Logs', route: ROUTES.branchAuditLogs }
     ]
+  },
+  {
+    label: 'Location Management',
+    icon: Map,
+    route: ROUTES.locationManagement
   },
   {
     label: 'Service Management',
@@ -382,6 +394,11 @@ export const sidebarNavigation = [
     ]
   },
   {
+    label: 'Payment Management',
+    icon: CreditCard,
+    route: ROUTES.paymentManagement
+  },
+  {
     label: 'Revenue Management',
     icon: Banknote,
     children: [
@@ -440,30 +457,82 @@ export const sidebarNavigation = [
       { label: 'Delivery Reports', route: ROUTES.notificationsDelivery }
     ]
   },
+  // {
+  //   label: 'Document Management',
+  //   icon: FileText,
+  //   children: [
+  //     { label: 'Contract', route: ROUTES.contract },
+  //     { label: 'Agreement', route: ROUTES.agreement },
+  //     { label: 'KYC Document', route: ROUTES.kycdocument },
+  //     { label: 'Verification Record', route: ROUTES.verificationrecord }
+  //   ]
+  // },
   {
-    label: 'Banner Management',
-    icon: MousePointerClick,
-    children: [
-      { label: 'Homepage Banners', route: ROUTES.bannersHomepage },
-      { label: 'Offer Banners', route: ROUTES.bannersOffer },
-      { label: 'Category Banners', route: ROUTES.bannersCategory },
-      { label: 'Popup Banners', route: ROUTES.bannersPopup },
-      { label: 'Banner Scheduling', route: ROUTES.bannersScheduling },
-      { label: 'Banner Analytics', route: ROUTES.bannersAnalytics }
-    ]
-  },
-  {
-    label: 'CMS Management',
+    label: 'CMS',
     icon: ClipboardList,
     children: [
-      { label: 'About Us', route: ROUTES.cmsAboutUs },
-      { label: 'Terms & Conditions', route: ROUTES.cmsTerms },
       { label: 'Privacy Policy', route: ROUTES.cmsPrivacy },
       { label: 'Refund Policy', route: ROUTES.cmsRefund },
-      { label: 'Contact Us', route: ROUTES.cmsContactUs },
-      { label: 'FAQs', route: ROUTES.cmsFaqs },
-      { label: 'Blogs', route: ROUTES.cmsBlogs },
-      { label: 'SEO Settings', route: ROUTES.cmsSeo }
+      { label: 'Cancellation Policy', route: ROUTES.cmsCancellation },
+      { label: 'Terms & Conditions', route: ROUTES.cmsTerms },
+      { label: 'FAQ', route: ROUTES.cmsFaqs },
+      { label: 'Help Center', route: ROUTES.cmsHelpCenter },
+      { label: 'Documentation Center', route: ROUTES.cmsDocumentationCenter },
+      {
+        label: 'Banner Management',
+        children: [
+          { label: 'Home Banner', route: ROUTES.bannersHome },
+          { label: 'Offer Banner', route: ROUTES.bannersOffer },
+          { label: 'Promotional Banner', route: ROUTES.bannersPromotional },
+          { label: 'Marketing Banner', route: ROUTES.bannersMarketing },
+          { label: 'Upload Banner', route: ROUTES.bannersUpload },
+          { label: 'Banner Preview', route: ROUTES.bannersPreview },
+          { label: 'Banner Scheduling', route: ROUTES.bannersScheduling },
+          { label: 'Banner Status', route: ROUTES.bannersStatus }
+        ]
+      },
+      {
+        label: 'App Management',
+        children: [
+          {
+            label: 'User App Management',
+            children: [
+              { label: 'User Features', route: ROUTES.userAppFeatures },
+              { label: 'User Menus', route: ROUTES.userAppMenus },
+              { label: 'User Configuration', route: ROUTES.userAppConfig },
+              { label: 'App Version', route: ROUTES.userAppVersion }
+            ]
+          },
+          {
+            label: 'Partner App Management',
+            children: [
+              { label: 'Partner Features', route: ROUTES.partnerAppFeatures },
+              { label: 'Partner Roles', route: ROUTES.partnerAppRoles },
+              { label: 'Partner Menus', route: ROUTES.partnerAppMenus },
+              { label: 'Partner Configuration', route: ROUTES.partnerAppConfig }
+            ]
+          },
+          {
+            label: 'User Menu Management',
+            children: [
+              { label: 'User Menu', route: ROUTES.menuUser },
+              { label: 'Menu Ordering', route: ROUTES.menuOrdering },
+              { label: 'Menu Visibility', route: ROUTES.menuVisibility },
+              { label: 'Menu Permission', route: ROUTES.menuPermission }
+            ]
+          },
+          {
+            label: 'Partner Menu Management',
+            children: [
+              { label: 'Partner Menu', route: ROUTES.menuPartner }
+            ]
+          },
+          { label: 'Feature Toggle', route: ROUTES.featureToggle },
+          { label: 'App Configuration', route: ROUTES.appManagementConfig },
+          { label: 'Remote Configuration', route: ROUTES.appManagementRemoteConfig },
+          { label: 'Maintenance Mode', route: ROUTES.appManagementMaintenance }
+        ]
+      }
     ]
   },
   {
@@ -545,6 +614,11 @@ export const sidebarNavigation = [
     ]
   },
   {
+    label: 'Approval Management',
+    icon: CheckCircle2,
+    route: ROUTES.approvalQueue
+  },
+  {
     label: 'Role & Permission',
     icon: UserCheck,
     children: [
@@ -556,6 +630,51 @@ export const sidebarNavigation = [
       { label: 'User Access Logs', route: ROUTES.userAccessLogs },
       { label: 'Role Audit Logs', route: ROUTES.roleAuditLogs }
     ]
+  },
+  {
+    label: 'Order Management',
+    icon: Layers,
+    route: ROUTES.orderManagement
+  },
+  {
+    label: 'Price Management',
+    icon: Banknote,
+    route: ROUTES.priceManagement
+  },
+  {
+    label: 'Offer Management',
+    icon: Tag,
+    route: ROUTES.offerManagement
+  },
+  {
+    label: 'Reward Management',
+    icon: Trophy,
+    route: ROUTES.rewardManagement
+  },
+  {
+    label: 'GST Management',
+    icon: FileText,
+    route: ROUTES.gstManagement
+  },
+  {
+    label: 'Platform Fee Management',
+    icon: Landmark,
+    route: ROUTES.platformFeeManagement
+  },
+  {
+    label: 'Performance Management',
+    icon: Activity,
+    route: ROUTES.performanceManagement
+  },
+  {
+    label: 'Favorite Address Management',
+    icon: MapPin,
+    route: ROUTES.favoriteAddressManagement
+  },
+  {
+    label: 'Material Price Management',
+    icon: Wallet,
+    route: ROUTES.materialPriceManagement
   },
   {
     label: 'Settings',

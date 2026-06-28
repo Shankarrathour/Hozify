@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 import {
   Activity,
   LogIn,
@@ -11,7 +12,9 @@ import {
 } from "lucide-react";
 
 export default function UserActivityLogs() {
+  const { addToast } = useToast();
   const [filter, setFilter] = useState("All");
+  const [search, setSearch] = useState("");
 
   const activities = [
     {
@@ -56,23 +59,35 @@ export default function UserActivityLogs() {
     },
   ];
 
-  const filtered =
-    filter === "All" ? activities : activities.filter((a) => a.type === filter);
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value.trim() !== "") {
+      addToast(`Searching logs for: "${e.target.value}"`, "success");
+    }
+  };
+
+  const handleFilterChange = (f) => {
+    setFilter(f);
+  };
+
+  const filtered = activities
+    .filter((a) => filter === "All" || a.type === filter)
+    .filter((a) => a.title.toLowerCase().includes(search.toLowerCase()) || a.desc.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <AdminShell
       activeTab="User Activity Logs"
       searchPlaceholder="Search activity, user actions..."
     >
-      <div className="space-y-6">
+      <div className="space-y-6" style={{ paddingBottom: "40px" }}>
 
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">
+            <h1 className="page-title">
               User Activity Logs
             </h1>
-            <p className="text-sm text-slate-500">
+            <p className="page-subtitle">
               Real-time tracking of all user actions across platform
             </p>
           </div>
@@ -81,6 +96,8 @@ export default function UserActivityLogs() {
           <div className="flex items-center gap-2 border bg-white px-3 py-2 rounded-lg w-full md:w-72">
             <Search size={16} className="text-slate-400" />
             <input
+              value={search}
+              onChange={handleSearchChange}
               placeholder="Search logs..."
               className="outline-none text-sm w-full"
             />
@@ -94,10 +111,10 @@ export default function UserActivityLogs() {
           {["All", "success", "info", "warning", "danger"].map((f) => (
             <button
               key={f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1 text-sm rounded-full border transition ${
+              onClick={() => handleFilterChange(f)}
+              className={`px-3 py-1 text-sm rounded-full border transition cursor-pointer ${
                 filter === f
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-[#2A2454] text-white"
                   : "bg-white text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -108,10 +125,10 @@ export default function UserActivityLogs() {
 
         {/* SUMMARY CARDS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Stat label="Total Activities" value="1,248" />
-          <Stat label="Logins Today" value="312" />
-          <Stat label="Payments" value="89" />
-          <Stat label="Security Alerts" value="14" />
+          <Stat label="Total Activities" value="1,248" onClick={() => addToast("Total recorded activity operations: 1,248", "success")} />
+          <Stat label="Logins Today" value="312" onClick={() => addToast("Platform user log-ins today: 312", "success")} />
+          <Stat label="Payments" value="89" onClick={() => addToast("Completed user deposit/billing payments today: 89", "success")} />
+          <Stat label="Security Alerts" value="14" onClick={() => addToast("Critical security telemetry events flagged: 14", "success")} />
         </div>
 
         {/* TIMELINE CARD */}
@@ -122,8 +139,13 @@ export default function UserActivityLogs() {
 
           <div className="space-y-5">
             {filtered.map((a) => (
-              <ActivityItem key={a.id} {...a} />
+              <ActivityItem key={a.id} {...a} onClick={() => addToast(`Clicked activity: ${a.title} (${a.time})`, "success")} />
             ))}
+            {filtered.length === 0 && (
+              <div className="text-center py-6 text-slate-400">
+                No matching activity logs found.
+              </div>
+            )}
           </div>
         </div>
 
@@ -133,7 +155,7 @@ export default function UserActivityLogs() {
 }
 
 /* ACTIVITY ITEM */
-function ActivityItem({ icon, title, desc, time, type }) {
+function ActivityItem({ icon, title, desc, time, type, onClick }) {
   const styles = {
     success: "text-green-600 bg-green-50",
     danger: "text-red-600 bg-red-50",
@@ -142,8 +164,7 @@ function ActivityItem({ icon, title, desc, time, type }) {
   };
 
   return (
-    <div className="flex gap-3 items-start hover:bg-slate-50 p-3 rounded-lg transition">
-      
+    <div onClick={onClick} className="flex gap-3 items-start hover:bg-slate-50 p-3 rounded-lg transition cursor-pointer">
       {/* ICON */}
       <div className={`p-2 rounded-lg ${styles[type]}`}>
         {icon}
@@ -164,9 +185,9 @@ function ActivityItem({ icon, title, desc, time, type }) {
 }
 
 /* STAT CARD */
-function Stat({ label, value }) {
+function Stat({ label, value, onClick }) {
   return (
-    <div className="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition">
+    <div onClick={onClick} className="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition cursor-pointer">
       <p className="text-xs text-slate-500">{label}</p>
       <h3 className="text-xl font-bold text-slate-800">{value}</h3>
     </div>

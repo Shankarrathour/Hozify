@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Download, UserCheck, UserMinus, Clock, Hourglass, SlidersHorizontal, ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const attendanceDetails = [
   { name: 'Marcus Holloway', id: 'EMP-9283', dept: 'Engineering', shift: '09:00 - 18:00', checkIn: '08:54 AM', status: 'ON TIME', statusClass: 'on-time', initials: 'MH', bg: '#ecfdf5', color: '#059669' },
@@ -8,6 +9,7 @@ const attendanceDetails = [
 ];
 
 export default function AttendanceDashboard() {
+  const { addToast } = useToast();
   const [date, setDate] = useState('June 14, 2024');
   const [viewType, setViewType] = useState('Real-time');
 
@@ -20,12 +22,21 @@ export default function AttendanceDashboard() {
           <p className="page-subtitle">Monitoring real-time presence across all branches.</p>
         </div>
         <div className="partners-header-buttons">
-          <div className="date-select-picker-wrap" style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff' }}>
+          <div 
+            onClick={() => addToast("Opened date selection calendar", "success")}
+            className="date-select-picker-wrap" 
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}
+          >
             <Calendar size={16} />
             <span style={{ fontWeight: '700', fontSize: '13px' }}>{date}</span>
           </div>
 
-          <button className="primary-action-btn font-bold" type="button" style={{ height: '36px' }}>
+          <button 
+            onClick={() => addToast("Exporting attendance report PDF...", "success")}
+            className="primary-action-btn font-bold cursor-pointer" 
+            type="button" 
+            style={{ height: '36px' }}
+          >
             <Download size={14} style={{ marginRight: '4px' }} />
             <span>Export PDF</span>
           </button>
@@ -33,45 +44,61 @@ export default function AttendanceDashboard() {
       </div>
 
       {/* KPI Cards Row */}
-      <section className="kpi-grid" style={{ gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', marginBottom: '24px', gap: '20px' }}>
+      <section className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '24px', gap: '16px' }}>
         {/* Today's Attendance */}
-        <div className="kpi-card" style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Today's Attendance details", "success")}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer', marginBottom: 0 }}
+        >
           <div>
-            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Today's Attendance</span>
-            <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>1,248 <span style={{ fontSize: '13px', color: 'var(--muted)', fontWeight: 'normal' }}>/ 1,350</span></strong>
-            <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>↗ 92.4% rate today</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Today's Attendance</span>
+            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>1,248 <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 'normal' }}>/ 1,350</span></strong>
+            <span style={{ fontSize: '9px', color: '#10b981', fontWeight: '700', display: 'block' }}>↗ 92.4% rate today</span>
           </div>
-          <span style={{ color: 'var(--primary)', width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#eee9f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><UserCheck size={18} /></span>
+          <span style={{ color: 'var(--primary)', width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#eee9f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><UserCheck size={14} /></span>
         </div>
 
         {/* Absent */}
-        <div className="kpi-card" style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Absent employees list", "success")}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer', marginBottom: 0 }}
+        >
           <div>
-            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Absent</span>
-            <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>42</strong>
-            <span style={{ fontSize: '11px', color: '#ef4444', fontWeight: '700' }}>↗ +12% from yesterday</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Absent</span>
+            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>42</strong>
+            <span style={{ fontSize: '9px', color: '#ef4444', fontWeight: '700', display: 'block' }}>↗ +12% from yesterday</span>
           </div>
-          <span style={{ color: '#ef4444', width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#fee2e2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><UserMinus size={18} /></span>
+          <span style={{ color: '#ef4444', width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#fee2e2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><UserMinus size={14} /></span>
         </div>
 
         {/* Late Arrivals */}
-        <div className="kpi-card" style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Late arrivals roster", "success")}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer', marginBottom: 0 }}
+        >
           <div>
-            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Late Arrivals</span>
-            <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>15</strong>
-            <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>→ Stable trend</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Late Arrivals</span>
+            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>15</strong>
+            <span style={{ fontSize: '9px', color: 'var(--muted)', fontWeight: '700', display: 'block' }}>→ Stable trend</span>
           </div>
-          <span style={{ color: '#d97706', width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Clock size={18} /></span>
+          <span style={{ color: '#d97706', width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#fef3c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Clock size={14} /></span>
         </div>
 
         {/* Total Hours */}
-        <div className="kpi-card" style={{ display: 'flex', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Total cumulative hours logged", "success")}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer', marginBottom: 0 }}
+        >
           <div>
-            <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Hours (Today)</span>
-            <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>9,842h</strong>
-            <span style={{ fontSize: '11px', color: '#4f46e5', fontWeight: '700' }}>↗ High productivity peak</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Total Hours (Today)</span>
+            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>9,842h</strong>
+            <span style={{ fontSize: '9px', color: '#4f46e5', fontWeight: '700', display: 'block' }}>↗ High productivity peak</span>
           </div>
-          <span style={{ color: '#0ea5e9', width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Hourglass size={18} /></span>
+          <span style={{ color: '#0ea5e9', width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#e0f2fe', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Hourglass size={14} /></span>
         </div>
       </section>
 
@@ -85,7 +112,10 @@ export default function AttendanceDashboard() {
               <h2 style={{ fontSize: '16px', fontWeight: '700', margin: '0' }}>Attendance Trends</h2>
               <p style={{ margin: '2px 0 0', color: 'var(--muted)', fontSize: '12px' }}>Presence overview for the last 14 days</p>
             </div>
-            <div style={{ display: 'flex', gap: '8px', border: '1px solid var(--line)', padding: '4px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', backgroundColor: '#fff' }}>
+            <div 
+              onClick={() => addToast("Opened trend analytics picker", "success")}
+              style={{ display: 'flex', gap: '8px', border: '1px solid var(--line)', padding: '4px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', backgroundColor: '#fff', cursor: 'pointer' }}
+            >
               <span>Last 14 Days</span>
             </div>
           </div>
@@ -100,82 +130,51 @@ export default function AttendanceDashboard() {
               <path d="M 0 140 C 100 110, 200 130, 300 90 C 400 70, 500 110, 600 80" fill="none" stroke="#4f46e5" strokeWidth="3" />
             </svg>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>
-            <span>01 Jun</span>
-            <span>02 Jun</span>
-            <span>03 Jun</span>
-            <span style={{ color: '#4f46e5', fontWeight: '800' }}>Today</span>
-            <span>05 Jun</span>
-            <span>06 Jun</span>
-            <span>07 Jun</span>
-            <span>08 Jun</span>
-          </div>
         </div>
 
-        {/* Branch Distribution */}
+        {/* Breakdowns */}
         <div className="panel" style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 16px' }}>Branch Distribution</h2>
-          
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, padding: '10px 0' }}>
-            <div style={{ position: 'relative', width: '110px', height: '110px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <div style={{ width: '80px', height: '80px', border: '5px solid #4f46e5', transform: 'rotate(45deg)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
-              <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <strong style={{ fontSize: '24px', color: 'var(--text)' }}>88%</strong>
-                <span style={{ fontSize: '8px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase' }}>Overall</span>
+          <h2 style={{ fontSize: '16px', fontWeight: '700', margin: '0 0 16px' }}>Shift Compliance Rate</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', flex: 1, justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px' }}>
+              <span style={{ width: '80px', fontWeight: '700' }}>Morning Shift</span>
+              <div style={{ flex: 1, height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '94%', height: '100%', background: '#4f46e5', borderRadius: '4px' }} />
               </div>
+              <span style={{ width: '30px', textAlign: 'right', fontWeight: '700' }}>94%</span>
             </div>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid #f1f5f9', paddingTop: '14px', fontSize: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--muted)' }}>
-                <span style={{ width: '8px', height: '8px', background: '#4f46e5', borderRadius: '50%' }} />
-                Main HQ
-              </span>
-              <span>98%</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px' }}>
+              <span style={{ width: '80px', fontWeight: '700' }}>Evening Shift</span>
+              <div style={{ flex: 1, height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '88%', height: '100%', background: '#4f46e5', borderRadius: '4px' }} />
+              </div>
+              <span style={{ width: '30px', textAlign: 'right', fontWeight: '700' }}>88%</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--muted)' }}>
-                <span style={{ width: '8px', height: '8px', background: '#a5b4fc', borderRadius: '50%' }} />
-                West Wing
-              </span>
-              <span>82%</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--muted)' }}>
-                <span style={{ width: '8px', height: '8px', background: '#475569', borderRadius: '50%' }} />
-                Logistic Hub
-              </span>
-              <span>75%</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px' }}>
+              <span style={{ width: '80px', fontWeight: '700' }}>Night Shift</span>
+              <div style={{ flex: 1, height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: '76%', height: '100%', background: '#cbc5d9', borderRadius: '4px' }} />
+              </div>
+              <span style={{ width: '30px', textAlign: 'right', fontWeight: '700' }}>76%</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      {/* Bottom Table Card */}
-      <section className="panel partner-directory-panel" style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: '700', margin: '0' }}>Attendance Detail</h2>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', gap: '4px', background: '#f1f5f9', padding: '3px', borderRadius: '6px' }}>
-              <button
-                type="button"
-                onClick={() => setViewType('Real-time')}
-                style={{ border: 'none', padding: '4px 12px', background: viewType === 'Real-time' ? '#fff' : 'transparent', color: viewType === 'Real-time' ? '#0f172a' : 'var(--muted)', fontWeight: '700', fontSize: '12px', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Real-time
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewType('Logs')}
-                style={{ border: 'none', padding: '4px 12px', background: viewType === 'Logs' ? '#fff' : 'transparent', color: viewType === 'Logs' ? '#0f172a' : 'var(--muted)', fontWeight: '700', fontSize: '12px', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Logs
-              </button>
-            </div>
-            <button className="secondary-action-btn" style={{ height: '32px', width: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label="Filter attendance detail">
-              <SlidersHorizontal size={14} />
+      {/* Attendance List */}
+      <section className="panel partner-directory-panel" style={{ marginBottom: '24px' }}>
+        <div className="panel-head" style={{ padding: '16px 20px', borderBottom: '1px solid var(--line)' }}>
+          <h2 style={{ fontSize: '15px', fontWeight: '800' }}>Attendance Records</h2>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button 
+              onClick={() => addToast("Switched attendance view filters", "success")}
+              className="secondary-action-btn cursor-pointer" 
+              style={{ height: '32px' }} 
+              type="button"
+            >
+              <SlidersHorizontal size={14} style={{ marginRight: '4px' }} />
+              <span>Filter View</span>
             </button>
           </div>
         </div>
@@ -186,44 +185,50 @@ export default function AttendanceDashboard() {
               <tr>
                 <th>EMPLOYEE</th>
                 <th>DEPARTMENT</th>
-                <th>SHIFT</th>
-                <th>CHECK-IN</th>
-                <th>STATUS</th>
-                <th>ACTIONS</th>
+                <th>SHIFT SCHEDULE</th>
+                <th>CHECK-IN TIME</th>
+                <th>COMPLIANCE STATUS</th>
+                <th style={{ width: '60px' }}></th>
               </tr>
             </thead>
             <tbody>
-              {attendanceDetails.map((row, idx) => (
-                <tr key={idx} className="partner-row-clickable">
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: row.bg, color: row.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: '800' }}>
-                        {row.initials}
-                      </span>
-                      <div>
-                        <strong style={{ display: 'block', fontSize: '13px' }}>{row.name}</strong>
-                        <span style={{ fontSize: '11px', color: 'var(--muted)' }}>ID: {row.id}</span>
-                      </div>
+              {attendanceDetails.map((emp, index) => (
+                <tr 
+                  key={index} 
+                  onClick={() => addToast(`Showing attendance card history for ${emp.name}`, "success")}
+                  className="partner-row-clickable"
+                >
+                  <td style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '14px 20px' }}>
+                    <span style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: emp.bg, color: emp.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: '800' }}>
+                      {emp.initials}
+                    </span>
+                    <div>
+                      <strong style={{ fontSize: '13px', display: 'block' }}>{emp.name}</strong>
+                      <span style={{ fontSize: '11px', color: 'var(--muted)' }}>{emp.id}</span>
                     </div>
                   </td>
-                  <td>{row.dept}</td>
-                  <td>{row.shift}</td>
-                  <td style={{ fontWeight: '700' }}>{row.checkIn}</td>
+                  <td>{emp.dept}</td>
+                  <td>{emp.shift}</td>
+                  <td>{emp.checkIn}</td>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', fontSize: '12px' }}>
-                      <span
-                        className="priority-bullet-dot"
-                        style={{
-                          background: row.statusClass === 'on-time' ? '#10b981' : row.statusClass === 'late' ? '#f59e0b' : '#ef4444'
-                        }}
-                      />
-                      <span style={{ color: row.statusClass === 'on-time' ? '#059669' : row.statusClass === 'late' ? '#b45309' : '#dc2626' }}>
-                        {row.status}
-                      </span>
-                    </div>
+                    <span
+                      className="status-badge"
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: '800',
+                        color: emp.statusClass === 'on-time' ? '#059669' : emp.statusClass === 'late' ? '#d97706' : '#ef4444',
+                        background: emp.statusClass === 'on-time' ? '#ecfdf5' : emp.statusClass === 'late' ? '#fef3c7' : '#fee2e2',
+                      }}
+                    >
+                      {emp.status}
+                    </span>
                   </td>
-                  <td className="partner-actions-cell" onClick={(e) => e.stopPropagation()}>
-                    <button className="table-row-action-btn" type="button" aria-label="More options">
+                  <td onClick={(e) => e.stopPropagation()}>
+                    <button 
+                      onClick={() => addToast(`Opening action drop for ${emp.name}`, "success")}
+                      className="table-row-action-btn cursor-pointer" 
+                      type="button"
+                    >
                       <MoreVertical size={16} />
                     </button>
                   </td>
@@ -233,23 +238,31 @@ export default function AttendanceDashboard() {
           </table>
         </div>
 
+        {/* Footer pagination */}
         <div className="directory-table-footer">
-          <span className="footer-results-text">Showing 1 to 3 of 42 employees</span>
+          <span className="footer-results-text">Showing 1-3 of 1,248 records</span>
           <div className="pagination-wrap">
-            <button className="pag-nav-btn" type="button" disabled>
+            <button 
+              onClick={() => addToast("Loaded previous attendance records page", "success")}
+              className="pag-nav-btn cursor-pointer" 
+              type="button" 
+              disabled
+            >
               <ChevronLeft size={16} />
             </button>
-            <button className="pag-num-btn active" type="button">1</button>
-            <button className="pag-num-btn" type="button">2</button>
-            <button className="pag-num-btn" type="button">3</button>
-            <button className="pag-nav-btn" type="button">
+            <button onClick={() => addToast("Loaded page 1", "success")} className="pag-num-btn active cursor-pointer" type="button">1</button>
+            <button onClick={() => addToast("Loaded page 2", "success")} className="pag-num-btn cursor-pointer" type="button">2</button>
+            <button onClick={() => addToast("Loaded page 3", "success")} className="pag-num-btn cursor-pointer" type="button">3</button>
+            <button 
+              onClick={() => addToast("Loaded next attendance records page", "success")}
+              className="pag-nav-btn cursor-pointer" 
+              type="button"
+            >
               <ChevronRight size={16} />
             </button>
           </div>
         </div>
-
       </section>
-
     </div>
   );
 }

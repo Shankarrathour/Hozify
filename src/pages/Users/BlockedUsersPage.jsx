@@ -5,6 +5,7 @@ import KpiCard from '../../features/dashboard/KpiCard';
 import { usersMockData } from './usersMockData';
 import UserDetailsPage from './UserDetailsPage';
 import UserEditModal from './UserEditModal';
+import { useToast } from '../../components/common/ToastNotification';
 
 const formatDate = (value) =>
   new Intl.DateTimeFormat('en-IN', {
@@ -14,6 +15,7 @@ const formatDate = (value) =>
   }).format(new Date(value));
 
 export default function BlockedUsersPage() {
+  const { addToast } = useToast();
   const [users, setUsers] = useState(usersMockData);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -53,8 +55,7 @@ export default function BlockedUsersPage() {
   const selectedUser = selectedUserId ? users.find((user) => user.id === selectedUserId) : null;
 
   const showFeedback = (message) => {
-    setFeedback(message);
-    window.setTimeout(() => setFeedback(''), 2200);
+    addToast(message, 'success');
   };
 
   const updateUserStatus = (user, status) => {
@@ -130,7 +131,12 @@ export default function BlockedUsersPage() {
             <Search size={16} />
             <input
               value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
+              onChange={(event) => {
+                setSearchQuery(event.target.value);
+                if (event.target.value.trim() !== '') {
+                  addToast(`Searching blocked directory: "${event.target.value}"`, 'success');
+                }
+              }}
               placeholder="Search by name or mobile number"
             />
           </label>
@@ -185,11 +191,11 @@ export default function BlockedUsersPage() {
                     <td>{formatDate(user.registrationDate)}</td>
                     <td>
                       <div className="user-management-actions blocked-users-actions">
-                        <button className="user-management-action-btn" type="button" title="Review blocked user" onClick={() => setSelectedUserId(user.id)}>
+                        <button className="user-management-action-btn" type="button" title="Review blocked user" onClick={() => { setSelectedUserId(user.id); addToast(`Opening block audit details for ${user.name}`, 'success'); }}>
                           <Eye size={15} />
                           <span>Review</span>
                         </button>
-                        <button className="user-management-action-btn success" type="button" title="Activate user" onClick={() => updateUserStatus(user, 'Active')}>
+                        <button className="user-management-action-btn success" type="button" title="Activate user" onClick={() => { updateUserStatus(user, 'Active'); addToast(`User ${user.name} reactivated!`, 'success'); }}>
                           <CheckCircle2 size={15} />
                           <span>Activate</span>
                         </button>

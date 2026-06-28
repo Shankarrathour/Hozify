@@ -1,5 +1,8 @@
 import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
+import { ROUTES } from "../../config/routes";
+import { useApp } from "../../hooks/useApp";
 import {
   Search,
   Bell,
@@ -12,6 +15,9 @@ import {
 } from "lucide-react";
 
 export default function GSTVerification() {
+  const { addToast } = useToast();
+  const { navigate } = useApp();
+
   return (
     <AdminShell
       activeTab="Compliance"
@@ -53,15 +59,15 @@ export default function GSTVerification() {
 
             <div className="flex items-center gap-8 text-[16px] font-medium">
 
-              <button className="text-slate-700 hover:text-[#4F46E5]">
+              <button onClick={() => navigate(ROUTES.business)} className="text-slate-700 hover:text-[#4F46E5]">
                 Directory
               </button>
 
-              <button className="text-[#312E81] border-b-[3px] border-[#312E81] pb-[14px] font-semibold">
+              <button onClick={() => navigate(ROUTES.businessApproval)} className="text-[#312E81] border-b-[3px] border-[#312E81] pb-[14px] font-semibold">
                 Compliance
               </button>
 
-              <button className="text-slate-700 hover:text-[#4F46E5]">
+              <button onClick={() => navigate(ROUTES.businessRisk)} className="text-slate-700 hover:text-[#4F46E5]">
                 Risk Management
               </button>
 
@@ -128,15 +134,15 @@ export default function GSTVerification() {
 
               <div className="flex items-center gap-6">
 
-                <button className="hover:text-[#4F46E5] transition-colors">
+                <button onClick={() => addToast("Zoomed in document preview", "success")} className="hover:text-[#4F46E5] transition-colors">
                   <ZoomIn size={26} />
                 </button>
 
-                <button className="hover:text-[#4F46E5] transition-colors">
+                <button onClick={() => addToast("Zoomed out document preview", "success")} className="hover:text-[#4F46E5] transition-colors">
                   <ZoomOut size={26} />
                 </button>
 
-                <button className="hover:text-[#4F46E5] transition-colors">
+                <button onClick={() => addToast("Downloading GST certificate PDF...", "success")} className="hover:text-[#4F46E5] transition-colors">
                   <Download size={24} />
                 </button>
 
@@ -274,7 +280,10 @@ export default function GSTVerification() {
                   GST Number
                 </p>
 
-                <div className="h-[52px] bg-[#EEF1F8] border border-[#DCE1EC] rounded flex items-center justify-between px-4">
+                <div 
+                  onClick={() => addToast("GSTIN copied to clipboard!", "success")}
+                  className="h-[52px] bg-[#EEF1F9] border border-[#DCE1EC] rounded flex items-center justify-between px-4 cursor-pointer"
+                >
 
                   <span className="font-medium tracking-wide text-[#334155]">
                     27AAAAA0000A1Z5
@@ -511,11 +520,17 @@ export default function GSTVerification() {
 
         <div className="sticky bottom-0 bg-white border-t border-[#D7DCEA] px-8 py-5 flex items-center justify-end gap-4">
 
-          <button className="h-12 px-8 rounded-xl border border-red-300 text-red-600 font-semibold hover:bg-red-50 transition">
+          <button 
+            onClick={() => addToast("GST registration validation rejected and flagged.", "success")}
+            className="h-12 px-8 rounded-xl border border-red-300 text-red-600 font-semibold hover:bg-red-50 transition cursor-pointer"
+          >
             Reject With Reason
           </button>
 
-          <button className="h-12 px-10 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-semibold shadow-lg transition">
+          <button 
+            onClick={() => addToast("GST successfully verified and approved!", "success")}
+            className="h-12 px-10 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-semibold shadow-lg transition cursor-pointer"
+          >
             Verify & Approve
           </button>
 

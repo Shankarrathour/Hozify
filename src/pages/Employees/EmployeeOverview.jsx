@@ -14,7 +14,7 @@ import {
   SlidersHorizontal,
   ChevronRight
 } from 'lucide-react';
-import KpiCard from '../../features/dashboard/KpiCard';
+import { useToast } from '../../components/common/ToastNotification';
 
 const overviewKpis = [
   { title: 'TOTAL EMPLOYEES', value: '1,284', trend: '12%', positive: true, icon: Users },
@@ -80,6 +80,8 @@ const kycAlerts = [
 ];
 
 export default function EmployeeOverview({ onNavigateToWorkforce }) {
+  const { addToast } = useToast();
+
   return (
     <div className="employee-overview-flow">
       {/* Title Header */}
@@ -89,7 +91,11 @@ export default function EmployeeOverview({ onNavigateToWorkforce }) {
           <p className="page-subtitle">Real-time status of your global workforce at Hozify.</p>
         </div>
         <div className="partners-header-buttons">
-          <div className="date-select-picker-wrap" style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff' }}>
+          <div 
+            onClick={() => addToast("Opened date selection calendar", "success")}
+            className="date-select-picker-wrap" 
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}
+          >
             <Calendar size={16} />
             <span style={{ fontWeight: '700', fontSize: '13px' }}>Last 30 Days</span>
           </div>
@@ -97,10 +103,41 @@ export default function EmployeeOverview({ onNavigateToWorkforce }) {
       </div>
 
       {/* KPI Grid Row */}
-      <section className="kpi-grid" style={{ gridTemplateColumns: 'repeat(6, minmax(0, 1fr))', marginBottom: '24px', gap: '12px' }}>
-        {overviewKpis.map((kpi, idx) => (
-          <KpiCard key={idx} {...kpi} />
-        ))}
+      <section className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', marginBottom: '24px', gap: '16px' }}>
+        {overviewKpis.map((kpi, idx) => {
+          const Icon = kpi.icon;
+          return (
+            <div
+              key={idx}
+              onClick={() => addToast(`Stat "${kpi.title}": ${kpi.value}`, "success")}
+              className="panel kpi-card"
+              style={{
+                padding: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                minHeight: '80px',
+                cursor: 'pointer',
+                marginBottom: 0,
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>{kpi.title}</span>
+                <strong style={{ display: 'block', fontSize: '18px', color: kpi.negative ? '#ef4444' : 'var(--text)', marginTop: '4px' }}>{kpi.value}</strong>
+              </div>
+              {kpi.footer && (
+                <span style={{ fontSize: '9px', color: kpi.negative ? '#ef4444' : '#4f46e5', fontWeight: '700', marginTop: '2px', display: 'block' }}>
+                  {kpi.footer}
+                </span>
+              )}
+              {kpi.trend && (
+                <span style={{ fontSize: '9px', color: '#10b981', fontWeight: '700', marginTop: '2px', display: 'block' }}>
+                  ↗ {kpi.trend}
+                </span>
+              )}
+            </div>
+          );
+        })}
       </section>
 
       {/* Charts Grid */}
@@ -232,7 +269,11 @@ export default function EmployeeOverview({ onNavigateToWorkforce }) {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {newJoinings.map((joining, index) => (
-              <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', border: '1px solid #f1ecf7', borderRadius: '8px' }}>
+              <div 
+                key={index} 
+                onClick={() => addToast(`Navigating to profile of ${joining.name}...`, "success")}
+                style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', border: '1px solid #f1ecf7', borderRadius: '8px', cursor: 'pointer' }}
+              >
                 <img src={joining.avatar} alt={joining.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
                 <div style={{ flex: 1 }}>
                   <strong style={{ display: 'block', fontSize: '14px', color: 'var(--text)' }}>{joining.name}</strong>
@@ -286,6 +327,7 @@ export default function EmployeeOverview({ onNavigateToWorkforce }) {
                     </td>
                     <td style={{ padding: '12px 14px', textAlign: 'right' }}>
                       <button
+                        onClick={() => addToast(`KYC Alert Action: "${alert.action}" triggered for ${alert.name}`, "success")}
                         style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontWeight: '700', fontSize: '12px', cursor: 'pointer', padding: 0 }}
                       >
                         {alert.action}

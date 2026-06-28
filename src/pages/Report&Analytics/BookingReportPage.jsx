@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 
 export default function BookingReportPage() {
+  // States for Calendar / Date Filter
+  const [isDateMenuOpen, setIsDateMenuOpen] = useState(false);
+  const [selectedRange, setSelectedRange] = useState("Last 30 Days");
+
+  // States for Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 3;
+
+  // States for View Suggestions Modal
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
+
+  // Sample static data handler for pagination demonstration
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return (
     <AdminShell activeTab="Reports & Analytics">
-      <div className="w-full min-h-screen bg-[#f8fafd] p-8 text-slate-700 antialiased font-sans">
+      <div className="w-full min-h-screen bg-[#f8fafd] p-8 text-slate-700 antialiased font-sansrelative">
         
         {/* TOP TITLE HEADER & DATE FILTER CONTROLS */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 relative">
           <div>
             <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Booking Reports</h1>
             <p className="text-xs text-gray-400 mt-0.5 font-medium">
@@ -15,16 +33,38 @@ export default function BookingReportPage() {
             </p>
           </div>
           
-          <div className="self-end sm:self-auto">
-            <button className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-bold text-slate-700 shadow-sm hover:bg-gray-50 transition-colors">
-              <span>📅</span> Last 30 Days <span className="text-[10px] text-gray-400">▼</span>
+          {/* Calendar Filter Dropdown Implementation */}
+          <div className="self-end sm:self-auto relative">
+            <button 
+              onClick={() => setIsDateMenuOpen(!isDateMenuOpen)}
+              className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-bold text-slate-700 shadow-sm hover:bg-gray-50 transition-colors"
+            >
+              <span>📅</span> {selectedRange} <span className="text-[10px] text-gray-400">▼</span>
             </button>
+
+            {isDateMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-50 py-1 text-xs">
+                {["Today", "Yesterday", "Last 7 Days", "Last 30 Days", "This Month", "Custom Range"].map((range) => (
+                  <button
+                    key={range}
+                    onClick={() => {
+                      setSelectedRange(range);
+                      setIsDateMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-slate-50 font-bold ${
+                      selectedRange === range ? "text-[#3d14f5] bg-indigo-50/50" : "text-slate-700"
+                    }`}
+                  >
+                    {range}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         {/* SUMMARY TRIPLE CARD MATRIX */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          
           {/* Card 1: Total Bookings */}
           <div className="bg-white border border-gray-200/70 rounded-xl p-5 shadow-sm flex justify-between items-start">
             <div className="space-y-1">
@@ -33,7 +73,7 @@ export default function BookingReportPage() {
                 <span className="text-2xl font-black text-slate-900 tracking-tight">12,482</span>
                 <span className="text-[11px] font-bold text-emerald-500">+12.5%</span>
               </div>
-              <span className="text-[10px] text-gray-400 font-medium block pt-1">vs. previous 30 days</span>
+              <span className="text-[10px] text-gray-400 font-medium block pt-1">vs. previous {selectedRange.toLowerCase()}</span>
             </div>
             <span className="text-lg p-2 bg-slate-50 border border-gray-100 rounded-lg">📱</span>
           </div>
@@ -63,15 +103,12 @@ export default function BookingReportPage() {
             </div>
             <span className="text-lg p-2 bg-slate-50 border border-gray-100 rounded-lg">💵</span>
           </div>
-
         </div>
 
         {/* REVENUE DISTRIBUTION BAR CHART WIDGET */}
         <div className="bg-white border border-gray-200/70 rounded-xl p-6 shadow-sm mb-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xs font-black text-slate-800 tracking-wide uppercase">Revenue Distribution</h3>
-            
-            {/* Chart Legend indicators */}
+            <h3 className="text-xs font-black text-slate-800 tracking-wide uppercase">Revenue Distribution ({selectedRange})</h3>
             <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-wider">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#1d0094]"></span>
@@ -84,7 +121,6 @@ export default function BookingReportPage() {
             </div>
           </div>
 
-          {/* Custom Pure Tailwind CSS Graphic Bars Visualization Block */}
           <div className="h-44 w-full flex items-end justify-between px-4 pt-4 border-b border-gray-100 gap-2">
             <div className="w-full bg-gray-200 h-[25%] rounded-t-sm"></div>
             <div className="w-full bg-[#3d14f5] h-[60%] rounded-t-sm"></div>
@@ -101,9 +137,8 @@ export default function BookingReportPage() {
 
         {/* RECENT BOOKINGS LOG TABLE */}
         <div className="bg-white border border-gray-200/80 rounded-xl shadow-sm overflow-hidden mb-6">
-          
           <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100 bg-white">
-            <h3 className="text-xs font-black text-slate-800 tracking-wide uppercase">Recent Bookings</h3>
+            <h3 className="text-xs font-black text-slate-800 tracking-wide uppercase">Recent Bookings (Page {currentPage})</h3>
             <div className="flex items-center gap-2">
               <button className="p-1.5 border border-gray-200 rounded hover:bg-gray-50 text-xs">🎛️</button>
               <button className="p-1.5 border border-gray-200 rounded hover:bg-gray-50 text-xs">📥</button>
@@ -123,128 +158,141 @@ export default function BookingReportPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 font-bold text-slate-700 bg-white">
-                
-                {/* Item Row 1 */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98421</td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100/40 flex items-center justify-center text-[8px] font-black">EL</div>
-                    <span className="text-xs text-slate-800 font-medium">Eleanor Lawrence</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Deep Clean</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-black text-emerald-600 inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Completed
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 24, 2023</td>
-                  <td className="py-3.5 px-6 text-right text-slate-900 font-black">$189.00</td>
-                </tr>
-
-                {/* Item Row 2 */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98422</td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 border border-gray-200 flex items-center justify-center text-[8px] font-black">MK</div>
-                    <span className="text-xs text-slate-800 font-medium">Marcus Kane</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Maintenance</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-black text-indigo-600 inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span> In Progress
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 24, 2023</td>
-                  <td className="py-3.5 px-6 text-right text-slate-900 font-black">$75.00</td>
-                </tr>
-
-                {/* Item Row 3 */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98423</td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100/40 flex items-center justify-center text-[8px] font-black">SV</div>
-                    <span className="text-xs text-slate-800 font-medium">Sarah Vance</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Subscription</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-black text-amber-500 inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Scheduled
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 25, 2023</td>
-                  <td className="py-3.5 px-6 text-right text-slate-900 font-black">$210.00</td>
-                </tr>
-
-                {/* Item Row 4 */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98424</td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 border border-gray-200 flex items-center justify-center text-[8px] font-black">DB</div>
-                    <span className="text-xs text-slate-800 font-medium">David Byrne</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Deep Clean</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-black text-rose-500 inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Cancelled
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 25, 2023</td>
-                  <td className="py-3.5 px-6 text-right text-slate-400 font-black">$0.00</td>
-                </tr>
-
-                {/* Item Row 5 */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98425</td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 border border-gray-200 flex items-center justify-center text-[8px] font-black">JL</div>
-                    <span className="text-xs text-slate-800 font-medium">Jessica Low</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">On-Demand</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-black text-emerald-600 inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Completed
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 26, 2023</td>
-                  <td className="py-3.5 px-6 text-right text-slate-900 font-black">$120.00</td>
-                </tr>
-
+                {/* Dynamically altering visual rows just for interactive feel based on pagination */}
+                {currentPage === 1 && (
+                  <>
+                    <tr className="hover:bg-slate-50/40 transition-colors">
+                      <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98421</td>
+                      <td className="py-3.5 px-4 flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100/40 flex items-center justify-center text-[8px] font-black">EL</div>
+                        <span className="text-xs text-slate-800 font-medium">Eleanor Lawrence</span>
+                      </td>
+                      <td className="py-3.5 px-4"><span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Deep Clean</span></td>
+                      <td className="py-3.5 px-4">
+                        <span className="text-[10px] font-black text-emerald-600 inline-flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Completed
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 24, 2023</td>
+                      <td className="py-3.5 px-6 text-right text-slate-900 font-black">$189.00</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/40 transition-colors">
+                      <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98422</td>
+                      <td className="py-3.5 px-4 flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 border border-gray-200 flex items-center justify-center text-[8px] font-black">MK</div>
+                        <span className="text-xs text-slate-800 font-medium">Marcus Kane</span>
+                      </td>
+                      <td className="py-3.5 px-4"><span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Maintenance</span></td>
+                      <td className="py-3.5 px-4">
+                        <span className="text-[10px] font-black text-indigo-600 inline-flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span> In Progress
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 24, 2023</td>
+                      <td className="py-3.5 px-6 text-right text-slate-900 font-black">$75.00</td>
+                    </tr>
+                  </>
+                )}
+                {currentPage === 2 && (
+                  <tr className="hover:bg-slate-50/40 transition-colors">
+                    <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98423</td>
+                    <td className="py-3.5 px-4 flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100/40 flex items-center justify-center text-[8px] font-black">SV</div>
+                      <span className="text-xs text-slate-800 font-medium">Sarah Vance</span>
+                    </td>
+                    <td className="py-3.5 px-4"><span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Subscription</span></td>
+                    <td className="py-3.5 px-4">
+                      <span className="text-[10px] font-black text-amber-500 inline-flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-amber-400 rounded-full"></span> Scheduled
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 25, 2023</td>
+                    <td className="py-3.5 px-6 text-right text-slate-900 font-black">$210.00</td>
+                  </tr>
+                )}
+                {currentPage === 3 && (
+                  <>
+                    <tr className="hover:bg-slate-50/40 transition-colors">
+                      <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98424</td>
+                      <td className="py-3.5 px-4 flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 border border-gray-200 flex items-center justify-center text-[8px] font-black">DB</div>
+                        <span className="text-xs text-slate-800 font-medium">David Byrne</span>
+                      </td>
+                      <td className="py-3.5 px-4"><span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Deep Clean</span></td>
+                      <td className="py-3.5 px-4">
+                        <span className="text-[10px] font-black text-rose-500 inline-flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Cancelled
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 25, 2023</td>
+                      <td className="py-3.5 px-6 text-right text-slate-400 font-black">$0.00</td>
+                    </tr>
+                    <tr className="hover:bg-slate-50/40 transition-colors">
+                      <td className="py-3.5 px-6 text-slate-900 font-black">#HZ-98425</td>
+                      <td className="py-3.5 px-4 flex items-center gap-2">
+                        <div className="w-5 h-5 rounded-full bg-slate-100 text-slate-600 border border-gray-200 flex items-center justify-center text-[8px] font-black">JL</div>
+                        <span className="text-xs text-slate-800 font-medium">Jessica Low</span>
+                      </td>
+                      <td className="py-3.5 px-4"><span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded">On-Demand</span></td>
+                      <td className="py-3.5 px-4">
+                        <span className="text-[10px] font-black text-emerald-600 inline-flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Completed
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4 text-slate-500 font-medium">Oct 26, 2023</td>
+                      <td className="py-3.5 px-6 text-right text-slate-900 font-black">$120.00</td>
+                    </tr>
+                  </>
+                )}
               </tbody>
             </table>
           </div>
 
-          {/* Table Footer Pagination Layout */}
+          {/* Table Footer Pagination Controls - Fully Working Now */}
           <div className="bg-[#f8fafd] border-t border-gray-100 px-6 py-3.5 flex justify-between items-center text-xs font-bold text-gray-400">
-            <span>Showing 1-5 of 1,240 entries</span>
+            <span>Showing {(currentPage - 1) * 2 + 1}-{Math.min(currentPage * 2, 5)} of 5 entries</span>
             <div className="flex items-center gap-1.5">
-              <button className="p-1 px-2.5 bg-white border border-gray-200 rounded text-slate-700 text-[11px] shadow-sm">Previous</button>
-              <button className="p-1 px-3 bg-slate-900 rounded text-white text-[11px] shadow-sm">1</button>
-              <button className="p-1 px-3 bg-white border border-gray-200 rounded text-slate-700 text-[11px] shadow-sm">2</button>
-              <button className="p-1 px-3 bg-white border border-gray-200 rounded text-slate-700 text-[11px] shadow-sm">3</button>
-              <button className="p-1 px-2.5 bg-white border border-gray-200 rounded text-slate-700 text-[11px] shadow-sm">Next</button>
+              <button 
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`p-1 px-2.5 bg-white border border-gray-200 rounded text-[11px] shadow-sm transition-all ${
+                  currentPage === 1 ? "opacity-40 cursor-not-allowed text-gray-300" : "text-slate-700 hover:bg-gray-50"
+                }`}
+              >
+                Previous
+              </button>
+              
+              {[1, 2, 3].map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`p-1 px-3 rounded text-[11px] shadow-sm transition-all ${
+                    currentPage === page 
+                      ? "bg-slate-900 text-white" 
+                      : "bg-white border border-gray-200 text-slate-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button 
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`p-1 px-2.5 bg-white border border-gray-200 rounded text-[11px] shadow-sm transition-all ${
+                  currentPage === totalPages ? "opacity-40 cursor-not-allowed text-gray-300" : "text-slate-700 hover:bg-gray-50"
+                }`}
+              >
+                Next
+              </button>
             </div>
           </div>
-
         </div>
 
         {/* BOTTOM METRICS BREAKDOWN & EFFICIENCY INSIGHTS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Left Large 2 Columns: Service Category Breakdown progress bars */}
           <div className="bg-white border border-gray-200/70 rounded-xl p-6 shadow-sm md:col-span-2 space-y-5">
             <h3 className="text-sm font-black text-slate-900">Service Category Breakdown</h3>
-            
-            {/* Row Item 1 */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
                 <span className="text-slate-600">Standard Maintenance</span>
@@ -254,8 +302,6 @@ export default function BookingReportPage() {
                 <div className="h-full bg-slate-900" style={{ width: "42%" }}></div>
               </div>
             </div>
-
-            {/* Row Item 2 */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
                 <span className="text-slate-600">Deep Cleaning</span>
@@ -265,8 +311,6 @@ export default function BookingReportPage() {
                 <div className="h-full bg-slate-900" style={{ width: "35%" }}></div>
               </div>
             </div>
-
-            {/* Row Item 3 */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
                 <span className="text-slate-600">Subscription Plans</span>
@@ -278,7 +322,7 @@ export default function BookingReportPage() {
             </div>
           </div>
 
-          {/* Right Column: Efficiency Insight Callout Card */}
+          {/* Efficiency Insight Callout Card */}
           <div className="bg-[#1d0094] text-white p-6 rounded-xl shadow-md flex flex-col justify-between">
             <div className="space-y-2">
               <h4 className="text-sm font-black tracking-tight">Efficiency Insight</h4>
@@ -287,7 +331,6 @@ export default function BookingReportPage() {
               </p>
             </div>
 
-            {/* High Performance badge structure inside card */}
             <div className="my-4 pt-3 border-t border-indigo-500/30 flex items-center gap-3">
               <span className="text-xl">🚀</span>
               <div>
@@ -296,12 +339,53 @@ export default function BookingReportPage() {
               </div>
             </div>
 
-            <button className="w-full py-2 bg-white text-slate-900 text-xs font-black rounded-lg text-center hover:bg-gray-50 transition-colors shadow-sm">
+            {/* Clickable View Suggestions Button */}
+            <button 
+              onClick={() => setIsSuggestionsOpen(true)}
+              className="w-full py-2 bg-white text-slate-900 text-xs font-black rounded-lg text-center hover:bg-gray-100 active:scale-[0.98] transition-all shadow-sm"
+            >
               View Suggestions
             </button>
           </div>
-
         </div>
+
+        {/* VIEW SUGGESTIONS MODAL POPUP */}
+        {isSuggestionsOpen && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+            <div className="bg-white rounded-xl shadow-2xl border border-gray-100 max-w-md w-full overflow-hidden">
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">💡</span>
+                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide">Operational Suggestions</h3>
+                </div>
+                <button 
+                  onClick={() => setIsSuggestionsOpen(false)}
+                  className="text-gray-400 hover:text-slate-600 text-sm font-bold p-1"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="p-6 space-y-4 text-xs">
+                <div className="p-3 bg-indigo-50/50 rounded-lg border border-indigo-100/30">
+                  <p className="font-bold text-slate-900 mb-1">📈 Increase Slots by 15%</p>
+                  <p className="text-gray-500 font-medium">Due to high performance and rapid completions, morning hours currently have unutilized labor capacity.</p>
+                </div>
+                <div className="p-3 bg-emerald-50/50 rounded-lg border border-emerald-100/30">
+                  <p className="font-bold text-slate-900 mb-1">🤖 Automate Dispatching</p>
+                  <p className="text-gray-500 font-medium">Deep Cleaning bookings are peaking on weekends. Shift scheduling to auto-assign rules.</p>
+                </div>
+              </div>
+              <div className="p-4 bg-slate-50 border-t border-gray-100 flex justify-end">
+                <button 
+                  onClick={() => setIsSuggestionsOpen(false)}
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-bold shadow-sm transition-all"
+                >
+                  Acknowledge
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </AdminShell>

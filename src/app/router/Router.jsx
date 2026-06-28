@@ -10,6 +10,11 @@ import OtpVerification from '../../pages/OtpVerification';
 import ResetPassword from '../../pages/ResetPassword';
 import PasswordResetSuccess from '../../pages/PasswordResetSuccess';
 import Dashboard from '../../pages/Dashboard';
+import MyProfile from '../../pages/MyProfile';
+import AccountSettings from '../../pages/Settings/AccountSettings';
+import ChangePasswordPage from '../../pages/Settings/ChangePasswordPage';
+import ActivityLogPage from '../../pages/MyProfile/ActivityLogPage';
+import HelpSupportPage from '../../pages/MyProfile/HelpSupportPage';
 import RevenueDashboard from '../../pages/Dashboard/RevenueDashboard';
 import BookingAnalytics from '../../pages/Dashboard/BookingAnalytics';
 import UserAnalytics from '../../pages/Dashboard/UserAnalytics';
@@ -285,6 +290,37 @@ import OwnershipVerification from '../../pages/Business/OwnerShipVerification';
 import BusinessBranches from '../../pages/Business/BusinessBranches';
 import AuditLogs from '../../pages/Business/AuditLogs';
 
+// New consolidated CMS & App Management modules imports
+import PoliciesPage from '../../modules/cms/policies/pages/PoliciesPage';
+import TermsPage from '../../modules/cms/termsConditions/pages/TermsPage';
+import FaqPage from '../../modules/cms/faq/pages/FaqPage';
+import HelpCenterPage from '../../modules/cms/helpCenter/pages/HelpCenterPage';
+import DocCenterPage from '../../modules/cms/documentationCenter/pages/DocCenterPage';
+import AppDashboardPage from '../../modules/cms/appManagement/dashboard/pages/AppDashboardPage';
+import BannerMgmtPage from '../../modules/cms/appManagement/bannerManagement/pages/BannerMgmtPage';
+import UserAppPage from '../../modules/cms/appManagement/userApp/pages/UserAppPage';
+import PartnerAppPage from '../../modules/cms/appManagement/partnerApp/pages/PartnerAppPage';
+import FeatureMgmtPage from '../../modules/cms/appManagement/featureManagement/pages/FeatureMgmtPage';
+import MenuMgmtPage from '../../modules/cms/appManagement/menuManagement/pages/MenuMgmtPage';
+
+import CancellationPolicy from '../../pages/CMSManagement/CancellationPolicy';
+import RemoteConfigPage from '../../modules/cms/appManagement/remoteConfig/pages/RemoteConfigPage';
+import AppConfigPage from '../../modules/cms/appManagement/appConfig/pages/AppConfigPage';
+import MaintenanceModePage from '../../modules/cms/appManagement/maintenance/pages/MaintenanceModePage';
+import OrderMgmtPage from '../../pages/OrderManagement/OrderMgmtPage';
+import PriceMgmtPage from '../../pages/PriceManagement/PriceMgmtPage';
+import OfferMgmtPage from '../../pages/OfferManagement/OfferMgmtPage';
+import RewardMgmtPage from '../../pages/RewardManagement/RewardMgmtPage';
+import GstMgmtPage from '../../pages/GSTManagement/GstMgmtPage';
+import PlatformFeeMgmtPage from '../../pages/PlatformFeeManagement/PlatformFeeMgmtPage';
+import PerformanceMgmtPage from '../../pages/PerformanceManagement/PerformanceMgmtPage';
+import FavoriteAddressMgmtPage from '../../pages/FavoriteAddressManagement/FavoriteAddressMgmtPage';
+import MaterialPriceMgmtPage from '../../pages/MaterialPriceManagement/MaterialPriceMgmtPage';
+import PaymentMgmtPage from '../../pages/PaymentManagement/PaymentMgmtPage';
+import LocationMgmtPage from '../../pages/LocationManagement/LocationMgmtPage';
+import { ToastProvider } from '../../components/common/ToastNotification';
+
+
 
 const dynamicRoutePatterns = Object.values(ROUTES)
   .filter((route) => typeof route === 'string' && route.includes(':'))
@@ -412,34 +448,34 @@ export function Router() {
     case ROUTES.bookings:
       return <BookingManagement />;
     case ROUTES.liveTracking:
-      return <Placeholder title="Live Tracking" activeTab="Live Tracking" />;
+      return <LiveDashboard />;
     case ROUTES.materials:
-      return <Placeholder title="Materials" activeTab="Materials" />;
+      return <InventoryDashboard />;
     case ROUTES.quotations:
       return <QuotationManagement />;
     case ROUTES.wallet:
-      return <Placeholder title="Wallet" activeTab="Wallet" />;
+      return <EarningsDashboard />;
     case ROUTES.banking:
       return <BankingSettlementManagement />;
     case ROUTES.revenue:
-      return <Placeholder title="Revenue" activeTab="Revenue" />;
+      return <RevenueDashboard />;
 
     case ROUTES.referrals:
-      return <Placeholder title="Referrals" activeTab="Referrals" />;
+      return <ReferralDashboard />;
     case ROUTES.notifications:
-      return <Placeholder title="Notifications" activeTab="Notifications" />;
+      return <PushNotifications activeTab="Notification Center" />;
     case ROUTES.banners:
-      return <Placeholder title="Banners" activeTab="Banners" />;
+      return <BannerMgmtPage defaultTab="home" />;
     case ROUTES.cms:
-      return <Placeholder title="CMS" activeTab="CMS" />;
+      return <PoliciesPage />;
     case ROUTES.reviews:
-      return <Placeholder title="Reviews" activeTab="Reviews" />;
+      return <UserReviews />;
     case ROUTES.sos:
       return <SOSManagement />;
     case ROUTES.support:
       return <SupportDashboard activeTab="Support Center" />;
     case ROUTES.settings:
-      return <Placeholder title="Settings" activeTab="Settings" />;
+      return <SecuritySettings />;
     case ROUTES.performance:
       return <Employees />;
     case ROUTES.reports:
@@ -540,7 +576,7 @@ export function Router() {
       return <PartnerAuditLogs/>
     // Business Management sub-routes
     case ROUTES.businessAll:
-      return <Placeholder title="All Businesses" activeTab="Business Management" />;
+      return <BusinessRegistry />;
     case ROUTES.businessGst:
       return <GSTVerification/>
     case ROUTES.businessPan:
@@ -568,7 +604,7 @@ export function Router() {
       return <AuditLogs/>
     // Branch Management sub-routes
     case ROUTES.branchAll:
-      return <Placeholder title="All Branches" activeTab="Branch Management" />;
+      return <Branches />;
     case ROUTES.branchServices:
       return <BranchServices />;
     case ROUTES.branchEmployees:
@@ -972,7 +1008,7 @@ export function Router() {
     case ROUTES.cmsAboutUs:
       return <AboutUs />;
     case ROUTES.cmsTerms:
-      return <TermsAndConditions />;
+      return <TermsPage />;
     case ROUTES.cmsPrivacy:
       return <PrivacyPolicy />;
     case ROUTES.cmsRefund:
@@ -980,11 +1016,84 @@ export function Router() {
     case ROUTES.cmsContactUs:
       return <ContactUs />;
     case ROUTES.cmsFaqs:
-      return <Faqs />;
+      return <FaqPage />;
     case ROUTES.cmsBlogs:
       return <Blogs />;
     case ROUTES.cmsSeo:
       return <SeoSettings />;
+
+    // Consolidated CMS Module Routes
+    case ROUTES.cmsPolicies:
+      return <PoliciesPage />;
+    case ROUTES.cmsHelpCenter:
+      return <HelpCenterPage />;
+    case ROUTES.cmsDocumentationCenter:
+      return <DocCenterPage />;
+
+    // App Management Module Routes
+    case ROUTES.appManagementDashboard:
+      return <AppDashboardPage />;
+    // Banner Management Consolidated
+    case ROUTES.bannersHome:
+      return <BannerMgmtPage defaultTab="home" />;
+    case ROUTES.bannersOffer:
+      return <BannerMgmtPage defaultTab="offer" />;
+    case ROUTES.bannersPromotional:
+      return <BannerMgmtPage defaultTab="promotional" />;
+    case ROUTES.bannersMarketing:
+      return <BannerMgmtPage defaultTab="marketing" />;
+    case ROUTES.bannersUpload:
+      return <BannerMgmtPage defaultTab="upload" />;
+    case ROUTES.bannersPreview:
+      return <BannerMgmtPage defaultTab="preview" />;
+    case ROUTES.bannersScheduling:
+      return <BannerMgmtPage defaultTab="scheduling" />;
+    case ROUTES.bannersStatus:
+      return <BannerMgmtPage defaultTab="status" />;
+
+    // User App Consolidated
+    case ROUTES.userAppFeatures:
+      return <UserAppPage defaultTab="features" />;
+    case ROUTES.userAppMenus:
+      return <UserAppPage defaultTab="menus" />;
+    case ROUTES.userAppConfig:
+      return <UserAppPage defaultTab="config" />;
+    case ROUTES.userAppVersion:
+      return <UserAppPage defaultTab="version" />;
+
+    // Partner App Consolidated
+    case ROUTES.partnerAppFeatures:
+      return <PartnerAppPage defaultTab="features" />;
+    case ROUTES.partnerAppRoles:
+      return <PartnerAppPage defaultTab="roles" />;
+    case ROUTES.partnerAppMenus:
+      return <PartnerAppPage defaultTab="menus" />;
+    case ROUTES.partnerAppConfig:
+      return <PartnerAppPage defaultTab="config" />;
+
+    // Feature Management Consolidated
+    case ROUTES.featureToggle:
+      return <FeatureMgmtPage defaultTab="toggle" />;
+    case ROUTES.featureEnable:
+      return <FeatureMgmtPage defaultTab="enable" />;
+    case ROUTES.featureDisable:
+      return <FeatureMgmtPage defaultTab="disable" />;
+    case ROUTES.featureBeta:
+      return <FeatureMgmtPage defaultTab="beta" />;
+    case ROUTES.featureVersion:
+      return <FeatureMgmtPage defaultTab="version" />;
+
+    // Menu Management Consolidated
+    case ROUTES.menuUser:
+      return <MenuMgmtPage defaultTab="user" />;
+    case ROUTES.menuPartner:
+      return <MenuMgmtPage defaultTab="partner" />;
+    case ROUTES.menuOrdering:
+      return <MenuMgmtPage defaultTab="ordering" />;
+    case ROUTES.menuVisibility:
+      return <MenuMgmtPage defaultTab="visibility" />;
+    case ROUTES.menuPermission:
+      return <MenuMgmtPage defaultTab="permission" />;
 
     // Reviews & Ratings sub-routes
     case ROUTES.reviewsUser:
@@ -1203,6 +1312,48 @@ export function Router() {
     case ROUTES.settingsSystemLogs:
       return <SystemLogs />;
 
+    case ROUTES.myProfile:
+      return <MyProfile />;
+
+    case ROUTES.cmsCancellation:
+      return <CancellationPolicy />;
+    case ROUTES.appManagementRemoteConfig:
+      return <RemoteConfigPage />;
+    case ROUTES.appManagementConfig:
+      return <AppConfigPage />;
+    case ROUTES.appManagementMaintenance:
+      return <MaintenanceModePage />;
+    case ROUTES.orderManagement:
+      return <OrderMgmtPage />;
+    case ROUTES.priceManagement:
+      return <PriceMgmtPage />;
+    case ROUTES.offerManagement:
+      return <OfferMgmtPage />;
+    case ROUTES.rewardManagement:
+      return <RewardMgmtPage />;
+    case ROUTES.gstManagement:
+      return <GstMgmtPage />;
+    case ROUTES.platformFeeManagement:
+      return <PlatformFeeMgmtPage />;
+    case ROUTES.performanceManagement:
+      return <PerformanceMgmtPage />;
+    case ROUTES.favoriteAddressManagement:
+      return <FavoriteAddressMgmtPage />;
+    case ROUTES.materialPriceManagement:
+      return <MaterialPriceMgmtPage />;
+    case ROUTES.paymentManagement:
+      return <PaymentMgmtPage />;
+    case ROUTES.locationManagement:
+      return <LocationMgmtPage />;
+    case ROUTES.settingsAccount:
+      return <AccountSettings />;
+    case ROUTES.settingsChangePassword:
+      return <ChangePasswordPage />;
+    case ROUTES.profileActivityLog:
+      return <ActivityLogPage />;
+    case ROUTES.helpSupport:
+      return <HelpSupportPage />;
+
     default:
       return <RoleSelection />;
     }
@@ -1219,15 +1370,17 @@ export function Router() {
     ROUTES.passwordResetSuccess
   ].includes(currentRoute) || currentRoute === undefined;
 
-  if (isPublicRoute) {
-    return page;
-  }
-
   return (
-    <ShellProvider>
-      <GlobalAdminShell>
-        {page}
-      </GlobalAdminShell>
-    </ShellProvider>
+    <ToastProvider>
+      {isPublicRoute ? (
+        page
+      ) : (
+        <ShellProvider>
+          <GlobalAdminShell>
+            {page}
+          </GlobalAdminShell>
+        </ShellProvider>
+      )}
+    </ToastProvider>
   );
 }

@@ -7,6 +7,7 @@ export const ROUTES = {
   resetPassword: '/reset-password',
   passwordResetSuccess: '/password-reset-success',
   dashboard: '/dashboard',
+  myProfile: '/my-profile',
   partners: '/partners',
   partnerDetails: '/partner-details',
   approvalQueue: '/partners/approval-queue',
@@ -542,5 +543,69 @@ export const ROUTES = {
   notificationsGlobalNotifications: '/notifications/global-notifications',
   notificationsNotificationPreferences: '/notifications/notification-preferences',
   notificationsCommunicationLogs: '/notifications/communication-logs',
-  notificationsNotificationCostCenter: '/notifications/notification-cost-center'
+  notificationsNotificationCostCenter: '/notifications/notification-cost-center',
+
+  // --- NEW CMS & APP MANAGEMENT INTEGRATED ROUTES ---
+  cmsPolicies: '/cms/policies',
+  cmsHelpCenter: '/cms/help-center',
+  cmsDocumentationCenter: '/cms/documentation-center',
+  appManagementDashboard: '/cms/app-management/dashboard',
+  
+  // Banner Management Consolidated
+  bannersHome: '/cms/app-management/banners/home',
+  bannersOffer: '/cms/app-management/banners/offer',
+  bannersPromotional: '/cms/app-management/banners/promotional',
+  bannersMarketing: '/cms/app-management/banners/marketing',
+  bannersUpload: '/cms/app-management/banners/upload',
+  bannersPreview: '/cms/app-management/banners/preview',
+  bannersScheduling: '/cms/app-management/banners/scheduling',
+  bannersStatus: '/cms/app-management/banners/status',
+
+  // User App Consolidated
+  userAppFeatures: '/cms/app-management/user-app/features',
+  userAppMenus: '/cms/app-management/user-app/menus',
+  userAppConfig: '/cms/app-management/user-app/config',
+  userAppVersion: '/cms/app-management/user-app/version',
+
+  // Partner App Consolidated
+  partnerAppFeatures: '/cms/app-management/partner-app/features',
+  partnerAppRoles: '/cms/app-management/partner-app/roles',
+  partnerAppMenus: '/cms/app-management/partner-app/menus',
+  partnerAppConfig: '/cms/app-management/partner-app/config',
+
+  // Feature Management Consolidated
+  featureToggle: '/cms/app-management/features/toggle',
+  featureEnable: '/cms/app-management/features/enable',
+  featureDisable: '/cms/app-management/features/disable',
+  featureBeta: '/cms/app-management/features/beta',
+  featureVersion: '/cms/app-management/features/version',
+
+  // Menu Management Consolidated
+  menuUser: '/cms/app-management/menus/user',
+  menuPartner: '/cms/app-management/menus/partner',
+  menuOrdering: '/cms/app-management/menus/ordering',
+  menuVisibility: '/cms/app-management/menus/visibility',
+  menuPermission: '/cms/app-management/menus/permission',
+
+  // --- PHASE 2 REORGANIZED AND MISSING MODULES ---
+  orderManagement: '/orders',
+  priceManagement: '/pricing',
+  offerManagement: '/offers',
+  rewardManagement: '/rewards',
+  gstManagement: '/gst',
+  platformFeeManagement: '/platform-fee',
+  performanceManagement: '/performance-mgmt',
+  favoriteAddressManagement: '/favorite-addresses',
+  materialPriceManagement: '/material-pricing',
+  cmsCancellation: '/cms/cancellation-policy',
+  appManagementRemoteConfig: '/cms/app-management/remote-config',
+  appManagementConfig: '/cms/app-management/app-config',
+  appManagementMaintenance: '/cms/app-management/maintenance-mode',
+  paymentManagement: '/payments',
+  locationManagement: '/locations',
+  settingsAccount: '/settings/account',
+  settingsChangePassword: '/settings/change-password',
+  profileActivityLog: '/profile/activity-log',
+  helpSupport: '/help-support'
 };
+

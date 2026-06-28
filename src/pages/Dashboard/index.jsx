@@ -32,6 +32,7 @@ import {
 import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
+import { downloadDummyPDF } from '../../utils/downloadHelper';
 
 // Original dashboard components and data
 import KpiCard from '../../features/dashboard/KpiCard';
@@ -1019,6 +1020,7 @@ export default function Dashboard() {
                   <ChevronDown size={14} />
                 </button>
                 <button
+                  onClick={() => downloadDummyPDF('Dashboard Executive Summary', 'Total Users: 128,402\nTotal Partners: 4,810\nActive Bookings: 1,842\nTotal Revenue: ₹1.42B')}
                   style={{
                     display: 'flex',
                     alignItems: 'center',

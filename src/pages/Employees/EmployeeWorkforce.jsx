@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Filter
 } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const initialWorkforce = [
   {
@@ -74,6 +75,7 @@ const initialWorkforce = [
 ];
 
 export default function EmployeeWorkforce({ onSelectEmployee }) {
+  const { addToast } = useToast();
   const [branchFilter, setBranchFilter] = useState('All Branches');
   const [cityFilter, setCityFilter] = useState('All Cities');
   const [typeFilter, setTypeFilter] = useState('All Types');
@@ -91,7 +93,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
   });
 
   return (
-    <div className="employee-workforce-flow">
+    <div className="employee-workforce-flow" style={{ paddingBottom: '40px' }}>
       {/* Title Header */}
       <div className="partners-page-header">
         <div>
@@ -99,7 +101,11 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
           <p className="page-subtitle">Manage, filter, and track performance of 1,240 registered staff members.</p>
         </div>
         <div className="partners-header-buttons">
-          <button className="secondary-action-btn" type="button">
+          <button 
+            onClick={() => addToast("Exporting workforce rosters spreadsheet...", "success")}
+            className="secondary-action-btn cursor-pointer" 
+            type="button"
+          >
             <Download size={16} />
             <span>Export CSV</span>
           </button>
@@ -113,7 +119,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' }}>Branch Office</label>
             <select
-              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700' }}
+              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700', outline: 'none', cursor: 'pointer' }}
               value={branchFilter}
               onChange={(e) => setBranchFilter(e.target.value)}
               aria-label="Select Branch Office"
@@ -129,7 +135,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' }}>Metropolitan City</label>
             <select
-              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700' }}
+              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700', outline: 'none', cursor: 'pointer' }}
               value={cityFilter}
               onChange={(e) => setCityFilter(e.target.value)}
               aria-label="Select Metropolitan City"
@@ -145,7 +151,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' }}>Employee Type</label>
             <select
-              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700' }}
+              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700', outline: 'none', cursor: 'pointer' }}
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
               aria-label="Select Employee Type"
@@ -160,7 +166,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
           <div style={{ flex: 1 }}>
             <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' }}>KYC Verification</label>
             <select
-              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700' }}
+              style={{ width: '100%', height: '38px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 10px', fontSize: '13px', background: '#fff', fontWeight: '700', outline: 'none', cursor: 'pointer' }}
               value={kycFilter}
               onChange={(e) => setKycFilter(e.target.value)}
               aria-label="Select KYC status"
@@ -172,7 +178,12 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
             </select>
           </div>
 
-          <button className="secondary-action-btn" style={{ height: '38px', alignSelf: 'flex-end', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: '40px', padding: 0 }} aria-label="Toggle filters layout">
+          <button 
+            onClick={() => addToast("Custom multi-filter rules applied quietly", "success")}
+            className="secondary-action-btn cursor-pointer" 
+            style={{ height: '38px', alignSelf: 'flex-end', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: '40px', padding: 0 }} 
+            aria-label="Toggle filters layout"
+          >
             <Filter size={18} />
           </button>
         </div>
@@ -201,7 +212,7 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
                 <tr
                   key={emp.id}
                   className="partner-row-clickable"
-                  onClick={() => onSelectEmployee(emp)}
+                  onClick={() => { onSelectEmployee(emp); addToast(`Opening profile console for ${emp.name}`, "success"); }}
                 >
                   <td className="partner-id-cell">
                     <strong>{emp.id}</strong>
@@ -268,7 +279,12 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
                     </div>
                   </td>
                   <td className="partner-actions-cell" onClick={(e) => e.stopPropagation()}>
-                    <button className="table-row-action-btn" type="button" aria-label="More actions">
+                    <button 
+                      onClick={() => addToast(`Opening options dropdown menu for ${emp.name}`, "success")}
+                      className="table-row-action-btn cursor-pointer" 
+                      type="button" 
+                      aria-label="More actions"
+                    >
                       <MoreVertical size={16} />
                     </button>
                   </td>
@@ -287,17 +303,17 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
 
         {/* Pager Footer */}
         <div className="directory-table-footer">
-          <span className="footer-results-text">Showing 1-4 of 1,240 employees</span>
+          <span className="footer-results-text">Showing 1-{filteredList.length} of 1,240 employees</span>
           <div className="pagination-wrap">
-            <button className="pag-nav-btn" type="button" disabled>
+            <button onClick={() => addToast("Loaded previous workforce page", "success")} className="pag-nav-btn cursor-pointer" type="button" disabled>
               <ChevronLeft size={16} />
             </button>
-            <button className="pag-num-btn active" type="button">1</button>
-            <button className="pag-num-btn" type="button">2</button>
-            <button className="pag-num-btn" type="button">3</button>
+            <button onClick={() => addToast("Loaded page 1", "success")} className="pag-num-btn active cursor-pointer" type="button">1</button>
+            <button onClick={() => addToast("Loaded page 2", "success")} className="pag-num-btn cursor-pointer" type="button">2</button>
+            <button onClick={() => addToast("Loaded page 3", "success")} className="pag-num-btn cursor-pointer" type="button">3</button>
             <span className="pag-ellipsis">...</span>
-            <button className="pag-num-btn" type="button">83</button>
-            <button className="pag-nav-btn" type="button">
+            <button onClick={() => addToast("Loaded page 83", "success")} className="pag-num-btn cursor-pointer" type="button">83</button>
+            <button onClick={() => addToast("Loaded next workforce page", "success")} className="pag-nav-btn cursor-pointer" type="button">
               <ChevronRight size={16} />
             </button>
           </div>
@@ -305,15 +321,19 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
       </section>
 
       {/* Bottom widgets with sparklines */}
-      <div className="kpi-grid" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px' }}>
+      <div className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
         {/* Utilization */}
-        <div className="panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', minHeight: '120px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Workforce Utilization</span>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: '#10b981', background: '#ecfdf5', padding: '2px 6px', borderRadius: '4px' }}>+4.2%</span>
+        <div 
+          onClick={() => addToast("Card clicked: Workforce Utilization analytics details", "success")}
+          className="panel" 
+          style={{ padding: '12px', display: 'flex', flexDirection: 'column', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Workforce Utilization</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: '#10b981', background: '#ecfdf5', padding: '2px 6px', borderRadius: '4px' }}>+4.2%</span>
           </div>
-          <strong style={{ fontSize: '26px', margin: '2px 0 10px' }}>88.4%</strong>
-          <div style={{ width: '100%', height: '30px', marginTop: 'auto' }}>
+          <strong style={{ fontSize: '18px', marginTop: '4px', display: 'block', color: 'var(--text)' }}>88.4%</strong>
+          <div style={{ width: '100%', height: '16px', marginTop: '4px' }}>
             <svg width="100%" height="100%" viewBox="0 0 300 30" preserveAspectRatio="none">
               <path d="M 0 25 Q 75 15 150 20 T 300 5" fill="none" stroke="#4f46e5" strokeWidth="2" />
             </svg>
@@ -321,13 +341,17 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
         </div>
 
         {/* Avg Rating */}
-        <div className="panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', minHeight: '120px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Avg Employee Rating</span>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: '#10b981', background: '#ecfdf5', padding: '2px 6px', borderRadius: '4px' }}>+0.1</span>
+        <div 
+          onClick={() => addToast("Card clicked: Average Employee Rating stats", "success")}
+          className="panel" 
+          style={{ padding: '12px', display: 'flex', flexDirection: 'column', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Avg Employee Rating</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: '#10b981', background: '#ecfdf5', padding: '2px 6px', borderRadius: '4px' }}>+0.1</span>
           </div>
-          <strong style={{ fontSize: '26px', margin: '2px 0 10px' }}>4.65</strong>
-          <div style={{ width: '100%', height: '30px', marginTop: 'auto' }}>
+          <strong style={{ fontSize: '18px', marginTop: '4px', display: 'block', color: 'var(--text)' }}>4.65</strong>
+          <div style={{ width: '100%', height: '16px', marginTop: '4px' }}>
             <svg width="100%" height="100%" viewBox="0 0 300 30" preserveAspectRatio="none">
               <path d="M 0 15 Q 75 16 150 14 T 300 10" fill="none" stroke="#4f46e5" strokeWidth="2" />
             </svg>
@@ -335,13 +359,17 @@ export default function EmployeeWorkforce({ onSelectEmployee }) {
         </div>
 
         {/* Pending KYC */}
-        <div className="panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', minHeight: '120px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pending KYC Requests</span>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: '#ef4444', background: '#fee2e2', padding: '2px 6px', borderRadius: '4px' }}>+12 today</span>
+        <div 
+          onClick={() => addToast("Card clicked: Pending KYC Requests log details", "success")}
+          className="panel" 
+          style={{ padding: '12px', display: 'flex', flexDirection: 'column', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Pending KYC Requests</span>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: '#ef4444', background: '#fee2e2', padding: '2px 6px', borderRadius: '4px' }}>+12 today</span>
           </div>
-          <strong style={{ fontSize: '26px', margin: '2px 0 10px' }}>48</strong>
-          <div style={{ width: '100%', height: '30px', marginTop: 'auto' }}>
+          <strong style={{ fontSize: '18px', marginTop: '4px', display: 'block', color: 'var(--text)' }}>48</strong>
+          <div style={{ width: '100%', height: '16px', marginTop: '4px' }}>
             <svg width="100%" height="100%" viewBox="0 0 300 30" preserveAspectRatio="none">
               <path d="M 0 25 Q 75 20 150 23 T 300 8" fill="none" stroke="#ef4444" strokeWidth="2" />
             </svg>

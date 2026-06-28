@@ -1,5 +1,6 @@
 import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 
 import {
   Eye,
@@ -14,6 +15,8 @@ import {
 } from "lucide-react";
 
 export default function KycVerificationPage() {
+  const { addToast } = useToast();
+
   return (
     <AdminShell>
 
@@ -55,6 +58,7 @@ export default function KycVerificationPage() {
         <div className="mb-10 flex justify-end gap-3">
 
           <button
+            onClick={() => addToast("Draft verification details successfully saved.", "success")}
             className="
               h-14
               px-8
@@ -65,12 +69,14 @@ export default function KycVerificationPage() {
               font-medium
               border
               border-[#D7D7D7]
+              cursor-pointer
             "
           >
             Save Draft
           </button>
 
           <button
+            onClick={() => addToast("PAN Card verification review submitted successfully!", "success")}
             className="
               h-14
               px-8
@@ -80,6 +86,7 @@ export default function KycVerificationPage() {
               text-white
               text-lg
               font-medium
+              cursor-pointer
             "
           >
             Submit Review
@@ -116,21 +123,21 @@ export default function KycVerificationPage() {
 
                 <div className="flex items-center gap-5">
 
-                  <button>
+                  <button onClick={() => addToast("Zoomed in document preview", "success")}>
                     <ZoomIn
                       size={23}
                       className="text-[#1B1B1B]"
                     />
                   </button>
 
-                  <button>
+                  <button onClick={() => addToast("Rotated document preview 90° clockwise", "success")}>
                     <RotateCw
                       size={23}
                       className="text-[#1B1B1B]"
                     />
                   </button>
 
-                  <button>
+                  <button onClick={() => addToast("Downloading PAN document scan...", "success")}>
                     <Download
                       size={23}
                       className="text-[#1B1B1B]"
@@ -260,6 +267,7 @@ export default function KycVerificationPage() {
                 {/* Reject */}
 
                 <button
+                  onClick={() => addToast("PAN card validation rejected.", "success")}
                   className="
                     flex
                     h-[140px]
@@ -273,6 +281,7 @@ export default function KycVerificationPage() {
                     bg-[#FFF8F8]
                     transition
                     hover:bg-[#FFF2F2]
+                    cursor-pointer
                   "
                 >
 
@@ -290,6 +299,7 @@ export default function KycVerificationPage() {
                 {/* Approve */}
 
                 <button
+                  onClick={() => addToast("PAN card successfully verified and approved!", "success")}
                   className="
                     flex
                     h-[140px]
@@ -303,6 +313,7 @@ export default function KycVerificationPage() {
                     bg-[#F5F7FA]
                     transition
                     hover:bg-[#EEF2F7]
+                    cursor-pointer
                   "
                 >
 
@@ -438,7 +449,7 @@ export default function KycVerificationPage() {
                     LIMITED
                   </div>
 
-                  <button>
+                  <button onClick={() => addToast("Editing extraction field parameter...", "success")}>
                     <Pencil
                       size={22}
                       className="text-[#111]"

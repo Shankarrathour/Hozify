@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Search, ListFilter, FileText, CheckCircle2, AlertCircle, Clock, Download, Eye, X, ShieldCheck
 } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const MOCK_DOCUMENTS = [
   { id: 'DOC-901', employee: 'John Doe', type: 'Employment Contract', uploadDate: 'Sep 10, 2025', expiryDate: 'N/A', status: 'VERIFIED' },
@@ -12,6 +13,7 @@ const MOCK_DOCUMENTS = [
 ];
 
 export default function EmployeeDocuments() {
+  const { addToast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [previewDoc, setPreviewDoc] = useState(null);
@@ -26,57 +28,73 @@ export default function EmployeeDocuments() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', paddingBottom: '40px' }}>
       
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Total Documents details", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Total Documents</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>1,248</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Total Documents</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>1,248</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FileText size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <FileText size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Verified Documents details", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Verified Documents</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>1,102</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Verified Documents</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>1,102</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f0fdf4', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle2 size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#f0fdf4', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CheckCircle2 size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Pending Verification details", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Pending Verification</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>94</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Pending Verification</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>94</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Clock size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Clock size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Expired Documents details", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Expired Documents</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>52</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Expired Documents</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>52</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fef2f2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <AlertCircle size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#fef2f2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <AlertCircle size={14} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
+      <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', marginBottom: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
           <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Document Repository</h3>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -93,7 +111,7 @@ export default function EmployeeDocuments() {
               className="dash-select" 
               value={statusFilter} 
               onChange={(e) => setStatusFilter(e.target.value)}
-              style={{ height: '34px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 12px', fontSize: '12px', color: 'var(--text)', background: '#fff' }}
+              style={{ height: '34px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 12px', fontSize: '12px', color: 'var(--text)', background: '#fff', outline: 'none', cursor: 'pointer', fontWeight: '700' }}
             >
               <option value="All">All Statuses</option>
               <option value="VERIFIED">Verified</option>
@@ -124,17 +142,23 @@ export default function EmployeeDocuments() {
                     <td style={{ padding: '12px', fontSize: '13px', color: 'var(--text)', fontWeight: '700' }}>{row.type}</td>
                     <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)' }}>{row.uploadDate}</td>
                     <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)' }}>{row.expiryDate}</td>
-                    <td style={{ padding: '12px' }}>
+                    <td>
                       <span style={{ fontSize: '10px', fontWeight: '800', padding: '4px 8px', borderRadius: '4px', background: row.status === 'VERIFIED' ? '#d1fae5' : row.status === 'PENDING' ? '#fef3c7' : '#fee2e2', color: row.status === 'VERIFIED' ? '#059669' : row.status === 'PENDING' ? '#d97706' : '#dc2626' }}>
                         {row.status}
                       </span>
                     </td>
                     <td style={{ padding: '12px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                        <button onClick={() => setPreviewDoc(row)} style={{ background: '#f8fafc', border: '1px solid var(--line)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', padding: '6px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <button 
+                          onClick={() => { setPreviewDoc(row); addToast(`Opening preview for ${row.type}`, "success"); }} 
+                          style={{ background: '#f8fafc', border: '1px solid var(--line)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', padding: '6px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        >
                           <Eye size={14} /> View
                         </button>
-                        <button style={{ background: '#f8fafc', border: '1px solid var(--line)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', padding: '6px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <button 
+                          onClick={() => addToast(`Downloading document scan: ${row.id}`, "success")}
+                          style={{ background: '#f8fafc', border: '1px solid var(--line)', color: 'var(--text)', cursor: 'pointer', fontSize: '12px', padding: '6px 8px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        >
                           <Download size={14} />
                         </button>
                       </div>
@@ -185,11 +209,13 @@ export default function EmployeeDocuments() {
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button 
+                  onClick={() => { setPreviewDoc(null); addToast(`Document validation rejected for ${previewDoc.employee}`, "success"); }}
                   style={{ padding: '10px 16px', background: '#fff', border: '1px solid #ef4444', color: '#ef4444', borderRadius: '8px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
                 >
                   Reject Document
                 </button>
                 <button 
+                  onClick={() => { setPreviewDoc(null); addToast(`Document successfully verified for ${previewDoc.employee}!`, "success"); }}
                   style={{ padding: '10px 16px', background: '#10b981', border: 'none', color: '#fff', borderRadius: '8px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
                 >
                   <ShieldCheck size={16} /> Mark as Verified

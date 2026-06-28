@@ -3,6 +3,7 @@ import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
 import AdminShell from '../../components/layouts/AdminShell';
 import BusinessHeaderTabs from './BusinessHeaderTabs';
+import { useToast } from '../../components/common/ToastNotification';
 import {
   ShieldAlert,
   ChevronRight,
@@ -18,6 +19,7 @@ import {
 
 export default function BusinessRisk() {
   const { navigate } = useApp();
+  const { addToast } = useToast();
 
   const entityName = 'Global Zenith Holdings Ltd.';
   const entityId = 'INVEST-8821-X';
@@ -57,28 +59,28 @@ export default function BusinessRisk() {
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <button
               style={{ border: '1px solid var(--line)', background: '#fff', color: 'var(--text)', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 14px', borderRadius: '6px', cursor: 'pointer' }}
-              onClick={() => alert('Marked Safe')}
+              onClick={() => addToast("Entity status marked as SAFE.", "success")}
               type="button"
             >
               Mark Safe
             </button>
             <button
               style={{ border: '1px solid var(--line)', background: '#fff', color: 'var(--text)', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 14px', borderRadius: '6px', cursor: 'pointer' }}
-              onClick={() => alert('Escalating...')}
+              onClick={() => addToast("Risk alert escalated to surveillance lead.", "success")}
               type="button"
             >
               Escalate
             </button>
             <button
               style={{ border: 'none', background: '#fee2e2', color: '#ef4444', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 14px', borderRadius: '6px', cursor: 'pointer' }}
-              onClick={() => navigate(ROUTES.businessSuspension)}
+              onClick={() => { navigate(ROUTES.businessSuspension); addToast("Loading suspension parameters...", "success"); }}
               type="button"
             >
               Suspend
             </button>
             <button
               style={{ border: 'none', background: '#991b1b', color: '#fff', fontSize: '12px', fontWeight: '700', height: '36px', padding: '0 14px', borderRadius: '6px', cursor: 'pointer' }}
-              onClick={() => alert('Account Frozen.')}
+              onClick={() => addToast("All banking transactions and API keys FROZEN.", "success")}
               type="button"
             >
               Freeze Account
@@ -99,10 +101,11 @@ export default function BusinessRisk() {
                 <span style={{ fontSize: '10px', fontWeight: '800', color: '#ef4444' }}>5 CRITICAL ALERTS</span>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px' }}>
                 {riskIndicators.map((ri, idx) => (
                   <div
                     key={idx}
+                    onClick={() => addToast(`Risk alert details: ${ri.desc}`, "success")}
                     style={{
                       borderLeft: '4px solid #ef4444',
                       background: '#fff8f8',
@@ -111,129 +114,61 @@ export default function BusinessRisk() {
                       border: '1px solid #fee2e2',
                       borderLeftWidth: '4px',
                       display: 'flex',
-                      gap: '12px'
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      minHeight: '80px',
+                      cursor: 'pointer'
                     }}
                   >
-                    <div style={{ fontSize: '20px', fontWeight: '800', color: '#ef4444', minWidth: '40px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: '800', color: '#ef4444' }}>
                       {ri.num}
                     </div>
                     <div>
-                      <strong style={{ display: 'block', fontSize: '12px', color: 'var(--text)' }}>{ri.label}</strong>
-                      <span style={{ display: 'block', fontSize: '10px', color: 'var(--muted)', marginTop: '2px', lineHeight: '1.3' }}>{ri.desc}</span>
+                      <strong style={{ display: 'block', fontSize: '11px', color: 'var(--text)' }}>{ri.label}</strong>
                     </div>
                   </div>
                 ))}
-
-                {/* Add Marker Button */}
-                <button
-                  style={{ border: '1px dashed var(--line)', background: 'transparent', color: 'var(--muted)', fontSize: '11px', fontWeight: '800', borderRadius: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '6px', minHeight: '68px' }}
-                  onClick={() => alert('Add marker dialog')}
-                  type="button"
-                >
-                  <Plus size={16} /> ADD MARKER
-                </button>
               </div>
             </div>
 
             {/* Investigation Timeline */}
             <div className="panel" style={{ padding: '20px' }}>
               <h2 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text)', margin: '0 0 20px' }}>Investigation Timeline</h2>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative' }}>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative', paddingLeft: '24px' }}>
+                <div style={{ position: 'absolute', top: '8px', bottom: '8px', left: '7px', width: '2px', background: '#e2e8f0' }} />
                 
-                {/* Vertical timeline connector */}
-                <div style={{ position: 'absolute', left: '7px', top: '8px', bottom: '8px', width: '2px', background: '#e2e8f0' }} />
-
-                {/* Alert Item 1 */}
-                <div style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 2 }}>
-                  <div style={{ height: '16px', width: '16px', borderRadius: '50%', background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                    <span style={{ height: '6px', width: '6px', borderRadius: '50%', background: '#fff' }} />
+                {[
+                  { time: '10 mins ago', title: 'System flagged high review velocity', desc: 'IP verification trace identified review clustering from 2 origins.' },
+                  { time: '2 hours ago', title: 'Owner verification mismatch', desc: 'Biometric identity hash matches blacklisted owner profile #99211.' },
+                  { time: 'Yesterday', title: 'GST certification check failed', desc: 'GSTIN certificate duplicate match against suspended shell entities.' }
+                ].map((ev, idx) => (
+                  <div key={idx} style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', left: '-23px', top: '4px', height: '12px', width: '12px', borderRadius: '50%', background: '#ef4444', border: '2px solid #fff' }} />
+                    <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>{ev.time}</span>
+                    <strong style={{ display: 'block', fontSize: '12px', color: 'var(--text)', marginTop: '2px' }}>{ev.title}</strong>
+                    <span style={{ display: 'block', fontSize: '11px', color: 'var(--muted)', marginTop: '2px', lineHeight: '1.4' }}>{ev.desc}</span>
                   </div>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '12px' }}>
-                      <strong style={{ fontSize: '13px', color: '#ef4444' }}>Critical System Alert: IP Collision</strong>
-                      <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>Today, 09:42 AM</span>
-                    </div>
-                    <p style={{ fontSize: '11px', color: 'var(--muted)', margin: '4px 0 0', lineHeight: '1.4' }}>
-                      Entity attempted login from IP range 182.16.x.x, previously linked to "Alpha Shell Corp" (Fraud Case #991).
-                    </p>
-                  </div>
-                </div>
-
-                {/* Alert Item 2 */}
-                <div style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 2 }}>
-                  <div style={{ height: '16px', width: '16px', borderRadius: '50%', background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                    <span style={{ height: '6px', width: '6px', borderRadius: '50%', background: '#fff' }} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '12px' }}>
-                      <strong style={{ fontSize: '13px', color: 'var(--text)' }}>Manual Review: Sarah Chen (Senior Auditor)</strong>
-                      <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>Yesterday, 04:15 PM</span>
-                    </div>
-                    
-                    <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '10px', marginTop: '6px' }}>
-                      <p style={{ fontSize: '11px', color: 'var(--muted)', fontStyle: 'italic', margin: 0, lineHeight: '1.4' }}>
-                        "Utility bills provided during onboarding appear to be digitally manipulated. The font kerning on the address field is inconsistent with standard issuing bank templates. Recommending immediate escalation."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Alert Item 3 */}
-                <div style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 2 }}>
-                  <div style={{ height: '16px', width: '16px', borderRadius: '50%', background: '#cbd5e1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                    <span style={{ height: '6px', width: '6px', borderRadius: '50%', background: '#fff' }} />
-                  </div>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '12px' }}>
-                      <strong style={{ fontSize: '13px', color: 'var(--text)' }}>Account Onboarded</strong>
-                      <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>Oct 24, 11:20 AM</span>
-                    </div>
-                    <p style={{ fontSize: '11px', color: 'var(--muted)', margin: '4px 0 0', lineHeight: '1.4' }}>
-                      Standard registration completed via automated portal.
-                    </p>
-                  </div>
-                </div>
-
+                ))}
               </div>
             </div>
 
           </div>
 
-          {/* Column 2: Assessment Gauge & HQ Banker (Right) */}
-          <div style={{ flex: 0.8, display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Column 2: Surveillance Info (Right) */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
             
-            {/* Overall Risk Assessment (Dial) */}
-            <div className="panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-              <h2 style={{ fontSize: '13px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'flex-start', margin: '0 0 16px' }}>Overall Risk Assessment</h2>
+            {/* Risk Assessment */}
+            <div className="panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <h2 style={{ fontSize: '13px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Risk Assessment Summary</h2>
               
-              {/* Semi-circle Arch Gauge */}
-              <div style={{ position: 'relative', width: '140px', height: '80px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', overflow: 'hidden' }}>
-                <svg width="140" height="140" style={{ position: 'absolute', bottom: 0 }}>
-                  <circle cx="70" cy="70" r="50" fill="none" stroke="#e2e8f0" strokeWidth="8" strokeDasharray="157 314" strokeDashoffset="0" transform="rotate(-180 70 70)" />
-                  <circle cx="70" cy="70" r="50" fill="none" stroke="url(#risk-grad)" strokeWidth="8" strokeDasharray="157 314" strokeDashoffset={157 - (157 * 88) / 100} strokeLinecap="round" transform="rotate(-180 70 70)" />
-                  <defs>
-                    <linearGradient id="risk-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#10b981" />
-                      <stop offset="50%" stopColor="#f59e0b" />
-                      <stop offset="100%" stopColor="#ef4444" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <div style={{ position: 'absolute', bottom: '4px', textAlign: 'center' }}>
-                  <strong style={{ fontSize: '24px', display: 'block', color: 'var(--text)' }}>88</strong>
-                  <span style={{ fontSize: '8px', color: 'var(--muted)', fontWeight: '800' }}>/100</span>
-                </div>
-              </div>
-
-              <div style={{ marginTop: '14px' }}>
+              <div style={{ border: '1px solid #fee2e2', background: '#fff8f8', padding: '12px', borderRadius: '6px' }}>
                 <strong style={{ display: 'block', fontSize: '12px', color: '#ef4444', textTransform: 'uppercase' }}>Critical</strong>
                 <span style={{ display: 'block', fontSize: '11px', color: 'var(--muted)', marginTop: '4px', lineHeight: '1.4' }}>
                   Risk score has increased by 42 points since manual review began.
                 </span>
               </div>
 
-              {/* Confidence & Impact stats */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', width: '100%', gap: '12px', borderTop: '1px solid #f1f5f9', paddingTop: '16px', marginTop: '16px' }}>
                 <div>
                   <span style={{ display: 'block', fontSize: '9px', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: '600' }}>Confidence</span>
@@ -256,7 +191,7 @@ export default function BusinessRisk() {
                 <div>
                   <span style={{ display: 'block', fontSize: '8px', color: 'var(--muted)', fontWeight: '800', textTransform: 'uppercase' }}>Registration HQ</span>
                   <strong style={{ display: 'block', fontSize: '11px', color: 'var(--text)', marginTop: '2px' }}>Virtual Office 4B, Dubai DMCC</strong>
-                  <a href="#map" onClick={(e) => e.preventDefault()} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#4f46e5', textDecoration: 'underline', marginTop: '4px', fontWeight: '700' }}>
+                  <a href="#map" onClick={(e) => { e.preventDefault(); addToast("Loading DMCC virtual office geolocation trace...", "success"); }} style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#4f46e5', textDecoration: 'underline', marginTop: '4px', fontWeight: '700' }}>
                     View Map & History <Compass size={10} />
                   </a>
                 </div>

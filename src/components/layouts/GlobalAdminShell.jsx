@@ -9,11 +9,20 @@ import {
   Globe2,
   Moon,
   Maximize,
-  Menu
+  Minimize,
+  Menu,
+  User,
+  Settings,
+  Key,
+  Terminal,
+  RefreshCw,
+  LogOut,
+  X
 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { sidebarNavigation } from '../../config/sidebarNavigation';
 import { useShell } from './ShellContext';
+import { useToast } from '../../components/common/ToastNotification';
 import GlobalSearch from '../common/GlobalSearch';
 
 export default function GlobalAdminShell({ children }) {
@@ -51,8 +60,50 @@ export default function GlobalAdminShell({ children }) {
     );
     return activeModule ? activeModule.label : null;
   });
+  const { addToast } = useToast();
+  const email = session?.user?.email || 'alex.sterling@hozify.com';
+  const [activeRoleLabel, setActiveRoleLabel] = useState(roleLabel);
+  const [showSwitchRolePopup, setShowSwitchRolePopup] = useState(false);
   const [openSubModules, setOpenSubModules] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: 'New Booking Request', message: 'AC Installation request from Amit K.', time: '5 mins ago', read: false },
+    { id: 2, title: 'Payment Settled', message: 'Partner batch weekly payout completed.', time: '1 hr ago', read: false },
+    { id: 3, title: 'Database Threshold Alert', message: 'Usage reached 82% on main instance.', time: '4 hrs ago', read: true }
+  ]);
+  const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const markAllAsRead = () => {
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
+    addToast('All notifications marked as read.', 'success');
+  };
+
+  const markAsRead = (id) => {
+    setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n));
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        addToast(`Error enabling fullscreen: ${err.message}`, 'error');
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
 
   useEffect(() => {
     const activeModule = activeNavModules.find(m => 
@@ -169,6 +220,69 @@ export default function GlobalAdminShell({ children }) {
           from { opacity: 0; transform: translateY(-10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+
+        .global-header {
+          background: linear-gradient(90deg, #0F172A 0%, #111827 50%, #1E293B 100%) !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+          padding: 0 24px !important;
+          height: 64px !important;
+          position: sticky !important;
+          top: 0 !important;
+          z-index: 1000 !important;
+        }
+
+        .global-header .header-icon-btn {
+          color: #CBD5E1 !important;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 8px !important;
+          padding: 8px !important;
+          transition: all 0.2s ease-in-out !important;
+          cursor: pointer !important;
+        }
+
+        .global-header .header-icon-btn:hover {
+          background: #334155 !important;
+          color: #fff !important;
+        }
+
+        .global-header .header-profile-trigger {
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+          border-radius: 8px !important;
+          padding: 6px 12px !important;
+          transition: all 0.2s ease-in-out !important;
+        }
+
+        .global-header .header-profile-trigger:hover {
+          background: #334155 !important;
+        }
+
+        .global-header .header-profile-meta strong {
+          color: #F8FAFC !important;
+        }
+
+        .global-header .header-profile-meta span {
+          color: #94A3B8 !important;
+        }
+
+        .dropdown-action-item {
+          transition: all 0.2s ease-in-out !important;
+        }
+
+        .dropdown-action-item:hover {
+          background: #f1f5f9 !important;
+          transform: translateX(4px) !important;
+        }
+
+        .dropdown-logout-item {
+          transition: all 0.2s ease-in-out !important;
+        }
+
+        .dropdown-logout-item:hover {
+          background: #fef2f2 !important;
+          transform: translateX(4px) !important;
+        }
       `}</style>
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
@@ -226,22 +340,22 @@ export default function GlobalAdminShell({ children }) {
             {sidebarButton}
           </div>
         )}
-
-        <div className="sidebar-profile">
-          <img 
-            src={customProfileAvatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80"} 
-            alt={userName} 
-          />
-          <div className="sidebar-profile-info">
-            <strong>{userName}</strong>
-            <span>{roleLabel}</span>
-          </div>
-        </div>
       </aside>
 
       <section className="dashboard-main">
-        <header className="dash-header global-header">
-          <div className="header-left-combo" style={{ display: 'flex', alignItems: 'center', flex: 1, gap: '20px' }}>
+        <header
+  className="dash-header global-header"
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 24px",
+    height: "64px",
+    background: "red",
+  }}
+>
+          {/* Left Combo */}
+          <div className="header-left-combo" style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: '1 1 0%', minWidth: 0 }}>
             <button 
               className="mobile-menu-btn" 
               onClick={() => setSidebarOpen(true)}
@@ -249,48 +363,325 @@ export default function GlobalAdminShell({ children }) {
             >
               <Menu size={24} />
             </button>
-            <div style={{ width: '350px', flexShrink: 0 }}>
-              <GlobalSearch />
-            </div>
-            {headerTitle && <span className="header-title-override-label" style={{ fontWeight: '700', fontSize: '16px' }}>{headerTitle}</span>}
+            {headerTitle && <span className="header-title-override-label" style={{ fontWeight: '700', fontSize: '16px', color: '#F8FAFC', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{headerTitle}</span>}
             {headerTabs && <div className="header-custom-tabs" style={{ display: 'flex', gap: '20px', alignSelf: 'stretch', alignItems: 'center' }}>{headerTabs}</div>}
           </div>
-          <div className="dash-actions">
+
+          {/* Center Search Bar */}
+          <div className="header-center-search" style={{ display: 'flex', justifyContent: 'center', flex: '1 1 0%', minWidth: 0 }}>
+            <div style={{ width: '100%', maxWidth: '380px' }}>
+              <GlobalSearch />
+            </div>
+          </div>
+
+          {/* Right Actions Combo */}
+          <div className="dash-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '12px', flex: '1 1 0%' }}>
             
-            <button className="header-icon-btn" type="button" title="Language">
-              <Globe2 size={20} />
-            </button>
-            <button className="header-icon-btn" type="button" title="Theme">
-              <Moon size={20} />
-            </button>
-            <button className="header-icon-btn" type="button" title="Fullscreen">
-              <Maximize size={20} />
-            </button>
-            <button className="header-icon-btn" type="button" title="Messages">
-              <MessageSquare size={20} />
-            </button>
-            <button className="header-icon-btn" type="button" title="Notifications">
-              <Bell size={20} />
-              <span className="badge" />
+            {/* Fullscreen Button */}
+            <button 
+              className="header-icon-btn" 
+              type="button" 
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              onClick={toggleFullscreen}
+            >
+              {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
             </button>
 
-            {(isSuperAdmin || hasCustomAvatar) && (
+            {/* Notification Bell with Dropdown */}
+            <div style={{ position: 'relative' }}>
+              <button 
+                className="header-icon-btn" 
+                type="button" 
+                title="Notifications"
+                onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
+                style={{ position: 'relative' }}
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && (
+                  <span 
+                    className="badge" 
+                    style={{ 
+                      position: 'absolute', 
+                      top: '4px', 
+                      right: '4px', 
+                      width: '16px', 
+                      height: '16px', 
+                      background: '#ef4444', 
+                      color: '#fff', 
+                      borderRadius: '50%', 
+                      fontSize: '9px', 
+                      fontWeight: '800', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center' 
+                    }}
+                  >
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+
+              {notifDropdownOpen && (
+                <>
+                  {/* Click outside to close */}
+                  <div 
+                    onClick={() => setNotifDropdownOpen(false)}
+                    style={{ position: 'fixed', inset: 0, zIndex: 998 }}
+                  />
+                  <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', width: '320px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05)', padding: '16px', zIndex: 999, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <strong style={{ fontSize: '14px', color: 'var(--text)' }}>Notifications</strong>
+                      {unreadCount > 0 && (
+                        <button 
+                          onClick={markAllAsRead} 
+                          style={{ background: 'none', border: 'none', color: '#2563eb', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}
+                        >
+                          Mark all as read
+                        </button>
+                      )}
+                    </div>
+
+                    <div style={{ height: '1px', background: 'var(--line)' }} />
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '240px', overflowY: 'auto' }}>
+                       {notifications.length > 0 ? (
+                         notifications.map(n => (
+                           <div 
+                             key={n.id} 
+                             onClick={() => { markAsRead(n.id); }}
+                             style={{ 
+                               display: 'flex', 
+                               flexDirection: 'column', 
+                               gap: '2px', 
+                               padding: '8px', 
+                               borderRadius: '6px', 
+                               background: n.read ? 'transparent' : '#f8fafc',
+                               cursor: 'pointer',
+                               borderLeft: n.read ? 'none' : '3px solid #2563eb',
+                               transition: 'background 0.2s',
+                               textAlign: 'left'
+                             }}
+                             onMouseEnter={e => e.currentTarget.style.background = '#f1f5f9'}
+                             onMouseLeave={e => e.currentTarget.style.background = n.read ? 'transparent' : '#f8fafc'}
+                           >
+                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                               <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text)' }}>{n.title}</span>
+                               <span style={{ fontSize: '10px', color: 'var(--muted)' }}>{n.time}</span>
+                             </div>
+                             <span style={{ fontSize: '11px', color: 'var(--muted)' }}>{n.message}</span>
+                           </div>
+                         ))
+                       ) : (
+                         <span style={{ fontSize: '12px', color: 'var(--muted)', textAlign: 'center', padding: '16px' }}>No notifications</span>
+                       )}
+                    </div>
+
+                    <div style={{ height: '1px', background: 'var(--line)' }} />
+
+                    <button 
+                      onClick={() => { setNotifDropdownOpen(false); navigate('/notifications'); }}
+                      style={{ width: '100%', background: '#f8fafc', border: 'none', padding: '8px', borderRadius: '6px', fontSize: '12px', fontWeight: '700', color: '#2563eb', cursor: 'pointer', textAlign: 'center', transition: 'background 0.2s' }}
+                      onMouseEnter={e => e.currentTarget.style.background = '#f1f5f9'}
+                      onMouseLeave={e => e.currentTarget.style.background = '#f8fafc'}
+                    >
+                      View all notifications
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Restored Profile Section in Header */}
+            <div className="header-profile-section" style={{ position: 'relative', display: 'flex', alignItems: 'center', marginLeft: '12px' }}>
               <div
-                className="header-avatar-wrap"
-                onClick={logout}
-                style={{ cursor: 'pointer', transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', marginLeft: '8px' }}
-                title="Logout"
+                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '4px 8px', borderRadius: '8px', transition: 'background 0.2s' }}
+                className="header-profile-trigger"
               >
                 <img
-                  className="header-avatar"
                   src={customProfileAvatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80"}
                   alt={userName}
-                  style={{ display: 'block', borderRadius: '50%', cursor: 'pointer', width: '38px', height: '38px' }}
+                  style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover' }}
+                />
+                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }} className="header-profile-meta">
+                  <strong style={{ fontSize: '13px', fontWeight: '700', color: 'var(--text)' }}>{userName}</strong>
+                  <span style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '1px' }}>{activeRoleLabel}</span>
+                </div>
+                <ChevronRight 
+                  size={14} 
+                  style={{ 
+                    color: 'var(--muted)', 
+                    transform: profileDropdownOpen ? 'rotate(90deg)' : 'rotate(0deg)', 
+                    transition: 'transform 0.2s' 
+                  }} 
                 />
               </div>
-            )}
+
+              {/* Profile Dropdown Menu */}
+              {profileDropdownOpen && (
+                <>
+                  {/* Click outside overlay to close */}
+                  <div 
+                    onClick={() => setProfileDropdownOpen(false)}
+                    style={{ position: 'fixed', inset: 0, zIndex: 998 }}
+                  />
+                  <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', width: '280px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05)', padding: '16px', zIndex: 999, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    
+                    {/* Premium Profile Header Info */}
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                      <div style={{ position: 'relative' }}>
+                        <img 
+                          src={customProfileAvatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80"}
+                          alt={userName}
+                          style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover' }}
+                        />
+                        <span style={{ position: 'absolute', bottom: '1px', right: '1px', width: '10px', height: '10px', background: '#22c55e', border: '2px solid #fff', borderRadius: '50%' }} title="Online" />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', minWidth: 0 }}>
+                        <strong style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{userName}</strong>
+                        <span style={{ fontSize: '11px', color: 'var(--muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '4px' }}>{email}</span>
+                        <span style={{ width: 'fit-content', fontSize: '9px', fontWeight: '800', background: '#e0e7ff', color: '#4f46e5', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                          {activeRoleLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div style={{ height: '1px', background: 'var(--line)', margin: '8px 0' }} />
+
+                    {/* Actions List with Icons and Premium Styling */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); setShowSwitchRolePopup(true); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-action-item"
+                      >
+                        <RefreshCw size={14} color="#64748b" /> Switch Role
+                      </button>
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); navigate('/my-profile'); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-action-item"
+                      >
+                        <User size={14} color="#64748b" /> My Profile
+                      </button>
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); navigate('/settings/account'); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-action-item"
+                      >
+                        <Settings size={14} color="#64748b" /> Account Settings
+                      </button>
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); navigate('/settings/change-password'); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-action-item"
+                      >
+                        <Key size={14} color="#64748b" /> Change Password
+                      </button>
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); navigate('/profile/activity-log'); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-action-item"
+                      >
+                        <Terminal size={14} color="#64748b" /> Activity Log
+                      </button>
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); navigate('/help-support'); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-action-item"
+                      >
+                        <HelpCircle size={14} color="#64748b" /> Help &amp; Support
+                      </button>
+
+                      <div style={{ height: '1px', background: 'var(--line)', margin: '8px 0' }} />
+
+                      <button 
+                        onClick={() => { setProfileDropdownOpen(false); setShowLogoutConfirm(true); }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: '8px 12px', borderRadius: '6px', fontSize: '13px', color: '#ef4444', fontWeight: '700', cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="dropdown-logout-item"
+                      >
+                        <LogOut size={14} color="#ef4444" /> Logout
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </header>
+        {showLogoutConfirm && (
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+            <div style={{ background: '#fff', borderRadius: '12px', padding: '24px', width: '360px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', margin: 0 }}>Confirm Logout</h3>
+              <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Are you sure you want to log out of the Hozify Admin platform?</p>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '4px' }}>
+                <button 
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="custom-btn-secondary"
+                  style={{ height: '36px', padding: '0 16px', fontSize: '13px' }}
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={() => { setShowLogoutConfirm(false); logout(); }}
+                  className="custom-btn-primary"
+                  style={{ height: '36px', padding: '0 16px', fontSize: '13px', background: '#ef4444', borderColor: '#ef4444' }}
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Switch Role Popup Modal */}
+        {showSwitchRolePopup && (
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+            <div style={{ background: '#fff', borderRadius: '12px', padding: '24px', width: '380px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', margin: 0 }}>Switch User Role</h3>
+                <button onClick={() => setShowSwitchRolePopup(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)' }} aria-label="Close switch role popup">
+                  <X size={16} />
+                </button>
+              </div>
+              <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Select an authorized administrative role below to update dynamic permissions immediately.</p>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {['Super Admin', 'Admin', 'Manager', 'Support'].map((r) => {
+                  const isCurrent = activeRoleLabel === r;
+                  return (
+                    <button
+                      key={r}
+                      onClick={() => {
+                        setActiveRoleLabel(r);
+                        setShowSwitchRolePopup(false);
+                        addToast(`Role switched to ${r} successfully! Dynamic permissions synced.`, 'success');
+                      }}
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        width: '100%', 
+                        padding: '12px 16px', 
+                        borderRadius: '8px', 
+                        border: isCurrent ? '2px solid #2563eb' : '1px solid var(--line)', 
+                        background: isCurrent ? '#eff6ff' : '#fff',
+                        fontSize: '13px', 
+                        fontWeight: '700', 
+                        color: isCurrent ? '#1e40af' : 'var(--text)', 
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <span>{r}</span>
+                      {isCurrent && <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#2563eb' }} />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
         <div className="dash-content global-content">
           {children}
         </div>

@@ -10780,3 +10780,36 @@ td:first-child strong {
     flex-direction: column;
   }
 }
+
+.kpi-card, .custom-kpi-card, .booking-kpi, .fraud-kpi-card, .kyc-flow-stat, .banking-kpi, .report-kpi-card, .materio-card {
+  border: 2px solid #2563eb !important;
+  transition: all 0.2s ease-in-out !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  min-height: unset !important;
+  padding: 14px 18px !important;
+}
+
+.kpi-card:hover, .custom-kpi-card:hover, .booking-kpi:hover, .fraud-kpi-card:hover, .kyc-flow-stat:hover, .banking-kpi:hover, .report-kpi-card:hover, .materio-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25) !important;
+  border-color: #1d4ed8 !important;
+  cursor: pointer !important;
+}
+
+.custom-kpi-card {
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  gap: 16px;
+  min-height: 90px;
+  padding: 16px;
+}
+
+.custom-kpi-card-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+

@@ -1,5 +1,6 @@
 import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 
 import {
   Bell,
@@ -11,6 +12,8 @@ import {
 } from "lucide-react";
 
 export default function OwnershipVerification() {
+  const { addToast } = useToast();
+
   return (
     <AdminShell>
       <div className="min-h-screen bg-[#F5F6F8] p-8">
@@ -40,6 +43,7 @@ export default function OwnershipVerification() {
 
           <div className="flex gap-4">
             <button
+              onClick={() => addToast("Ownership structure flagged for revision.", "success")}
               className="
                 h-[54px]
                 rounded-md
@@ -50,12 +54,14 @@ export default function OwnershipVerification() {
                 text-[18px]
                 font-medium
                 text-[#333]
+                cursor-pointer
               "
             >
               Flag for Revision
             </button>
 
             <button
+              onClick={() => addToast("Ownership hierarchy successfully verified and approved!", "success")}
               className="
                 h-[54px]
                 rounded-md
@@ -64,6 +70,7 @@ export default function OwnershipVerification() {
                 text-[18px]
                 font-medium
                 text-white
+                cursor-pointer
               "
             >
               Approve Identity Set
