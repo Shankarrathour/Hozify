@@ -91,7 +91,11 @@ export default function CreateRole() {
     const updatedMatrix = {};
     systemModules.forEach(mod => {
       updatedMatrix[mod.key] = {
-        view: true, create: isFull, edit: isFull, delete: isFull, export: isFull
+        view: presetType === "none" ? false : true, 
+        create: isFull, 
+        edit: isFull, 
+        delete: isFull, 
+        export: isFull
       };
     });
     setPermissionsMatrix(updatedMatrix);
@@ -107,7 +111,7 @@ export default function CreateRole() {
     };
 
     console.log("Master RBAC Payload Generated:", rolePayload);
-    alert(`Success! [${roleMeta.name}] blueprint compiled into security nodes.`);
+    alert(`Success! [${roleMeta.name || "Unnamed Role"}] blueprint compiled into security nodes.`);
     
     // Reset configuration
     setCurrentStep(1);
@@ -133,18 +137,27 @@ export default function CreateRole() {
             </div>
           </div>
 
-          {/* Stepper Wizard Component */}
+          {/* Stepper Wizard Component (Validation Removed - Free Clicking) */}
           <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start md:self-auto border border-slate-200">
             <button 
-              onClick={() => roleMeta.name.trim() && setCurrentStep(1)}
-              className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all ${currentStep === 1 ? 'bg-white text-indigo-950 shadow-xs' : 'text-slate-500 cursor-pointer'}`}
+              type="button"
+              onClick={() => setCurrentStep(1)}
+              className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                currentStep === 1 
+                  ? 'bg-white text-indigo-950 shadow-xs' 
+                  : 'text-slate-500 hover:text-indigo-950'
+              }`}
             >
               1. Base Parameters
             </button>
             <button 
-              disabled={!roleMeta.name.trim()}
+              type="button"
               onClick={() => setCurrentStep(2)}
-              className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all ${currentStep === 2 ? 'bg-white text-indigo-950 shadow-xs' : 'text-slate-400 disabled:opacity-50'}`}
+              className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                currentStep === 2 
+                  ? 'bg-white text-indigo-950 shadow-xs' 
+                  : 'text-slate-500 hover:text-indigo-950'
+              }`}
             >
               2. Authorization Grid
             </button>
@@ -177,7 +190,7 @@ export default function CreateRole() {
                 />
               </div>
 
-              {/* Visual Selectors Instead of Boring Dropdown */}
+              {/* Visual Selectors */}
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Select Security Level Tier</label>
                 <div className="grid grid-cols-1 gap-2.5">
@@ -242,9 +255,8 @@ export default function CreateRole() {
               <div className="flex justify-end pt-3 border-t border-slate-100">
                 <button
                   type="button"
-                  disabled={!roleMeta.name.trim()}
                   onClick={() => setCurrentStep(2)}
-                  className="flex items-center gap-1.5 bg-indigo-950 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-900 shadow-xs transition-all active:scale-95 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
+                  className="flex items-center gap-1.5 bg-indigo-950 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-900 shadow-xs transition-all active:scale-95 cursor-pointer"
                 >
                   <span>Proceed to Allocation Matrix</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -255,7 +267,6 @@ export default function CreateRole() {
             {/* Right Side LIVE CARD PREVIEW Panel */}
             <div className="lg:col-span-5 sticky top-6 space-y-4">
               <div className="bg-indigo-950 text-white rounded-2xl p-5 shadow-lg relative overflow-hidden h-52 flex flex-col justify-between">
-                {/* Abstract Visual Elements */}
                 <div className="absolute right-[-20px] top-[-20px] w-40 h-40 bg-white/[0.03] rounded-full blur-xl pointer-events-none" />
                 <div className="absolute left-[-10px] bottom-[-30px] w-24 h-24 bg-indigo-500/[0.1] rounded-full blur-md pointer-events-none" />
 
@@ -306,7 +317,7 @@ export default function CreateRole() {
                 <span>Core Module Authorization Matrix</span>
               </div>
               <div className="text-[11px] font-bold text-indigo-950 bg-slate-50 border border-slate-200 px-3 py-1 rounded-xl">
-                Target Node: <span className="text-indigo-600 font-black">{roleMeta.name}</span>
+                Target Node: <span className="text-indigo-600 font-black">{roleMeta.name || "Untitled"}</span>
               </div>
             </div>
 
@@ -333,66 +344,68 @@ export default function CreateRole() {
 
             {/* Minimalist Grid Table Framework */}
             <div className="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/20">
-              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                    <th className="p-3 w-5/12">Module Architecture Endpoint</th>
-                    <th className="p-3 text-center">Read</th>
-                    <th className="p-3 text-center">Create</th>
-                    <th className="p-3 text-center">Edit</th>
-                    <th className="p-3 text-center">Delete</th>
-                    <th className="p-3 text-center">Export</th>
-                    <th className="p-3 text-center w-24">Global Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-150 bg-white text-xs font-semibold text-slate-700">
-                  {systemModules.map((mod) => {
-                    const currentModulePerms = permissionsMatrix[mod.key];
-                    const isEntirelyChecked = Object.values(currentModulePerms).every(v => v === true);
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}>
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                      <th className="p-3 w-5/12">Module Architecture Endpoint</th>
+                      <th className="p-3 text-center">Read</th>
+                      <th className="p-3 text-center">Create</th>
+                      <th className="p-3 text-center">Edit</th>
+                      <th className="p-3 text-center">Delete</th>
+                      <th className="p-3 text-center">Export</th>
+                      <th className="p-3 text-center w-24">Global Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-150 bg-white text-xs font-semibold text-slate-700">
+                    {systemModules.map((mod) => {
+                      const currentModulePerms = permissionsMatrix[mod.key];
+                      const isEntirelyChecked = Object.values(currentModulePerms).every(v => v === true);
 
-                    return (
-                      <tr key={mod.key} className="hover:bg-slate-50/40 transition-colors">
-                        <td className="p-3">
-                          <span className="font-bold text-indigo-950 block">{mod.name}</span>
-                          <span className="text-[10px] text-slate-400 font-medium font-sans block mt-0.5 leading-tight">{mod.desc}</span>
-                        </td>
-                        
-                        {/* Granular Action Checkboxes Loops Mapping */}
-                        {["view", "create", "edit", "delete", "export"].map((action) => {
-                          const isChecked = currentModulePerms[action];
-                          return (
-                            <td key={action} className="p-3 text-center">
-                              <label className="inline-flex items-center justify-center cursor-pointer p-1">
-                                <input 
-                                  type="checkbox"
-                                  checked={isChecked}
-                                  onChange={() => togglePermission(mod.key, action)}
-                                  className="h-4 w-4 rounded border-slate-300 text-indigo-950 focus:ring-indigo-950/20 cursor-pointer accent-indigo-950 transition-all"
-                                />
-                              </label>
-                            </td>
-                          );
-                        })}
+                      return (
+                        <tr key={mod.key} className="hover:bg-slate-50/40 transition-colors">
+                          <td className="p-3">
+                            <span className="font-bold text-indigo-950 block">{mod.name}</span>
+                            <span className="text-[10px] text-slate-400 font-medium font-sans block mt-0.5 leading-tight">{mod.desc}</span>
+                          </td>
+                          
+                          {/* Granular Action Checkboxes */}
+                          {["view", "create", "edit", "delete", "export"].map((action) => {
+                            const isChecked = currentModulePerms[action];
+                            return (
+                              <td key={action} className="p-3 text-center">
+                                <label className="inline-flex items-center justify-center cursor-pointer p-1">
+                                  <input 
+                                    type="checkbox"
+                                    checked={isChecked}
+                                    onChange={() => togglePermission(mod.key, action)}
+                                    className="h-4 w-4 rounded border-slate-300 text-indigo-950 focus:ring-indigo-950/20 cursor-pointer accent-indigo-950 transition-all"
+                                  />
+                                </label>
+                              </td>
+                            );
+                          })}
 
-                        {/* Module Bulk Switch Trigger Column */}
-                        <td className="p-3 text-center">
-                          <button
-                            type="button"
-                            onClick={() => toggleEntireModule(mod.key, isEntirelyChecked)}
-                            className={`text-[9px] font-black px-2 py-0.5 rounded transition-colors tracking-tight cursor-pointer ${
-                              isEntirelyChecked 
-                                ? "bg-rose-50 text-rose-600 border border-rose-100 hover:bg-rose-100" 
-                                : "bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200"
-                            }`}
-                          >
-                            {isEntirelyChecked ? "Purge" : "Grant All"}
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table></div>
+                          {/* Module Bulk Switch Trigger Column */}
+                          <td className="p-3 text-center">
+                            <button
+                              type="button"
+                              onClick={() => toggleEntireModule(mod.key, isEntirelyChecked)}
+                              className={`text-[9px] font-black px-2 py-0.5 rounded transition-colors tracking-tight cursor-pointer ${
+                                isEntirelyChecked 
+                                  ? "bg-rose-50 text-rose-600 border border-rose-100 hover:bg-rose-100" 
+                                  : "bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200"
+                              }`}
+                            >
+                              {isEntirelyChecked ? "Purge" : "Grant All"}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Informational Protection Guard Info Stamp */}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
-import { Download, Plus, SlidersHorizontal, ChevronDown, Check, CheckCircle2, XCircle, Trash2 } from "lucide-react";
+import { Download, Plus, SlidersHorizontal, ChevronDown, Check, CheckCircle2, XCircle, Trash2, Filter, ShieldAlert } from "lucide-react";
 
 export default function UserReviews() {
   // --- Clickable & Active States ---
@@ -8,8 +8,19 @@ export default function UserReviews() {
   const [ratingFilter, setRatingFilter] = useState("All Stars");
   const [isRatingOpen, setIsRatingOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showNewRuleForm, setShowNewRuleForm] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  
+  // Custom Filters Form State
+  const [filterCriteria, setFilterCriteria] = useState({
+    productKeyword: "",
+    flaggedOnly: false
+  });
 
-  // Dynamic state for reviews data to make action buttons actually work live
+  // Dynamic Rule Matrix
+  const [ruleMeta, setRuleMeta] = useState({ name: "", condition: "Auto-Flag Inappropriate" });
+
+  // Dynamic state for reviews data
   const [reviewsData, setReviewsData] = useState([
     {
       id: 1,
@@ -39,7 +50,7 @@ export default function UserReviews() {
       id: 4,
       user: { name: "Anonymous_User", role: "Guest", avatar: null },
       rating: 1,
-      comment: "Flagged for inappropriate...",
+      comment: "Flagged for inappropriate content.",
       product: "Cloud Storage Pack",
       status: "Rejected",
       isCommentFlagged: true,
@@ -47,11 +58,14 @@ export default function UserReviews() {
   ]);
 
   // Stat Metrics Configuration
+  const pendingCount = reviewsData.filter(r => r.status === "Pending").length;
+  const flaggedCount = reviewsData.filter(r => r.isCommentFlagged).length;
+
   const stats = [
-    { title: "TOTAL REVIEWS", value: "12,842", badge: "+12%", isPositive: true },
+    { title: "TOTAL REVIEWS", value: `12,${840 + reviewsData.length}`, badge: "+12%", isPositive: true },
     { title: "AVG. RATING", value: "4.82", isStars: true },
-    { title: "PENDING MODERATION", value: "184", badge: "High Priority", isAlert: true },
-    { title: "FLAGGED CONTENT", value: "21", badge: "-4%", isPositive: false },
+    { title: "PENDING MODERATION", value: String(pendingCount), badge: "High Priority", isAlert: true },
+    { title: "FLAGGED CONTENT", value: String(flaggedCount), badge: "-4%", isPositive: false },
   ];
 
   const sentimentData = [
@@ -73,17 +87,47 @@ export default function UserReviews() {
     }
   };
 
+  // --- Actual CSV Exporter ---
+  const handleExportCSV = () => {
+    const headers = ["User,Role,Rating,Comment,Product,Status\n"];
+    const rows = reviewsData.map(r => 
+      `"${r.user.name}","${r.user.role}",${r.rating},"${r.comment.replace(/"/g, '""')}","${r.product}","${r.status}"`
+    );
+    const blob = new Blob([...headers, rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Reviews_Audit_Report_${new Date().toLocaleDateString()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // --- Rule Formulation Trigger ---
+  const handleRuleSubmission = (e) => {
+    e.preventDefault();
+    if(!ruleMeta.name.trim()) return alert("Please specify target rule constraints mapping parameter index.");
+    alert(`Success! Security core compiled operational rule blueprint: [${ruleMeta.name}]`);
+    setRuleMeta({ name: "", condition: "Auto-Flag Inappropriate" });
+    setShowNewRuleForm(false);
+  };
+
   // --- Filtering Mechanics ---
   const filteredReviews = reviewsData.filter((item) => {
     if (activeTab !== "All" && item.status !== activeTab) return false;
     if (ratingFilter === "5 Stars" && item.rating !== 5) return false;
     if (ratingFilter === "4 Stars" && item.rating !== 4) return false;
     if (ratingFilter === "3 Stars" && item.rating !== 3) return false;
+    
+    // Advanced contextual inputs filter mapping
+    if (filterCriteria.productKeyword && !item.product.toLowerCase().includes(filterCriteria.productKeyword.toLowerCase())) return false;
+    if (filterCriteria.flaggedOnly && !item.isCommentFlagged) return false;
+
     return true;
   });
 
   const renderStars = (count) => (
-    <div className="flex gap-0.5 text-slate-900 text-sm tracking-tighter">
+    <div className="flex gap-0.5 text-slate-900 text-sm tracking-tighter select-none">
       {"★".repeat(count)}
       {"☆".repeat(5 - count)}
     </div>
@@ -93,30 +137,30 @@ export default function UserReviews() {
     <AdminShell activeTab="Reviews" searchPlaceholder="Search reviews...">
       <div className="space-y-6">
         
-        {/* 1. HEADER SECTION (With Added Review Management Heading) */}
+        {/* 1. HEADER SECTION */}
         <div className="flex justify-between items-start">
           <div>
             <div className="text-xs font-medium text-slate-400">
               Admin <span className="text-slate-900 font-semibold mx-0.5">/ User Review</span>
             </div>
-            {/* Added requested Heading right over here */}
             <h1 className="text-2xl font-bold text-slate-900 mt-2 tracking-tight">Review Management</h1>
-            <p className="text-sm text-slate-500 mt-2 max-w-2xl font-normal leading-relaxed">
+            <p className="text-sm text-slate-500 mt-1 max-w-2xl font-normal leading-relaxed">
               Audit and moderate community submissions to ensure quality standards across the product ecosystem.
             </p>
           </div>
 
-          {/* Core Clickable Control Triggers */}
-          <div className="flex gap-3 mt-4">
+          {/* Core Controls */}
+          <div className="flex gap-2 mt-4 shrink-0">
             <button 
-              onClick={() => alert("CSV Exporting Started...")}
-              className="px-4 py-2 bg-white border border-slate-200 text-slate-800 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-colors shadow-sm cursor-pointer"
+              onClick={handleExportCSV}
+              className="px-2.5 py-1.5 bg-white border border-slate-200 text-slate-800 rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
+              title="Download CSV Spreadsheet Report"
             >
-              <Download className="h-3.5 w-3.5 text-slate-500" />
+              <Download className="h-3 w-3 text-slate-500" />
               <span>Export CSV</span>
             </button>
             <button 
-              onClick={() => alert("Opening New Rule Setup Window...")}
+              onClick={() => setShowNewRuleForm(!showNewRuleForm)}
               className="px-4 py-2 bg-black text-white rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-slate-800 transition-colors shadow-sm cursor-pointer"
             >
               <Plus className="h-3.5 w-3.5" />
@@ -124,6 +168,55 @@ export default function UserReviews() {
             </button>
           </div>
         </div>
+
+        {/* COMPACT INTERACTIVE NEW RULE TRIGGER BOX */}
+        {showNewRuleForm && (
+          <form onSubmit={handleRuleSubmission} className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-900 uppercase tracking-wide border-b border-slate-200 pb-2">
+              <ShieldAlert className="h-4 w-4 text-slate-900" />
+              <span>Formulate Access Policy / Automation Rule</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase">Rule Reference Context</label>
+                <input 
+                  type="text"
+                  placeholder="e.g., Profanity string filtering criteria logs"
+                  value={ruleMeta.name}
+                  onChange={(e) => setRuleMeta(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full text-xs font-semibold bg-white border border-slate-200 rounded-lg p-2 focus:outline-none focus:border-black transition-all"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase">Automated Strategy Pipeline</label>
+                <select 
+                  value={ruleMeta.condition}
+                  onChange={(e) => setRuleMeta(prev => ({ ...prev, condition: e.target.value }))}
+                  className="w-full text-xs font-semibold bg-white border border-slate-200 rounded-lg p-2 focus:outline-none focus:border-black transition-all"
+                >
+                  <option value="Auto-Flag Inappropriate">Auto-Flag Inappropriate Content</option>
+                  <option value="Escalate Root Scope">Escalate to Senior Admin</option>
+                  <option value="Instant Wipe Matrix">Pre-Reject Lowest Level Entries</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 pt-1">
+              <button 
+                type="button" 
+                onClick={() => setShowNewRuleForm(false)} 
+                className="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg text-xs font-semibold hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                className="px-4 py-1.5 bg-black text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition-colors cursor-pointer"
+              >
+                Instantiate Rule
+              </button>
+            </div>
+          </form>
+        )}
 
         {/* 2. STATS KPI GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -181,7 +274,7 @@ export default function UserReviews() {
             </div>
 
             {/* Right Meta Controls */}
-            <div className="flex items-center gap-4 text-xs font-semibold text-slate-600 w-full sm:w-auto justify-between sm:justify-end">
+            <div className="flex items-center gap-3 text-xs font-semibold text-slate-600 w-full sm:w-auto justify-between sm:justify-end">
               
               {/* Dropdown System */}
               <div className="relative">
@@ -214,116 +307,160 @@ export default function UserReviews() {
                 )}
               </div>
 
+              {/* FIXED REWORKED FILTER BUTTON (Icon Trigger Only - Toggle Framework) */}
               <button 
-                onClick={() => alert("Advanced filters popup panel loaded")}
-                className="flex items-center gap-1.5 cursor-pointer text-slate-500 hover:text-slate-900 bg-transparent border-0 font-semibold"
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                className={`p-2 rounded-lg border cursor-pointer transition-colors flex items-center justify-center ${
+                  showAdvancedFilters 
+                    ? "bg-slate-100 text-black border-slate-300" 
+                    : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"
+                }`}
+                title="Toggle Advanced Operational Filters Matrix"
               >
-                <SlidersHorizontal className="h-3.5 w-3.5" />
-                <span>More Filters</span>
+                <Filter className="h-4 w-4 stroke-[2.5]" />
               </button>
               
-              <span className="text-slate-400 font-normal">Showing 1-10 of 12,842</span>
+              <span className="text-slate-400 font-normal">Showing {filteredReviews.length} records</span>
             </div>
           </div>
 
+          {/* COLLAPSIBLE ADVANCED FILTER PARAMETERS DRAWER */}
+          {showAdvancedFilters && (
+            <div className="bg-slate-50/60 border-b border-slate-200 px-6 py-3.5 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs animate-in fade-in duration-150">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Keyword Product Target Map</label>
+                <input 
+                  type="text"
+                  placeholder="e.g. Enterprise, Module, Suite..."
+                  value={filterCriteria.productKeyword}
+                  onChange={(e) => setFilterCriteria(prev => ({ ...prev, productKeyword: e.target.value }))}
+                  className="bg-white border border-slate-200 rounded-lg p-2 w-full text-xs font-semibold focus:outline-none focus:border-black shadow-3xs"
+                />
+              </div>
+              <div className="flex items-center sm:pt-5 select-none">
+                <label className="inline-flex items-center gap-2 font-bold text-slate-700 cursor-pointer">
+                  <input 
+                    type="checkbox"
+                    checked={filterCriteria.flaggedOnly}
+                    onChange={(e) => setFilterCriteria(prev => ({ ...prev, flaggedOnly: e.target.checked }))}
+                    className="h-4 w-4 text-black rounded accent-black cursor-pointer border-slate-300 focus:ring-0"
+                  />
+                  <span>Isolate Flagged Infrastructure Comments Only</span>
+                </label>
+              </div>
+            </div>
+          )}
+
           {/* Table Container */}
           <div className="overflow-x-auto">
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50/70 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                  <th className="px-6 py-3.5">User</th>
-                  <th className="px-6 py-3.5">Rating</th>
-                  <th className="px-6 py-3.5">Comment</th>
-                  <th className="px-6 py-3.5">Product</th>
-                  <th className="px-6 py-3.5">Status</th>
-                  <th className="px-6 py-3.5 text-center w-36">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-sm font-medium text-slate-700">
-                {filteredReviews.map((row) => (
-                  <tr key={row.id} className="hover:bg-slate-50/30 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        {row.user.avatar ? (
-                          <img src={row.user.avatar} alt={row.user.name} className="w-8 h-8 rounded-full object-cover" />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
-                            <span className="text-xs text-slate-500 font-bold">👤</span>
-                          </div>
-                        )}
-                        <div>
-                          <p className="font-bold text-slate-900 text-sm leading-none">{row.user.name}</p>
-                          <p className="text-xs text-slate-400 font-normal mt-1">{row.user.role}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">{renderStars(row.rating)}</td>
-                    <td className={`px-6 py-4 text-sm font-normal ${row.isCommentFlagged ? "text-rose-500" : "text-slate-700"}`}>
-                      {row.comment}
-                    </td>
-                    <td className="px-6 py-4 text-slate-800 text-sm font-semibold">{row.product}</td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold ${
-                        row.status === "Approved" ? "bg-emerald-50 text-emerald-600" :
-                        row.status === "Pending" ? "bg-amber-50 text-amber-600" : "bg-rose-50 text-rose-600"
-                      }`}>
-                        {row.status}
-                      </span>
-                    </td>
-
-                    {/* CLICKABLE ACTIONS SYSTEM */}
-                    <td className="px-4 py-4 text-center">
-                      <div className="flex items-center justify-center gap-3">
-                        {row.status === "Pending" && (
-                          <>
-                            <button 
-                              onClick={() => handleUpdateStatus(row.id, "Approved")}
-                              title="Approve Review"
-                              className="p-1 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded transition-colors border-0 cursor-pointer bg-transparent"
-                            >
-                              <CheckCircle2 className="h-4 w-4" />
-                            </button>
-                            <button 
-                              onClick={() => handleUpdateStatus(row.id, "Rejected")}
-                              title="Reject Review"
-                              className="p-1 hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded transition-colors border-0 cursor-pointer bg-transparent"
-                            >
-                              <XCircle className="h-4 w-4" />
-                            </button>
-                          </>
-                        )}
-                        {row.status === "Approved" && (
-                          <button 
-                            onClick={() => handleUpdateStatus(row.id, "Rejected")}
-                            title="Reject / Revoke"
-                            className="p-1 hover:bg-amber-50 text-slate-400 hover:text-amber-600 rounded transition-colors border-0 cursor-pointer bg-transparent"
-                          >
-                            <XCircle className="h-4 w-4" />
-                          </button>
-                        )}
-                        {row.status === "Rejected" && (
-                          <button 
-                            onClick={() => handleUpdateStatus(row.id, "Approved")}
-                            title="Approve / Restore"
-                            className="p-1 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded transition-colors border-0 cursor-pointer bg-transparent"
-                          >
-                            <CheckCircle2 className="h-4 w-4" />
-                          </button>
-                        )}
-                        <button 
-                          onClick={() => handleDeleteReview(row.id)}
-                          title="Delete Permanent"
-                          className="p-1 hover:bg-slate-100 text-slate-400 hover:text-rose-600 rounded transition-colors border-0 cursor-pointer bg-transparent"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
-
+            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50/70 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                    <th className="px-6 py-3.5">User</th>
+                    <th className="px-6 py-3.5">Rating</th>
+                    <th className="px-6 py-3.5">Comment</th>
+                    <th className="px-6 py-3.5">Product</th>
+                    <th className="px-6 py-3.5">Status</th>
+                    <th className="px-6 py-3.5 text-center w-36">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table></div>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-sm font-medium text-slate-700">
+                  {filteredReviews.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="text-center p-8 text-xs font-medium text-slate-400 font-sans">
+                        No active authorization maps or filtered reviews fit these criteria constraints.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredReviews.map((row) => (
+                      <tr key={row.id} className="hover:bg-slate-50/30 transition-colors">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            {row.user.avatar ? (
+                              <img src={row.user.avatar} alt={row.user.name} className="w-8 h-8 rounded-full object-cover shrink-0" />
+                            ) : (
+                              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shrink-0">
+                                <span className="text-xs text-slate-500 font-bold">👤</span>
+                              </div>
+                            )}
+                            <div>
+                              <p className="font-bold text-slate-900 text-sm leading-none">{row.user.name}</p>
+                              <p className="text-xs text-slate-400 font-normal mt-1 leading-none">{row.user.role}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">{renderStars(row.rating)}</td>
+                        <td className={`px-6 py-4 text-sm font-normal max-w-xs truncate ${row.isCommentFlagged ? "text-rose-500 font-medium" : "text-slate-700"}`}>
+                          {row.comment}
+                        </td>
+                        <td className="px-6 py-4 text-slate-800 text-sm font-semibold">{row.product}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold ${
+                            row.status === "Approved" ? "bg-emerald-50 text-emerald-600" :
+                            row.status === "Pending" ? "bg-amber-50 text-amber-600" : "bg-rose-50 text-rose-600"
+                          }`}>
+                            {row.status}
+                          </span>
+                        </td>
+
+                        {/* FIXED DYNAMIC ACTIONS ALIGNMENT SYSTEM */}
+                       {/* FIXED CLEAN ACTION ICONS */}
+<td className="px-6 py-4 text-center">
+  <div className="flex items-center justify-center gap-2.5">
+    {row.status === "Pending" && (
+      <>
+        <button 
+          onClick={() => handleUpdateStatus(row.id, "Approved")}
+          title="Approve"
+          className="p-1 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded transition-colors cursor-pointer bg-transparent border-0"
+        >
+          <CheckCircle2 className="h-4 w-4" />
+        </button>
+        <button 
+          onClick={() => handleUpdateStatus(row.id, "Rejected")}
+          title="Reject"
+          className="p-1 hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded transition-colors cursor-pointer bg-transparent border-0"
+        >
+          <XCircle className="h-4 w-4" />
+        </button>
+      </>
+    )}
+    {row.status === "Approved" && (
+      <button 
+        onClick={() => handleUpdateStatus(row.id, "Rejected")}
+        title="Reject"
+        className="p-1 hover:bg-amber-50 text-slate-400 hover:text-amber-600 rounded transition-colors cursor-pointer bg-transparent border-0"
+      >
+        <XCircle className="h-4 w-4" />
+      </button>
+    )}
+    {row.status === "Rejected" && (
+      <button 
+        onClick={() => handleUpdateStatus(row.id, "Approved")}
+        title="Approve"
+        className="p-1 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded transition-colors cursor-pointer bg-transparent border-0"
+      >
+        <CheckCircle2 className="h-4 w-4" />
+      </button>
+    )}
+    {/* Always Show Delete */}
+    <button 
+      onClick={() => handleDeleteReview(row.id)}
+      title="Delete"
+      className="p-1 hover:bg-slate-100 text-slate-400 hover:text-rose-600 rounded transition-colors cursor-pointer bg-transparent border-0"
+    >
+      <Trash2 className="h-4 w-4" />
+    </button>
+  </div>
+</td>
+
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Table Pagination Engine */}
