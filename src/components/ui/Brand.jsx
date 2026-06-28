@@ -8,7 +8,7 @@ export default function Brand({ compact = false }) {
         src={brandLogo} 
         alt="HOZIFY Partner" 
         style={{ 
-          height: '42px', 
+          height: '36px', 
           width: 'auto', 
           objectFit: 'contain',
           background: 'transparent',

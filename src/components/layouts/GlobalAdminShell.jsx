@@ -293,21 +293,18 @@ export default function GlobalAdminShell({ children }) {
       )}
 
       <aside className={`sidebar global-sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'transparent', padding: '24px 20px 0', marginBottom: '24px', height: 'auto', minHeight: 'auto', overflow: 'visible' }}>
+        <div className="sidebar-brand" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', background: 'transparent', padding: '24px 24px 12px', marginBottom: '0', height: 'auto', minHeight: 'auto', overflow: 'visible' }}>
           <img 
             src={brandLogo} 
             alt="HOZIFY Partner Logo" 
             style={{ 
-              width: '200px', 
+              width: '160px', 
               height: 'auto', 
               objectFit: 'contain',
               background: 'transparent',
               display: 'block'
             }} 
           />
-          <span style={{ fontSize: '14px', fontWeight: '500', color: '#FFFFFF', marginTop: '6px', textAlign: 'center' }}>
-            Enterprise Admin
-          </span>
         </div>
         
         <nav className="sidebar-nav">
