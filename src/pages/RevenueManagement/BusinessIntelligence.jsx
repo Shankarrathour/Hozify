@@ -5,51 +5,119 @@ import {
   Layers, 
   BarChart2, 
   ArrowUpRight, 
-  TrendingUp, 
-  Compass, 
-  Zap, 
-  LineChart, 
   Download, 
-  MoreVertical, 
   Globe2, 
-  Gauge 
+  Gauge,
+  X,
+  RefreshCw,
+  Server
 } from "lucide-react";
-
 
 export default function BusinessIntelligence() {
   // Navigation contextual filters states
   const [selectedGeo, setSelectedGeo] = useState("Global All");
+  const [showSimulationModal, setShowSimulationModal] = useState(false);
+  const [simulationLogs, setSimulationLogs] = useState([]);
+  const [isSimulating, setIsSimulating] = useState(false);
 
-  // Summary Metrics reflecting core performance indicators
-  const topKPIs = [
-    {
-      title: "ENTERPRISE RUN RATE",
-      value: "$18.64M",
-      badge: "↗ +16.8%",
-      isPositive: true,
-      subtext: "Target benchmark: $17.5M expected",
-      icon: <Gauge className="h-4 w-4 text-indigo-950" />
+  // Region-wise segmented mock dataset master control object
+  const regionData = {
+    "Global All": {
+      topKPIs: [
+        { title: "ENTERPRISE RUN RATE", value: "$18.64M", badge: "↗ +16.8%", subtext: "Target benchmark: $17.5M expected", icon: <Gauge className="h-4 w-4 text-indigo-600" />, iconBg: "bg-indigo-50 border-indigo-100" },
+        { title: "SYSTEM PERFORMANCE VELOCITY", value: "98.4%", badge: "• Optimal", subtext: "All 14 distributed clusters active", icon: <Cpu className="h-4 w-4 text-emerald-600" />, iconBg: "bg-emerald-50 border-emerald-100" }
+      ],
+      chartHeights: ["h-24", "h-32", "h-40", "h-44", "h-36", "h-48"],
+      chartLabels: ["JAN-FEB", "MAR-APR", "MAY-JUN", "JUL-AUG", "SEP-OCT", "NOV-DEC"],
+      operationalSlices: [
+        { region: "EMEA Core Entity", target: 8200000, actual: 8850000, percentage: 107 },
+        { region: "AMER Enterprise Account", target: 6500000, actual: 6120000, percentage: 94 },
+        { region: "APAC Logistics Cluster", target: 4000000, actual: 3670000, percentage: 91 }
+      ],
+      tableRows: [
+        { name: "SaaS Enterprise Core", desc: "Subscription drift expansion logic", variance: "+/- 1.4%", status: "Stable Node", badge: "bg-blue-50 text-blue-600 border border-blue-100", rate: "$8.42M" },
+        { name: "Logistics Fuel Fleet", desc: "Consolidated operational spending variance", variance: "+/- 2.1%", status: "Optimized", badge: "bg-emerald-50 text-emerald-600 border border-emerald-100", rate: "$4.12M" },
+        { name: "Marketing Media Pipeline", desc: "Ad Spend Adjustment conversion metrics", variance: "+/- 3.8%", status: "At Risk Context", badge: "bg-rose-50 text-rose-600 border border-rose-100", rate: "$1.85M" }
+      ]
     },
-    {
-      title: "SYSTEM PERFORMANCE VELOCITY",
-      value: "98.4%",
-      badge: "• Optimal",
-      isPositive: true,
-      subtext: "All 14 distributed clusters active",
-      icon: <Cpu className="h-4 w-4 text-indigo-950" />
+    "EMEA Nodes": {
+      topKPIs: [
+        { title: "EMEA RUN RATE", value: "$8.85M", badge: "↗ +21.2%", subtext: "Exceeded Q2 benchmark easily", icon: <Gauge className="h-4 w-4 text-indigo-600" />, iconBg: "bg-indigo-50 border-indigo-100" },
+        { title: "EMEA CLUSTER VELOCITY", value: "99.1%", badge: "• Peak", subtext: "6 Euro zones fully operational", icon: <Cpu className="h-4 w-4 text-emerald-600" />, iconBg: "bg-emerald-50 border-emerald-100" }
+      ],
+      chartHeights: ["h-36", "h-40", "h-44", "h-48", "h-40", "h-44"],
+      chartLabels: ["EU-CENTRAL", "EU-WEST", "EU-EAST", "UK-HUB", "MEA-SOUTH", "EMEA-AGG"],
+      operationalSlices: [
+        { region: "EMEA Core Entity", target: 8200000, actual: 8850000, percentage: 107 }
+      ],
+      tableRows: [
+        { name: "SaaS Enterprise Core", desc: "Subscription drift expansion logic", variance: "+/- 1.4%", status: "Stable Node", badge: "bg-blue-50 text-blue-600 border border-blue-100", rate: "$8.42M" }
+      ]
+    },
+    "AMER Hub": {
+      topKPIs: [
+        { title: "AMER RUN RATE", value: "$6.12M", badge: "↘ -2.4%", subtext: "Delayed corporate deal renewals", icon: <Gauge className="h-4 w-4 text-rose-600" />, iconBg: "bg-rose-50 border-rose-100" },
+        { title: "AMER DISPATCH VELOCITY", value: "97.6%", badge: "• Normal", subtext: "US East & West routing status", icon: <Cpu className="h-4 w-4 text-emerald-600" />, iconBg: "bg-emerald-50 border-emerald-100" }
+      ],
+      chartHeights: ["h-20", "h-24", "h-28", "h-32", "h-36", "h-40"],
+      chartLabels: ["US-EAST", "US-WEST", "CA-EAST", "BR-SAO", "MX-CITY", "AMER-AGG"],
+      operationalSlices: [
+        { region: "AMER Enterprise Account", target: 6500000, actual: 6120000, percentage: 94 }
+      ],
+      tableRows: [
+        { name: "Logistics Fuel Fleet", desc: "Consolidated operational spending variance", variance: "+/- 2.1%", status: "Optimized", badge: "bg-emerald-50 text-emerald-600 border border-emerald-100", rate: "$4.12M" }
+      ]
+    },
+    "APAC Grid": {
+      topKPIs: [
+        { title: "APAC RUN RATE", value: "$3.67M", badge: "↗ +11.5%", subtext: "New logistics onboarding scale", icon: <Gauge className="h-4 w-4 text-indigo-600" />, iconBg: "bg-indigo-50 border-indigo-100" },
+        { title: "APAC TELEMETRY FLOW", value: "98.5%", badge: "• Optimal", subtext: "Singapore & Tokyo hubs reactive", icon: <Cpu className="h-4 w-4 text-emerald-600" />, iconBg: "bg-emerald-50 border-emerald-100" }
+      ],
+      chartHeights: ["h-16", "h-20", "h-24", "h-32", "h-40", "h-36"],
+      chartLabels: ["APAC-SGP", "APAC-TKY", "APAC-SYD", "APAC-IND", "APAC-HKG", "APAC-AGG"],
+      operationalSlices: [
+        { region: "APAC Logistics Cluster", target: 4000000, actual: 3670000, percentage: 91 }
+      ],
+      tableRows: [
+        { name: "Marketing Media Pipeline", desc: "Ad Spend Adjustment conversion metrics", variance: "+/- 3.8%", status: "At Risk Context", badge: "bg-rose-50 text-rose-600 border border-rose-100", rate: "$1.85M" }
+      ]
     }
-  ];
+  };
 
-  // Operations Geo performance data matrices
-  const operationalSlices = [
-    { region: "EMEA Core Entity", target: 8200000, actual: 8850000, percentage: 107 },
-    { region: "AMER Enterprise Account", target: 6500000, actual: 6120000, percentage: 94 },
-    { region: "APAC Logistics Cluster", target: 4000000, actual: 3670000, percentage: 91 }
-  ];
+  // Extract current context active datasets
+  const activeData = regionData[selectedGeo] || regionData["Global All"];
+
+  // Handle live calculation matrix logs simulation simulation
+  const handleRunSimulation = () => {
+    setIsSimulating(true);
+    setShowSimulationModal(true);
+    setSimulationLogs(["Initializing predictive neural network model pipeline...", "Connecting to distributed spatial clusters..."]);
+    
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, `Streaming structural variance metrics for region [${selectedGeo}]...`, "Analyzing run-rate algorithms against target baseline..."]);
+    }, 1000);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "Success: Simulation matrix completed. Variance deviation fits inside acceptable +/- 2.5% horizon boundary."]);
+      setIsSimulating(false);
+    }, 2500);
+  };
+
+  // Handle structural custom dataset CSV downloader schema
+  const handleDownloadCSV = () => {
+    const headers = "BI Model Cluster,Predictive Context,Variance Ratio,Status Flag,Metric Run Rate\n";
+    const rows = activeData.tableRows.map(r => `"${r.name}","${r.desc}","${r.variance}","${r.status}","${r.rate}"`).join("\n");
+    const blob = new Blob([headers + rows], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `BI_Control_Report_${selectedGeo.replace(" ", "_")}.csv`);
+    link.click();
+  };
 
   return (
     <AdminShell activeTab="Business Intelligence" searchPlaceholder="Inquire enterprise neural metrics...">
-      <div className="space-y-6">
+      <div className="space-y-6 select-none pointer-events-auto">
         
         {/* ==========================================
             1. HEADER CONTEXT FILTERS BAR
@@ -65,8 +133,9 @@ export default function BusinessIntelligence() {
             {["Global All", "EMEA Nodes", "AMER Hub", "APAC Grid"].map((tab) => (
               <button
                 key={tab}
+                type="button"
                 onClick={() => setSelectedGeo(tab)}
-                className={`px-3 py-1 transition-all rounded ${
+                className={`px-3 py-1 transition-all rounded cursor-pointer ${
                   selectedGeo === tab ? "bg-white text-indigo-950 shadow-sm" : "text-slate-400 hover:text-slate-700"
                 }`}
               >
@@ -80,18 +149,20 @@ export default function BusinessIntelligence() {
             2. UPPER TOP METRIC PLATFORMS GRID
            ========================================== */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {topKPIs.map((kpi, idx) => (
+          {activeData.topKPIs.map((kpi, idx) => (
             <div key={idx} className="bg-white border border-slate-200 rounded-xl p-5 flex flex-col justify-between shadow-sm relative overflow-hidden">
               <div>
                 <div className="flex justify-between items-center">
                   <p className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">{kpi.title}</p>
-                  <span className="p-1.5 bg-slate-50 border border-slate-100 rounded-lg shadow-sm">
+                  <span className={`p-2 border rounded-xl shadow-xs shrink-0 ${kpi.iconBg}`}>
                     {kpi.icon}
                   </span>
                 </div>
                 <div className="flex items-baseline gap-2 mt-3">
                   <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{kpi.value}</h3>
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600">
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                    kpi.badge.includes("-") ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+                  }`}>
                     {kpi.badge}
                   </span>
                 </div>
@@ -107,32 +178,40 @@ export default function BusinessIntelligence() {
             <div>
               <p className="text-[10px] font-bold text-indigo-300 tracking-wider uppercase flex items-center gap-1">
                 <BarChart2 className="h-3 w-3" />
-                <span>FORECAST OVERVIEW</span>
+                <span>FORECAST OVERVIEW ({selectedGeo})</span>
               </p>
-              <h3 className="text-3xl font-extrabold mt-3 text-white tracking-tight">96.8%</h3>
+              <h3 className="text-3xl font-extrabold mt-3 text-white tracking-tight">
+                {selectedGeo === "AMER Hub" ? "94.2%" : selectedGeo === "EMEA Nodes" ? "98.7%" : "96.8%"}
+              </h3>
               <p className="text-xs text-indigo-200/80 mt-2 leading-relaxed font-medium">
                 High probability reach variance matching targeted parameters across global segments.
               </p>
             </div>
             <div className="mt-4">
-              <button className="w-full flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-900 border border-indigo-800 text-white rounded-lg text-xs font-bold hover:bg-indigo-850 transition-colors shadow-inner">
+              <button 
+                type="button"
+                onClick={handleRunSimulation}
+                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 bg-indigo-900 border border-indigo-800 text-white rounded-lg text-xs font-bold hover:bg-indigo-850 transition-colors shadow-inner cursor-pointer"
+              >
                 <span>Access Simulation Logs</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
         </div>
-         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+        {/* Charts & Map Sections layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           
           {/* Integrated Projection Bar Heights Matrix Area */}
           <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col justify-between">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-1.5 font-bold text-sm text-slate-900">
-                <LineChart className="h-4 w-4 text-indigo-950" />
-                <h3>Strategic Revenue Allocation Runway</h3>
+                <BarChart2 className="h-4 w-4 text-indigo-950" />
+                <h3>Strategic Revenue Allocation Runway ({selectedGeo})</h3>
               </div>
               <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded">
-                6-Month Rolling Distribution
+                Active Cluster Distribution
               </span>
             </div>
 
@@ -140,15 +219,15 @@ export default function BusinessIntelligence() {
             <div className="h-48 relative flex items-end justify-between px-6 pb-2 pt-6 border-b border-l border-slate-100">
               
               {/* Plot Heights Indicators mapping via bars blocks structure */}
-              {["h-24", "h-32", "h-40", "h-44", "h-36", "h-48"].map((h, i) => (
+              {activeData.chartHeights.map((h, i) => (
                 <div key={i} className="w-[12%] flex flex-col items-center gap-1.5 group">
-                  <div className={`w-full bg-indigo-950 rounded-t-sm ${h} transition-all duration-300 group-hover:bg-indigo-900`} />
+                  <div className={`w-full bg-indigo-950 rounded-t-sm ${h} transition-all duration-500 group-hover:bg-indigo-700`} />
                 </div>
               ))}
 
               {/* Grid Vertical Timeframe Labels Line */}
               <div className="absolute bottom-[-22px] left-0 right-0 flex justify-between px-2 text-[9px] font-extrabold text-slate-400 tracking-wider">
-                {["JAN-FEB", "MAR-APR", "MAY-JUN", "JUL-AUG", "SEP-OCT", "NOV-DEC"].map((lbl) => (
+                {activeData.chartLabels.map((lbl) => (
                   <span key={lbl}>{lbl}</span>
                 ))}
               </div>
@@ -172,12 +251,12 @@ export default function BusinessIntelligence() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
                 <Globe2 className="h-4 w-4 text-indigo-950" />
-                <span>Regional Nodes</span>
+                <span>Regional Target Nodes</span>
               </h3>
             </div>
 
             <div className="space-y-4 my-auto">
-              {operationalSlices.map((slice, idx) => (
+              {activeData.operationalSlices.map((slice, idx) => (
                 <div key={idx} className="space-y-1">
                   <div className="flex justify-between items-center text-xs font-bold">
                     <span className="text-slate-500 text-[10px] uppercase tracking-wide">{slice.region}</span>
@@ -196,30 +275,39 @@ export default function BusinessIntelligence() {
             <div className="border-t border-slate-50 pt-3 mt-4">
               <div className="flex justify-between items-center text-[11px] text-slate-400 font-semibold">
                 <span>System Health Map Grid</span>
-                <span className="text-slate-800 font-bold">All Logs Synced</span>
+                <span className="text-emerald-600 font-bold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> All Logs Synced
+                </span>
               </div>
             </div>
           </div>
         </div>
 
         {/* ==========================================
-            4. BOTTOM PANEL: ANALYTICS SEGMENT TRANS DATA TABLE
+            4. BOTTOM PANEL: ANALYTICS DATA TABLE
            ========================================== */}
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
           <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white">
-            <h3 className="font-bold text-sm text-slate-900">Neural Network Model Assertions</h3>
             <div className="flex items-center gap-2">
-              <button className="p-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 shadow-sm">
+              <h3 className="font-bold text-sm text-slate-900">Neural Network Model Assertions</h3>
+              <span className="text-[9px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
+                Scope: {selectedGeo}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button 
+                type="button"
+                onClick={handleDownloadCSV}
+                className="p-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors shadow-sm cursor-pointer"
+                title="Download Filtered CSV Context"
+              >
                 <Download className="h-3.5 w-3.5" />
-              </button>
-              <button className="p-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 shadow-sm">
-                <MoreVertical className="h-3.5 w-3.5" />
               </button>
             </div>
           </div>
 
           <div className="overflow-x-auto">
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50/70 border-b border-slate-200 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   <th className="px-6 py-3">BI MODEL CLUSTER</th>
@@ -230,17 +318,13 @@ export default function BusinessIntelligence() {
                 </tr>
               </thead>
               <tbody className="text-xs font-semibold text-slate-700">
-                {[
-                  { name: "SaaS Enterprise Core", desc: "Subscription drift expansion logic", variance: "+/- 1.4%", status: "Stable Node", badge: "bg-blue-50 text-blue-600 border border-blue-100", rate: "$8.42M" },
-                  { name: "Logistics Fuel Fleet", desc: "Consolidated operational spending variance", variance: "+/- 2.1%", status: "Optimized", badge: "bg-emerald-50 text-emerald-600 border border-emerald-100", rate: "$4.12M" },
-                  { name: "Marketing Media Pipeline", desc: "Ad Spend Adjustment conversion metrics", variance: "+/- 3.8%", status: "At Risk Context", badge: "bg-rose-50 text-rose-600 border border-rose-100", rate: "$1.85M" }
-                ].map((row, index) => (
+                {activeData.tableRows.map((row, index) => (
                   <tr key={index} className="border-b border-slate-100 hover:bg-slate-50/30 transition-colors">
                     <td className="px-6 py-3.5 font-bold text-slate-800">{row.name}</td>
                     <td className="px-6 py-3.5 text-slate-500 font-medium">{row.desc}</td>
                     <td className="px-6 py-3.5 font-mono text-slate-600 font-bold">{row.variance}</td>
                     <td className="px-6 py-3.5">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${row.badge}`}>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md inline-block ${row.badge}`}>
                         {row.status}
                       </span>
                     </td>
@@ -250,15 +334,60 @@ export default function BusinessIntelligence() {
                   </tr>
                 ))}
               </tbody>
-            </table></div>
+            </table>
           </div>
         </div>
+
+        {/* ==========================================
+            5. DYNAMIC POPUP MODAL: SIMULATION SYSTEM LOGS
+           ========================================== */}
+        {showSimulationModal && (
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4" onClick={() => setShowSimulationModal(false)}>
+            <div className="bg-slate-950 text-slate-200 rounded-xl shadow-2xl border border-slate-800 max-w-lg w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150" onClick={(e) => e.stopPropagation()}>
+              <div className="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+                <h3 className="font-mono text-xs font-bold text-indigo-400 flex items-center gap-2">
+                  <Server className="h-3.5 w-3.5 text-indigo-400" /> Neural Compute Node Simulation Logs
+                </h3>
+                <button type="button" onClick={() => setShowSimulationModal(false)} className="text-slate-500 hover:text-slate-300 cursor-pointer">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              
+              <div className="p-5 font-mono text-[11px] space-y-2 max-h-[300px] overflow-y-auto bg-slate-950 text-emerald-400">
+                {simulationLogs.map((log, index) => (
+                  <div key={index} className="leading-relaxed">
+                    <span className="text-slate-600 mr-2">&gt;&gt;</span> {log}
+                  </div>
+                ))}
+                {isSimulating && (
+                  <div className="flex items-center gap-2 text-indigo-400 mt-3 animate-pulse">
+                    <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                    <span>Processing live matrix arrays...</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="px-5 py-3 bg-slate-900/40 border-t border-slate-800 flex justify-end">
+                <button 
+                  type="button" 
+                  disabled={isSimulating}
+                  onClick={() => setShowSimulationModal(false)} 
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer font-sans transition-colors ${
+                    isSimulating ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-500'
+                  }`}
+                >
+                  Close Terminal
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Footer legal notes link */}
         <div className="flex justify-between items-center pt-4 border-t border-slate-100 text-[10px] text-slate-400 font-medium">
           <span>© 2026 Hozify Predictive Business Intelligence Stack.</span>
           <div className="flex items-center gap-3">
-            <span className="cursor-pointer hover:text-slate-600">Secure Cluster Connection</span>
+            <span className="hover:text-slate-600">Secure Cluster Connection</span>
           </div>
         </div>
 

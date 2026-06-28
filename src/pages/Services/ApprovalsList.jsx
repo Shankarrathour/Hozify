@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import {
   SlidersHorizontal,
   Download,
-  Search,
-  ListFilter,
-  MoreVertical,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -57,8 +54,51 @@ const approvalQueueData = [
 ];
 
 export default function ApprovalsList({ onViewDetails, onClose }) {
-  const [approvals, setApprovals] = useState(approvalQueueData);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [approvals] = useState(approvalQueueData);
+  // Status filters: 'ALL' ya 'Pending' ko toggle karne ke liye state
+  const [statusFilter, setStatusFilter] = useState('ALL');
+
+  // Top header filter button click handler (Pending status toggle)
+  const handleToggleFilter = () => {
+    setStatusFilter(prev => (prev === 'ALL' ? 'Pending' : 'ALL'));
+  };
+
+  // CSV Generator and Downloader logic
+  const handleExportCSV = () => {
+    // CSV Header row
+    const headers = ['Service ID', 'Service Name', 'Partner', 'Category', 'Submitted Date', 'Status'];
+    
+    // Rows logic mapping
+    const rows = approvals.map(app => [
+      app.id,
+      `"${app.name.replace(/"/g, '""')}"`, // escaping commas and quotes
+      `"${app.partner.replace(/"/g, '""')}"`,
+      `"${app.category.replace(/"/g, '""')}"`,
+      app.date,
+      app.status
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    
+    // Creating download element anchor
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'approval_queue_export.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Filter dynamic dataset rendering logic
+  const displayedApprovals = approvals.filter(app => {
+    if (statusFilter === 'Pending') {
+      return app.status === 'Pending';
+    }
+    return true;
+  });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -98,27 +138,32 @@ export default function ApprovalsList({ onViewDetails, onClose }) {
           <p style={{ fontSize: '14px', color: 'var(--muted)', marginTop: '4px', margin: 0 }}>Review and moderate incoming service requests from active partners.</p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
+          {/* Functional Filter button */}
           <button
+            onClick={handleToggleFilter}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              background: '#ffffff',
-              color: 'var(--text)',
-              border: '1px solid var(--line)',
+              background: statusFilter === 'Pending' ? '#eff6ff' : '#ffffff',
+              color: statusFilter === 'Pending' ? '#2563eb' : 'var(--text)',
+              border: statusFilter === 'Pending' ? '1px solid #2563eb' : '1px solid var(--line)',
               borderRadius: '6px',
               padding: '8px 16px',
               fontSize: '13px',
               fontWeight: '700',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              transition: 'all 0.2s'
             }}
             type="button"
           >
             <SlidersHorizontal size={16} />
-            <span>Filter</span>
+            <span>{statusFilter === 'Pending' ? 'Showing Pending' : 'Filter Pending'}</span>
           </button>
           
+          {/* Functional CSV Export button */}
           <button
+            onClick={handleExportCSV}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -199,79 +244,32 @@ export default function ApprovalsList({ onViewDetails, onClose }) {
       {/* Approvals Table Card */}
       <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
         
-        {/* Table Filter Top header */}
+        {/* Table Filter Top header - Unnecessary controls completely removed */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <strong style={{ fontSize: '15px', color: 'var(--text)' }}>Queue Items</strong>
             <span style={{ fontSize: '10px', fontWeight: '800', color: '#2563eb', background: '#eff6ff', padding: '3px 8px', borderRadius: '12px' }}>
-              24 NEW
+              {statusFilter === 'Pending' ? `${displayedApprovals.length} PENDING` : '24 NEW'}
             </span>
-          </div>
-
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <div className="dash-search" style={{ margin: 0, height: '34px', border: '1px solid var(--line)', borderRadius: '6px', width: '220px' }}>
-              <Search size={16} />
-              <input
-                placeholder="Search approvals..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ fontSize: '12px' }}
-              />
-            </div>
-            <button
-              style={{
-                width: '34px',
-                height: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--line)',
-                background: '#ffffff',
-                color: 'var(--muted)',
-                borderRadius: '6px',
-                cursor: 'pointer'
-              }}
-              type="button"
-            >
-              <ListFilter size={16} />
-            </button>
-            <button
-              style={{
-                width: '34px',
-                height: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--line)',
-                background: '#ffffff',
-                color: 'var(--muted)',
-                borderRadius: '6px',
-                cursor: 'pointer'
-              }}
-              type="button"
-            >
-              <MoreVertical size={16} />
-            </button>
           </div>
         </div>
 
         {/* Table Content */}
         <div style={{ overflowX: 'auto' }}>
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Service Name</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Partner</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Category</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Submitted Date</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
-                <th style={{ padding: '12px 8px', width: '60px' }} />
-              </tr>
-            </thead>
-            <tbody>
-              {approvals
-                .filter(a => a.name.toLowerCase().includes(searchTerm.toLowerCase()) || a.partner.toLowerCase().includes(searchTerm.toLowerCase()))
-                .map((app) => {
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid var(--line)' }}>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Service Name</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Partner</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Category</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Submitted Date</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
+                  <th style={{ padding: '12px 8px', width: '60px' }} />
+                </tr>
+              </thead>
+              <tbody>
+                {displayedApprovals.map((app) => {
                   const CategoryIcon = app.icon;
                   return (
                     <tr
@@ -339,14 +337,15 @@ export default function ApprovalsList({ onViewDetails, onClose }) {
                     </tr>
                   );
                 })}
-            </tbody>
-          </table></div>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Pagination Row */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px', flexWrap: 'wrap', gap: '16px' }}>
           <span style={{ fontSize: '13px', color: 'var(--muted)' }}>
-            Showing <strong>4</strong> of <strong>24</strong> results
+            Showing <strong>{displayedApprovals.length}</strong> of <strong>{approvals.length}</strong> results
           </span>
 
           <div style={{ display: 'flex', border: '1px solid var(--line)', borderRadius: '6px', overflow: 'hidden' }}>

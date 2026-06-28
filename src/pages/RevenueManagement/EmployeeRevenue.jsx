@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
-import { MoreVertical } from "lucide-react";
+import { 
+  Filter, 
+  Eye, 
+  Edit2, 
+  Download, 
+  X, 
+  CheckCircle, 
+  TrendingUp, 
+  Users, 
+  Award 
+} from "lucide-react";
 
 export default function EmployeeRevenue() {
+  // --- Core States for Interactivity ---
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [selectedDept, setSelectedDept] = useState("All");
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState("All");
+  
+  const [showForecastModal, setShowForecastModal] = useState(false);
+  const [showCriteriaModal, setShowCriteriaModal] = useState(false);
+  
+  // Dynamic metrics states that changes on Resource Update trigger
+  const [activeSellersCount, setActiveSellersCount] = useState(1248);
+  const [newSellersThisMonth, setNewSellersThisMonth] = useState(12);
+
   // Top row metrics data matching figma layout
   const metrics = [
     {
@@ -13,8 +35,8 @@ export default function EmployeeRevenue() {
     },
     {
       title: "TOTAL ACTIVE SELLERS",
-      value: "1,248",
-      subtext: "12 new this month",
+      value: activeSellersCount.toLocaleString(),
+      subtext: `${newSellersThisMonth} new this month`,
       hasGraph: false,
     },
     {
@@ -40,22 +62,99 @@ export default function EmployeeRevenue() {
     { id: "EMP-5120", name: "Ananya White", initial: "AW", role: "Sales Associate", dept: "Retail Banking", revenue: "$412,300", status: "IMPROVING", statusBg: "bg-amber-50 text-amber-600 border border-amber-100" },
   ];
 
+  // --- Real-time Filter Matrix Pipeline ---
+  const filteredEmployees = useMemo(() => {
+    return employees.filter((emp) => {
+      const matchDept = selectedDept === "All" || emp.dept === selectedDept;
+      const matchStatus = selectedStatusFilter === "All" || emp.status === selectedStatusFilter;
+      return matchDept && matchStatus;
+    });
+  }, [selectedDept, selectedStatusFilter]);
+
+  // --- Action pipelines ---
+  const handleDownloadAnalysis = (e) => {
+    e.stopPropagation();
+    const analysisText = `Hozify Enterprise BI Center - AI Revenue Projection Analysis\nGenerated on: ${new Date().toLocaleDateString()}\n\nProjections Matrix:\n- Sarah Miller is projected to exceed annual revenue targets by 22%.\n- Elena Laurent is projected to exceed targets by 18%.\n\nRecommendation Vector:\nAssign high-tier enterprise clients contextually to priority pipelines for Q4 layout tracks.`;
+    
+    const element = document.createElement("a");
+    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(analysisText));
+    element.setAttribute("download", `AI_Revenue_Projection_${new Date().toISOString().split('T')[0]}.txt`);
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  const handleUpdateResourcePlan = () => {
+    setActiveSellersCount(prev => prev + 5);
+    setNewSellersThisMonth(prev => prev + 5);
+    alert("Resource Allocation updated! 5 new team nodes integrated into active pipelines.");
+  };
+
   return (
     <AdminShell activeTab="Revenue" searchPlaceholder="Search enterprise metrics...">
-      <div className="space-y-6">
+      <div className="space-y-6 max-w-7xl mx-auto relative z-10 pointer-events-auto select-none" onClick={() => setShowFilterDropdown(false)}>
         
         {/* 1. TOP HEADER ACTION ROW */}
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Employee Revenue Performance</h1>
-            <p className="text-xs text-slate-400 mt-0.5">Real-time individual fulfillment tracking and revenue efficiency metrics.</p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Employee Revenue Performance</h1>
+            <p className="text-xs text-slate-400 mt-0.5 font-medium">Real-time individual fulfillment tracking and revenue efficiency metrics.</p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
-              <span>📊</span> Filter Data
-            </button>
-            <button className="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-bold shadow-sm hover:bg-indigo-700 transition-colors">
+          <div className="flex items-center gap-3 self-end sm:self-auto relative">
+            {/* FILTER ICON TRIGGER BUTTON */}
+            <div className="relative" onClick={(e) => e.stopPropagation()}>
+              <button 
+                type="button"
+                onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+                className={`flex items-center gap-2 px-3 py-1.5 bg-white border rounded-lg text-xs font-bold transition-all shadow-sm cursor-pointer ${showFilterDropdown ? 'border-indigo-600 text-indigo-600 ring-1 ring-indigo-500' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}
+              >
+                <Filter className="h-3.5 w-3.5" />
+                <span>Filter Data</span>
+              </button>
+
+              {/* LIVE FILTER DROPDOWN GRID */}
+              {showFilterDropdown && (
+                <div className="absolute top-full right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg p-4 min-w-[220px] z-50 space-y-3">
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Department</label>
+                    <select 
+                      value={selectedDept}
+                      onChange={(e) => setSelectedDept(e.target.value)}
+                      className="mt-1 w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs font-semibold text-slate-700 focus:outline-none"
+                    >
+                      <option value="All">All Departments</option>
+                      <option value="Enterprise Sales">Enterprise Sales</option>
+                      <option value="Technical Fulfillment">Technical Fulfillment</option>
+                      <option value="Logistics">Logistics</option>
+                      <option value="Retail Banking">Retail Banking</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status Tier</label>
+                    <select 
+                      value={selectedStatusFilter}
+                      onChange={(e) => setSelectedStatusFilter(e.target.value)}
+                      className="mt-1 w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs font-semibold text-slate-700 focus:outline-none"
+                    >
+                      <option value="All">All Status Tiers</option>
+                      <option value="ELITE TIER">Elite Tier</option>
+                      <option value="HIGH PERFORMER">High Performer</option>
+                      <option value="TARGET MET">Target Met</option>
+                      <option value="IMPROVING">Improving</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <button 
+              type="button"
+              onClick={() => setShowForecastModal(true)}
+              className="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-bold shadow-sm hover:bg-indigo-700 transition-colors cursor-pointer"
+            >
               View Detailed Forecasts
             </button>
           </div>
@@ -94,7 +193,11 @@ export default function EmployeeRevenue() {
               The 2026 Q2 bonus pool has been increased by <span className="text-white font-bold">15%</span>, due to record-breaking revenue generation across enterprise branches.
             </p>
           </div>
-          <button className="px-4 py-2 bg-white text-indigo-950 text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-50 transition-colors shrink-0">
+          <button 
+            type="button"
+            onClick={() => setShowCriteriaModal(true)}
+            className="px-4 py-2 bg-white text-indigo-950 text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-50 transition-colors shrink-0 cursor-pointer"
+          >
             Review Criteria
           </button>
         </div>
@@ -102,77 +205,87 @@ export default function EmployeeRevenue() {
         {/* 4. EMPLOYEE CONTRIBUTION DIRECTORY TABLE */}
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-white">
-            <h3 className="font-bold text-base text-slate-900">Employee Contribution Breakdown</h3>
-            
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <select className="appearance-none bg-slate-50 border border-slate-200 rounded-lg pl-3 pr-8 py-1.5 text-xs font-semibold text-slate-600 focus:outline-none cursor-pointer">
-                  <option>Role: All</option>
-                </select>
-                <div className="absolute right-2.5 top-2.5 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-400 pointer-events-none" />
-              </div>
-
-              <div className="relative">
-                <select className="appearance-none bg-slate-50 border border-slate-200 rounded-lg pl-3 pr-8 py-1.5 text-xs font-semibold text-slate-600 focus:outline-none cursor-pointer">
-                  <option>Dept: Enterprise</option>
-                </select>
-                <div className="absolute right-2.5 top-2.5 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-400 pointer-events-none" />
-              </div>
+            <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900">Employee Contribution Breakdown</h3>
+            <div className="text-[11px] text-slate-400 font-medium">
+              Filters Active: <span className="font-bold text-indigo-600">{selectedDept} / {selectedStatusFilter}</span>
             </div>
           </div>
 
           <div className="overflow-x-auto">
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50/70 border-b border-slate-200 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <tr className="bg-slate-50/70 border-b border-slate-200 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                   <th className="px-6 py-3.5 w-24">ID</th>
                   <th className="px-6 py-3.5">Employee</th>
                   <th className="px-6 py-3.5">Role</th>
                   <th className="px-6 py-3.5">Department</th>
                   <th className="px-6 py-3.5">Revenue Generated</th>
                   <th className="px-6 py-3.5">Status</th>
-                  <th className="px-6 py-3.5 text-right">Actions</th>
+                  <th className="px-6 py-3.5 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-sm font-medium text-slate-700 bg-white">
-                {employees.map((emp, index) => (
-                  <tr key={index} className="hover:bg-slate-50/40 transition-colors">
-                    <td className="px-6 py-4 text-slate-400 text-xs font-mono">{emp.id}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-100 text-indigo-900 border border-slate-200 flex items-center justify-center font-bold text-xs shadow-sm">
-                          {emp.initial}
+              <tbody className="divide-y divide-slate-100 text-xs font-semibold text-slate-700 bg-white">
+                {filteredEmployees.length > 0 ? (
+                  filteredEmployees.map((emp, index) => (
+                    <tr key={index} className="hover:bg-slate-50/40 transition-colors">
+                      <td className="px-6 py-4 text-slate-400 text-xs font-mono">{emp.id}</td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-slate-100 text-indigo-900 border border-slate-200 flex items-center justify-center font-bold text-xs shadow-sm">
+                            {emp.initial}
+                          </div>
+                          <span className="font-bold text-slate-800">{emp.name}</span>
                         </div>
-                        <span className="font-semibold text-slate-900">{emp.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-slate-500 font-normal">{emp.role}</td>
-                    <td className="px-6 py-4 text-slate-400 font-normal">{emp.dept}</td>
-                    <td className="px-6 py-4 text-slate-900 font-bold tracking-tight">{emp.revenue}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide shadow-sm ${emp.statusBg}`}>
-                        {emp.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="text-slate-400 hover:text-slate-600 p-1">
-                        <MoreVertical className="h-4 w-4" />
-                      </button>
+                      </td>
+                      <td className="px-6 py-4 text-slate-500 font-medium">{emp.role}</td>
+                      <td className="px-6 py-4 text-slate-400 font-medium">{emp.dept}</td>
+                      <td className="px-6 py-4 text-slate-900 font-extrabold tracking-tight">{emp.revenue}</td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wide shadow-sm ${emp.statusBg}`}>
+                          {emp.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+                        {/* REPLACED 3 DOTS WITH DEDICATED VIEW & EDIT ICONS */}
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            type="button"
+                            title="View Metrics Detail"
+                            onClick={() => alert(`Opening metrics breakdown matrix for: ${emp.name}`)}
+                            className="p-1.5 rounded-md bg-blue-50 border border-blue-100 text-blue-600 hover:bg-blue-100 transition-colors cursor-pointer"
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            title="Edit Target Setup"
+                            onClick={() => alert(`Modifying quotas configuration layer for: ${emp.name}`)}
+                            className="p-1.5 rounded-md bg-amber-50 border border-amber-100 text-amber-600 hover:bg-amber-100 transition-colors cursor-pointer"
+                          >
+                            <Edit2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="px-6 py-10 text-center text-slate-400 font-medium bg-slate-50/20">
+                      No team targets found matching the dropdown configuration setup.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
-            </table></div>
+            </table>
           </div>
 
-          <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 bg-white text-xs font-semibold text-slate-400">
-            <span>Showing 5 of 1,248 employees</span>
+          <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 bg-white text-[11px] font-bold text-slate-400">
+            <span>Showing {filteredEmployees.length} of {activeSellersCount} employees</span>
             <div className="flex items-center gap-1">
-              <button className="w-7 h-7 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 flex items-center justify-center font-bold">{"<"}</button>
-              <button className="w-7 h-7 bg-indigo-600 text-white rounded flex items-center justify-center font-bold shadow-sm">1</button>
-              <button className="w-7 h-7 border border-slate-200 rounded text-slate-500 hover:bg-slate-50 flex items-center justify-center">2</button>
-              <button className="w-7 h-7 border border-slate-200 rounded text-slate-500 hover:bg-slate-50 flex items-center justify-center">3</button>
-              <button className="w-7 h-7 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 flex items-center justify-center font-bold">{">"}</button>
+              <button type="button" className="w-7 h-7 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 flex items-center justify-center font-bold">{"<"}</button>
+              <button type="button" className="w-7 h-7 bg-indigo-600 text-white rounded flex items-center justify-center font-bold shadow-sm">1</button>
+              <button type="button" className="w-7 h-7 border border-slate-200 rounded text-slate-500 hover:bg-slate-50 flex items-center justify-center">2</button>
+              <button type="button" className="w-7 h-7 border border-slate-200 rounded text-slate-400 hover:bg-slate-50 flex items-center justify-center font-bold">{">"}</button>
             </div>
           </div>
         </div>
@@ -201,8 +314,22 @@ export default function EmployeeRevenue() {
             </div>
 
             <div className="flex items-center gap-3 mt-4 pt-2">
-              <button className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors">Download Analysis</button>
-              <button className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors">Update Resource Plan</button>
+              {/* REMOVED TEXT, KEEPS ICON WITH LIVE TEXT DOWNLOAD PIPELINE */}
+              <button 
+                type="button"
+                title="Download Projection Analysis File"
+                onClick={handleDownloadAnalysis}
+                className="p-2 border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-colors cursor-pointer flex items-center justify-center shadow-xs"
+              >
+                <Download className="h-4 w-4" />
+              </button>
+              <button 
+                type="button"
+                onClick={handleUpdateResourcePlan}
+                className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+              >
+                Update Resource Plan
+              </button>
             </div>
           </div>
 
@@ -213,25 +340,17 @@ export default function EmployeeRevenue() {
               <p className="text-xs text-slate-400 mt-0.5">Regional performance breakdown by branch revenue density.</p>
             </div>
 
-            {/* Simulated Vector Vector Map Shape Container */}
             <div className="h-28 bg-[#EBF1F6] rounded-xl mt-4 relative overflow-hidden flex items-center justify-center border border-slate-100">
-              {/* Abstract World Vector SVG Silhouette to mimic image_183a27.png */}
               <svg className="w-full h-full opacity-40 absolute inset-0 text-teal-700" viewBox="0 0 200 100" fill="currentColor">
-                {/* North America approximation */}
                 <path d="M15,10 C30,8 45,15 40,35 C38,45 25,48 20,60 C15,70 30,75 35,65 C40,55 55,50 65,40 C75,30 60,15 50,12 Z" />
-                {/* Europe/Asia approximation */}
                 <path d="M90,15 C110,10 130,8 150,15 C160,25 145,40 135,35 C125,30 115,45 105,40 C95,35 85,25 90,15 Z" fillOpacity="0.8" />
-                {/* South America approximation */}
                 <path d="M35,68 C45,75 40,95 35,98 C30,95 28,85 30,75 Z" />
               </svg>
 
-              {/* Exact Figma Blue Marker Overlay Component */}
               <div className="absolute top-[40%] left-[22%] flex flex-col items-center">
-                {/* Micro Label Pin */}
                 <div className="bg-indigo-950 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-md whitespace-nowrap mb-1">
                   North America: Lead Revenue
                 </div>
-                {/* Pulsing Blue Node Indicator */}
                 <div className="w-3 h-3 rounded-full bg-indigo-600 border-2 border-white flex items-center justify-center shadow">
                   <div className="w-1 h-1 rounded-full bg-white animate-ping" />
                 </div>
@@ -240,6 +359,71 @@ export default function EmployeeRevenue() {
           </div>
 
         </div>
+
+        {/* ==========================================
+            6. MODAL SYSTEM IMPLEMENTATION
+           ========================================== */}
+        
+        {/* DETAILED FORECAST MODAL */}
+        {showForecastModal && (
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4" onClick={() => setShowForecastModal(false)}>
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150" onClick={(e) => e.stopPropagation()}>
+              <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <TrendingUp className="h-4 w-4 text-indigo-600" /> Enterprise Revenue Forecast
+                </h4>
+                <button type="button" onClick={() => setShowForecastModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="p-5 space-y-4">
+                <p className="text-xs text-slate-500 leading-relaxed">Structural calculations show strong momentum heading into next quarter:</p>
+                <div className="space-y-2.5">
+                  <div className="p-3 bg-indigo-50/40 border border-indigo-100 rounded-lg flex justify-between items-center">
+                    <span className="text-xs font-bold text-slate-700">Q3 Enterprise Forecast</span>
+                    <span className="text-xs font-extrabold text-indigo-600">+$14.2M Variance</span>
+                  </div>
+                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex justify-between items-center">
+                    <span className="text-xs font-bold text-slate-700">Retail Integration Segment</span>
+                    <span className="text-xs font-extrabold text-emerald-600">↗ On Track (94%)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PERFORMANCE CRITERIA MODAL */}
+        {showCriteriaModal && (
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4" onClick={() => setShowCriteriaModal(false)}>
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150" onClick={(e) => e.stopPropagation()}>
+              <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                  <Award className="h-4 w-4 text-purple-600" /> Bonus Allocation Matrix
+                </h4>
+                <button type="button" onClick={() => setShowCriteriaModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="flex gap-3 items-start p-2.5 border-b border-slate-100">
+                  <CheckCircle className="h-4 w-4 text-purple-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-800">Elite Tier Treshold</h5>
+                    <p className="text-[11px] text-slate-400 font-medium">Requires individual pipeline generation value exceeding $2,000,000.</p>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-start p-2.5">
+                  <Users className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-800">High Performer Allocation</h5>
+                    <p className="text-[11px] text-slate-400 font-medium">Requires cross-regional tracking nodes exceeding 100% core target velocity.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </AdminShell>

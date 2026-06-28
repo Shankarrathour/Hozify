@@ -2,39 +2,83 @@ import React, { useState } from 'react';
 import {
   Download,
   CreditCard,
-  Search,
-  ListFilter,
   DollarSign,
   Briefcase,
   Users,
   ShieldCheck,
-  ArrowRightLeft,
   PieChart,
-  RefreshCcw,
   CheckCircle2,
   AlertCircle,
-  Clock
+  Clock,
+  X
 } from 'lucide-react';
 
-const MOCK_RULES = [
+const INITIAL_RULES = [
   { name: 'Standard Maintenance', type: 'Fixed Percentage', percentage: '12.5%', services: 'All Maintenance Services', status: 'ACTIVE' },
   { name: 'Premium Appliances', type: 'Tiered', percentage: '10-15%', services: 'AC, Refrigerator', status: 'ACTIVE' },
   { name: 'Emergency Support', type: 'Fixed Amount', percentage: '$20 Flat', services: 'Express Services', status: 'INACTIVE' },
   { name: 'New Partner Onboarding', type: 'Zero Commission', percentage: '0%', services: 'First 5 Jobs', status: 'ACTIVE' }
 ];
 
-const MOCK_SETTLEMENTS = [
+const INITIAL_SETTLEMENTS = [
   { id: 'SET-9920', partner: 'FixIt Pro Services', amount: '$450.00', date: 'Oct 24, 2023', status: 'PENDING' },
   { id: 'SET-9919', partner: 'CoolBreeze ACs', amount: '$1,200.50', date: 'Oct 23, 2023', status: 'COMPLETED' },
   { id: 'SET-9918', partner: 'John Doe Plumbing', amount: '$85.00', date: 'Oct 23, 2023', status: 'FAILED' },
-  { id: 'SET-9917', partner: 'Elite Home Care', amount: '$890.00', date: 'Oct 22, 2023', status: 'COMPLETED' }
+  { id: 'SET-9917', partner: 'Elite Home Care', amount: '$890.00', date: 'Oct 22, 2023', status: 'COMPLETED' },
+  { id: 'SET-9916', partner: 'Alpha Electricals', amount: '$320.00', date: 'Oct 21, 2023', status: 'COMPLETED' },
+  { id: 'SET-9915', partner: 'Speedy Carpentry', amount: '$150.00', date: 'Oct 20, 2023', status: 'PENDING' }
 ];
 
 export default function CommissionManagement() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [rules] = useState(INITIAL_RULES);
+  const [settlements, setSettlements] = useState(INITIAL_SETTLEMENTS);
+  const [isSettlementModalOpen, setIsSettlementModalOpen] = useState(false);
+
+  // 1. Export Report via Dynamic Browser Data Blob
+  const handleExportReport = () => {
+    const headers = ['Rule Name', 'Type', 'Percentage', 'Applicable Services', 'Status'];
+    const rows = rules.map(rule => [
+      `"${rule.name.replace(/"/g, '""')}"`,
+      `"${rule.type.replace(/"/g, '""')}"`,
+      `"${rule.percentage}"`,
+      `"${rule.services.replace(/"/g, '""')}"`,
+      rule.status
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'commission_rules_report.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // 2. Process Payouts action triggers pending updates state lifecycle
+  const handleProcessPayouts = () => {
+    const hasPending = settlements.some(s => s.status === 'PENDING');
+    if (!hasPending) {
+      alert('All payouts are already processed!');
+      return;
+    }
+
+    if (window.confirm('Are you sure you want to process all PENDING payouts?')) {
+      const updated = settlements.map(s => 
+        s.status === 'PENDING' ? { ...s, status: 'COMPLETED' } : s
+      );
+      setSettlements(updated);
+      alert('Payouts processed successfully! Status updated to COMPLETED.');
+    }
+  };
+
+  // Sidebar widget slice rendering logic limit
+  const visibleSettlements = settlements.slice(0, 4);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', paddingBottom: '40px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', paddingBottom: '40px', position: 'relative' }}>
       
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
@@ -43,10 +87,20 @@ export default function CommissionManagement() {
           <p style={{ fontSize: '13px', color: 'var(--muted)', marginTop: '4px' }}>Control partner, branch, and platform commission distribution and settlements.</p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
-          <button className="secondary-action-btn font-bold" type="button" style={{ height: '36px' }}>
+          <button 
+            className="secondary-action-btn font-bold" 
+            type="button" 
+            onClick={handleExportReport}
+            style={{ height: '36px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          >
             <Download size={14} style={{ marginRight: '6px' }} /> Export Report
           </button>
-          <button className="primary-action-btn font-bold" type="button" style={{ height: '36px', background: '#059669', borderColor: '#059669' }}>
+          <button 
+            className="primary-action-btn font-bold" 
+            type="button" 
+            onClick={handleProcessPayouts}
+            style={{ height: '36px', background: '#059669', borderColor: '#059669', display: 'flex', alignItems: 'center', cursor: 'pointer', color: '#fff' }}
+          >
             <CreditCard size={14} style={{ marginRight: '6px' }} /> Process Payouts
           </button>
         </div>
@@ -112,38 +166,26 @@ export default function CommissionManagement() {
         {/* Left Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
-          {/* Commission Rules Table */}
+          {/* Commission Rules Table without Searchbar */}
           <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Commission Rules</h3>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <div className="dash-search" style={{ margin: 0, height: '34px', border: '1px solid var(--line)', borderRadius: '6px', width: '220px' }}>
-                  <Search size={14} style={{ marginLeft: '12px', color: 'var(--muted)' }} />
-                  <input
-                    placeholder="Search rules..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ fontSize: '12px', border: 'none', background: 'transparent', outline: 'none', paddingLeft: '8px', flex: 1 }}
-                  />
-                </div>
-              </div>
             </div>
 
             <div className="table-wrap">
-              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Rule Name</th>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Type</th>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Percentage</th>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Applicable Services</th>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {MOCK_RULES
-                    .filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                    .map((row, idx) => (
+              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}>
+                <table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid var(--line)' }}>
+                      <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Rule Name</th>
+                      <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Type</th>
+                      <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Percentage</th>
+                      <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Applicable Services</th>
+                      <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rules.map((row, idx) => (
                       <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
                         <td style={{ padding: '12px' }}>
                           <strong style={{ display: 'block', fontSize: '13px', color: 'var(--text)' }}>{row.name}</strong>
@@ -158,8 +200,9 @@ export default function CommissionManagement() {
                         </td>
                       </tr>
                     ))}
-                </tbody>
-              </table></div>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -224,12 +267,12 @@ export default function CommissionManagement() {
             </div>
           </div>
 
-          {/* Settlement Tracking */}
+          {/* Settlement Tracking Widget */}
           <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
             <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: '0 0 16px 0' }}>Settlement Tracking</h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {MOCK_SETTLEMENTS.map((settle, i) => (
+              {visibleSettlements.map((settle, i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', borderRadius: '8px', background: '#f8fafc', border: '1px solid var(--line)' }}>
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                     <div style={{ color: settle.status === 'COMPLETED' ? '#10b981' : settle.status === 'FAILED' ? '#ef4444' : '#f59e0b' }}>
@@ -250,13 +293,69 @@ export default function CommissionManagement() {
               ))}
             </div>
 
-            <button className="secondary-action-btn font-bold" style={{ width: '100%', justifyContent: 'center', marginTop: '16px', borderRadius: '8px' }}>
+            <button 
+              className="secondary-action-btn font-bold" 
+              onClick={() => setIsSettlementModalOpen(true)}
+              style={{ width: '100%', justifyContent: 'center', marginTop: '16px', borderRadius: '8px', cursor: 'pointer' }}
+            >
               View All Settlements
             </button>
           </div>
 
         </div>
       </div>
+
+      {/* View All Settlements Modal Popup Overlay */}
+      {isSettlementModalOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)', display: 'flex', justifyContent: 'center',
+          alignItems: 'center', zIndex: 9999, padding: '20px', boxSizing: 'border-box'
+        }}>
+          <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', width: '650px', maxWidth: '100%', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', maxH: '85vh' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>All Ledger Settlements ({settlements.length})</h2>
+              <button onClick={() => setIsSettlementModalOpen(false)} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}><X size={20} /></button>
+            </div>
+            
+            <div style={{ overflowY: 'auto', flex: 1, paddingRight: '4px' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid var(--line)', background: '#f8fafc' }}>
+                    <th style={{ padding: '10px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)' }}>SETTLEMENT ID</th>
+                    <th style={{ padding: '10px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)' }}>PARTNER NAME</th>
+                    <th style={{ padding: '10px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)' }}>DATE</th>
+                    <th style={{ padding: '10px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)' }}>AMOUNT</th>
+                    <th style={{ padding: '10px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)' }}>STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {settlements.map((item, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '12px 10px', fontSize: '12px', fontWeight: '700', color: 'var(--text)' }}>{item.id}</td>
+                      <td style={{ padding: '12px 10px', fontSize: '13px', fontWeight: '600' }}>{item.partner}</td>
+                      <td style={{ padding: '12px 10px', fontSize: '12px', color: 'var(--muted)' }}>{item.date}</td>
+                      <td style={{ padding: '12px 10px', fontSize: '13px', fontWeight: '700', color: '#25108f' }}>{item.amount}</td>
+                      <td style={{ padding: '12px 10px' }}>
+                        <span style={{ fontSize: '10px', fontWeight: '800', padding: '3px 8px', borderRadius: '4px', background: item.status === 'COMPLETED' ? '#d1fae5' : item.status === 'FAILED' ? '#fee2e2' : '#fef3c7', color: item.status === 'COMPLETED' ? '#059669' : item.status === 'FAILED' ? '#dc2626' : '#d97706' }}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button onClick={() => setIsSettlementModalOpen(false)} style={{ padding: '8px 16px', background: '#25108f', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+                Close Window
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

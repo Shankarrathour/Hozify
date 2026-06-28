@@ -3,14 +3,22 @@ import AdminShell from "../../components/layouts/AdminShell";
 import { 
   ShieldCheck, 
   ArrowUpRight, 
-  Download, 
   SlidersHorizontal, 
   Calendar,
-  Activity,
-  Maximize2
+  X,
+  CheckCircle2,
+  AlertTriangle,
+  ChevronDown
 } from "lucide-react";
 
 export default function FinancialHealth() {
+  // Active component states
+  const [selectedQuarter, setSelectedQuarter] = useState("Q3 FY2024");
+  const [showQuarterDropdown, setShowQuarterDropdown] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("All"); // All, Green, Alert
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [showAuditModal, setShowAuditModal] = useState(false);
+
   // Metric datasets for Operating Efficiency Rows
   const efficiencyMetrics = [
     { name: "Account Receivable Turnover", value: "8.4x", change: "+0.6x", isPos: true, status: "Green", dotColor: "bg-emerald-500" },
@@ -20,9 +28,22 @@ export default function FinancialHealth() {
     { name: "Debt Service Coverage Ratio", value: "1.25", change: "-0.15", isPos: false, status: "Red", dotColor: "bg-rose-500" }
   ];
 
+  // Dynamic filter handler logic block
+  const filteredMetrics = efficiencyMetrics.filter(metric => {
+    if (statusFilter === "All") return true;
+    if (statusFilter === "Green") return metric.status === "Green";
+    if (statusFilter === "Alert") return metric.status === "Yellow" || metric.status === "Red";
+    return true;
+  });
+
+  // Master health click handler
+  const handleHealthStatusClick = () => {
+    alert("System Telemetry Report:\nOverall health status is determined via weighted aggregations of liquidity thresholds (2.14 Optimal) against operational burn constraints. Core operational algorithms are running seamlessly.");
+  };
+
   return (
     <AdminShell activeTab="Financial Health" searchPlaceholder="Search operational ratios...">
-      <div className="space-y-6">
+      <div className="space-y-6 select-none pointer-events-auto relative">
         
         {/* ==========================================
             1. MASTER DASHBOARD HEADER BAR
@@ -33,19 +54,55 @@ export default function FinancialHealth() {
             <p className="text-xs text-slate-400 mt-0.5">Real-time oversight of enterprise liquidity, solvency, and operational efficiency ratios.</p>
           </div>
 
-          <div className="flex items-center gap-3 self-end sm:self-auto">
-            {/* Status Indicator */}
-            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
+          <div className="flex items-center gap-3 self-end sm:self-auto relative">
+            {/* Clickable Status Indicator */}
+            <button 
+              type="button"
+              onClick={handleHealthStatusClick}
+              className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs hover:bg-slate-100 transition-colors active:scale-98 cursor-pointer text-left"
+              title="Click to view health configuration report summary"
+            >
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <div className="text-[10px] font-bold text-slate-400 uppercase leading-none">
-                Overall Health: <span className="text-slate-800">Optimizing</span>
+              <div className="text-[10px] font-bold text-slate-500 uppercase leading-none">
+                Overall Health: <span className="text-slate-800 underline decoration-indigo-500/40 font-extrabold">Optimizing</span>
               </div>
-            </div>
+            </button>
 
-            {/* Quarter Filter Tag */}
-            <div className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 shadow-sm">
-              <Calendar className="h-3.5 w-3.5 text-slate-400" />
-              <span>Q3 FY2024</span>
+            {/* Calendar Quarter Dropdown Trigger */}
+            <div className="relative">
+              <button 
+                type="button"
+                onClick={() => {
+                  setShowQuarterDropdown(!showQuarterDropdown);
+                  setShowFilterMenu(false);
+                }}
+                className="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
+              >
+                <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                <span>{selectedQuarter}</span>
+                <ChevronDown className={`h-3 w-3 text-slate-400 transition-transform ${showQuarterDropdown ? "rotate-180" : ""}`} />
+              </button>
+
+              {/* Working Dropdown List Structure */}
+              {showQuarterDropdown && (
+                <div className="absolute right-0 mt-1.5 w-40 bg-white border border-slate-200 rounded-lg shadow-xl z-30 py-1 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-100">
+                  {["Q1 FY2024", "Q2 FY2024", "Q3 FY2024", "Q4 FY2024"].map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      onClick={() => {
+                        setSelectedQuarter(q);
+                        setShowQuarterDropdown(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-xs font-semibold block transition-colors ${
+                        selectedQuarter === q ? "bg-indigo-50 text-indigo-700" : "text-slate-600 hover:bg-slate-50"
+                      }`}
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -72,7 +129,7 @@ export default function FinancialHealth() {
               </div>
             </div>
 
-            {/* Simulated Stack Steps Mini-Chart */}
+            {/* Mini-Chart */}
             <div className="mt-5 space-y-3">
               <div className="h-12 flex items-end gap-1 px-1">
                 {["h-4 bg-indigo-950/20", "h-6 bg-indigo-950/30", "h-8 bg-indigo-950/50", "h-10 bg-indigo-950/70", "h-12 bg-indigo-950"].map((bar, i) => (
@@ -150,21 +207,70 @@ export default function FinancialHealth() {
           </div>
 
         </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+        {/* Section Wrapper */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           
           {/* Operating Efficiency Grid Table */}
-          <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
-            <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white">
-              <h3 className="font-bold text-sm text-slate-900">Operating Efficiency Metrics</h3>
-              <div className="flex items-center gap-1">
-                <button className="p-1.5 text-slate-400 hover:text-slate-600 transition-colors">
+          <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between relative">
+            <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white relative z-10">
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-sm text-slate-900">Operating Efficiency Metrics</h3>
+                {statusFilter !== "All" && (
+                  <span className="text-[9px] font-extrabold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded border border-indigo-100">
+                    Filtered: {statusFilter}
+                  </span>
+                )}
+              </div>
+              
+              {/* Dynamic Filter Context Menu Trigger */}
+              <div className="relative">
+                <button 
+                  type="button"
+                  onClick={() => {
+                    setShowFilterMenu(!showFilterMenu);
+                    setShowQuarterDropdown(false);
+                  }}
+                  className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+                    showFilterMenu ? "bg-indigo-50 border-indigo-200 text-indigo-600" : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+                  }`}
+                  title="Filter structural data parameters"
+                >
                   <SlidersHorizontal className="h-4 w-4" />
                 </button>
+
+                {/* Status Selection Popup list */}
+                {showFilterMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-lg shadow-xl z-30 py-1 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-105">
+                    <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/80 border-b border-slate-100">
+                      Filter Status Bounds
+                    </div>
+                    {[
+                      { key: "All", label: "Show All Ratios" },
+                      { key: "Green", label: "Stable Nodes (Green)" },
+                      { key: "Alert", label: "Attention Needed (Red/Yellow)" }
+                    ].map((item) => (
+                      <button
+                        key={item.key}
+                        type="button"
+                        onClick={() => {
+                          setStatusFilter(item.key);
+                          setShowFilterMenu(false);
+                        }}
+                        className={`w-full text-left px-3 py-2 text-xs font-semibold block transition-colors ${
+                          statusFilter === item.key ? "bg-indigo-50 text-indigo-600" : "text-slate-600 hover:bg-slate-50"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="overflow-x-auto flex-1">
-              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50/70 border-b border-slate-200 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                     <th className="px-6 py-3.5">METRIC INDICATOR</th>
@@ -174,23 +280,31 @@ export default function FinancialHealth() {
                   </tr>
                 </thead>
                 <tbody className="text-xs font-semibold text-slate-700">
-                  {efficiencyMetrics.map((row, index) => (
-                    <tr key={index} className="border-b border-slate-100 hover:bg-slate-50/20 transition-colors">
-                      <td className="px-6 py-4 text-slate-800 font-bold">{row.name}</td>
-                      <td className="px-6 py-4 text-slate-900 font-extrabold">{row.value}</td>
-                      <td className={`px-6 py-4 font-mono font-bold ${row.isPos ? "text-emerald-600" : row.change === "0.00" ? "text-slate-400" : "text-amber-500"}`}>
-                        {row.change}
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-1.5">
-                          <span className={`w-1.5 h-1.5 rounded-full ${row.dotColor}`} />
-                          <span className="text-slate-600 text-[11px] font-medium">{row.status}</span>
-                        </div>
+                  {filteredMetrics.length > 0 ? (
+                    filteredMetrics.map((row, index) => (
+                      <tr key={index} className="border-b border-slate-100 hover:bg-slate-50/20 transition-colors">
+                        <td className="px-6 py-4 text-slate-800 font-bold">{row.name}</td>
+                        <td className="px-6 py-4 text-slate-900 font-extrabold">{row.value}</td>
+                        <td className={`px-6 py-4 font-mono font-bold ${row.isPos ? "text-emerald-600" : row.change === "0.00" ? "text-slate-400" : "text-amber-500"}`}>
+                          {row.change}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`w-1.5 h-1.5 rounded-full ${row.dotColor}`} />
+                            <span className="text-slate-600 text-[11px] font-medium">{row.status}</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="text-center py-8 text-xs font-medium text-slate-400 italic">
+                        No active metric records matching the current criteria filters.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
-              </table></div>
+              </table>
             </div>
           </div>
 
@@ -242,16 +356,107 @@ export default function FinancialHealth() {
             <div>
               <h4 className="font-bold text-sm text-white">Compliance Audit Ready</h4>
               <p className="text-xs text-indigo-200/70 mt-0.5 font-medium">
-                All solvency indicators are within the mandatory federal regulatory bounds for Q3.
+                All solvency indicators are within the mandatory federal regulatory bounds for {selectedQuarter}.
               </p>
             </div>
           </div>
 
-          <button className="flex items-center gap-1.5 px-4 py-2 bg-white text-indigo-950 rounded-lg text-xs font-extrabold hover:bg-slate-50 transition-colors shadow-sm self-end sm:self-auto whitespace-nowrap">
+          <button 
+            type="button"
+            onClick={() => setShowAuditModal(true)}
+            className="flex items-center gap-1.5 px-4 py-2 bg-white text-indigo-950 rounded-lg text-xs font-extrabold hover:bg-slate-50 transition-colors shadow-sm self-end sm:self-auto whitespace-nowrap cursor-pointer active:scale-98"
+          >
             <span>Review Audit Log</span>
             <ArrowUpRight className="h-3.5 w-3.5" />
           </button>
         </div>
+
+        {/* ==========================================
+            5. COMPLIANCE AUDIT DETAIL MODAL COMPONENT
+           ========================================== */}
+        {showAuditModal && (
+          <div 
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4 animate-in fade-in duration-150"
+            onClick={() => setShowAuditModal(false)}
+          >
+            <div 
+              className="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-xl w-full overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4 text-indigo-600" />
+                  <h3 className="font-bold text-sm text-slate-900">Regulatory Compliance Audit Log</h3>
+                </div>
+                <button 
+                  type="button" 
+                  onClick={() => setShowAuditModal(false)}
+                  className="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Modal Content / Details */}
+              <div className="p-6 space-y-4 text-xs">
+                <div className="bg-indigo-50 border border-indigo-100 text-indigo-950 rounded-lg p-3.5 font-medium flex gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold">Quarterly Scope Authorization:</span> This structural snapshot logs state parameters under compliance framework <span className="font-bold font-mono bg-indigo-100/60 px-1 rounded text-[11px]">{selectedQuarter}</span>.
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-bold text-slate-800 uppercase text-[10px] tracking-wider">Federal Regulatory Bounds Checks</h4>
+                  
+                  <div className="border border-slate-100 rounded-lg divide-y divide-slate-100">
+                    <div className="p-3 flex justify-between items-center bg-slate-50/30">
+                      <div>
+                        <p className="font-bold text-slate-700">Liquidity Leverage Baseline</p>
+                        <p className="text-[11px] text-slate-400 font-medium">Minimum threshold standard asset protection metric ≥ 1.50</p>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-md">Passed (2.14)</span>
+                    </div>
+
+                    <div className="p-3 flex justify-between items-center bg-slate-50/30">
+                      <div>
+                        <p className="font-bold text-slate-700">Debt Service Coverage Cap (DSCR)</p>
+                        <p className="text-[11px] text-slate-400 font-medium">Required metric capacity boundaries setup parameters ≥ 1.20</p>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded-md flex items-center gap-1">
+                        <AlertTriangle className="h-3 w-3 text-amber-500" /> Watch (1.25)
+                      </span>
+                    </div>
+
+                    <div className="p-3 flex justify-between items-center bg-slate-50/30">
+                      <div>
+                        <p className="font-bold text-slate-700">Asset-Liability Ratio Threshold</p>
+                        <p className="text-[11px] text-slate-400 font-medium">Capital structures integrity check framework validation rules</p>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-md">Secured (64%)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-slate-400 leading-relaxed font-medium pt-1">
+                  * All simulated calculation datasets and system ledgers are automatically stamped by secure ledger algorithms. No anomalies or risk exceptions detected during this rolling processing interval.
+                </p>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-end">
+                <button 
+                  type="button" 
+                  onClick={() => setShowAuditModal(false)}
+                  className="px-4 py-2 bg-indigo-950 text-white rounded-lg text-xs font-bold hover:bg-indigo-900 transition-colors cursor-pointer"
+                >
+                  Close Audit Details
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </AdminShell>
