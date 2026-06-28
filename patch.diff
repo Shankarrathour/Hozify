@@ -1,0 +1,422 @@
+﻿diff --git a/src/materio-theme.css b/src/materio-theme.css
+index ffaea28..822c1a8 100644
+--- a/src/materio-theme.css
++++ b/src/materio-theme.css
+@@ -43,10 +43,9 @@ body {
+ /* Sidebar Styling */
+ .sidebar {
+   width: 260px;
+-  background: #151958;
+-  /* More noticeable light version of header color */
+-  border-right: 1px solid #D6D8F5;
+-  box-shadow: 2px 0 10px rgba(68, 39, 39, 0.02);
++  background: #141C2E;
++  border-right: none;
++  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+   display: flex;
+   flex-direction: column;
+   z-index: 100;
+@@ -81,15 +80,15 @@ body {
+ .sidebar-brand-text strong {
+   font-size: 22px;
+   font-weight: 700;
+-  color: var(--materio-text-main);
++  color: #FFFFFF;
+   letter-spacing: -0.5px;
+ }
+ 
+ .sidebar-brand-text span {
+   font-size: 10px;
+   font-weight: 700;
+-  background: rgba(105, 108, 255, 0.1);
+-  color: var(--materio-primary);
++  background: rgba(255, 255, 255, 0.1);
++  color: #CBD5E1;
+   padding: 2px 6px;
+   border-radius: 4px;
+   text-transform: uppercase;
+@@ -116,29 +115,29 @@ body {
+   width: 100%;
+   border: none;
+   background: transparent;
+-  padding: 10px 14px;
+-  border-radius: 12px;
++  padding: 12px 16px;
++  border-radius: 8px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+-  color: #5F6B7A;
+-  /* Neutral gray */
++  color: #FFFFFF;
+   font-size: 15px;
+   font-weight: 500;
+   cursor: pointer;
+   transition: all 0.25s ease;
+-  margin-bottom: 8px;
++  margin-bottom: 4px;
+ }
+ 
+ .sidebar-module-btn:hover {
+-  background: #E5E7FF;
+-  /* Elegant light purple hover */
++  background: #2C3E5D;
++  color: #FFFFFF;
++  box-shadow: inset 4px 0 0 0 #1B0B90;
+ }
+ 
+ .sidebar-module-btn.active {
+-  background: linear-gradient(90deg, #696CFF, #5E61F6) !important;
+-  color: #fff !important;
+-  box-shadow: 0 2px 6px 0 rgba(105, 108, 255, 0.4);
++  background: #1B0B90 !important;
++  color: #FFFFFF !important;
++  box-shadow: none;
+ }
+ 
+ .sidebar-module-btn.active .sidebar-chevron {
+@@ -146,17 +145,20 @@ body {
+ }
+ 
+ .sidebar-module-btn svg {
+-  color: #b0b4c3;
++  color: #FFFFFF;
+   width: 20px;
+   height: 20px;
++  transition: all 0.25s ease;
+ }
+ 
+-.sidebar-module-btn.active svg {
++.sidebar-module-btn.active svg,
++.sidebar-module-btn:hover svg {
+   color: #fff;
+ }
+ 
+ .sidebar-group-label {
+-  color: #A5AAB8;
++  color: #94A3B8;
++  background: transparent;
+   font-size: 11px;
+   font-weight: 600;
+   text-transform: uppercase;
+@@ -193,21 +195,18 @@ body {
+   width: 100%;
+   border: none;
+   background: transparent;
+-  padding: 10px 12px 10px 38px !important;
+-  /* Increased padding for larger gap between point and text */
+-  border-radius: 12px;
+-  color: #5F6B7A;
++  padding: 10px 12px 10px 24px !important;
++  border-radius: 8px;
++  color: #FFFFFF;
+   font-size: 14px;
+   text-align: left;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: flex-start !important;
+-  /* Fix overlapping by enforcing left alignment in flex */
+   transition: all 0.25s ease;
+   position: relative;
+-  margin-bottom: 6px;
+-  /* Increased vertical gap */
++  margin-bottom: 4px;
+ }
+ 
+ .sidebar-subnav-btn::before {
+@@ -220,45 +219,46 @@ body {
+   width: 6px;
+   height: 6px;
+   border-radius: 50%;
+-  border: 1px solid #b0b4c3;
++  border: 1px solid #94A3B8;
+   transition: all 0.25s ease;
+ }
+ 
+ .sidebar-subnav-btn:hover {
+-  color: #5F6B7A;
+-  background: #E5E7FF;
++  color: #FFFFFF;
++  background: #2C3E5D;
+ }
+ 
+ .sidebar-subnav-btn.active-sub {
+-  color: var(--materio-primary);
++  color: #FFFFFF;
+   font-weight: 600;
+-  background: #F2F3FF;
++  background: #1B0B90;
+ }
+ 
+ .sidebar-subnav-btn.active-sub::before {
+-  background: var(--materio-primary);
+-  border-color: var(--materio-primary);
+-  box-shadow: 0 0 0 2px rgba(105, 108, 255, 0.2);
++  background: #FFFFFF;
++  border-color: #FFFFFF;
++  box-shadow: none;
+ }
+ 
+ /* Bottom Profile */
+ .sidebar-profile {
+   margin: 16px;
+   padding: 12px;
+-  background: #fff;
++  background: rgba(255, 255, 255, 0.05);
+   border-radius: 12px;
+-  border: 1px solid #E9ECF5;
++  border: 1px solid rgba(255, 255, 255, 0.1);
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   cursor: pointer;
+-  transition: box-shadow 0.2s;
++  transition: all 0.2s;
+   position: relative;
+ }
+ 
+ .sidebar-profile:hover {
+-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
++  background: rgba(255, 255, 255, 0.08);
++  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .sidebar-profile::after {
+@@ -269,8 +269,8 @@ body {
+   transform: translateY(-50%) rotate(45deg);
+   width: 6px;
+   height: 6px;
+-  border-right: 2px solid #A5AAB8;
+-  border-bottom: 2px solid #A5AAB8;
++  border-right: 2px solid #94A3B8;
++  border-bottom: 2px solid #94A3B8;
+ }
+ 
+ .sidebar-profile img {
+@@ -287,13 +287,13 @@ body {
+ .sidebar-profile-info strong {
+   display: block;
+   font-size: 14px;
+-  color: var(--materio-text-main);
++  color: #FFFFFF;
+ }
+ 
+ .sidebar-profile-info span {
+   display: block;
+   font-size: 12px;
+-  color: var(--materio-text-muted);
++  color: #94A3B8;
+ }
+ 
+ /* Main Content Area */
+@@ -417,7 +417,7 @@ body {
+ .dash-content {
+   flex: 1;
+   overflow-y: auto;
+-  padding: 0 24px 24px;
++  padding: 32px 24px;
+ }
+ 
+ /* ---------------------------------------------------
+@@ -492,9 +492,10 @@ body {
+ /* Tables */
+ .materio-table-wrapper {
+   background: var(--materio-surface);
+-  border-radius: var(--materio-radius);
+-  box-shadow: var(--materio-shadow-md);
+-  overflow: hidden;
++  border-radius: 0 !important;
++  box-shadow: none !important;
++  border: 1px solid #E2E8F0 !important;
++  overflow: auto;
+ }
+ 
+ .materio-table-header {
+@@ -507,38 +508,45 @@ body {
+ 
+ .materio-table {
+   width: 100%;
+-  border-collapse: collapse;
++  border-collapse: collapse !important;
+ }
+ 
+ .materio-table th {
+-  padding: 14px 24px;
+-  text-align: left;
+-  font-size: 12px;
+-  font-weight: 600;
+-  color: #fff;
++  padding: 12px 16px !important;
++  text-align: left !important;
++  font-size: 13px !important;
++  font-weight: 600 !important;
++  color: #fff !important;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+-  background: var(--materio-primary);
+-  border-bottom: 1px solid var(--materio-border);
++  background: #1B0B90 !important;
++  border: 1px solid #E2E8F0 !important;
++  border-radius: 0 !important;
+   position: sticky;
+   top: 0;
+   z-index: 10;
++  box-shadow: none !important;
+ }
+ 
+ .materio-table td {
+-  padding: 16px 24px;
++  padding: 12px 16px !important;
+   font-size: 14px;
+   color: var(--materio-text-main);
+-  border-bottom: 1px solid var(--materio-border);
+-  vertical-align: middle;
++  border: 1px solid #E2E8F0 !important;
++  vertical-align: middle !important;
++  text-align: left !important;
+ }
+ 
+-.materio-table tr {
+-  transition: background 0.15s ease;
++.materio-table tr:nth-child(even) {
++  background-color: #F8FAFC !important;
++}
++
++.materio-table tr:nth-child(odd) {
++  background-color: #FFFFFF !important;
+ }
+ 
+ .materio-table tr:hover {
+-  background: rgba(34, 41, 47, 0.02);
++  background-color: #E2E8F0 !important;
+ }
+ 
+ /* Badges */
+@@ -680,10 +688,10 @@ body {
+ .panel,
+ .bookings-panel {
+   background: var(--materio-surface);
+-  border-radius: var(--materio-radius-card);
+-  box-shadow: var(--materio-shadow-card);
+-  border: 1px solid var(--materio-border);
+-  overflow: hidden;
++  border-radius: 0 !important;
++  box-shadow: none !important;
++  border: 1px solid #E2E8F0 !important;
++  overflow: auto;
+   margin-bottom: 24px;
+ }
+ 
+@@ -709,35 +717,51 @@ body {
+ table.partner-table,
+ table {
+   width: 100%;
+-  border-collapse: collapse;
++  border-collapse: collapse !important;
+   white-space: nowrap;
+ }
+ 
+ table.partner-table th,
+ table th {
+-  background-color: var(--materio-primary) !important;
++  background: #1B0B90 !important;
+   color: #fff !important;
+-  font-size: 12px !important;
++  font-size: 13px !important;
+   font-weight: 600 !important;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+-  padding: 12px 24px !important;
+-  text-align: left;
+-  border-bottom: 1px solid var(--materio-border) !important;
++  padding: 12px 16px !important;
++  text-align: left !important;
++  border: 1px solid #E2E8F0 !important;
++  border-radius: 0 !important;
++  position: sticky;
++  top: 0;
++  z-index: 10;
++  box-shadow: none !important;
+ }
+ 
+ table.partner-table td,
+ table td {
+-  padding: 16px 24px !important;
+-  border-bottom: 1px solid var(--materio-border) !important;
++  padding: 12px 16px !important;
++  border: 1px solid #E2E8F0 !important;
+   color: var(--materio-text-main);
+   font-size: 14px;
+-  vertical-align: middle;
++  vertical-align: middle !important;
++  text-align: left !important;
++}
++
++table.partner-table tr:nth-child(even),
++table tr:nth-child(even) {
++  background-color: #F8FAFC !important;
++}
++
++table.partner-table tr:nth-child(odd),
++table tr:nth-child(odd) {
++  background-color: #FFFFFF !important;
+ }
+ 
+ table.partner-table tr:hover,
+ table tr:hover {
+-  background-color: rgba(34, 41, 47, 0.02);
++  background-color: #E2E8F0 !important;
+ }
+ 
+ .kpi-grid {
+@@ -934,4 +958,47 @@ button.secondary-action-btn:hover,
+   .header-title-override-label {
+     display: none;
+   }
++}
++
++/* Catch-all for all table wrappers in the app to enforce flat spreadsheet style */
++[class*="table-wrap"],
++[class*="matrix-wrap"] {
++  border-radius: 0 !important;
++  box-shadow: none !important;
++  border: 1px solid #E2E8F0 !important;
++  overflow: auto !important;
++}
++
++[class*="table-wrap"] table,
++[class*="matrix-wrap"] table {
++  border-collapse: collapse !important;
++}
++
++[class*="table-wrap"] th,
++[class*="matrix-wrap"] th {
++  border-radius: 0 !important;
++  box-shadow: none !important;
++}
++
++/* Custom horizontal scrollbars for all tables */
++[class*="table-wrap"]::-webkit-scrollbar,
++[class*="matrix-wrap"]::-webkit-scrollbar {
++  height: 8px;
++}
++
++[class*="table-wrap"]::-webkit-scrollbar-track,
++[class*="matrix-wrap"]::-webkit-scrollbar-track {
++  background: #F8FAFC;
++  border-radius: 4px;
++}
++
++[class*="table-wrap"]::-webkit-scrollbar-thumb,
++[class*="matrix-wrap"]::-webkit-scrollbar-thumb {
++  background: #CBD5E1;
++  border-radius: 4px;
++}
++
++[class*="table-wrap"]::-webkit-scrollbar-thumb:hover,
++[class*="matrix-wrap"]::-webkit-scrollbar-thumb:hover {
++  background: #94A3B8;
+ }
+\ No newline at end of file

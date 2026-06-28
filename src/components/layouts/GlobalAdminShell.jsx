@@ -224,8 +224,12 @@ export default function GlobalAdminShell({ children }) {
           to { opacity: 1; transform: translateY(0); }
         }
 
+        .global-sidebar {
+          border-right: none !important;
+        }
+
         .global-header {
-          background: linear-gradient(90deg, #0F172A 0%, #111827 50%, #1E293B 100%) !important;
+          background: linear-gradient(90deg, #1B0B90 0%, #2F1DB8 100%) !important;
           border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
           padding: 0 24px !important;
@@ -248,17 +252,6 @@ export default function GlobalAdminShell({ children }) {
         .global-header .header-icon-btn:hover {
           background: #334155 !important;
           color: #fff !important;
-        }
-
-        .global-header .header-profile-trigger {
-          border: 1px solid rgba(255, 255, 255, 0.08) !important;
-          border-radius: 8px !important;
-          padding: 6px 12px !important;
-          transition: all 0.2s ease-in-out !important;
-        }
-
-        .global-header .header-profile-trigger:hover {
-          background: #334155 !important;
         }
 
         .global-header .header-profile-meta strong {
@@ -346,7 +339,7 @@ export default function GlobalAdminShell({ children }) {
       </aside>
 
       <section className="dashboard-main" style={{ background: '#f8fafc' }}>
-        <header className="dash-header global-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: '64px', background: 'linear-gradient(90deg, #371bd1 0%, #1e0996 100%)', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)' }}>
+        <header className="dash-header global-header" style={{ position: 'sticky', top: 0, zIndex: 90, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 24px', height: '64px', background: 'linear-gradient(90deg, #1B0B90 0%, #2F1DB8 100%)', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)' }}>
           {/* Left Combo */}
           <div className="header-left-combo" style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: '1 1 0%', minWidth: 0 }}>
             <button 
@@ -357,21 +350,20 @@ export default function GlobalAdminShell({ children }) {
               <Menu size={24} />
             </button>
             {/* Always show the active module/tab name in navbar */}
-            <span style={{ fontWeight: '700', fontSize: '15px', color: '#F8FAFC', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
+            <span style={{ fontWeight: '800', fontSize: '20px', color: '#FFFFFF', whiteSpace: 'nowrap', letterSpacing: '-0.02em', fontFamily: 'Inter, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}>
               {headerTitle || activeTab}
             </span>
-            {headerTabs && <div className="header-custom-tabs" style={{ display: 'flex', gap: '20px', alignSelf: 'stretch', alignItems: 'center' }}>{headerTabs}</div>}
           </div>
 
           {/* Center Search Bar */}
-          <div className="header-center-search" style={{ display: 'flex', justifyContent: 'center', flex: '1 1 0%', minWidth: 0 }}>
-            <div style={{ width: '100%', maxWidth: '380px' }}>
+          <div className="header-center-search" style={{ display: 'flex', justifyContent: 'center', flex: '1 1 auto', margin: '0 24px', minWidth: 0 }}>
+            <div style={{ width: '100%', maxWidth: '480px' }}>
               <GlobalSearch />
             </div>
           </div>
 
           {/* Right Actions Combo */}
-          <div className="dash-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '12px', flex: '1 1 0%' }}>
+          <div className="dash-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px', flex: '1 1 0%' }}>
             
             {/* Fullscreen Button */}
             <button 
@@ -379,13 +371,15 @@ export default function GlobalAdminShell({ children }) {
               type="button" 
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
               onClick={toggleFullscreen}
-              style={{ color: '#ffffff' }}
+              style={{ color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
             </button>
 
+            <div style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.2)' }} />
+
             {/* Notification Bell with Dropdown */}
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <button 
                 className="header-icon-btn" 
                 type="button" 
@@ -489,22 +483,19 @@ export default function GlobalAdminShell({ children }) {
             </div>
 
             {/* Restored Profile Section in Header */}
-            <div className="header-profile-section" style={{ position: 'relative', display: 'flex', alignItems: 'center', marginLeft: '12px' }}>
+            <div className="header-profile-section" style={{ position: 'relative', display: 'flex', alignItems: 'center', marginLeft: '4px' }}>
               <div
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '4px 8px', borderRadius: '8px', transition: 'background 0.2s' }}
+                style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                 className="header-profile-trigger"
               >
                 <img
                   src={customProfileAvatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80"}
                   alt={userName}
-                  style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.2)' }}
+                  style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover' }}
                 />
-                <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                  <strong style={{ fontSize: '13px', color: '#ffffff', lineHeight: '1.2' }}>{customProfileName || userName}</strong>
-                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>{customProfileRole || roleLabel}</span>
-                </div>
-                <ChevronDown size={14} style={{ color: 'rgba(255,255,255,0.7)', marginLeft: '4px', transform: profileDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+                {/* Online Indicator Badge */}
+                <span style={{ position: 'absolute', bottom: '0', right: '0', width: '12px', height: '12px', background: '#22c55e', border: '2px solid #fff', borderRadius: '50%' }} title="Online" />
               </div>
 
               {/* Profile Dropdown Menu */}
@@ -673,6 +664,13 @@ export default function GlobalAdminShell({ children }) {
           </div>
         )}
         <div className="dash-content global-content">
+          {/* Secondary Navigation for Page-Specific Tabs */}
+          {headerTabs && (
+            <div className="secondary-page-tabs" style={{ display: 'flex', gap: '24px', paddingBottom: '16px', marginBottom: '16px', borderBottom: '1px solid #E2E8F0', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+              {headerTabs}
+            </div>
+          )}
+
           {/* Page Title Banner - rendered in content area, below the sticky header */}
           {pageTitle && (
             <div style={{

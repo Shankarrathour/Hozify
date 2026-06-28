@@ -77,7 +77,9 @@ export default function Dashboard() {
   const [dashboardView, setDashboardView] = useState('global'); // 'global' | 'system' | 'procurement'
   const [chartMode, setChartMode] = useState('Volume');
   const [showToast, setShowToast] = useState(true);
-  const [timeframe, setTimeframe] = useState('Current Year');
+  const [timeframe, setTimeframe] = useState('Last 30 Days');
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [trendView, setTrendView] = useState('Monthly');
 
   // Trigger toast hide automatically after 10s if not manual
   useEffect(() => {
@@ -155,11 +157,31 @@ export default function Dashboard() {
   ) : null;
 
   const renderDashboardContent = () => {
+    const getMultiplier = () => {
+      switch(timeframe) {
+        case 'Today': return 0.03;
+        case 'Last 7 Days': return 0.23;
+        case 'Last 30 Days': return 1;
+        case 'This Month': return 0.8;
+        case 'Current Year': return 8;
+        default: return 1;
+      }
+    };
+    const m = getMultiplier();
+    const applyMultiplier = (valStr) => {
+      if (!valStr || !valStr.replace) return valStr;
+      const num = parseFloat(valStr.replace(/[^0-9.]/g, ''));
+      if (isNaN(num)) return valStr;
+      const newNum = Math.floor(num * m);
+      if (valStr.includes('$')) return '$' + newNum.toLocaleString();
+      return newNum.toLocaleString();
+    };
+
     if (dashboardView === 'system') {
       return (
         <>
           <section className="kpi-grid">
-            {originalKpis.map((kpi) => <KpiCard key={kpi.title} {...kpi} />)}
+            {originalKpis.map((kpi) => <KpiCard key={kpi.title} {...kpi} value={applyMultiplier(kpi.value)} />)}
           </section>
           <section className="dash-columns">
             <div className="dash-left">
@@ -167,23 +189,34 @@ export default function Dashboard() {
                 <div className="panel-head">
                   <div>
                     <h2>Revenue & Booking Trends</h2>
-                    <p>Last 30 days performance metrics</p>
+                    <p>{timeframe} performance metrics</p>
                   </div>
                   <div className="segmented">
-                    <button className="active" type="button">Monthly</button>
-                    <button type="button">Weekly</button>
+                    <button className={trendView === 'Monthly' ? "active" : ""} onClick={() => setTrendView('Monthly')} type="button">Monthly</button>
+                    <button className={trendView === 'Weekly' ? "active" : ""} onClick={() => setTrendView('Weekly')} type="button">Weekly</button>
                   </div>
                 </div>
                 <div className="bar-chart">
-                  {[45, 30, 54, 40, 68, 73, 49, 35, 59, 34, 64, 82].map((height, index) => (
-                    <span key={index} style={{ height: `${height}%` }} className={index % 6 === 5 ? 'deep' : index % 2 ? 'mid' : 'light'} />
+                  {(trendView === 'Monthly' ? [45, 30, 54, 40, 68, 73, 49, 35, 59, 34, 64, 82] : [80, 60, 40, 90]).map((height, index) => (
+                    <span key={index} style={{ height: `${Math.min(height * (m < 1 ? 1 : m > 1 ? 1 : 1), 100)}%` }} className={index % 6 === 5 ? 'deep' : index % 2 ? 'mid' : 'light'} />
                   ))}
                 </div>
                 <div className="weeks">
-                  <span>Week 1</span>
-                  <span>Week 2</span>
-                  <span>Week 3</span>
-                  <span>Week 4</span>
+                  {trendView === 'Monthly' ? (
+                    <>
+                      <span>Q1</span>
+                      <span>Q2</span>
+                      <span>Q3</span>
+                      <span>Q4</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Week 1</span>
+                      <span>Week 2</span>
+                      <span>Week 3</span>
+                      <span>Week 4</span>
+                    </>
+                  )}
                 </div>
               </div>
               <RecentBookings bookings={originalBookings} />
@@ -215,8 +248,8 @@ export default function Dashboard() {
                 </span>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Services</span>
-                <strong style={{ display: 'block', fontSize: '28px', color: 'var(--text)', marginTop: '4px', fontWeight: '800' }}>1,284</strong>
+                <span style={{ display: 'block', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Resolution Time</span>
+                <strong style={{ display: 'block', fontSize: '28px', color: 'var(--text)', marginTop: '4px', fontWeight: '800' }}>{applyMultiplier('14')}m</strong>
               </div>
               <div style={{ height: '4px', background: '#f1f5f9', borderRadius: '2px', overflow: 'hidden', marginTop: '4px' }}>
                 <div style={{ width: '75%', height: '100%', background: '#25108f' }} />
@@ -235,7 +268,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <span style={{ display: 'block', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Nodes</span>
-                <strong style={{ display: 'block', fontSize: '28px', color: 'var(--text)', marginTop: '4px', fontWeight: '800' }}>1,142</strong>
+                <strong style={{ display: 'block', fontSize: '28px', color: 'var(--text)', marginTop: '4px', fontWeight: '800' }}>{applyMultiplier('1,142')}</strong>
               </div>
               <div style={{ height: '4px', background: '#f1f5f9', borderRadius: '2px', overflow: 'hidden', marginTop: '4px' }}>
                 <div style={{ width: '80%', height: '100%', background: '#22c55e' }} />
@@ -254,7 +287,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <span style={{ display: 'block', fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pending Orders</span>
-                <strong style={{ display: 'block', fontSize: '28px', color: 'var(--text)', marginTop: '4px', fontWeight: '800' }}>94</strong>
+                <strong style={{ display: 'block', fontSize: '28px', color: 'var(--text)', marginTop: '4px', fontWeight: '800' }}>{applyMultiplier('2,845')}</strong>
               </div>
               <div style={{ height: '4px', background: '#f1f5f9', borderRadius: '2px', overflow: 'hidden', marginTop: '4px' }}>
                 <div style={{ width: '45%', height: '100%', background: '#d97706' }} />
@@ -998,29 +1031,41 @@ export default function Dashboard() {
 
             {/* Actions for original views */}
             {dashboardView !== 'procurement' && (
-              <>
+              <div style={{ position: 'relative', display: 'flex', gap: '12px' }}>
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setCalendarOpen(!calendarOpen)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      background: '#e0e7ff',
+                      color: '#1e1b4b',
+                      border: 'none',
+                      borderRadius: '6px',
+                      padding: '8px 16px',
+                      fontSize: '13px',
+                      fontWeight: '700',
+                      cursor: 'pointer'
+                    }}
+                    type="button"
+                  >
+                    <Calendar size={16} />
+                    <span>{timeframe}</span>
+                    <ChevronDown size={14} />
+                  </button>
+                  {calendarOpen && (
+                    <div style={{ position: 'absolute', top: '100%', left: 0, marginTop: '8px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '4px', zIndex: 100, minWidth: '150px' }}>
+                      {['Today', 'Last 7 Days', 'Last 30 Days', 'This Month', 'Current Year'].map(t => (
+                        <button key={t} onClick={() => { setTimeframe(t); setCalendarOpen(false); }} style={{ padding: '8px 12px', background: timeframe === t ? '#f1f5f9' : 'transparent', border: 'none', borderRadius: '4px', textAlign: 'left', cursor: 'pointer', fontSize: '13px', fontWeight: timeframe === t ? '600' : '500', color: '#1e293b' }}>
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <button
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    background: '#e0e7ff',
-                    color: '#1e1b4b',
-                    border: 'none',
-                    borderRadius: '6px',
-                    padding: '8px 16px',
-                    fontSize: '13px',
-                    fontWeight: '700',
-                    cursor: 'pointer'
-                  }}
-                  type="button"
-                >
-                  <Calendar size={16} />
-                  <span>Last 30 Days</span>
-                  <ChevronDown size={14} />
-                </button>
-                <button
-                  onClick={() => downloadDummyPDF('Dashboard Executive Summary', 'Total Users: 128,402\nTotal Partners: 4,810\nActive Bookings: 1,842\nTotal Revenue: ₹1.42B')}
+                  onClick={() => downloadDummyPDF(`Dashboard Executive Summary (${timeframe})`, `Total Users: ${applyMultiplier('128,402')}\nTotal Partners: ${applyMultiplier('4,810')}\nActive Bookings: ${applyMultiplier('1,842')}\nTotal Revenue: $${applyMultiplier('1,420,000')}`)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -1039,7 +1084,7 @@ export default function Dashboard() {
                   <Download size={16} />
                   <span>Export Report</span>
                 </button>
-              </>
+              </div>
             )}
           </div>
         </div>

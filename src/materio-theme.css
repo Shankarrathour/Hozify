@@ -121,8 +121,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #5F6B7A;
-  /* Neutral gray */
+  color: #b0b4c3;
+  /* Neutral gray matched to icon */
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
@@ -131,8 +131,12 @@ body {
 }
 
 .sidebar-module-btn:hover {
-  background: #E5E7FF;
-  /* Elegant light purple hover */
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+
+.sidebar-module-btn:hover svg {
+  color: #fff !important;
 }
 
 .sidebar-module-btn.active {
@@ -196,7 +200,7 @@ body {
   padding: 10px 12px 10px 38px !important;
   /* Increased padding for larger gap between point and text */
   border-radius: 12px;
-  color: #5F6B7A;
+  color: #b0b4c3;
   font-size: 14px;
   text-align: left;
   cursor: pointer;
@@ -225,20 +229,20 @@ body {
 }
 
 .sidebar-subnav-btn:hover {
-  color: #5F6B7A;
-  background: #E5E7FF;
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .sidebar-subnav-btn.active-sub {
-  color: var(--materio-primary);
-  font-weight: 600;
-  background: #F2F3FF;
+  color: #fff !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.15) !important;
 }
 
 .sidebar-subnav-btn.active-sub::before {
-  background: var(--materio-primary);
-  border-color: var(--materio-primary);
-  box-shadow: 0 0 0 2px rgba(105, 108, 255, 0.2);
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 /* Bottom Profile */
@@ -417,7 +421,7 @@ body {
 .dash-content {
   flex: 1;
   overflow-y: auto;
-  padding: 0 24px 24px;
+  padding: 32px 24px;
 }
 
 /* ---------------------------------------------------
@@ -492,9 +496,10 @@ body {
 /* Tables */
 .materio-table-wrapper {
   background: var(--materio-surface);
-  border-radius: var(--materio-radius);
-  box-shadow: var(--materio-shadow-md);
-  overflow: hidden;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #E2E8F0 !important;
+  overflow: auto;
 }
 
 .materio-table-header {
@@ -507,38 +512,45 @@ body {
 
 .materio-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse !important;
 }
 
 .materio-table th {
-  padding: 14px 24px;
-  text-align: left;
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #fff !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background: var(--materio-primary);
-  border-bottom: 1px solid var(--materio-border);
+  background: #1B0B90 !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 0 !important;
   position: sticky;
   top: 0;
   z-index: 10;
+  box-shadow: none !important;
 }
 
 .materio-table td {
-  padding: 16px 24px;
+  padding: 12px 16px !important;
   font-size: 14px;
   color: var(--materio-text-main);
-  border-bottom: 1px solid var(--materio-border);
-  vertical-align: middle;
+  border: 1px solid #E2E8F0 !important;
+  vertical-align: middle !important;
+  text-align: left !important;
 }
 
-.materio-table tr {
-  transition: background 0.15s ease;
+.materio-table tr:nth-child(even) {
+  background-color: #F8FAFC !important;
+}
+
+.materio-table tr:nth-child(odd) {
+  background-color: #FFFFFF !important;
 }
 
 .materio-table tr:hover {
-  background: rgba(34, 41, 47, 0.02);
+  background-color: #E2E8F0 !important;
 }
 
 /* Badges */
@@ -680,10 +692,10 @@ body {
 .panel,
 .bookings-panel {
   background: var(--materio-surface);
-  border-radius: var(--materio-radius-card);
-  box-shadow: var(--materio-shadow-card);
-  border: 1px solid var(--materio-border);
-  overflow: hidden;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #E2E8F0 !important;
+  overflow: auto;
   margin-bottom: 24px;
 }
 
@@ -709,35 +721,51 @@ body {
 table.partner-table,
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse !important;
   white-space: nowrap;
 }
 
 table.partner-table th,
 table th {
-  background-color: var(--materio-primary) !important;
+  background: #1B0B90 !important;
   color: #fff !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 12px 24px !important;
-  text-align: left;
-  border-bottom: 1px solid var(--materio-border) !important;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 0 !important;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: none !important;
 }
 
 table.partner-table td,
 table td {
-  padding: 16px 24px !important;
-  border-bottom: 1px solid var(--materio-border) !important;
+  padding: 12px 16px !important;
+  border: 1px solid #E2E8F0 !important;
   color: var(--materio-text-main);
   font-size: 14px;
-  vertical-align: middle;
+  vertical-align: middle !important;
+  text-align: left !important;
+}
+
+table.partner-table tr:nth-child(even),
+table tr:nth-child(even) {
+  background-color: #F8FAFC !important;
+}
+
+table.partner-table tr:nth-child(odd),
+table tr:nth-child(odd) {
+  background-color: #FFFFFF !important;
 }
 
 table.partner-table tr:hover,
 table tr:hover {
-  background-color: rgba(34, 41, 47, 0.02);
+  background-color: #E2E8F0 !important;
 }
 
 .kpi-grid {
@@ -934,4 +962,47 @@ button.secondary-action-btn:hover,
   .header-title-override-label {
     display: none;
   }
+}
+
+/* Catch-all for all table wrappers in the app to enforce flat spreadsheet style */
+[class*="table-wrap"],
+[class*="matrix-wrap"] {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid #E2E8F0 !important;
+  overflow: auto !important;
+}
+
+[class*="table-wrap"] table,
+[class*="matrix-wrap"] table {
+  border-collapse: collapse !important;
+}
+
+[class*="table-wrap"] th,
+[class*="matrix-wrap"] th {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Custom horizontal scrollbars for all tables */
+[class*="table-wrap"]::-webkit-scrollbar,
+[class*="matrix-wrap"]::-webkit-scrollbar {
+  height: 8px;
+}
+
+[class*="table-wrap"]::-webkit-scrollbar-track,
+[class*="matrix-wrap"]::-webkit-scrollbar-track {
+  background: #F8FAFC;
+  border-radius: 4px;
+}
+
+[class*="table-wrap"]::-webkit-scrollbar-thumb,
+[class*="matrix-wrap"]::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+[class*="table-wrap"]::-webkit-scrollbar-thumb:hover,
+[class*="matrix-wrap"]::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
