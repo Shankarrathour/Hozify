@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 
 export default function RevenueReportspage() {
+  const [date, setDate] = useState(" ");
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const handleGenerateReport = () => {
+    alert("Report generating for date: " + date);
+  };
+
   return (
     <AdminShell activeTab="Reports & Analytics">
       <div className="w-full min-h-screen bg-[#f8fafd] p-8 text-slate-700 antialiased font-sans">
@@ -14,11 +21,31 @@ export default function RevenueReportspage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <h1 className="text-2xl font-black text-slate-900 tracking-tight">Revenue Analytics</h1>
             
-            <div className="flex items-center gap-2">
-              <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-bold text-slate-700 shadow-sm hover:bg-gray-50 transition-colors">
-                <span>📅</span> Last 30 Days
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-[#1d0094] rounded-lg text-xs font-bold text-white shadow-sm hover:bg-opacity-90 transition-colors">
+            <div className="flex items-center gap-2 relative">
+              {/* Calendar Button */}
+              <div className="relative">
+                <button 
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-bold text-slate-700 shadow-sm hover:bg-gray-50 transition-colors"
+                >
+                  <span>📅</span> {date}
+                </button>
+                {showCalendar && (
+                  <div className="absolute right-0 mt-2 bg-white border border-gray-100 rounded-lg shadow-xl z-50 p-2">
+                    <input 
+                      type="date" 
+                      value={date} 
+                      onChange={(e) => { setDate(e.target.value); setShowCalendar(false); }}
+                      className="text-xs font-semibold focus:outline-none cursor-pointer bg-transparent"
+                    />
+                  </div>
+                )}
+              </div>
+              
+              <button 
+                onClick={handleGenerateReport}
+                className="flex items-center gap-2 px-4 py-2 bg-[#1d0094] rounded-lg text-xs font-bold text-white shadow-sm hover:bg-opacity-90 transition-colors"
+              >
                 <span>📤</span> Generate Report
               </button>
             </div>
@@ -251,19 +278,14 @@ export default function RevenueReportspage() {
           </div>
 
           <div className="overflow-x-auto">
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-[#f8fafd] text-gray-400 border-b border-gray-200/60 uppercase text-[9px] font-black tracking-wider">
-                  <th className="py-3 px-6">Entity</th>
-                  <th className="py-3 px-6">Service</th>
-                  <th className="py-3 px-6">Date</th>
-                  <th className="py-3 px-6">Amount</th>
-                  <th className="py-3 px-6 text-right">Status</th>
+                  <th className="py-3 px-6">Entity</th><th className="py-3 px-6">Service</th><th className="py-3 px-6">Date</th><th className="py-3 px-6">Amount</th><th className="py-3 px-6 text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 font-bold text-slate-700 bg-white">
                 
-                {/* Row 1 */}
                 <tr className="hover:bg-slate-50/40 transition-colors">
                   <td className="py-4 px-6 font-extrabold text-slate-900">Nexus Corp</td>
                   <td className="py-4 px-6 text-gray-500 font-medium">SaaS Enterprise License</td>
@@ -276,7 +298,6 @@ export default function RevenueReportspage() {
                   </td>
                 </tr>
 
-                {/* Row 2 */}
                 <tr className="hover:bg-slate-50/40 transition-colors">
                   <td className="py-4 px-6 font-extrabold text-slate-900">Vantage Global</td>
                   <td className="py-4 px-6 text-gray-500 font-medium">Strategy Consulting</td>
@@ -289,7 +310,6 @@ export default function RevenueReportspage() {
                   </td>
                 </tr>
 
-                {/* Row 3 */}
                 <tr className="hover:bg-slate-50/40 transition-colors">
                   <td className="py-4 px-6 font-extrabold text-slate-900">Solstice Systems</td>
                   <td className="py-4 px-6 text-gray-500 font-medium">Infrastructure Setup</td>
@@ -303,7 +323,7 @@ export default function RevenueReportspage() {
                 </tr>
 
               </tbody>
-            </table></div>
+            </table>
           </div>
         </div>
 

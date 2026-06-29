@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Download, FileText, Star, MoreVertical, SlidersHorizontal, Search, ChevronLeft, ChevronRight, ShieldAlert } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const revenueLeaders = [
   { name: 'Jane Doe', role: 'Lead Consultant', revenue: '$12.4k', badge: 'Top 1%', initials: 'JD', bg: '#e0e7ff', color: '#4f46e5' },
@@ -16,6 +17,7 @@ const efficiencyMatrix = [
 ];
 
 export default function EmployeeReports() {
+  const { addToast } = useToast();
   const [branch, setBranch] = useState('All Branches');
   const [dateRange, setDateRange] = useState('Oct 1 - Oct 31, 2023');
   const [matrixRange, setMatrixRange] = useState('Weekly');
@@ -27,24 +29,26 @@ export default function EmployeeReports() {
   );
 
   return (
-    <div className="employee-reports-flow">
+    <div className="reports-dashboard-flow" style={{ paddingBottom: '40px' }}>
+      
       {/* Title Header */}
       <div className="partners-page-header">
         <div>
-          <h1 className="page-title">Employee Reports & Analytics</h1>
-          <p className="page-subtitle">Performance insights and operational efficiency metrics.</p>
+          <h1 className="page-title">Operational Reports</h1>
+          <p className="page-subtitle">Standardized insights, activity summaries, and CSAT scores.</p>
         </div>
-        <div className="partners-header-buttons">
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          
           <div className="date-select-picker-wrap" style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '4px 10px', borderRadius: '6px', background: '#fff' }}>
             <select
               style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}
               value={branch}
               onChange={(e) => setBranch(e.target.value)}
-              aria-label="Filter by branch"
+              aria-label="Filter reports by branch"
             >
               <option value="All Branches">All Branches</option>
-              <option value="New York HQ">New York HQ</option>
-              <option value="London East">London East</option>
+              <option value="Downtown HQ">Downtown HQ</option>
+              <option value="Westside Heights">Westside Heights</option>
             </select>
           </div>
 
@@ -53,19 +57,29 @@ export default function EmployeeReports() {
               style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '700', fontSize: '13px', cursor: 'pointer' }}
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
-              aria-label="Filter by date range"
+              aria-label="Filter reports by date range"
             >
               <option value="Oct 1 - Oct 31, 2023">Oct 1 - Oct 31, 2023</option>
               <option value="Nov 1 - Nov 30, 2023">Nov 1 - Nov 30, 2023</option>
             </select>
           </div>
 
-          <button className="secondary-action-btn font-bold" type="button" style={{ height: '36px' }}>
+          <button 
+            onClick={() => addToast("Exporting operational report database CSV...", "success")}
+            className="secondary-action-btn font-bold cursor-pointer" 
+            type="button" 
+            style={{ height: '36px' }}
+          >
             <Download size={14} style={{ marginRight: '4px' }} />
             <span>Export CSV</span>
           </button>
           
-          <button className="primary-action-btn font-bold" type="button" style={{ height: '36px' }}>
+          <button 
+            onClick={() => addToast("Generating PDF analytics report...", "success")}
+            className="primary-action-btn font-bold cursor-pointer" 
+            type="button" 
+            style={{ height: '36px' }}
+          >
             <FileText size={14} style={{ marginRight: '4px' }} />
             <span>PDF Report</span>
           </button>
@@ -73,59 +87,75 @@ export default function EmployeeReports() {
       </div>
 
       {/* KPI Cards Row */}
-      <section className="kpi-grid" style={{ gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', marginBottom: '24px', gap: '20px' }}>
+      <section className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
         {/* Productivity Score */}
-        <div className="kpi-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Productivity Score details", "success")}
+          className="kpi-card" 
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Productivity Score</span>
-              <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>88.4% <span style={{ fontSize: '12px', color: '#10b981', fontWeight: '700' }}>+2.4%</span></strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Productivity Score</span>
+              <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>88.4% <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>+2.4%</span></strong>
             </div>
-            <span style={{ color: '#4f46e5' }}><Star size={20} fill="#4f46e5" /></span>
+            <span style={{ color: '#4f46e5' }}><Star size={14} fill="#4f46e5" /></span>
           </div>
-          <div style={{ width: '100%', height: '5px', background: '#f1ebf8', borderRadius: '3px', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: '3px', background: '#f1ebf8', borderRadius: '3px', overflow: 'hidden', marginTop: '6px' }}>
             <div style={{ width: '88.4%', height: '100%', background: '#4f46e5' }} />
           </div>
         </div>
 
         {/* Revenue Contribution */}
-        <div className="kpi-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Revenue Contribution details", "success")}
+          className="kpi-card" 
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Revenue Contribution</span>
-              <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>$42.8k <span style={{ fontSize: '12px', color: '#10b981', fontWeight: '700' }}>+12%</span></strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Revenue Contribution</span>
+              <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>$42.8k <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>+12%</span></strong>
             </div>
-            <span style={{ color: '#0f172a' }}><FileText size={20} /></span>
+            <span style={{ color: '#0f172a' }}><FileText size={14} /></span>
           </div>
-          <div style={{ width: '100%', height: '5px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: '3px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden', marginTop: '6px' }}>
             <div style={{ width: '70%', height: '100%', background: '#0f172a' }} />
           </div>
         </div>
 
         {/* Customer Satisfaction */}
-        <div className="kpi-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Customer Satisfaction analytics", "success")}
+          className="kpi-card" 
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Customer Satisfaction</span>
-              <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>4.92 <span style={{ fontSize: '11px', color: '#4f46e5', fontWeight: '800', marginLeft: '4px' }}>Top 5%</span></strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Customer Satisfaction</span>
+              <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>4.92 <span style={{ fontSize: '10px', color: '#4f46e5', fontWeight: '800', marginLeft: '4px' }}>Top 5%</span></strong>
             </div>
-            <span style={{ color: '#eab308' }}><Star size={20} fill="#eab308" stroke="#eab308" /></span>
+            <span style={{ color: '#eab308' }}><Star size={14} fill="#eab308" stroke="#eab308" /></span>
           </div>
-          <div style={{ display: 'flex', gap: '2px' }}>
-            {[1,2,3,4,5].map(s => <Star key={s} size={11} fill="#eab308" stroke="#eab308" />)}
+          <div style={{ display: 'flex', gap: '2px', marginTop: '6px' }}>
+            {[1,2,3,4,5].map(s => <Star key={s} size={8} fill="#eab308" stroke="#eab308" />)}
           </div>
         </div>
 
         {/* Avg Attendance */}
-        <div className="kpi-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px', minHeight: '110px', background: '#fff', border: '1px solid var(--line)' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Average Attendance compliance analysis", "success")}
+          className="kpi-card" 
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Avg. Attendance</span>
-              <strong style={{ display: 'block', fontSize: '26px', margin: '4px 0 2px', color: 'var(--text)' }}>94.1% <span style={{ fontSize: '12px', color: '#ef4444', fontWeight: '700' }}>-1.2%</span></strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Avg. Attendance</span>
+              <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>94.1% <span style={{ fontSize: '11px', color: '#ef4444', fontWeight: '700' }}>-1.2%</span></strong>
             </div>
-            <span style={{ color: '#ef4444' }}><ShieldAlert size={20} /></span>
+            <span style={{ color: '#ef4444' }}><ShieldAlert size={14} /></span>
           </div>
-          <div style={{ width: '100%', height: '5px', background: '#fee2e2', borderRadius: '3px', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: '3px', background: '#fee2e2', borderRadius: '3px', overflow: 'hidden', marginTop: '6px' }}>
             <div style={{ width: '94.1%', height: '100%', background: '#ef4444' }} />
           </div>
         </div>
@@ -187,7 +217,11 @@ export default function EmployeeReports() {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {revenueLeaders.map((lead, index) => (
-              <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', border: '1px solid #f1f5f9', borderRadius: '6px' }}>
+              <div 
+                key={index} 
+                onClick={() => addToast(`Opening detailed revenue log parameters for ${lead.name}`, "success")}
+                style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', border: '1px solid #f1f5f9', borderRadius: '6px', cursor: 'pointer' }}
+              >
                 <span style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: lead.bg, color: lead.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: '800' }}>
                   {lead.initials}
                 </span>
@@ -203,7 +237,11 @@ export default function EmployeeReports() {
             ))}
           </div>
 
-          <button className="secondary-action-btn font-bold" style={{ width: '100%', height: '36px', justifyContent: 'center', marginTop: '16px', fontSize: '12px' }}>
+          <button 
+            onClick={() => addToast("Loading full team rankings table list...", "success")}
+            className="secondary-action-btn font-bold cursor-pointer" 
+            style={{ width: '100%', height: '36px', justifyContent: 'center', marginTop: '16px', fontSize: '12px' }}
+          >
             VIEW FULL RANKING
           </button>
         </div>
@@ -225,14 +263,19 @@ export default function EmployeeReports() {
                 aria-label="Search employees by name or role"
               />
             </div>
-            <button className="secondary-action-btn" style={{ height: '32px', width: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label="Toggle department filters">
+            <button 
+              onClick={() => addToast("Opening detailed department filter view...", "success")}
+              className="secondary-action-btn cursor-pointer" 
+              style={{ height: '32px', width: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} 
+              aria-label="Toggle department filters"
+            >
               <SlidersHorizontal size={14} />
             </button>
           </div>
         </div>
 
         <div className="table-wrap">
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table">
+          <table className="partner-table">
             <thead>
               <tr>
                 <th>EMPLOYEE</th>
@@ -245,7 +288,11 @@ export default function EmployeeReports() {
             </thead>
             <tbody>
               {filteredMatrix.map((row, idx) => (
-                <tr key={idx} className="partner-row-clickable">
+                <tr 
+                  key={idx} 
+                  onClick={() => addToast(`Opening productivity trace report for ${row.name}`, "success")}
+                  className="partner-row-clickable"
+                >
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: row.bg, color: row.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: '800' }}>
@@ -277,24 +324,29 @@ export default function EmployeeReports() {
                     </span>
                   </td>
                   <td className="partner-actions-cell" onClick={(e) => e.stopPropagation()}>
-                    <button className="table-row-action-btn" type="button" aria-label="Action options">
+                    <button 
+                      onClick={() => addToast(`Opening action options menu for ${row.name}`, "success")}
+                      className="table-row-action-btn cursor-pointer" 
+                      type="button" 
+                      aria-label="Action options"
+                    >
                       <MoreVertical size={16} />
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table></div>
+          </table>
         </div>
 
         <div className="directory-table-footer">
-          <span className="footer-results-text">Showing 4 of 124 employees</span>
+          <span className="footer-results-text">Showing {filteredMatrix.length} of 124 employees</span>
           <div className="pagination-wrap">
-            <button className="pag-nav-btn" type="button" disabled>
+            <button onClick={() => addToast("Loaded previous roster page", "success")} className="pag-nav-btn cursor-pointer" type="button" disabled>
               <ChevronLeft size={16} />
             </button>
-            <button className="pag-num-btn active" type="button">1</button>
-            <button className="pag-nav-btn" type="button">
+            <button onClick={() => addToast("Loaded page 1", "success")} className="pag-num-btn active cursor-pointer" type="button">1</button>
+            <button onClick={() => addToast("Loaded next roster page", "success")} className="pag-nav-btn cursor-pointer" type="button">
               <ChevronRight size={16} />
             </button>
           </div>

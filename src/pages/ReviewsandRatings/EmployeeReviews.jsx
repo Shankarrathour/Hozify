@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
-import { Download, Plus, ChevronDown, Check, Eye } from "lucide-react";
+import { Download, Plus, ChevronDown, Check, Eye, X } from "lucide-react"; 
 
 export default function EmployeeReviews() {
   // --- States ---
@@ -90,9 +90,12 @@ export default function EmployeeReviews() {
     </div>
   );
 
+  // Filtered target data extraction
+  const selectedReview = employeeReviews.find((r) => r.id === activeViewId);
+
   return (
     <AdminShell activeTab="Employee Reviews" searchPlaceholder="Search employees...">
-      <div className="space-y-6 select-none antialiased text-slate-900 bg-slate-50/50 p-4 rounded-xl">
+      <div className="space-y-6 select-none antialiased text-slate-900 bg-slate-50/50 p-4 rounded-xl relative">
         
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
@@ -131,7 +134,6 @@ export default function EmployeeReviews() {
           </div>
 
           <div className="overflow-x-auto">
-            {/* Added min-w to prevent overlapping */}
             <table className="w-full text-left min-w-[1000px]">
               <thead>
                 <tr className="bg-slate-50 border-b text-[10px] font-bold text-slate-400 uppercase">
@@ -155,8 +157,13 @@ export default function EmployeeReviews() {
                     <td className="px-6 py-4">{row.metrics.val1} / {row.metrics.val2}</td>
                     <td className="px-6 py-4 truncate max-w-[300px]">{row.comment}</td>
                     <td className="px-6 py-4 text-center">
-                      <button onClick={() => setActiveViewId(row.id)} className="text-blue-500 hover:text-blue-700 flex justify-center w-full">
-                        <Eye size={20} />
+                      {/* Fixed Absolute Click Target Area */}
+                      <button 
+                        onClick={() => setActiveViewId(row.id)} 
+                        className="text-blue-500 hover:text-blue-700 inline-block p-2 cursor-pointer transition-colors"
+                        style={{ contentVisibility: "auto" }}
+                      >
+                        <Eye size={18} className="pointer-events-none" />
                       </button>
                     </td>
                   </tr>
@@ -165,6 +172,77 @@ export default function EmployeeReviews() {
             </table>
           </div>
         </div>
+
+        {/* DETAILS DRAWER/MODAL CARD (Matching theme) */}
+        {selectedReview && (
+          <div 
+            className="fixed inset-0 flex items-center justify-center z-[9999]" 
+            style={{ backgroundColor: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)" }}
+          >
+            <div className="bg-white border rounded-xl shadow-xl w-full max-w-lg overflow-hidden mx-4">
+              
+              {/* Top Bar */}
+              <div className="flex justify-between items-center px-6 py-4 border-b bg-slate-50">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Employee Data View</p>
+                <button 
+                  onClick={() => setActiveViewId(null)} 
+                  className="text-slate-400 hover:text-slate-600 p-1"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Data Content */}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-4">
+                  <img src={selectedReview.employee.img} className="w-12 h-12 rounded-md object-cover" />
+                  <div>
+                    <h3 className="font-bold text-base text-slate-900">{selectedReview.employee.name}</h3>
+                    <p className="text-[11px] text-slate-400">{selectedReview.employee.role} • <span className="font-bold text-slate-600">{selectedReview.dept}</span></p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4 grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">Score</p>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="font-bold text-lg">{selectedReview.rating}</span>
+                      {renderRowStars(selectedReview.rating)}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">Metrics</p>
+                    <p className="mt-1 font-bold text-xs text-slate-700">
+                      {selectedReview.metrics.label1}: {selectedReview.metrics.val1} <br/>
+                      {selectedReview.metrics.label2}: {selectedReview.metrics.val2}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Feedback Comment</p>
+                  <p className="text-xs bg-slate-50 p-3 rounded-lg border text-slate-700 italic">
+                    {selectedReview.comment}
+                  </p>
+                </div>
+                
+                <p className="text-[10px] text-slate-400 text-right">{selectedReview.meta}</p>
+              </div>
+
+              {/* Action Button */}
+              <div className="px-6 py-3 border-t bg-slate-50 flex justify-end">
+                <button 
+                  onClick={() => setActiveViewId(null)} 
+                  className="px-4 py-2 bg-black text-white rounded-lg text-xs font-bold hover:bg-slate-800"
+                >
+                  Close
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
       </div>
     </AdminShell>
   );
