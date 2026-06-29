@@ -282,7 +282,7 @@ export default function AuditLogs() {
             <div className="flex items-center gap-1.5">
               <button className="h-[32px] px-3 rounded border border-[#E4E4E7] bg-white text-[#71717A] hover:bg-[#F4F4F5] font-medium inline-flex items-center gap-1">
                 <ChevronLeft size={14} />
-                Previous
+                Pervious
               </button>
               <button className="w-[32px] h-[32px] rounded bg-[#1D1B84] text-white font-semibold">1</button>
               <button className="w-[32px] h-[32px] rounded border border-[#E4E4E7] bg-white hover:bg-[#F4F4F5] font-medium">2</button>
@@ -299,7 +299,7 @@ export default function AuditLogs() {
             <div className="flex items-center gap-2">
               <span className="text-[#71717A]">Rows per page:</span>
               <button className="h-[32px] px-2.5 rounded border border-[#E4E4E7] bg-white font-bold inline-flex items-center gap-3">
-                <span>50</span>
+                <span>40</span>
                 <ChevronDown size={14} className="text-[#71717A]" />
               </button>
             </div>
