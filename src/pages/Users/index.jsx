@@ -19,10 +19,11 @@ import AdminShell from '../../components/layouts/AdminShell';
 import { ROUTES } from '../../config/routes';
 import { useApp } from '../../hooks/useApp';
 import { usersMockData } from './usersMockData';
+import { useToast } from '../../components/common/ToastNotification';
 
 import UserEditModal from './UserEditModal';
 
-const statusOptions = ['All', 'Active', 'Suspended', 'Blocked'];
+const statusOptions = ['All', 'Active', 'Suspended', 'Blocked', 'Deleted'];
 
 function normalize(value) {
   return value.trim().toLowerCase();
@@ -44,7 +45,8 @@ function EmptyState() {
 }
 
 export default function Users() {
-  const { route } = useApp();
+  const { route, navigate } = useApp();
+  const { addToast } = useToast();
   const [users, setUsers] = useState(usersMockData);
   const [filters, setFilters] = useState({
     search: '',
@@ -84,8 +86,7 @@ export default function Users() {
   }, [filters, users]);
 
   const showFeedback = (message) => {
-    setFeedback(message);
-    window.setTimeout(() => setFeedback(''), 2200);
+    addToast(message, 'success');
   };
 
   const updateFilter = (key, value) => {
@@ -126,8 +127,6 @@ export default function Users() {
     <AdminShell
       activeTab="User Management"
       searchPlaceholder="Search customer directory..."
-      pageTitle="User Management"
-      pageSubtitle="Monitor, manage and segment users across the entire HOZIFY platform."
     >
       <div style={{ paddingBottom: '40px' }}>
         
@@ -228,7 +227,7 @@ export default function Users() {
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="materio-table">
+            <table className="materio-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -304,7 +303,7 @@ export default function Users() {
                   )
                 })}
               </tbody>
-            </table></div>
+            </table>
           </div>
           
           <div style={{ padding: '16px 24px', borderTop: '1px solid var(--materio-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -313,9 +312,9 @@ export default function Users() {
             </span>
             {/* Simple pagination placeholder styling */}
             <div style={{ display: 'flex', gap: '4px' }}>
-              <button style={{ border: '1px solid var(--materio-border)', background: 'transparent', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}>Prev</button>
-              <button style={{ border: 'none', background: 'var(--materio-primary)', color: '#fff', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>1</button>
-              <button style={{ border: '1px solid var(--materio-border)', background: 'transparent', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}>Next</button>
+              <button onClick={() => addToast('Pagination: Previous page loaded', 'success')} style={{ border: '1px solid var(--materio-border)', background: 'transparent', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}>Prev</button>
+              <button onClick={() => addToast('Pagination: Page 1 active', 'success')} style={{ border: 'none', background: 'var(--materio-primary)', color: '#fff', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>1</button>
+              <button onClick={() => addToast('Pagination: Next page loaded', 'success')} style={{ border: '1px solid var(--materio-border)', background: 'transparent', padding: '6px 10px', borderRadius: '4px', cursor: 'pointer' }}>Next</button>
             </div>
           </div>
         </div>
@@ -393,6 +392,11 @@ export default function Users() {
                   <span style={{ color: 'var(--materio-text-muted)' }}>Audit Logs</span>
                   <button 
                     type="button" 
+                    onClick={() => {
+                      navigate(ROUTES.userAuditLogs);
+                      setDrawerUser(null);
+                      addToast(`Navigating to Audit Logs for ${drawerUser.name}`, 'success');
+                    }}
                     style={{ background: 'transparent', border: 'none', color: 'var(--materio-primary)', fontWeight: 600, cursor: 'pointer', padding: 0 }}
                   >
                     View Logs ({drawerUser.auditLogsCount || 12})

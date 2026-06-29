@@ -21,9 +21,12 @@ import {
   ThumbsDown,
   ThumbsUp,
   User,
+  UserX,
   Users,
   Wallet
 } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
+import { triggerDownload } from '../../utils/downloadHelper';
 
 const tabs = ['Overview', 'Bookings', 'Wallet', 'Referrals', 'Documents', 'Reviews', 'Complaints', 'Timeline', 'Audit Logs'];
 const bookingFilters = ['Active', 'Completed', 'Cancelled', 'Refunded'];
@@ -99,6 +102,26 @@ const getTimeline = (user) => [
 ];
 
 const getAuditLogs = (user) => [
+  {
+    action: 'SOS Request',
+    performedBy: 'User (Self)',
+    date: '2024-10-25 22:45:00',
+    ipAddress: '192.168.1.45',
+    device: 'Mobile App / iOS',
+    remarks: 'Emergency SOS alert triggered. Safety team notified.',
+    severity: 'danger',
+    icon: 'alert'
+  },
+  {
+    action: 'Booking Creation',
+    performedBy: 'User (Self)',
+    date: '2024-10-24 18:10:00',
+    ipAddress: '192.168.1.45',
+    device: 'Mobile App / iOS',
+    remarks: 'New booking created #BK-90210.',
+    severity: 'success',
+    icon: 'check'
+  },
   {
     action: 'Password Change',
     performedBy: 'Admin (Sarah J.)',
@@ -228,10 +251,11 @@ function OverviewTab({ user }) {
           {user.dob && <InfoRow label="DOB" value={formatDate(user.dob)} />}
           {user.gender && <InfoRow label="Gender" value={user.gender} />}
           <InfoRow label="Membership Type" value={user.membershipType} />
+          <InfoRow label="Language Preference" value={user.languagePreference || 'English (IN)'} />
         </div>
       </OverviewCard>
 
-      <OverviewCard icon={MessageSquare} title="Address Information" subtitle="Saved customer service locations." tone="blue-bg">
+      <OverviewCard icon={MessageSquare} title="Favorite Addresses" subtitle="Saved customer service locations." tone="blue-bg">
         <div className="user-detail-address-stack">
           {user.addresses.map((address) => (
             <div className="user-detail-address" key={address}>{address}</div>
@@ -239,11 +263,10 @@ function OverviewTab({ user }) {
         </div>
       </OverviewCard>
 
-      <OverviewCard icon={ShieldCheck} title="Emergency Contact" subtitle="Fallback contact information for escalations." tone="orange-bg">
+      <OverviewCard icon={ShieldCheck} title="Emergency Contacts" subtitle="Fallback contact information for safety escalations." tone="orange-bg">
         <div className="overview-info-list">
-          <InfoRow label="Contact Name" value="Riya Mehta" />
-          <InfoRow label="Relationship" value="Family" />
-          <InfoRow label="Mobile" value="+91 90000 11223" />
+          <InfoRow label="Primary Contact" value="Riya Mehta (Family) - +91 90000 11223" />
+          <InfoRow label="Secondary Contact" value="Devang Mehta (Spouse) - +91 98888 77665" />
         </div>
       </OverviewCard>
 
@@ -298,6 +321,7 @@ function OverviewTab({ user }) {
 }
 
 function BookingsTab({ user }) {
+  const { addToast } = useToast();
   const [filter, setFilter] = useState('Completed');
   const rows = useMemo(() => {
     const enriched = user.bookingHistory.map((booking, index) => ({
@@ -320,7 +344,7 @@ function BookingsTab({ user }) {
         </div>
       </div>
       <div className="table-wrap">
-        <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="user-management-inner-table user-detail-wide-table">
+        <table className="user-management-inner-table user-detail-wide-table">
           <thead>
             <tr>
               <th>BOOKING ID</th>
@@ -343,9 +367,12 @@ function BookingsTab({ user }) {
                 <td>{formatDate(booking.date)}</td>
                 <td>
                   <div className="user-detail-row-actions">
-                    <ActionLink>View Booking</ActionLink>
-                    <ActionLink>Download Invoice</ActionLink>
-                    <ActionLink>Raise Investigation</ActionLink>
+                    <ActionLink onClick={() => addToast(`Opening details for booking ${booking.id}...`, 'success')}>View Booking</ActionLink>
+                    <ActionLink onClick={() => { 
+                      triggerDownload(`INVOICE: ${booking.id}\nService: ${booking.serviceName}\nAmount: ${booking.amount}\nDate: ${booking.date}`, `invoice_${booking.id}.txt`, 'text/plain');
+                      addToast(`Invoice for booking ${booking.id} downloaded successfully.`, 'success'); 
+                    }}>Download Invoice</ActionLink>
+                    <ActionLink onClick={() => addToast(`Investigation raised for booking ${booking.id}. Support team notified.`, 'success')}>Raise Investigation</ActionLink>
                   </div>
                 </td>
               </tr>
@@ -355,13 +382,14 @@ function BookingsTab({ user }) {
               </tr>
             )}
           </tbody>
-        </table></div>
+        </table>
       </div>
     </div>
   );
 }
 
 function WalletTab({ user }) {
+  const { addToast } = useToast();
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [receiptFeedback, setReceiptFeedback] = useState('');
   const totalSpent = getTotalSpend(user);
@@ -387,7 +415,7 @@ function WalletTab({ user }) {
           <span className="footer-results-text">{user.wallet.transactions.length} transactions</span>
         </div>
         <div className="table-wrap">
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="user-management-inner-table user-detail-wide-table">
+          <table className="user-management-inner-table user-detail-wide-table">
             <thead>
               <tr>
                 <th>TRANSACTION ID</th>
@@ -412,7 +440,7 @@ function WalletTab({ user }) {
                 </tr>
               ))}
             </tbody>
-          </table></div>
+          </table>
         </div>
       </div>
       {selectedTransaction && (
@@ -422,8 +450,14 @@ function WalletTab({ user }) {
             setSelectedTransaction(null);
             setReceiptFeedback('');
           }}
-          onDownload={() => handleReceiptAction('Receipt downloaded successfully.')}
-          onShare={() => handleReceiptAction('Receipt link copied successfully.')}
+          onDownload={() => {
+            triggerDownload(`RECEIPT: ${selectedTransaction.id}\nAmount: ${selectedTransaction.amount}\nRemarks: ${selectedTransaction.remarks}`, `receipt_${selectedTransaction.id}.txt`, 'text/plain');
+            addToast('Receipt downloaded successfully.', 'success');
+          }}
+          onShare={() => {
+            navigator.clipboard.writeText(`https://hozify.app/receipts/${selectedTransaction.id}`);
+            addToast('Receipt link copied to clipboard successfully.', 'success');
+          }}
           feedback={receiptFeedback}
         />
       )}
@@ -540,7 +574,7 @@ function ReferralsTab({ user }) {
           <span className="footer-results-text">Code {user.referrals.referralCode}</span>
         </div>
         <div className="table-wrap">
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="user-management-inner-table user-detail-wide-table">
+          <table className="user-management-inner-table user-detail-wide-table">
             <thead>
               <tr>
                 <th>REFERRAL USER</th>
@@ -565,7 +599,7 @@ function ReferralsTab({ user }) {
                 </tr>
               )}
             </tbody>
-          </table></div>
+          </table>
         </div>
       </div>
       {selectedReferral && (
@@ -653,6 +687,7 @@ function ReferralDetailOverlay({ referral, user, onClose }) {
 }
 
 function DocumentsTab({ user }) {
+  const { addToast } = useToast();
   const documentNames = ['Aadhaar', 'PAN', 'Driving License', 'Voter ID', 'Selfie', 'Video KYC'];
   const documents = documentNames.map((name, index) => {
     const existing = user.documents[index % user.documents.length];
@@ -678,9 +713,12 @@ function DocumentsTab({ user }) {
           </span>
           <small>Uploaded {formatDate(document.uploadedDate)}</small>
           <div className="user-detail-row-actions">
-            <ActionLink>View</ActionLink>
-            <ActionLink>Download</ActionLink>
-            <ActionLink>Reverify</ActionLink>
+            <ActionLink onClick={() => addToast(`Viewing secure scan for document: ${document.name}`, 'success')}>View</ActionLink>
+            <ActionLink onClick={() => {
+              triggerDownload(`VERIFICATION EXPORT\nDocument: ${document.name}\nUploaded: ${document.uploadedDate}\nStatus: ${document.status}`, `${document.name.toLowerCase().replace(/ /g, '_')}_export.txt`, 'text/plain');
+              addToast(`Downloading file: ${document.name}...`, 'success');
+            }}>Download</ActionLink>
+            <ActionLink onClick={() => addToast(`Manual verification re-check triggered for ${document.name}.`, 'success')}>Reverify</ActionLink>
           </div>
         </div>
       ))}
@@ -706,7 +744,7 @@ function ReviewsTab({ user }) {
           <span className="footer-results-text">{reviews.length} reviews</span>
         </div>
         <div className="table-wrap">
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="user-management-inner-table user-detail-wide-table">
+          <table className="user-management-inner-table user-detail-wide-table">
             <thead>
               <tr>
                 <th>BOOKING</th>
@@ -727,7 +765,7 @@ function ReviewsTab({ user }) {
                 </tr>
               ))}
             </tbody>
-          </table></div>
+          </table>
         </div>
       </div>
     </>
@@ -735,6 +773,7 @@ function ReviewsTab({ user }) {
 }
 
 function ComplaintsTab({ user }) {
+  const { addToast } = useToast();
   const complaints = getComplaints(user);
 
   return (
@@ -750,7 +789,7 @@ function ComplaintsTab({ user }) {
           <span className="footer-results-text">{complaints.length} tickets</span>
         </div>
         <div className="table-wrap">
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="user-management-inner-table user-detail-wide-table">
+          <table className="user-management-inner-table user-detail-wide-table">
             <thead>
               <tr>
                 <th>TICKET ID</th>
@@ -769,11 +808,11 @@ function ComplaintsTab({ user }) {
                   <td>{ticket.priority}</td>
                   <td>{ticket.status}</td>
                   <td>{ticket.assignedAgent}</td>
-                  <td><ActionLink>View Ticket</ActionLink></td>
+                  <td><ActionLink onClick={() => addToast(`Opening complaint ticket ${ticket.ticketId} details log...`, 'success')}>View Ticket</ActionLink></td>
                 </tr>
               ))}
             </tbody>
-          </table></div>
+          </table>
         </div>
       </div>
     </>
@@ -809,6 +848,7 @@ function TimelineTab({ user }) {
 }
 
 function AuditLogsTab({ user }) {
+  const { addToast } = useToast();
   const auditLogs = getAuditLogs(user);
   const securityEvents = auditLogs.filter((log) => log.severity === 'danger').length;
   const lastActiveIp = auditLogs[1]?.ipAddress || '192.168.1.45';
@@ -842,7 +882,7 @@ function AuditLogsTab({ user }) {
           <span className="footer-results-text">Showing 1-15 of 244 entries</span>
         </div>
         <div className="table-wrap">
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="user-management-inner-table user-detail-wide-table user-audit-table">
+          <table className="user-management-inner-table user-detail-wide-table user-audit-table">
           <thead>
             <tr>
               <th>ACTION</th>
@@ -875,18 +915,18 @@ function AuditLogsTab({ user }) {
               </tr>
             ))}
           </tbody>
-        </table></div>
+        </table>
         </div>
         <div className="user-audit-footer">
           <span>15 rows per page</span>
           <div className="pagination-wrap">
-            <button className="pag-nav-btn" type="button" disabled>Previous</button>
-            <button className="pag-num-btn active" type="button">1</button>
-            <button className="pag-num-btn" type="button">2</button>
-            <button className="pag-num-btn" type="button">3</button>
+            <button onClick={() => addToast('Pagination: Previous page loaded', 'success')} className="pag-nav-btn" type="button">Previous</button>
+            <button onClick={() => addToast('Pagination: Page 1 active', 'success')} className="pag-num-btn active" type="button">1</button>
+            <button onClick={() => addToast('Pagination: Page 2 loaded', 'success')} className="pag-num-btn" type="button">2</button>
+            <button onClick={() => addToast('Pagination: Page 3 loaded', 'success')} className="pag-num-btn" type="button">3</button>
             <span className="pag-ellipsis">...</span>
-            <button className="pag-num-btn" type="button">17</button>
-            <button className="pag-nav-btn" type="button">Next</button>
+            <button onClick={() => addToast('Pagination: Page 17 loaded', 'success')} className="pag-num-btn" type="button">17</button>
+            <button onClick={() => addToast('Pagination: Next page loaded', 'success')} className="pag-nav-btn" type="button">Next</button>
           </div>
         </div>
       </div>
@@ -895,6 +935,7 @@ function AuditLogsTab({ user }) {
 }
 
 export default function UserDetailsPage({ user, onBack, onEdit, onStatusChange }) {
+  const { addToast } = useToast();
   const [activeTab, setActiveTab] = useState('Overview');
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [kycOpen, setKycOpen] = useState(false);
@@ -917,8 +958,7 @@ export default function UserDetailsPage({ user, onBack, onEdit, onStatusChange }
   };
 
   const showDetailFeedback = (message) => {
-    setDetailFeedback(message);
-    window.setTimeout(() => setDetailFeedback(''), 2200);
+    addToast(message, 'success');
   };
 
   return (
@@ -973,6 +1013,17 @@ export default function UserDetailsPage({ user, onBack, onEdit, onStatusChange }
               <CheckCircle2 size={15} />
               <span>Activate</span>
             </button>
+            {user.status !== 'Deleted' ? (
+              <button className="user-management-action-btn danger" type="button" style={{ background: '#FF3E1D', borderColor: '#FF3E1D', color: '#fff' }} onClick={() => onStatusChange(user, 'Deleted')}>
+                <UserX size={15} />
+                <span>Delete User</span>
+              </button>
+            ) : (
+              <button className="user-management-action-btn success" type="button" style={{ background: '#71DD37', borderColor: '#71DD37', color: '#fff' }} onClick={() => onStatusChange(user, 'Active')}>
+                <RotateCcw size={15} />
+                <span>Restore User</span>
+              </button>
+            )}
             <button className="secondary-action-btn font-bold" type="button" onClick={() => setNotificationOpen(true)}>
               <MessageSquare size={16} />
               <span>Send Notification</span>
@@ -1112,7 +1163,7 @@ function SendNotificationOverlay({ onClose, onSend }) {
         </div>
 
         <footer className="user-notification-footer">
-          <button className="secondary-action-btn" type="button">
+          <button onClick={() => { addToast('Broadcast message delivery successfully scheduled!', 'success'); onClose(); }} className="secondary-action-btn" type="button">
             <CalendarCheck size={16} />
             <span>Schedule</span>
           </button>

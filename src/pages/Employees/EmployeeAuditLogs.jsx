@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Search, ListFilter, Activity, LogIn, Database, ShieldAlert, Download, Calendar, UserCheck
 } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const MOCK_LOGS = [
   { id: 'LOG-9001', user: 'Admin User', action: 'Approved KYC', module: 'Employee KYC', timestamp: '2026-10-12 14:32:01', ip: '192.168.1.45', status: 'SUCCESS' },
@@ -19,6 +20,7 @@ const MOCK_TIMELINE = [
 ];
 
 export default function EmployeeAuditLogs() {
+  const { addToast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [activityFilter, setActivityFilter] = useState('All');
 
@@ -32,62 +34,78 @@ export default function EmployeeAuditLogs() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', paddingBottom: '40px' }}>
       
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Total system activities logged", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Total Activities</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>24,592</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Total Activities</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>24,592</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Activity size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#eff6ff', color: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Activity size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Login activities metrics", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Login Activities</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>12,845</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Login Activities</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>12,845</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#f0fdf4', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <LogIn size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#f0fdf4', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <LogIn size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Database updates log details", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Data Updates</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>8,420</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Data Updates</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>8,420</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Database size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Database size={14} />
             </div>
           </div>
         </div>
 
-        <div className="kpi-card" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div 
+          onClick={() => addToast("Card clicked: Security events audit list", "success")}
+          className="kpi-card" 
+          style={{ padding: '12px', borderRadius: '12px', border: '1px solid var(--line)', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', minHeight: '80px', cursor: 'pointer' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
             <div>
-              <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Security Events</span>
-              <strong style={{ display: 'block', fontSize: '24px', fontWeight: '800', color: 'var(--text)', marginTop: '8px' }}>142</strong>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Security Events</span>
+              <strong style={{ display: 'block', fontSize: '18px', fontWeight: '800', color: 'var(--text)', marginTop: '4px' }}>142</strong>
             </div>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fef2f2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ShieldAlert size={18} />
+            <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#fef2f2', color: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ShieldAlert size={14} />
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', lgGridTemplateColumns: '2fr 1fr', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
         
         {/* Left Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', flex: '2' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
-          <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
+          <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', marginBottom: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
               <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>System Audit Logs</h3>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -100,50 +118,52 @@ export default function EmployeeAuditLogs() {
                     style={{ fontSize: '12px', border: 'none', background: 'transparent', outline: 'none', paddingLeft: '8px', flex: 1 }}
                   />
                 </div>
-                <button style={{ height: '34px', padding: '0 12px', border: '1px solid var(--line)', background: '#fff', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
-                  <Calendar size={14} /> Date
-                </button>
                 <select 
                   className="dash-select" 
                   value={activityFilter} 
                   onChange={(e) => setActivityFilter(e.target.value)}
-                  style={{ height: '34px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 12px', fontSize: '12px', color: 'var(--text)', background: '#fff' }}
+                  style={{ height: '34px', border: '1px solid var(--line)', borderRadius: '6px', padding: '0 12px', fontSize: '12px', color: 'var(--text)', background: '#fff', outline: 'none', cursor: 'pointer', fontWeight: '700' }}
                 >
-                  <option value="All">All Activities</option>
+                  <option value="All">All Severity Levels</option>
                   <option value="SUCCESS">Success</option>
                   <option value="WARNING">Warning</option>
                   <option value="FAILED">Failed</option>
                 </select>
-                <button style={{ height: '34px', padding: '0 12px', border: '1px solid var(--line)', background: '#fff', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}>
+                <button 
+                  onClick={() => addToast("Exporting security log audits spreadsheet...", "success")}
+                  style={{ height: '34px', padding: '0 12px', border: '1px solid var(--line)', background: '#fff', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '700', color: 'var(--text)', cursor: 'pointer' }}
+                >
                   <Download size={14} /> Export
                 </button>
               </div>
             </div>
 
             <div className="table-wrap" style={{ overflowX: 'auto' }}>
-              <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
+              <table className="partner-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
                 <thead>
                   <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Timestamp</th>
+                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>LOG ID</th>
                     <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>User</th>
-                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Action</th>
+                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Action Details</th>
                     <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Module</th>
                     <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>IP Address</th>
+                    <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Timestamp</th>
                     <th style={{ padding: '12px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredLogs.map((row) => (
-                      <tr key={row.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                        <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)' }}>
-                          {row.timestamp}
-                        </td>
-                        <td style={{ padding: '12px' }}>
-                          <strong style={{ display: 'block', fontSize: '13px', color: 'var(--text)' }}>{row.user}</strong>
-                        </td>
+                      <tr 
+                        key={row.id} 
+                        onClick={() => addToast(`Opening trace parameters for audit entry: ${row.id}`, "success")}
+                        className="partner-row-clickable"
+                      >
+                        <td style={{ padding: '12px' }}><strong>{row.id}</strong></td>
+                        <td style={{ padding: '12px' }}><strong>{row.user}</strong></td>
                         <td style={{ padding: '12px', fontSize: '13px', color: 'var(--text)', fontWeight: '700' }}>{row.action}</td>
-                        <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)' }}>{row.module}</td>
-                        <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)', fontFamily: 'monospace' }}>{row.ip}</td>
+                        <td style={{ padding: '12px', fontSize: '12px', color: 'var(--text)' }}>{row.module}</td>
+                        <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)' }}>{row.ip}</td>
+                        <td style={{ padding: '12px', fontSize: '12px', color: 'var(--muted)' }}>{row.timestamp}</td>
                         <td style={{ padding: '12px' }}>
                           <span style={{ fontSize: '10px', fontWeight: '800', padding: '4px 8px', borderRadius: '4px', background: row.status === 'SUCCESS' ? '#d1fae5' : row.status === 'WARNING' ? '#fef3c7' : '#fee2e2', color: row.status === 'SUCCESS' ? '#059669' : row.status === 'WARNING' ? '#d97706' : '#dc2626' }}>
                             {row.status}
@@ -153,61 +173,40 @@ export default function EmployeeAuditLogs() {
                     ))}
                     {filteredLogs.length === 0 && (
                       <tr>
-                        <td colSpan="6" style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>
-                          No logs found.
+                        <td colSpan="7" style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>
+                          No audit entries found.
                         </td>
                       </tr>
                     )}
                 </tbody>
-              </table></div>
+              </table>
             </div>
           </div>
+
         </div>
 
-        {/* Right Column */}
+        {/* Right Column: Timeline */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', flex: '1' }}>
           
-          <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
-              <Activity size={18} style={{ color: '#4f46e5' }} />
+          <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', marginBottom: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+              <Calendar size={18} style={{ color: 'var(--primary)' }} />
               <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Activity Timeline</h3>
             </div>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative' }}>
-              <div style={{ position: 'absolute', left: '11px', top: '8px', bottom: '8px', width: '2px', background: '#e2e8f0' }} />
-              
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'relative', paddingLeft: '20px', borderLeft: '2px solid #e2e8f0', marginLeft: '10px' }}>
               {MOCK_TIMELINE.map((item, i) => (
-                <div key={i} style={{ display: 'flex', gap: '16px', position: 'relative', zIndex: 1 }}>
-                  <div style={{ width: '24px', height: '24px', borderRadius: '12px', background: '#fff', border: `2px solid ${item.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                    <div style={{ width: '8px', height: '8px', borderRadius: '4px', background: item.color }} />
-                  </div>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                      <strong style={{ fontSize: '13px', color: 'var(--text)' }}>{item.title}</strong>
-                      <span style={{ fontSize: '11px', color: 'var(--muted)' }}>{item.time}</span>
-                    </div>
-                    <p style={{ fontSize: '12px', color: 'var(--muted)', margin: 0, lineHeight: '1.4' }}>{item.desc}</p>
-                  </div>
+                <div 
+                  key={i} 
+                  onClick={() => addToast(`Timeline: ${item.title} details loaded.`, "success")}
+                  style={{ position: 'relative', cursor: 'pointer' }}
+                >
+                  <span style={{ position: 'absolute', left: '-27px', top: '4px', width: '12px', height: '12px', borderRadius: '50%', background: item.color, border: '3px solid #fff', boxShadow: '0 0 0 1px #e2e8f0' }} />
+                  <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>{item.time}</span>
+                  <strong style={{ display: 'block', fontSize: '13px', color: 'var(--text)', marginTop: '2px' }}>{item.title}</strong>
+                  <p style={{ margin: '4px 0 0', fontSize: '12px', color: 'var(--muted)', lineHeight: '1.4' }}>{item.desc}</p>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-              <ShieldAlert size={18} style={{ color: '#ef4444' }} />
-              <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Recent Critical Events</h3>
-            </div>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px' }}>
-                <strong style={{ display: 'block', fontSize: '13px', color: '#b91c1c', marginBottom: '4px' }}>Multiple Failed Logins</strong>
-                <span style={{ fontSize: '11px', color: '#dc2626' }}>5 attempts from IP 203.0.113.5 (10:15 AM)</span>
-              </div>
-              <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px', padding: '12px' }}>
-                <strong style={{ display: 'block', fontSize: '13px', color: '#b45309', marginBottom: '4px' }}>Unusual Data Export</strong>
-                <span style={{ fontSize: '11px', color: '#d97706' }}>Manager Bob exported 10k rows (Yesterday)</span>
-              </div>
             </div>
           </div>
 

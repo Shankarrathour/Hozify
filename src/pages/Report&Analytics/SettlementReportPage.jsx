@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 
 export default function SettlementReport() {
@@ -45,6 +45,16 @@ export default function SettlementReport() {
     },
   ];
 
+  // Logic Added:
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("ALL");
+  const [selectedDate, setSelectedDate] = useState("Last 30 Days");
+
+  const filteredLogs = settlementLogs.filter((log) => {
+    return selectedStatus === "ALL" ? true : log.status === selectedStatus;
+  });
+
   return (
     <AdminShell activeTab="Reports & Analytics">
       <div className="w-full min-h-screen bg-[#f8fafd] p-6 text-slate-800 antialiased">
@@ -56,25 +66,45 @@ export default function SettlementReport() {
             <p className="text-xs text-gray-400 mt-0.5">Real-time status of merchant fund transfers.</p>
           </div>
           
-          <div className="flex items-center gap-2">
-            <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">
+          <div className="flex items-center gap-2 relative">
+            <button 
+              onClick={() => setShowCalendar(!showCalendar)}
+              className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm"
+            >
               <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              Last 30 Days
+              {selectedDate}
             </button>
-            <button className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">
+            {showCalendar && (
+              <div className="absolute top-10 right-28 bg-white border shadow-lg p-4 rounded-lg z-10 w-48 text-xs">
+                <p className="font-bold mb-2">Select Date Range</p>
+                {["Last 7 Days", "Last 30 Days", "This Month"].map(d => (
+                  <div key={d} className="cursor-pointer py-1 hover:text-blue-600" onClick={() => {setSelectedDate(d); setShowCalendar(false);}}>{d}</div>
+                ))}
+              </div>
+            )}
+            <button 
+              onClick={() => setShowFilter(!showFilter)}
+              className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm"
+            >
               <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
               Filters
             </button>
+            {showFilter && (
+              <div className="absolute top-10 right-0 bg-white border shadow-lg p-4 rounded-lg z-10 w-32 text-xs">
+                {["ALL", "SUCCESS", "PENDING", "FAILED"].map(status => (
+                  <div key={status} className="cursor-pointer py-1 hover:text-blue-600" onClick={() => {setSelectedStatus(status); setShowFilter(false);}}>{status}</div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         {/* TOP METRICS 3-CARDS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-          {/* Settled Volume Card */}
           <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative">
             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">SETTLED VOLUME</span>
             <div className="flex items-baseline gap-2 mt-1.5">
@@ -87,7 +117,6 @@ export default function SettlementReport() {
             </div>
           </div>
 
-          {/* Pending Payouts Card */}
           <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative flex flex-col justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">PENDING PAYOUTS</span>
@@ -104,7 +133,6 @@ export default function SettlementReport() {
             </div>
           </div>
 
-          {/* Error Rate Card */}
           <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative">
             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">ERROR RATE</span>
             <div className="flex items-baseline gap-2 mt-1.5">
@@ -120,7 +148,6 @@ export default function SettlementReport() {
 
         {/* MIDDLE SECTION - GRAPH AREA & STATUS BREAKDOWN */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
-          {/* Daily Settlement Volume Graph Placeholder Container */}
           <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between min-h-[320px]">
             <div className="flex justify-between items-center">
               <h3 className="text-xs font-bold text-slate-900">Daily Settlement Volume</h3>
@@ -129,8 +156,6 @@ export default function SettlementReport() {
                 <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-slate-200 block"></span> Pending</span>
               </div>
             </div>
-
-            {/* Simulated Blank Graph Grid Space with Day Labels */}
             <div className="w-full flex-1 flex items-end justify-between px-2 pt-8 pb-2">
               <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Mon</div>
               <div className="text-[11px] text-gray-400 font-semibold w-full text-center">Tue</div>
@@ -142,11 +167,9 @@ export default function SettlementReport() {
             </div>
           </div>
 
-          {/* Status Breakdown Panel */}
           <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col justify-between">
             <div>
               <h3 className="text-xs font-bold text-slate-900 mb-4">Status Breakdown</h3>
-              
               <div className="space-y-3.5">
                 <div className="flex justify-between items-center text-xs">
                   <span className="flex items-center gap-2 font-medium text-slate-600">
@@ -154,14 +177,12 @@ export default function SettlementReport() {
                   </span>
                   <span className="font-bold text-slate-900">94.2%</span>
                 </div>
-
                 <div className="flex justify-between items-center text-xs">
                   <span className="flex items-center gap-2 font-medium text-slate-600">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 block"></span> Pending Verification
                   </span>
                   <span className="font-bold text-slate-900">5.1%</span>
                 </div>
-
                 <div className="flex justify-between items-center text-xs border-b border-gray-100 pb-4">
                   <span className="flex items-center gap-2 font-medium text-slate-600">
                     <span className="w-1.5 h-1.5 rounded-full bg-rose-500 block"></span> Failed/Flagged
@@ -170,8 +191,6 @@ export default function SettlementReport() {
                 </div>
               </div>
             </div>
-
-            {/* Embedded Visual Tech Artwork Box from image_88fe8c.png */}
             <div className="w-full h-24 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg relative overflow-hidden flex items-center justify-center p-3">
               <div className="w-full h-full opacity-20 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:10px_10px]"></div>
               <div className="absolute w-16 h-10 border border-white/20 rounded transform rotate-12 bg-white/5 flex flex-col justify-between p-1.5">
@@ -179,7 +198,6 @@ export default function SettlementReport() {
                 <div className="w-full h-1 bg-white/20 rounded-full"></div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -196,7 +214,7 @@ export default function SettlementReport() {
           </div>
 
           <div className="overflow-x-auto">
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left border-collapse text-xs">
+            <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-[#f8fafd] text-gray-400 uppercase text-[10px] font-bold tracking-wider border-b border-gray-200">
                   <th className="p-4 pl-6 font-semibold">Settlement ID</th>
@@ -208,52 +226,36 @@ export default function SettlementReport() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-slate-700 font-medium">
-                {settlementLogs.map((log, index) => (
+                {filteredLogs.map((log, index) => (
                   <tr key={index} className="hover:bg-slate-50/50 group transition-colors">
-                    {/* ID */}
                     <td className="p-4 pl-6 text-slate-500 font-semibold">{log.id}</td>
-                    
-                    {/* Merchant Profile */}
                     <td className="p-4 flex items-center gap-2.5">
                       <div className={`w-6 h-6 rounded-full ${log.avatarBg} text-[9px] font-bold flex items-center justify-center`}>
                         {log.initials}
                       </div>
                       <span className="font-bold text-slate-800">{log.merchant}</span>
                     </td>
-                    
-                    {/* Timestamp */}
                     <td className="p-4 text-gray-400 font-medium">{log.date}</td>
-                    
-                    {/* Value */}
                     <td className="p-4 text-slate-900 font-bold">{log.amount}</td>
-                    
-                    {/* State Tag */}
                     <td className="p-4">
                       <span className={`px-2 py-0.5 rounded font-black text-[9px] tracking-wide ${log.statusStyle}`}>
                         {log.status}
                       </span>
                     </td>
-                    
-                    {/* Row Pointer Arrow */}
                     <td className="p-4 text-center pr-6 text-gray-300 group-hover:text-gray-500 transition-colors cursor-pointer">
                       ➔
                     </td>
                   </tr>
                 ))}
               </tbody>
-            </table></div>
+            </table>
           </div>
 
-          {/* Table Footer Pagination Layout */}
           <div className="flex justify-between items-center px-6 py-4 border-t border-gray-100 text-xs text-gray-400 font-medium">
-            <span>Showing 4 of 1,280 results</span>
+            <span>Showing {filteredLogs.length} of {settlementLogs.length} results</span>
             <div className="flex items-center gap-1">
-              <button className="p-1 border border-gray-200 bg-white rounded text-gray-400 hover:bg-gray-50 cursor-not-allowed">
-                🡨
-              </button>
-              <button className="p-1 border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">
-                🡪
-              </button>
+              <button className="p-1 border border-gray-200 bg-white rounded text-gray-400 hover:bg-gray-50 cursor-not-allowed">🡨</button>
+              <button className="p-1 border border-gray-200 bg-white rounded text-slate-600 hover:bg-gray-50 shadow-sm">🡪</button>
             </div>
           </div>
         </div>

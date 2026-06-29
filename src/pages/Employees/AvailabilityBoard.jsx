@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, MapPin, AlertCircle, Calendar, ExternalLink } from 'lucide-react';
+import { useToast } from '../../components/common/ToastNotification';
 
 const columnsData = {
   Available: [
@@ -51,6 +52,7 @@ const columnsData = {
 };
 
 export default function AvailabilityBoard() {
+  const { addToast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
 
   const filterCards = (cards) => {
@@ -61,7 +63,7 @@ export default function AvailabilityBoard() {
   };
 
   return (
-    <div className="availability-board-flow" style={{ position: 'relative', minHeight: 'calc(100vh - 180px)' }}>
+    <div className="availability-board-flow" style={{ position: 'relative', minHeight: 'calc(100vh - 180px)', paddingBottom: '40px' }}>
       {/* Title Header with search bar inside header */}
       <div className="partners-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
@@ -98,7 +100,12 @@ export default function AvailabilityBoard() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filterCards(columnsData.Available).map((card, idx) => (
-              <div key={idx} className="panel" style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div 
+                key={idx} 
+                className="panel" 
+                onClick={() => addToast(`Viewing availability details for ${card.name}`, "success")}
+                style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', marginBottom: 0 }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <img src={card.avatar} alt={card.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
@@ -107,7 +114,12 @@ export default function AvailabilityBoard() {
                       <span style={{ display: 'block', fontSize: '11px', color: 'var(--muted)' }}>{card.role}</span>
                     </div>
                   </div>
-                  <ExternalLink size={14} color="var(--muted)" style={{ cursor: 'pointer' }} />
+                  <ExternalLink 
+                    size={14} 
+                    color="var(--muted)" 
+                    style={{ cursor: 'pointer' }} 
+                    onClick={(e) => { e.stopPropagation(); addToast(`Opening dashboard profile link for ${card.name}`, "success"); }}
+                  />
                 </div>
                 
                 <div style={{ fontSize: '11px' }}>
@@ -148,7 +160,12 @@ export default function AvailabilityBoard() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filterCards(columnsData.Busy).map((card, idx) => (
-              <div key={idx} className="panel" style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div 
+                key={idx} 
+                className="panel" 
+                onClick={() => addToast(`Viewing availability details for ${card.name}`, "success")}
+                style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', marginBottom: 0 }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <img src={card.avatar} alt={card.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
@@ -194,7 +211,12 @@ export default function AvailabilityBoard() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filterCards(columnsData.OnJob).map((card, idx) => (
-              <div key={idx} className="panel" style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div 
+                key={idx} 
+                className="panel" 
+                onClick={() => addToast(`Viewing availability details for ${card.name}`, "success")}
+                style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', marginBottom: 0 }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <img src={card.avatar} alt={card.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
@@ -240,7 +262,12 @@ export default function AvailabilityBoard() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {filterCards(columnsData.OnLeave).map((card, idx) => (
-              <div key={idx} className="panel" style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+              <div 
+                key={idx} 
+                className="panel" 
+                onClick={() => addToast(`Viewing availability details for ${card.name}`, "success")}
+                style={{ padding: '14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', marginBottom: 0 }}
+              >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <img src={card.avatar} alt={card.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />

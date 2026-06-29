@@ -10,13 +10,14 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import { useToast } from "../../components/common/ToastNotification";
 
 function MetricCard({ title, value, change, icon }) {
   return (
     <div className="bg-white border border-slate-300 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-[11px] uppercase tracking-widest font-bold text-slate-600">
+          <p className="text-[9px] uppercase tracking-widest font-extrabold text-slate-500">
             {title}
           </p>
 
@@ -29,9 +30,14 @@ function MetricCard({ title, value, change, icon }) {
 
         <div className="text-indigo-700">{icon}</div>
       </div>
-
-      <div className="h-1 bg-slate-100 rounded-full mt-5">
-        <div className="h-1 bg-indigo-700 rounded-full w-3/4"></div>
+      
+      <div className="flex justify-between items-center mt-2 w-full">
+        <span className="text-[9px] text-emerald-600 font-semibold">
+          {change}
+        </span>
+        <div className="w-16 h-[3px] bg-slate-100 rounded-full overflow-hidden">
+          <div className="h-full bg-indigo-700 w-3/4 rounded-full"></div>
+        </div>
       </div>
     </div>
   );
@@ -129,7 +135,7 @@ export default function ReferralDashboard() {
         {/* HEADER */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-black text-indigo-950">
+            <h1 className="text-3xl font-black text-indigo-955">
               Referral Management
             </h1>
             <p className="text-slate-500 mt-2">
@@ -165,25 +171,29 @@ export default function ReferralDashboard() {
             title="Total Referrals"
             value={(12842 + (transactions.length - 3)).toLocaleString()}
             change="+12.5%"
-            icon={<Users size={18} />}
+            icon={<Users size={14} />}
+            onClick={() => addToast("Card clicked: Total Referrals volume history", "success")}
           />
           <MetricCard
             title="Conversion Rate"
             value="24.8%"
             change="+2.1%"
-            icon={<Target size={18} />}
+            icon={<Target size={14} />}
+            onClick={() => addToast("Card clicked: Conversion Rate dynamics", "success")}
           />
           <MetricCard
             title="Rewards Paid"
             value="$142.5k"
             change="Target $150k"
-            icon={<Wallet size={18} />}
+            icon={<Wallet size={14} />}
+            onClick={() => addToast("Card clicked: Rewards Paid ledger", "success")}
           />
           <MetricCard
             title="ROI"
             value="4.2x"
             change="+0.4x"
-            icon={<TrendingUp size={18} />}
+            icon={<TrendingUp size={14} />}
+            onClick={() => addToast("Card clicked: ROI performance analytics", "success")}
           />
         </div>
 
@@ -213,7 +223,7 @@ export default function ReferralDashboard() {
               ))}
             </div>
 
-            <div className="flex justify-between mt-3 text-xs font-bold text-slate-700 px-3">
+            <div className="flex justify-between mt-3 text-[10px] font-bold text-slate-500 px-3">
               <span>MON</span>
               <span>TUE</span>
               <span>WED</span>
@@ -234,24 +244,28 @@ export default function ReferralDashboard() {
               title="Summer Growth Blitz"
               referrals="3,420 Referrals"
               conv="32%"
+              onClick={() => addToast("Opening campaign metrics for Summer Growth Blitz", "success")}
             />
             <CampaignItem
               icon="🚀"
               title="Early Adopter IV"
               referrals="2,105 Referrals"
               conv="28%"
+              onClick={() => addToast("Opening campaign metrics for Early Adopter IV", "success")}
             />
             <CampaignItem
               icon="🎁"
               title="Black Friday Social"
               referrals="1,890 Referrals"
               conv="21%"
+              onClick={() => addToast("Opening campaign metrics for Black Friday Social", "success")}
             />
             <CampaignItem
               icon="⭐"
               title="Loyalty Rewards"
               referrals="1,540 Referrals"
               conv="18%"
+              onClick={() => addToast("Opening campaign metrics for Loyalty Rewards", "success")}
             />
           </div>
         </div>

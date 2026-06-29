@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 
 export default function ExcelExportPage() {
+  // States for interactive actions
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showSyncContent, setShowSyncContent] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("2023-10-01"); // Default date state
+
+  const handleNextPage = () => {
+    if (currentPage < 3) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
+    }
+  };
+
   return (
     <AdminShell activeTab="Reports & Analytics">
       <div className="w-full min-h-screen bg-[#f8fafd] p-8 text-slate-700 antialiased font-sans">
@@ -16,19 +33,28 @@ export default function ExcelExportPage() {
           </div>
           
           {/* Filter Bar Controls */}
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Date Range Selector */}
+          <div className="flex items-center gap-3">
+            
+            {/* Date Picker Filter with Integrated More Filters Icon (🎛️) */}
             <div className="flex flex-col">
-              <span className="text-[10px] font-bold text-gray-400 mb-1">Date Range</span>
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-bold text-slate-700 shadow-sm">
-                <span>📅</span> Oct 01 - Oct 31, 2023
-              </button>
+              <span className="text-[10px] font-bold text-gray-400 mb-1">Select Date</span>
+              <div className="flex items-center gap-1.5">
+                <div className="relative flex items-center bg-white border border-gray-200 rounded shadow-sm px-2.5 py-1.5 focus-within:border-indigo-500">
+                  <span className="text-xs mr-1 pointer-events-none">📅</span>
+                  <input 
+                    type="date" 
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    className="bg-transparent text-xs font-bold text-slate-700 focus:outline-none cursor-pointer"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Data Type Dropdown */}
+            {/* Clean Data Type Dropdown (No Side Icon Here) */}
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-gray-400 mb-1">Data Type</span>
-              <select className="px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-bold text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 min-w-[100px]">
+              <select className="px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-bold text-slate-700 shadow-sm focus:outline-none focus:border-indigo-500 min-w-[120px] h-[28px]">
                 <option>All Types</option>
                 <option>Financial</option>
                 <option>Marketing</option>
@@ -37,18 +63,11 @@ export default function ExcelExportPage() {
               </select>
             </div>
 
-            {/* More Filters Toggle */}
-            <div className="flex flex-col justify-end pt-5">
-              <button className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded text-xs font-bold text-slate-700 shadow-sm hover:bg-gray-50 transition-colors">
-                <span>🎛️</span> More Filters
-              </button>
-            </div>
           </div>
         </div>
 
         {/* METRICS & ACTIVE JOBS INFRASTRUCTURE */}
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-5 mb-6">
-          
           {/* Card 1: Total Exports */}
           <div className="bg-white border border-gray-200/60 rounded-xl p-5 shadow-sm md:col-span-1 lg:col-span-1 flex flex-col justify-between min-h-[115px]">
             <div>
@@ -79,22 +98,17 @@ export default function ExcelExportPage() {
               <span className="text-[10px] text-indigo-200 font-medium block">Est. completion in 2 mins</span>
             </div>
             
-            {/* Right aligned Percentage Radial Loader Context */}
             <div className="flex flex-col items-center justify-center shrink-0 z-10">
               <span className="text-2xl font-black tracking-tighter">78%</span>
               <span className="text-[9px] uppercase font-bold tracking-widest text-indigo-200 mt-0.5">Progress</span>
             </div>
 
-            {/* Back ambient design vector */}
             <div className="absolute right-[-20px] bottom-[-20px] w-32 h-32 bg-indigo-500/10 rounded-full pointer-events-none"></div>
           </div>
-
         </div>
 
         {/* LOG DATA CONTAINER MATRIX */}
         <div className="bg-white border border-gray-200/70 rounded-xl shadow-sm overflow-hidden mb-6">
-          
-          {/* Segment Filter Menu Toolbar */}
           <div className="flex justify-between items-center px-5 py-3.5 border-b border-gray-100 bg-white">
             <span className="text-xs font-black text-slate-800 tracking-wide uppercase">Recent Export Logs</span>
             <div className="flex items-center gap-1.5 text-xs text-gray-400">
@@ -105,9 +119,9 @@ export default function ExcelExportPage() {
             </div>
           </div>
 
-          {/* Data Log Table Frame */}
+          {/* Table Framework */}
           <div className="overflow-x-auto">
-            <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-[#f8fafd] text-gray-400 border-b border-gray-200/60 uppercase text-[9px] font-black tracking-wider">
                   <th className="py-3 px-5">File Name</th>
@@ -119,8 +133,6 @@ export default function ExcelExportPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 font-bold text-slate-700 bg-white">
-                
-                {/* Row 1: Ready Excel Sheet */}
                 <tr className="hover:bg-slate-50/40 transition-colors">
                   <td className="py-3.5 px-5 flex items-center gap-3">
                     <span className="w-8 h-8 rounded bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-xl shadow-sm">📄</span>
@@ -145,107 +157,45 @@ export default function ExcelExportPage() {
                     </span>
                   </td>
                 </tr>
-
-                {/* Row 2: Marketing Sheets */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-5 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-xl shadow-sm">📄</span>
-                    <span className="font-black text-slate-900 text-xs">marketing_reach_oct_audit.xlsx</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded uppercase">Marketing</span>
-                  </td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-slate-200 overflow-hidden shrink-0">
-                      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=40&q=80" alt="Avatar" className="w-full h-full object-cover" />
-                    </div>
-                    <span className="text-xs text-slate-800 font-medium">Marcus Thorne</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium text-[11px] leading-tight">
-                    Oct 22, 2023 <span className="block text-gray-400 text-[10px] mt-0.5">09:15</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-600 font-semibold text-xs">11.2 MB</td>
-                  <td className="py-3.5 px-5 text-right">
-                    <span className="text-[9px] font-black bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded inline-flex items-center gap-1 uppercase tracking-wide">
-                      ● Ready
-                    </span>
-                  </td>
-                </tr>
-
-                {/* Row 3: System Failed Row Instance */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-5 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center text-xl shadow-sm">⚠️</span>
-                    <span className="font-black text-slate-900 text-xs">full_user_migration_dump.xlsx</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded uppercase">System</span>
-                  </td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-slate-100 border border-gray-200 flex items-center justify-center text-[10px] text-slate-500 shrink-0">
-                      🤖
-                    </div>
-                    <span className="text-xs text-slate-800 font-medium">System Automator</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium text-[11px] leading-tight">
-                    Oct 21, 2023 <span className="block text-gray-400 text-[10px] mt-0.5">03:00</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-gray-400 text-xs">0 KB</td>
-                  <td className="py-3.5 px-5 text-right">
-                    <span className="text-[9px] font-black bg-rose-50 text-rose-600 px-2 py-0.5 rounded inline-flex items-center gap-1 uppercase tracking-wide">
-                      ✕ Failed
-                    </span>
-                  </td>
-                </tr>
-
-                {/* Row 4: Operational Log Segment */}
-                <tr className="hover:bg-slate-50/40 transition-colors">
-                  <td className="py-3.5 px-5 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-xl shadow-sm">📄</span>
-                    <span className="font-black text-slate-900 text-xs">regional_ops_south_division.xlsx</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded uppercase">Operational</span>
-                  </td>
-                  <td className="py-3.5 px-4 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-slate-200 overflow-hidden shrink-0">
-                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=40&q=80" alt="Avatar" className="w-full h-full object-cover" />
-                    </div>
-                    <span className="text-xs text-slate-800 font-medium">Elena Rodriguez</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-500 font-medium text-[11px] leading-tight">
-                    Oct 20, 2023 <span className="block text-gray-400 text-[10px] mt-0.5">17:50</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-600 font-semibold text-xs">8.4 MB</td>
-                  <td className="py-3.5 px-5 text-right">
-                    <span className="text-[9px] font-black bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded inline-flex items-center gap-1 uppercase tracking-wide">
-                      ● Ready
-                    </span>
-                  </td>
-                </tr>
-
               </tbody>
-            </table></div>
+            </table>
           </div>
 
-          {/* Pagination Navigation Footer Controls */}
+          {/* Pagination Controls */}
           <div className="bg-[#f8fafd] border-t border-gray-100 px-5 py-3 flex justify-between items-center text-xs font-bold text-gray-400">
-            <span>Showing 1-10 of 1,248 exports</span>
+            <span>Showing {(currentPage - 1) * 10 + 1}-{currentPage * 10} of 1,248 exports</span>
             <div className="flex items-center gap-1">
-              <button className="px-2.5 py-1 bg-white border border-gray-200 rounded text-gray-300 font-bold cursor-not-allowed text-[11px] shadow-sm">Previous</button>
-              <button className="px-3 py-1 bg-[#1d0094] border border-transparent rounded text-white font-bold text-[11px] shadow-sm">1</button>
-              <button className="px-3 py-1 bg-white border border-gray-200 rounded text-slate-700 font-bold text-[11px] hover:bg-gray-50 shadow-sm transition-colors">2</button>
-              <button className="px-3 py-1 bg-white border border-gray-200 rounded text-slate-700 font-bold text-[11px] hover:bg-gray-50 shadow-sm transition-colors">3</button>
-              <button className="px-2.5 py-1 bg-white border border-gray-200 rounded text-slate-700 font-bold text-[11px] hover:bg-gray-50 shadow-sm transition-colors">Next</button>
+              <button 
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                className={`px-2.5 py-1 bg-white border border-gray-200 rounded font-bold text-[11px] shadow-sm transition-colors ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-slate-700 hover:bg-gray-50'}`}
+              >
+                Previous
+              </button>
+              
+              {[1, 2, 3].map((page) => (
+                <button 
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`px-3 py-1 border rounded text-[11px] shadow-sm font-bold transition-colors ${currentPage === page ? 'bg-[#1d0094] border-transparent text-white' : 'bg-white border-gray-200 text-slate-700 hover:bg-gray-50'}`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button 
+                onClick={handleNextPage}
+                disabled={currentPage === 3}
+                className={`px-2.5 py-1 bg-white border border-gray-200 rounded font-bold text-[11px] shadow-sm transition-colors ${currentPage === 3 ? 'text-gray-300 cursor-not-allowed' : 'text-slate-700 hover:bg-gray-50'}`}
+              >
+                Next
+              </button>
             </div>
           </div>
-
         </div>
 
         {/* BOTTOM UTILITY ROW MODULES */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-          
-          {/* Box Left: Auto-Archival Policy info */}
           <div className="bg-slate-50/50 border border-gray-200/70 rounded-xl p-5 shadow-sm md:col-span-3 flex items-start gap-4">
             <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-xl text-[#1d0094] shrink-0 font-bold">
               ℹ️
@@ -253,12 +203,11 @@ export default function ExcelExportPage() {
             <div>
               <h4 className="text-xs font-black text-slate-900 uppercase tracking-wide">Auto-Archival Policy</h4>
               <p className="text-[11px] text-gray-500 leading-relaxed mt-1 font-medium">
-                Exports older than 90 days are automatically moved to cold storage to optimize system performance. You can request retrieval of archived files via the Support portal.
+                Exports older than 90 days are automatically moved to cold storage to optimize system performance.
               </p>
             </div>
           </div>
 
-          {/* Box Right: External Data Bridge Configuration Link */}
           <div className="bg-white border border-gray-200/70 rounded-xl p-5 shadow-sm md:col-span-2 flex flex-col justify-between text-center min-h-[110px]">
             <div className="flex items-center justify-center gap-2 text-gray-500">
               <span className="text-xl">☁️</span>
@@ -267,12 +216,38 @@ export default function ExcelExportPage() {
             <p className="text-[11px] text-gray-400 font-semibold leading-normal mt-1">
               Connect your AWS S3 bucket to automatically sync daily Excel dumps.
             </p>
-            <button className="text-xs text-[#1d0094] font-black hover:underline mt-2 cursor-pointer">
-              Configure Sync
+            <button 
+              onClick={() => setShowSyncContent(!showSyncContent)}
+              className="text-xs text-[#1d0094] font-black hover:underline mt-2 cursor-pointer focus:outline-none"
+            >
+              {showSyncContent ? "Hide Configuration" : "Configure Sync"}
             </button>
           </div>
-
         </div>
+
+        {/* CONDITIONAL RELATED CONTENT MODULE FOR CONFIGURE SYNC */}
+        {showSyncContent && (
+          <div className="mt-6 bg-indigo-50/60 border border-indigo-100 rounded-xl p-6 shadow-sm animate-fadeIn">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-lg">⚙️</span>
+              <h3 className="text-sm font-bold text-indigo-950 uppercase tracking-wider">Sync Pipeline Related Content</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div className="bg-white p-4 border border-indigo-100/80 rounded-lg shadow-xs">
+                <span className="font-bold block text-slate-900 mb-1">Active Pipeline Status</span>
+                <p className="text-gray-500 font-medium">Connected to AWS Bucket <code className="bg-gray-100 px-1 py-0.5 rounded text-rose-600">us-east-1/excel-dumps</code>.</p>
+              </div>
+              <div className="bg-white p-4 border border-indigo-100/80 rounded-lg shadow-xs">
+                <span className="font-bold block text-slate-900 mb-1">Sync Cron Schedule</span>
+                <p className="text-gray-500 font-medium">Automated script runs at midnight <code className="text-slate-900 font-bold">00:00 UTC</code> daily.</p>
+              </div>
+              <div className="bg-white p-4 border border-indigo-100/80 rounded-lg shadow-xs">
+                <span className="font-bold block text-slate-900 mb-1">Recent Failure Metrics</span>
+                <p className="text-gray-500 font-medium">0 system pipeline drops reported in the past 30 days.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </AdminShell>
