@@ -1,22 +1,40 @@
 import React, { useState } from 'react';
-import { Search, SlidersHorizontal, Download, ChevronLeft, ChevronRight, Check, X, Calendar, ClipboardCheck } from 'lucide-react';
+import { Search, SlidersHorizontal, Download, ChevronLeft, ChevronRight, CheckCircle2, ShieldAlert, Ban, Trash2 } from 'lucide-react';
 import { useToast } from '../../components/common/ToastNotification';
 
 const leaveRequests = [
-  { name: 'John Doe', role: 'Senior Developer', type: 'SICK LEAVE', typeClass: 'sick', duration: 'Oct 24 - Oct 26 (3 Days)', reason: 'Severe seasonal flu and high fever.', status: 'Pending', statusClass: 'pending', initials: 'JD', bg: '#f1ebf8', color: 'var(--primary)' },
-  { name: 'Sarah Smith', role: 'UI Designer', type: 'ANNUAL', typeClass: 'annual', duration: 'Nov 12 - Nov 20 (9 Days)', reason: 'Pre-planned family vacation to Greece.', status: 'Approved', statusClass: 'active', initials: 'SS', bg: '#ecfdf5', color: '#059669' },
-  { name: 'Michael Chen', role: 'Accountant', type: 'BEREAVEMENT', typeClass: 'bereavement', duration: 'Oct 25 - Oct 25 (1 Day)', reason: 'Personal emergency / Family matter.', status: 'Pending', statusClass: 'pending', initials: 'MC', bg: '#fee2e2', color: '#ef4444' },
-  { name: 'Elena Rodriguez', role: 'Marketing Lead', type: 'ANNUAL', typeClass: 'annual', duration: 'Nov 01 - Nov 05 (5 Days)', reason: 'Moving houses and settling in.', status: 'Rejected', statusClass: 'suspended', initials: 'ER', bg: '#e0f2fe', color: '#0284c7' }
+  { id: 'emp_1', name: 'John Doe', role: 'Senior Developer', type: 'SICK LEAVE', typeClass: 'sick', duration: 'Oct 24 - Oct 26 (3 Days)', reason: 'Severe seasonal flu and high fever.', status: 'Pending', statusClass: 'pending', initials: 'JD', bg: '#f1ebf8', color: 'var(--primary)', isOnLeave: true },
+  { id: 'emp_2', name: 'Sarah Smith', role: 'UI Designer', type: 'ANNUAL', typeClass: 'annual', duration: 'Nov 12 - Nov 20 (9 Days)', reason: 'Pre-planned family vacation to Greece.', status: 'Approved', statusClass: 'active', initials: 'SS', bg: '#ecfdf5', color: '#059669', isOnLeave: true },
+  { id: 'emp_3', name: 'Michael Chen', role: 'Accountant', type: 'BEREAVEMENT', typeClass: 'bereavement', duration: 'Oct 25 - Oct 25 (1 Day)', reason: 'Personal emergency / Family matter.', status: 'Pending', statusClass: 'pending', initials: 'MC', bg: '#fee2e2', color: '#ef4444', isOnLeave: true },
+  { id: 'emp_4', name: 'Elena Rodriguez', role: 'Marketing Lead', type: 'ANNUAL', typeClass: 'annual', duration: 'Nov 01 - Nov 05 (5 Days)', reason: 'Moving houses and settling in.', status: 'Rejected', statusClass: 'suspended', initials: 'ER', bg: '#e0f2fe', color: '#0284c7', isOnLeave: false }
 ];
 
 export default function LeaveManagement() {
   const { addToast } = useToast();
   const [search, setSearch] = useState('');
   const [requests, setRequests] = useState(leaveRequests);
+  
+  // लीव रिमार्क्स को हैंडल करने के लिए स्टेट
+  const [employeeRemarks, setEmployeeRemarks] = useState({});
 
-  const handleAction = (name, nextStatus) => {
-    setRequests(requests.map(r => r.name === name ? { ...r, status: nextStatus, statusClass: nextStatus === 'Approved' ? 'active' : 'suspended' } : r));
-    addToast(`Leave request status updated: "${nextStatus}" for ${name}`, "success");
+  const executeStatusTrigger = (employeeId, name, nextStatus) => {
+    setRequests(requests.map(r => 
+      r.id === employeeId 
+        ? { ...r, status: nextStatus, statusClass: nextStatus === 'ACTIVE' ? 'active' : 'suspended' } 
+        : r
+    ));
+
+    const remark = employeeRemarks[employeeId] || '';
+    const remarkMsg = remark ? ` with justification: "${remark}"` : '';
+    
+    addToast(`Success: Status changed to ${nextStatus} for ${name}${remarkMsg}!`, "success");
+  };
+
+  const syncRemarkState = (employeeId, value) => {
+    setEmployeeRemarks(prev => ({
+      ...prev,
+      [employeeId]: value
+    }));
   };
 
   const filteredRequests = requests.filter(r =>
@@ -141,13 +159,13 @@ export default function LeaveManagement() {
                 <th>DURATION</th>
                 <th>REASON</th>
                 <th>STATUS</th>
-                <th style={{ width: '120px', textAlign: 'right' }}>ACTIONS</th>
+                <th style={{ width: '220px', textAlign: 'right' }}>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
               {filteredRequests.map((row, index) => (
                 <tr 
-                  key={index} 
+                  key={row.id || index} 
                   onClick={() => addToast(`Reviewing leave detail timeline for ${row.name}`, "success")}
                   className="partner-row-clickable"
                 >
@@ -180,28 +198,83 @@ export default function LeaveManagement() {
                       {row.status}
                     </span>
                   </td>
+                  
+                  {/* UPDATED ACTIONS COLUMN WITH INSTANT ICONS & REMARK TEXTBOX */}
                   <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'right' }}>
-                    {row.status === 'Pending' ? (
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px' }}>
+                    <div style={{ 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      gap: '6px', 
+                      alignItems: 'flex-end',
+                      width: '100%' 
+                    }}>
+                      {/* Action Buttons Panel */}
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                        {/* ACTIVATE */}
                         <button 
-                          onClick={() => handleAction(row.name, 'Approved')}
-                          style={{ border: 'none', background: '#d1fae5', color: '#059669', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }} 
-                          title="Approve Leave"
+                          type="button"
+                          onClick={() => executeStatusTrigger(row.id, row.name, 'ACTIVE')}
+                          title="Set Active"
+                          style={{ border: '1px solid #bbf7d0', background: '#f0fdf4', cursor: 'pointer', color: '#16a34a', padding: '6px', borderRadius: '6px', display: 'flex' }}
                         >
-                          <Check size={14} />
+                          <CheckCircle2 size={15} strokeWidth={2.5} />
                         </button>
+
+                        {/* SUSPEND */}
                         <button 
-                          onClick={() => handleAction(row.name, 'Rejected')}
-                          style={{ border: 'none', background: '#fee2e2', color: '#dc2626', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center' }} 
-                          title="Reject Leave"
+                          type="button"
+                          onClick={() => executeStatusTrigger(row.id, row.name, 'SUSPEND')}
+                          title="Suspend Session"
+                          style={{ border: '1px solid #fed7aa', background: '#fff7ed', cursor: 'pointer', color: '#ea580c', padding: '6px', borderRadius: '6px', display: 'flex' }}
                         >
-                          <X size={14} />
+                          <ShieldAlert size={15} strokeWidth={2.5} />
+                        </button>
+
+                        {/* BLOCK */}
+                        <button 
+                          type="button"
+                          onClick={() => executeStatusTrigger(row.id, row.name, 'BLOCK')}
+                          title="Block Security Access"
+                          style={{ border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', color: '#dc2626', padding: '6px', borderRadius: '6px', display: 'flex' }}
+                        >
+                          <Ban size={15} strokeWidth={2.5} />
+                        </button>
+
+                        {/* DELETE */}
+                        <button 
+                          type="button"
+                          onClick={() => executeStatusTrigger(row.id, row.name, 'DELETE')}
+                          title="Purge Record"
+                          style={{ border: '1px solid #e2e8f0', background: '#f8fafc', cursor: 'pointer', color: '#4b5563', padding: '6px', borderRadius: '6px', display: 'flex' }}
+                        >
+                          <Trash2 size={15} strokeWidth={2.5} />
                         </button>
                       </div>
-                    ) : (
-                      <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: '700' }}>Completed</span>
-                    )}
+
+                      {/* Dynamic Textbox for Leave Justification */}
+                      {row.isOnLeave && (
+                        <div style={{ width: '100%', maxWidth: '180px', marginTop: '2px' }}>
+                          <input
+                            type="text"
+                            placeholder="Leave justification..."
+                            value={employeeRemarks[row.id] || ''}
+                            onChange={(e) => syncRemarkState(row.id, e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '5px 8px',
+                              fontSize: '11px',
+                              border: '1px solid #cbd5e1',
+                              borderRadius: '4px',
+                              outline: 'none',
+                              backgroundColor: '#ffffff',
+                              color: '#334155'
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </td>
+
                 </tr>
               ))}
               {filteredRequests.length === 0 && (
@@ -215,7 +288,7 @@ export default function LeaveManagement() {
 
         {/* Pagination footer */}
         <div className="directory-table-footer">
-          <span className="footer-results-text">Showing {filteredRequests.length} of 4 requests</span>
+          <span className="footer-results-text">Showing {filteredRequests.length} of {requests.length} requests</span>
           <div className="pagination-wrap">
             <button onClick={() => addToast("Loaded previous leaves page", "success")} className="pag-nav-btn cursor-pointer" type="button" disabled>
               <ChevronLeft size={16} />

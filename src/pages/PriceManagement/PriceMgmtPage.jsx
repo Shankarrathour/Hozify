@@ -7,7 +7,7 @@ import {
 } from '../../components/common/popups/Modals';
 import { triggerDownload, generateCSV } from '../../utils/downloadHelper';
 import { 
-  Search, Plus, Download, Edit, Trash2, Eye, Banknote, DollarSign, Clock, AlertTriangle, Play
+  Search, Plus, Download, Edit, Trash2, Eye, Banknote, DollarSign, Clock, AlertTriangle, Play, ListOrdered
 } from 'lucide-react';
 
 const INITIAL_PRICES = [
@@ -30,10 +30,27 @@ export default function PriceMgmtPage() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
+  const [isAllServicesOpen, setIsAllServicesOpen] = useState(false); // Naya modal state saari services ke liye
 
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [warningAction, setWarningAction] = useState(null);
+
+  // Common Blue Button Style
+  const blueButtonStyle = {
+    background: '#2563eb', // Standard Professional Blue Color
+    color: '#fff',
+    border: 'none',
+    padding: '10px 16px',
+    borderRadius: '8px',
+    fontSize: '13px',
+    fontWeight: '700',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    transition: 'background 0.2s'
+  };
 
   const formFields = [
     { name: 'name', label: 'Pricing Rule Name', type: 'text', placeholder: 'e.g. Appliance Installation Base', required: true },
@@ -90,6 +107,15 @@ export default function PriceMgmtPage() {
     addToast('Pricing rules directory downloaded!', 'success');
   };
 
+  // Map prices array into key-value format for PreviewModal component layout
+  const getAllServicesData = () => {
+    const dataObj = {};
+    prices.forEach(p => {
+      dataObj[p.name] = `$${p.rate.toFixed(2)} (${p.type})`;
+    });
+    return dataObj;
+  };
+
   const filteredPrices = prices.filter(p => 
     p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     p.type.toLowerCase().includes(searchTerm.toLowerCase())
@@ -111,10 +137,14 @@ export default function PriceMgmtPage() {
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Configure service base pricing, labor charges, surge multiplier ceilings, and peak hour additions.</p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={handleExportCSV} className="custom-btn-secondary">
+            {/* Nayi Button: View All Services with Price */}
+            <button onClick={() => setIsAllServicesOpen(true)} style={blueButtonStyle}>
+              <ListOrdered size={16} strokeWidth={2.5} /> View All Services
+            </button>
+            <button onClick={handleExportCSV} style={blueButtonStyle}>
               <Download size={16} strokeWidth={2.5} /> Export CSV
             </button>
-            <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
+            <button onClick={() => setIsAddOpen(true)} style={blueButtonStyle}>
               <Plus size={16} strokeWidth={2.5} /> Create Pricing Rule
             </button>
           </div>
@@ -266,6 +296,14 @@ export default function PriceMgmtPage() {
           'Peak Hour Surcharge Addition': `$${selectedPrice?.peakHour.toFixed(2)}`,
           'Status State': selectedPrice?.status
         }} 
+      />
+
+      {/* Naya PreviewModal Configured for viewing all service data */}
+      <PreviewModal
+        isOpen={isAllServicesOpen}
+        onClose={() => setIsAllServicesOpen(false)}
+        title="All Services Pricing List"
+        data={getAllServicesData()}
       />
 
       <SuccessModal 

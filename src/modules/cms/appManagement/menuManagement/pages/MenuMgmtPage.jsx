@@ -191,16 +191,23 @@ export default function MenuMgmtPage({ defaultTab }) {
             <h1 className="custom-page-heading">App Sidebar Menu Control - {activeTab}</h1>
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Dynamically adjust client app sidebar hierarchies, re-order tabs, and verify role accessibility permissions.</p>
           </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={handleDownloadJSON} className="custom-btn-secondary">
-              <Download size={16} strokeWidth={2.5} /> Download JSON
+                      <div style={{ display: 'flex', gap: '12px' }}>
+                        <button onClick={handleDownloadJSON}  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+            >
+                          <Download size={16} strokeWidth={2.5} /> Download 
+                        </button>
+                        <button onClick={handleExportCSV}   className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+            >
+                          <Download size={16} strokeWidth={2.5} /> Export CSV
+                         </button>
+                        <button
+              onClick={() => setIsAddOpen(true)}
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+            >
+              <Plus size={16} strokeWidth={2.5} />
+              Add User
             </button>
-            <button onClick={handleExportCSV} className="custom-btn-secondary">
-              <Download size={16} strokeWidth={2.5} /> Export CSV
-            </button>
-            <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
-              <Plus size={16} strokeWidth={2.5} /> Add Menu Node
-            </button>
+            
           </div>
         </div>
 

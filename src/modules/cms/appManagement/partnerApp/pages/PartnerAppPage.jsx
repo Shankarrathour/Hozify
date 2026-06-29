@@ -173,15 +173,23 @@ export default function PartnerAppPage({ defaultTab = 'config' }) {
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Configure partner-side application layouts, define feature permissions, and control dynamic role mapping.</p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={handleDownloadJSON} className="custom-btn-secondary">
-              <Download size={16} strokeWidth={2.5} /> Download JSON
+                      
+                        <button onClick={handleDownloadJSON}  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+            >
+                          <Download size={16} strokeWidth={2.5} /> Download 
+                        </button>
+                        <button onClick={handleExportCSV}   className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+            >
+                          <Download size={16} strokeWidth={2.5} /> Export CSV
+                         </button>
+                        <button
+              onClick={() => setIsAddOpen(true)}
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+            >
+              <Plus size={16} strokeWidth={2.5} />
+              Add Partner
             </button>
-            <button onClick={handleExportCSV} className="custom-btn-secondary">
-              <Download size={16} strokeWidth={2.5} /> Export CSV
-            </button>
-            <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
-              <Plus size={16} strokeWidth={2.5} /> Add Config
-            </button>
+            
           </div>
         </div>
 

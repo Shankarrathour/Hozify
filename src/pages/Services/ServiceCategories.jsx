@@ -12,16 +12,17 @@ import {
   ChevronRight,
   Sparkles,
   X,
-  Save
+  Save,
+  DollarSign
 } from 'lucide-react';
 
 const initialCategories = [
-  { id: 'CAT-2024-001', name: 'Facility Maintenance', total: 12, active: 8, revenue: 42500.00, status: 'VERIFIED' },
-  { id: 'CAT-2024-002', name: 'HVAC Systems', total: 8, active: 8, revenue: 31200.00, status: 'VERIFIED' },
-  { id: 'CAT-2024-003', name: 'Emergency Response', total: 15, active: 4, revenue: 12400.00, status: 'PENDING' },
-  { id: 'CAT-2024-004', name: 'Groundskeeping', total: 22, active: 18, revenue: 18900.00, status: 'VERIFIED' },
-  { id: 'CAT-2024-005', name: 'Compliance Audits', total: 5, active: 0, revenue: 0.00, status: 'SUSPENDED' },
-  { id: 'CAT-2024-006', name: 'IT Infrastructure', total: 11, active: 11, revenue: 23400.00, status: 'VERIFIED' }
+  { id: 'CAT-2024-001', name: 'Facility Maintenance', total: 12, active: 8, revenue: 42500.00, status: 'VERIFIED', basePrice: 150 },
+  { id: 'CAT-2024-002', name: 'HVAC Systems', total: 8, active: 8, revenue: 31200.00, status: 'VERIFIED', basePrice: 200 },
+  { id: 'CAT-2024-003', name: 'Emergency Response', total: 15, active: 4, revenue: 12400.00, status: 'PENDING', basePrice: 350 },
+  { id: 'CAT-2024-004', name: 'Groundskeeping', total: 22, active: 18, revenue: 18900.00, status: 'VERIFIED', basePrice: 90 },
+  { id: 'CAT-2024-005', name: 'Compliance Audits', total: 5, active: 0, revenue: 0.00, status: 'SUSPENDED', basePrice: 500 },
+  { id: 'CAT-2024-006', name: 'IT Infrastructure', total: 11, active: 11, revenue: 23400.00, status: 'VERIFIED', basePrice: 180 }
 ];
 
 export default function ServiceCategories({ onAddCategory }) {
@@ -30,7 +31,7 @@ export default function ServiceCategories({ onAddCategory }) {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   
   // Modals / Focused Actions State Engine
-  const [activeModal, setActiveModal] = useState(null); // 'view' | 'edit' | null
+  const [activeModal, setActiveModal] = useState(null); // 'view' | 'edit' | 'price' | null
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Dynamic Multi-filter Handler
@@ -65,11 +66,15 @@ export default function ServiceCategories({ onAddCategory }) {
     setActiveModal(null);
   };
 
+  const handleGlobalPriceSetup = () => {
+    alert("Global Price Configuration Module triggered! Individual pricing can be set directly via action table rows.");
+  };
+
   // Client side native CSV Downloader
   const handleExportCSV = () => {
-    const headers = ["Category ID", "Name", "Total Services", "Active Services", "Revenue MTD", "Status"];
+    const headers = ["Category ID", "Name", "Total Services", "Active Services", "Revenue MTD", "Status", "Base Price"];
     const rows = filteredCategories.map(cat => [
-      cat.id, cat.name, cat.total, cat.active, cat.revenue, cat.status
+      cat.id, cat.name, cat.total, cat.active, cat.revenue, cat.status, cat.basePrice || 0
     ]);
 
     const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
@@ -84,7 +89,6 @@ export default function ServiceCategories({ onAddCategory }) {
     document.body.removeChild(link);
   };
 
-  // Standard Printer Hook trigger
   const handlePrintPDF = () => {
     window.print();
   };
@@ -110,6 +114,31 @@ export default function ServiceCategories({ onAddCategory }) {
         </div>
         <div style={{ display: 'flex', gap: '12px', position: 'relative' }}>
           
+          {/* NEW: Add Price for Service Main Header Action Trigger Button */}
+          <button
+            onClick={handleGlobalPriceSetup}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: '#ffffff',
+              color: '#25108f',
+              border: '1px solid #25108f',
+              borderRadius: '6px',
+              padding: '8px 16px',
+              fontSize: '13px',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#f4eff8'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; }}
+            type="button"
+          >
+            <DollarSign size={16} />
+            <span>Add Price for Service</span>
+          </button>
+
           {/* Working Interactive Filter Dropdown Mechanism */}
           <button
             onClick={() => setShowFilterDropdown(!showFilterDropdown)}
@@ -168,7 +197,7 @@ export default function ServiceCategories({ onAddCategory }) {
         </div>
       </div>
 
-      {/* KPI Cards Row (Reflecting Live Calculative Arrays) */}
+      {/* KPI Cards Row */}
       <div className="no-print" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
         <div className="panel" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid var(--line)', padding: '20px', display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -233,9 +262,10 @@ export default function ServiceCategories({ onAddCategory }) {
                 <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Name</th>
                 <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Total Services</th>
                 <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Active Services</th>
+                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Base Price</th>
                 <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Revenue (MTD)</th>
                 <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
-                <th className="no-print" style={{ padding: '12px 8px', width: '110px' }} />
+                <th className="no-print" style={{ padding: '12px 8px', width: '140px' }} />
               </tr>
             </thead>
             <tbody>
@@ -245,6 +275,9 @@ export default function ServiceCategories({ onAddCategory }) {
                   <td style={{ padding: '16px 8px', fontSize: '14px', fontWeight: '700', color: 'var(--text)' }}>{cat.name}</td>
                   <td style={{ padding: '16px 8px', fontSize: '13px', color: 'var(--text)' }}>{String(cat.total).padStart(2, '0')}</td>
                   <td style={{ padding: '16px 8px', fontSize: '13px', color: 'var(--text)' }}>{cat.active}</td>
+                  <td style={{ padding: '16px 8px', fontSize: '13px', fontWeight: '700', color: '#16a34a' }}>
+                    ${cat.basePrice ? cat.basePrice.toFixed(2) : '0.00'}
+                  </td>
                   <td style={{ padding: '16px 8px', fontSize: '13px', fontWeight: '700', color: 'var(--text)' }}>
                     ${cat.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </td>
@@ -256,7 +289,16 @@ export default function ServiceCategories({ onAddCategory }) {
                     }}>{cat.status}</span>
                   </td>
                   <td className="no-print" style={{ padding: '16px 8px' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      {/* NEW: Individual Action Button to Customize Price Matrix */}
+                      <button 
+                        onClick={() => openModal('price', cat)} 
+                        style={{ border: 'none', background: 'transparent', color: '#16a34a', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }} 
+                        type="button" 
+                        title="Set Price"
+                      >
+                        <DollarSign size={16} strokeWidth={2.5} />
+                      </button>
                       <button onClick={() => openModal('view', cat)} style={{ border: 'none', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', padding: '4px' }} type="button" title="View"><Eye size={16} /></button>
                       <button onClick={() => openModal('edit', cat)} style={{ border: 'none', background: 'transparent', color: 'var(--muted)', cursor: 'pointer', padding: '4px' }} type="button" title="Edit"><Edit size={16} /></button>
                       <button onClick={() => handleDelete(cat.id)} style={{ border: 'none', background: 'transparent', color: '#dc2626', cursor: 'pointer', padding: '4px' }} type="button" title="Delete"><Trash2 size={16} /></button>
@@ -281,9 +323,8 @@ export default function ServiceCategories({ onAddCategory }) {
         </div>
       </div>
 
-      {/* Bottom Insights & Quick Actions Row */}
+      {/* Bottom Insights */}
       <div className="no-print" style={{ display: 'grid', gridTemplateColumns: '1fr', mdGridTemplateColumns: '1.5fr 1fr', gap: '20px' }}>
-        {/* Insights Panel */}
         <div className="panel" style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', padding: '24px' }}>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '16px' }}>
             <Sparkles size={16} style={{ color: '#1e40af' }} />
@@ -311,38 +352,27 @@ export default function ServiceCategories({ onAddCategory }) {
           </div>
         </div>
 
-        {/* Quick Actions Panel */}
         <div className="panel" style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
           <h3 style={{ fontSize: '12px', fontWeight: '800', color: '#0f172a', margin: 0 }}>QUICK ACTIONS</h3>
           <p style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '6px', marginBottom: '16px', lineHeight: '1.4' }}>
             Need to perform bulk operations or export this view?
           </p>
           <div style={{ display: 'flex', gap: '8px', zIndex: 1, position: 'relative' }}>
-            <button
-              onClick={handleExportCSV}
-              style={{ height: '34px', padding: '0 12px', background: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}
-              type="button"
-            >
-              EXPORT CSV
-            </button>
-            <button
-              onClick={handlePrintPDF}
-              style={{ height: '34px', padding: '0 12px', background: '#ffffff', color: '#0f172a', border: '1px solid var(--line)', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}
-              type="button"
-            >
-              PRINT PDF
-            </button>
+            <button onClick={handleExportCSV} style={{ height: '34px', padding: '0 12px', background: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }} type="button">EXPORT CSV</button>
+            <button onClick={handlePrintPDF} style={{ height: '34px', padding: '0 12px', background: '#ffffff', color: '#0f172a', border: '1px solid var(--line)', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }} type="button">PRINT PDF</button>
           </div>
         </div>
       </div>
 
-      {/* Dynamic View / Edit Action Modal Sheet */}
+      {/* Dynamic Modal Layer Framework (Supports View, Edit, and Price Config) */}
       {activeModal && selectedCategory && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(15,23,42,0.4)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
           <div style={{ background: '#ffffff', width: '100%', maxWidth: '450px', borderRadius: '12px', padding: '24px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800' }}>
-                {activeModal === 'view' ? 'Category Details' : 'Modify Service Matrix'}
+                {activeModal === 'view' && 'Category Details'}
+                {activeModal === 'edit' && 'Modify Service Matrix'}
+                {activeModal === 'price' && `Configure Pricing: ${selectedCategory.name}`}
               </h3>
               <button onClick={() => setActiveModal(null)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--muted)' }}>
                 <X size={18} />
@@ -350,60 +380,82 @@ export default function ServiceCategories({ onAddCategory }) {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>CATEGORY NAME</label>
-                <input
-                  type="text"
-                  disabled={activeModal === 'view'}
-                  value={selectedCategory.name}
-                  onChange={(e) => setSelectedCategory({ ...selectedCategory, name: e.target.value })}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff', outline: 'none' }}
-                />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              
+              {/* PRICE CONFIGURATION MODAL VIEW SHEET */}
+              {activeModal === 'price' ? (
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>TOTAL SERVICES</label>
-                  <input
-                    type="number"
-                    disabled={activeModal === 'view'}
-                    value={selectedCategory.total}
-                    onChange={(e) => setSelectedCategory({ ...selectedCategory, total: parseInt(e.target.value) || 0 })}
-                    style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff' }}
-                  />
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#25108f', marginBottom: '6px' }}>SET INDIVIDUAL SERVICE BASE PRICE ($)</label>
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <span style={{ position: 'absolute', left: '12px', fontWeight: '700', color: 'var(--muted)' }}>$</span>
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      value={selectedCategory.basePrice || ''}
+                      onChange={(e) => setSelectedCategory({ ...selectedCategory, basePrice: parseFloat(e.target.value) || 0 })}
+                      style={{ width: '100%', padding: '10px 12px 10px 28px', borderRadius: '6px', border: '2px solid #25108f', outline: 'none', fontSize: '15px', fontWeight: '700' }}
+                    />
+                  </div>
+                  <p style={{ fontSize: '12px', color: 'var(--muted)', marginTop: '8px' }}>This value represents the flat-rate pricing applied natively per active operation instance.</p>
                 </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>ACTIVE SERVICES</label>
-                  <input
-                    type="number"
-                    disabled={activeModal === 'view'}
-                    value={selectedCategory.active}
-                    onChange={(e) => setSelectedCategory({ ...selectedCategory, active: parseInt(e.target.value) || 0 })}
-                    style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff' }}
-                  />
-                </div>
-              </div>
+              ) : (
+                /* STANDARD MATRIX FIELDS */
+                <>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>CATEGORY NAME</label>
+                    <input
+                      type="text"
+                      disabled={activeModal === 'view'}
+                      value={selectedCategory.name}
+                      onChange={(e) => setSelectedCategory({ ...selectedCategory, name: e.target.value })}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff', outline: 'none' }}
+                    />
+                  </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>STATUS CLASSIFICATION</label>
-                <select
-                  disabled={activeModal === 'view'}
-                  value={selectedCategory.status}
-                  onChange={(e) => setSelectedCategory({ ...selectedCategory, status: e.target.value })}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff' }}
-                >
-                  <option value="VERIFIED">VERIFIED</option>
-                  <option value="PENDING">PENDING</option>
-                  <option value="SUSPENDED">SUSPENDED</option>
-                </select>
-              </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>TOTAL SERVICES</label>
+                      <input
+                        type="number"
+                        disabled={activeModal === 'view'}
+                        value={selectedCategory.total}
+                        onChange={(e) => setSelectedCategory({ ...selectedCategory, total: parseInt(e.target.value) || 0 })}
+                        style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff' }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>ACTIVE SERVICES</label>
+                      <input
+                        type="number"
+                        disabled={activeModal === 'view'}
+                        value={selectedCategory.active}
+                        onChange={(e) => setSelectedCategory({ ...selectedCategory, active: parseInt(e.target.value) || 0 })}
+                        style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff' }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', marginBottom: '4px' }}>STATUS CLASSIFICATION</label>
+                    <select
+                      disabled={activeModal === 'view'}
+                      value={selectedCategory.status}
+                      onChange={(e) => setSelectedCategory({ ...selectedCategory, status: e.target.value })}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--line)', background: activeModal === 'view' ? '#f8fafc' : '#fff' }}
+                    >
+                      <option value="VERIFIED">VERIFIED</option>
+                      <option value="PENDING">PENDING</option>
+                      <option value="SUSPENDED">SUSPENDED</option>
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
 
             <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
               <button onClick={() => setActiveModal(null)} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid var(--line)', background: '#fff', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
                 Close
               </button>
-              {activeModal === 'edit' && (
+              {(activeModal === 'edit' || activeModal === 'price') && (
                 <button onClick={handleSaveChanges} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: '#25108f', color: '#fff', fontSize: '13px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Save size={14} />
                   <span>Save Changes</span>

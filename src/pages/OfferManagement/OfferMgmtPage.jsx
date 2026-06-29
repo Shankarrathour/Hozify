@@ -7,7 +7,7 @@ import {
 } from '../../components/common/popups/Modals';
 import { triggerDownload, generateCSV } from '../../utils/downloadHelper';
 import { 
-  Search, Plus, Download, Edit, Trash2, Eye, Tag, Gift, Percent, Calendar
+  Search, Plus, Download, Edit, Trash2, Eye, Tag, Percent, Calendar
 } from 'lucide-react';
 
 const INITIAL_OFFERS = [
@@ -117,10 +117,19 @@ export default function OfferMgmtPage() {
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Configure client discount campaigns, seasonal promo codes, and referral coupons dynamically.</p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={handleExportCSV} className="custom-btn-secondary">
+            {/* Export CSV Button (Blue Background) */}
+            <button 
+              onClick={handleExportCSV} 
+              style={{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: '#fff', display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 16px', borderRadius: '8px', border: '1px solid #2563eb', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+            >
               <Download size={16} strokeWidth={2.5} /> Export CSV
             </button>
-            <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
+            
+            {/* Create Offer Button (Blue Background) */}
+            <button 
+              onClick={() => setIsAddOpen(true)} 
+              style={{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: '#fff', display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 16px', borderRadius: '8px', border: '1px solid #2563eb', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+            >
               <Plus size={16} strokeWidth={2.5} /> Create Offer
             </button>
           </div>
@@ -173,128 +182,83 @@ export default function OfferMgmtPage() {
 
         {/* Table */}
         <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', overflow: 'hidden' }}>
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
-            <thead>
-              <tr className="custom-table-header">
-                <th style={{ padding: '16px 24px' }}>OFFER CODE</th>
-                <th style={{ padding: '16px 24px' }}>TYPE</th>
-                <th style={{ padding: '16px 24px' }}>VALUE</th>
-                <th style={{ padding: '16px 24px' }}>MAX CAP</th>
-                <th style={{ padding: '16px 24px' }}>EXPIRY</th>
-                <th style={{ padding: '16px 24px' }}>STATUS</th>
-                <th style={{ padding: '16px 24px', textAlign: 'right' }}>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredOffers.length > 0 ? (
-                filteredOffers.map(row => (
-                  <tr key={row.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '18px 24px', fontWeight: '700', color: '#1e1b4b' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontFamily: 'monospace', fontSize: '14px', background: '#f1f5f9', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }} onClick={() => handleCopyCode(row.code)}>
-                          {row.code}
-                        </span>
-                      </div>
-                      <span style={{ display: 'block', fontSize: '11px', color: '#64748b', fontWeight: '400', marginTop: '4px' }}>
-                        {row.description}
-                      </span>
-                    </td>
-                    <td style={{ padding: '18px 24px', fontWeight: '600' }}>{row.type}</td>
-                    <td style={{ padding: '18px 24px', fontWeight: '700', color: '#059669' }}>{row.value}</td>
-                    <td style={{ padding: '18px 24px', fontFamily: 'monospace' }}>${row.maxCap.toFixed(2)}</td>
-                    <td style={{ padding: '18px 24px', fontWeight: '600', fontFamily: 'monospace' }}>{row.expiry}</td>
-                    <td style={{ padding: '18px 24px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '10px',
-                          fontWeight: '800',
-                          background: row.status === 'Active' ? '#d1fae5' : '#f1f5f9',
-                          color: row.status === 'Active' ? '#065f46' : '#475569'
-                        }}>
-                          {row.status}
-                        </span>
-                        <Toggle 
-                          checked={row.status === 'Active'} 
-                          onChange={(checked) => handleStatusToggle(row, checked)} 
-                        />
-                      </div>
-                    </td>
-                    <td style={{ padding: '18px 24px', textAlign: 'right' }}>
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                        <button onClick={() => { setSelectedOffer(row); setIsPreviewOpen(true); }} style={{ border: 'none', background: '#f1f5f9', padding: '6px', borderRadius: '6px', cursor: 'pointer', color: '#334155' }} title="Preview"><Eye size={16} /></button>
-                        <button onClick={() => { setSelectedOffer(row); setIsEditOpen(true); }} style={{ border: 'none', background: '#f1f5f9', padding: '6px', borderRadius: '6px', cursor: 'pointer', color: '#334155' }} title="Edit"><Edit size={16} /></button>
-                        <button onClick={() => { setSelectedOffer(row); setIsDeleteOpen(true); }} style={{ border: 'none', background: '#fef2f2', padding: '6px', borderRadius: '6px', cursor: 'pointer', color: '#ef4444' }} title="Delete"><Trash2 size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={7} style={{ padding: '32px', textAlign: 'center', color: '#64748b' }}>No offer records found.</td>
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+              <thead>
+                <tr className="custom-table-header">
+                  <th style={{ padding: '16px 24px' }}>OFFER CODE</th>
+                  <th style={{ padding: '16px 24px' }}>TYPE</th>
+                  <th style={{ padding: '16px 24px' }}>VALUE</th>
+                  <th style={{ padding: '16px 24px' }}>MAX CAP</th>
+                  <th style={{ padding: '16px 24px' }}>EXPIRY</th>
+                  <th style={{ padding: '16px 24px' }}>STATUS</th>
+                  <th style={{ padding: '16px 24px', textAlign: 'right' }}>ACTIONS</th>
                 </tr>
-              )}
-            </tbody>
-          </table></div>
+              </thead>
+              <tbody>
+                {filteredOffers.length > 0 ? (
+                  filteredOffers.map(row => (
+                    <tr key={row.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '18px 24px', fontWeight: '700', color: '#1e1b4b' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontFamily: 'monospace', fontSize: '14px', background: '#f1f5f9', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }} onClick={() => handleCopyCode(row.code)}>
+                            {row.code}
+                          </span>
+                        </div>
+                        <span style={{ display: 'block', fontSize: '11px', color: '#64748b', fontWeight: '400', marginTop: '4px' }}>
+                          {row.description}
+                        </span>
+                      </td>
+                      <td style={{ padding: '18px 24px', fontWeight: '600' }}>{row.type}</td>
+                      <td style={{ padding: '18px 24px', fontWeight: '700', color: '#059669' }}>{row.value}</td>
+                      <td style={{ padding: '18px 24px', fontFamily: 'monospace' }}>${row.maxCap.toFixed(2)}</td>
+                      <td style={{ padding: '18px 24px', fontWeight: '600', fontFamily: 'monospace' }}>{row.expiry}</td>
+                      <td style={{ padding: '18px 24px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '10px',
+                            fontWeight: '800',
+                            background: row.status === 'Active' ? '#d1fae5' : '#f1f5f9',
+                            color: row.status === 'Active' ? '#065f46' : '#475569'
+                          }}>
+                            {row.status}
+                          </span>
+                          <Toggle 
+                            checked={row.status === 'Active'} 
+                            onChange={(checked) => handleStatusToggle(row, checked)} 
+                          />
+                        </div>
+                      </td>
+                      <td style={{ padding: '18px 24px', textAlign: 'right' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                          <button onClick={() => { setSelectedOffer(row); setIsPreviewOpen(true); }} style={{ border: 'none', background: '#f1f5f9', padding: '6px', borderRadius: '6px', cursor: 'pointer', color: '#334155' }} title="Preview"><Eye size={16} /></button>
+                          <button onClick={() => { setSelectedOffer(row); setIsEditOpen(true); }} style={{ border: 'none', background: '#f1f5f9', padding: '6px', borderRadius: '6px', cursor: 'pointer', color: '#334155' }} title="Edit"><Edit size={16} /></button>
+                          <button onClick={() => { setSelectedOffer(row); setIsDeleteOpen(true); }} style={{ border: 'none', background: '#fef2f2', padding: '6px', borderRadius: '6px', cursor: 'pointer', color: '#ef4444' }} title="Delete"><Trash2 size={16} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} style={{ padding: '32px', textAlign: 'center', color: '#64748b' }}>No offer records found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </div>
 
-      {/* Modals */}
-      <AddEditModal 
-        isOpen={isAddOpen} 
-        onClose={() => setIsAddOpen(false)} 
-        title="Create Offer Campaign" 
-        fields={formFields} 
-        onSave={handleAddSave} 
-      />
-
-      <AddEditModal 
-        isOpen={isEditOpen} 
-        onClose={() => setIsEditOpen(false)} 
-        title="Edit Campaign Details" 
-        fields={formFields} 
-        initialValues={selectedOffer} 
-        onSave={handleEditSave} 
-      />
-
-      <DeleteConfirmationModal 
-        isOpen={isDeleteOpen} 
-        onClose={() => setIsDeleteOpen(false)} 
-        onConfirm={handleDeleteConfirm} 
-        itemName={`offer code "${selectedOffer?.code}"`} 
-      />
-
-      <PreviewModal 
-        isOpen={isPreviewOpen} 
-        onClose={() => setIsPreviewOpen(false)} 
-        title="Offer Campaign Details" 
-        data={{
-          'Offer ID': selectedOffer?.id,
-          'Promo Code': selectedOffer?.code,
-          'Campaign Type': selectedOffer?.type,
-          'Discount Value': selectedOffer?.value,
-          'Expiry Target Date': selectedOffer?.expiry,
-          'Maximum Discount Cap': `$${selectedOffer?.maxCap.toFixed(2)}`,
-          'Status': selectedOffer?.status,
-          'Detailed Description': selectedOffer?.description
-        }} 
-      />
-
-      <SuccessModal 
-        isOpen={isSuccessOpen} 
-        onClose={() => setIsSuccessOpen(false)} 
-        message={successMsg} 
-      />
-
-      <WarningModal 
-        isOpen={isWarningOpen} 
-        onClose={() => setIsWarningOpen(false)} 
-        title="Offer Visibility Toggle" 
-        message="Toggling this campaign immediately updates code availability status inside checkout panels. Proceed?" 
-        onConfirm={warningAction} 
-      />
+      {/* Modals Configuration */}
+      <AddEditModal isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} title="Create Offer Campaign" fields={formFields} onSave={handleAddSave} />
+      <AddEditModal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title="Edit Campaign Details" fields={formFields} initialValues={selectedOffer} onSave={handleEditSave} />
+      <DeleteConfirmationModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleDeleteConfirm} itemName={`offer code "${selectedOffer?.code}"`} />
+      <PreviewModal isOpen={isPreviewOpen} onClose={() => setIsPreviewOpen(false)} title="Offer Campaign Details" data={{ 'Offer ID': selectedOffer?.id, 'Promo Code': selectedOffer?.code, 'Campaign Type': selectedOffer?.type, 'Discount Value': selectedOffer?.value, 'Expiry Target Date': selectedOffer?.expiry, 'Maximum Discount Cap': `$${selectedOffer?.maxCap?.toFixed(2)}`, 'Status': selectedOffer?.status, 'Detailed Description': selectedOffer?.description }} />
+      <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMsg} />
+      <WarningModal isOpen={isWarningOpen} onClose={() => setIsWarningOpen(false)} title="Offer Visibility Toggle" message="Toggling this campaign immediately updates code availability status inside checkout panels. Proceed?" onConfirm={warningAction} />
 
     </AdminShell>
   );
