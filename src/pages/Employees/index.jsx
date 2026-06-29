@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
@@ -21,6 +21,9 @@ import EmployeeEarnings from './EmployeeEarnings';
 import EmployeeAuditLogs from './EmployeeAuditLogs';
 import EmployeeAnalytics from './EmployeeAnalytics';
 
+// Lucide Icons (Proper bold stroke alignment)
+import { CheckCircle2, ShieldAlert, Ban, Trash2, MoreVertical } from 'lucide-react';
+
 export default function Employees({ defaultTab }) {
   const { route, navigate } = useApp();
   
@@ -30,7 +33,7 @@ export default function Employees({ defaultTab }) {
     if (route === ROUTES.employeeAvailability) return 'Availability';
     if (route === ROUTES.branchManagers) return 'BranchManagers';
     if (route === ROUTES.employeeAssignments) return 'EmployeeAssignments';
-    if (route === ROUTES.employeeDocuments) return 'EmployeeDocuments';
+    if (route === ROUTES.employeeDocuments) return 'Documents';
     if (route === ROUTES.employeeKyc) return 'EmployeeKyc';
     if (route === ROUTES.employeeRatings) return 'EmployeeRatings';
     if (route === ROUTES.employeeEarnings) return 'EmployeeEarnings';
@@ -45,14 +48,180 @@ export default function Employees({ defaultTab }) {
 
   const [activeTab, setActiveTab] = useState(getDefaultTab);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  
+  // States to explicitly handle dynamic triggers & inputs
+  const [activeDropdownId, setActiveDropdownId] = useState(null);
+  const [employeeRemarks, setEmployeeRemarks] = useState({});
+  const menuContainerRef = useRef(null);
 
   useEffect(() => {
     setActiveTab(getDefaultTab());
   }, [route, defaultTab]);
 
+  // Global listener to shut down menus on random window clicks
+  useEffect(() => {
+    function handleGlobalClick(event) {
+      if (menuContainerRef.current && !menuContainerRef.current.contains(event.target)) {
+        setActiveDropdownId(null);
+      }
+    }
+    document.addEventListener("mousedown", handleGlobalClick);
+    return () => document.removeEventListener("mousedown", handleGlobalClick);
+  }, []);
+
   const handleSelectEmployee = (emp) => {
     setSelectedEmployee(emp);
     setActiveTab('Profile');
+  };
+
+  // Status Modifiers
+  const executeStatusTrigger = (employeeId, type) => {
+    console.log(`Dispatched event state: [${type}] for context reference: ${employeeId}`);
+    alert(`Success: Employee status changed to ${type}!`);
+    setActiveDropdownId(null); // Instantly dismiss menu container
+  };
+
+  const syncRemarkState = (employeeId, value) => {
+    setEmployeeRemarks(prev => ({
+      ...prev,
+      [employeeId]: value
+    }));
+  };
+
+  // RELIABLE THREE-DOT ACTION DISPATCHER
+  const renderActionsColumn = (employeeId, isOnLeave) => {
+    const isOpen = activeDropdownId === employeeId;
+
+    return (
+      <div 
+        style={{ position: 'relative', display: 'inline-block', verticalAlign: 'middle' }}
+        ref={isOpen ? menuContainerRef : null}
+      >
+        {/* Toggle Button explicitly capturing synthetic propagation */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Prevents child table row actions from blocking this event
+            setActiveDropdownId(isOpen ? null : employeeId);
+          }}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+            color: '#64748b',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '9999px',
+            transition: 'background-color 0.2s',
+            outline: 'none'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+        >
+          <MoreVertical size={20} strokeWidth={2.5} style={{ pointerEvents: 'none' }} />
+        </button>
+
+        {/* Floating Menu overlay container */}
+        {isOpen && (
+          <div 
+            onClick={(e) => e.stopPropagation()} // Prevents clicks inside menu from closing itself
+            style={{
+              position: 'absolute',
+              right: '0',
+              top: '100%',
+              marginTop: '6px',
+              zIndex: 9999, // Kept exceptionally high to bypass any nested CSS table wrappers
+              backgroundColor: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+              padding: '12px',
+              minWidth: '190px'
+            }}
+          >
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>
+              Control Suite
+            </div>
+            
+            {/* Bold Action Icons Row */}
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '14px', 
+              marginBottom: isOnLeave ? '12px' : '0',
+              paddingBottom: isOnLeave ? '8px' : '0',
+              borderBottom: isOnLeave ? '1px solid #f1f5f9' : 'none'
+            }}>
+              
+              {/* ACTIVATE */}
+              <button 
+                type="button"
+                onClick={() => executeStatusTrigger(employeeId, 'ACTIVE')}
+                title="Set Active"
+                style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#16a34a', padding: '4px', display: 'flex' }}
+              >
+                <CheckCircle2 size={18} strokeWidth={3} />
+              </button>
+
+              {/* SUSPEND */}
+              <button 
+                type="button"
+                onClick={() => executeStatusTrigger(employeeId, 'SUSPEND')}
+                title="Suspend Session"
+                style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#ea580c', padding: '4px', display: 'flex' }}
+              >
+                <ShieldAlert size={18} strokeWidth={3} />
+              </button>
+
+              {/* BLOCK */}
+              <button 
+                type="button"
+                onClick={() => executeStatusTrigger(employeeId, 'BLOCK')}
+                title="Block Security Access"
+                style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#dc2626', padding: '4px', display: 'flex' }}
+              >
+                <Ban size={18} strokeWidth={3} />
+              </button>
+
+              {/* DELETE */}
+              <button 
+                type="button"
+                onClick={() => executeStatusTrigger(employeeId, 'DELETE')}
+                title="Purge Record"
+                style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#4b5563', padding: '4px', display: 'flex' }}
+              >
+                <Trash2 size={18} strokeWidth={3} />
+              </button>
+            </div>
+
+            {/* Leave input form handler */}
+            {isOnLeave && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: '#475569' }}>Leave Remark</label>
+                <input
+                  type="text"
+                  placeholder="Type justification..."
+                  value={employeeRemarks[employeeId] || ''}
+                  onChange={(e) => syncRemarkState(employeeId, e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '6px 8px',
+                    fontSize: '12px',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    backgroundColor: '#f8fafc'
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   const employeeTabRoutes = {
@@ -63,7 +232,7 @@ export default function Employees({ defaultTab }) {
     Availability: ROUTES.employeeAvailability,
     Attendance: ROUTES.attendance,
     LeaveManagement: ROUTES.leaveManagement,
-    EmployeeDocuments: ROUTES.employeeDocuments,
+    Documents: ROUTES.employeeDocuments,
     EmployeeKyc: ROUTES.employeeKyc,
     Performance: ROUTES.performance,
     EmployeeRatings: ROUTES.employeeRatings,
@@ -89,13 +258,14 @@ export default function Employees({ defaultTab }) {
         return (
           <EmployeeWorkforce
             onSelectEmployee={handleSelectEmployee}
+            renderActionsColumn={renderActionsColumn}
           />
         );
       case 'BranchManagers':
-        return <BranchManagers />;
+        return <BranchManagers renderActionsColumn={renderActionsColumn} />;
       case 'EmployeeAssignments':
         return <EmployeeAssignments />;
-      case 'EmployeeDocuments':
+      case 'Documents':
         return <EmployeeDocuments />;
       case 'EmployeeKyc':
         return <EmployeeKyc />;
@@ -109,7 +279,7 @@ export default function Employees({ defaultTab }) {
         return <EmployeeAnalytics />;
       case 'Availability':
         return (
-          <AvailabilityBoard />
+          <AvailabilityBoard renderActionsColumn={renderActionsColumn} />
         );
       case 'Performance':
         return (
@@ -121,7 +291,7 @@ export default function Employees({ defaultTab }) {
         );
       case 'LeaveManagement':
         return (
-          <LeaveManagement />
+          <LeaveManagement renderActionsColumn={renderActionsColumn} />
         );
       case 'Reports':
         return (
@@ -154,7 +324,7 @@ export default function Employees({ defaultTab }) {
     'Availability',
     'Attendance',
     'LeaveManagement',
-    'EmployeeDocuments',
+    'Documents',
     'EmployeeKyc',
     'Performance',
     'EmployeeRatings',
@@ -181,7 +351,7 @@ export default function Employees({ defaultTab }) {
             { id: 'Availability', label: 'Availability Board' },
             { id: 'Attendance', label: 'Attendance' },
             { id: 'LeaveManagement', label: 'Leave Management' },
-            { id: 'EmployeeDocuments', label: 'Documents' },
+            { id: 'Documents', label: 'Documents' },
             { id: 'EmployeeKyc', label: 'KYC & Verification' },
             { id: 'Performance', label: 'Performance' },
             { id: 'EmployeeRatings', label: 'Ratings & Reviews' },

@@ -8,7 +8,7 @@ import {
   Percent,
   PlusCircle,
   Calculator,
-  RefreshCcw,
+  RefreshCcw, 
   X
 } from 'lucide-react';
 
@@ -32,11 +32,15 @@ export default function PricingStrategy() {
   
   // Modals & Panels Active UI States
   const [isAddRuleOpen, setIsAddRuleOpen] = useState(false);
+  const [isAddServiceOpen, setIsAddServiceOpen] = useState(false); // New modal state
   const [isBulkUpdateOpen, setIsBulkUpdateOpen] = useState(false);
   const [bulkPercentage, setBulkPercentage] = useState('');
 
   // New Rule Temporary Inputs Form State
   const [newRule, setNewRule] = useState({ name: '', condition: '', adjustment: '', status: 'ACTIVE' });
+
+  // New Service Temporary Inputs Form State
+  const [newService, setNewService] = useState({ name: '', category: 'Maintenance & Care', basePrice: '', platformFee: '10.00', status: 'ACTIVE' });
 
   // Strategy toggles
   const [strategies, setStrategies] = useState({
@@ -109,6 +113,35 @@ export default function PricingStrategy() {
     setRules(prev => [...prev, newRule]);
     setNewRule({ name: '', condition: '', adjustment: '', status: 'ACTIVE' });
     setIsAddRuleOpen(false);
+  };
+
+  // 4. Save new individual service onto catalog logic
+  const handleAddServiceSubmit = (e) => {
+    e.preventDefault();
+    const base = parseFloat(newService.basePrice);
+    const fee = parseFloat(newService.platformFee);
+
+    if (!newService.name || isNaN(base) || isNaN(fee)) {
+      alert('Please enter valid service details');
+      return;
+    }
+
+    const gstCalculated = base * 0.18; // 18% standard GST
+    const finalCalculated = base + gstCalculated + fee;
+
+    const addedService = {
+      name: newService.name,
+      category: newService.category,
+      basePrice: base,
+      gst: gstCalculated,
+      platformFee: fee,
+      finalPrice: finalCalculated,
+      status: newService.status
+    };
+
+    setCatalog(prev => [...prev, addedService]);
+    setNewService({ name: '', category: 'Maintenance & Care', basePrice: '', platformFee: '10.00', status: 'ACTIVE' });
+    setIsAddServiceOpen(false);
   };
 
   // Dynamically calculate average value for visual cards header syncing
@@ -224,9 +257,17 @@ export default function PricingStrategy() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
           <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
-            {/* Search/Filter UI Elements are completely removed from this table row header block */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Pricing Catalog</h3>
+              {/* Added individual price/service creation button */}
+              <button 
+                className="secondary-action-btn font-bold" 
+                type="button" 
+                onClick={() => setIsAddServiceOpen(true)}
+                style={{ height: '28px', padding: '0 10px', fontSize: '11px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              >
+                <PlusCircle size={12} style={{ marginRight: '4px' }} /> Add Service
+              </button>
             </div>
 
             <div className="table-wrap">
@@ -365,7 +406,7 @@ export default function PricingStrategy() {
               <button 
                 className="secondary-action-btn font-bold" 
                 type="button" 
-                onClick={() => setIsAddRuleOpen(true)}
+                  onClick={() => setIsAddRuleOpen(true)}
                 style={{ height: '28px', padding: '0 10px', fontSize: '11px', display: 'flex', alignItems: 'center', cursor: 'pointer' }}
               >
                 <PlusCircle size={12} style={{ marginRight: '4px' }} /> Add
@@ -390,6 +431,97 @@ export default function PricingStrategy() {
 
         </div>
       </div>
+
+      {/* Floating Modal Popup Form for Creating an Individual Price/Service */}
+      {isAddServiceOpen && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)', display: 'flex', justifyContent: 'center',
+          alignItems: 'center', zIndex: 9999
+        }}>
+          <div style={{ background: '#fff', padding: '24px', borderRadius: '12px', width: '380px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <strong style={{ fontSize: '16px', color: 'var(--text)' }}>Add Individual Service Price</strong>
+              <button onClick={() => setIsAddServiceOpen(false)} style={{ border: 'none', background: 'transparent', cursor: 'pointer' }}><X size={18} /></button>
+            </div>
+            
+            <form onSubmit={handleAddServiceSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', marginBottom: '4px' }}>Service Name</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Deep Sofa Cleaning"
+                  value={newService.name} 
+                  onChange={(e) => setNewService({...newService, name: e.target.value})}
+                  style={{ width: '100%', padding: '8px', fontSize: '13px', borderRadius: '6px', border: '1px solid var(--line)', boxSizing: 'border-box' }}
+                  required
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', marginBottom: '4px' }}>Category</label>
+                <select 
+                  value={newService.category} 
+                  onChange={(e) => setNewService({...newService, category: e.target.value})}
+                  style={{ width: '100%', padding: '8px', fontSize: '13px', borderRadius: '6px', border: '1px solid var(--line)', boxSizing: 'border-box', background: '#fff' }}
+                >
+                  <option value="Maintenance & Care">Maintenance & Care</option>
+                  <option value="Appliances">Appliances</option>
+                  <option value="Urgent Services">Urgent Services</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', marginBottom: '4px' }}>Base Price ($)</label>
+                <input 
+                  type="number" 
+                  step="0.01"
+                  placeholder="0.00"
+                  value={newService.basePrice} 
+                  onChange={(e) => setNewService({...newService, basePrice: e.target.value})}
+                  style={{ width: '100%', padding: '8px', fontSize: '13px', borderRadius: '6px', border: '1px solid var(--line)', boxSizing: 'border-box' }}
+                  required
+                />
+                <span style={{ fontSize: '10px', color: 'var(--muted)', display: 'block', marginTop: '2px' }}>*18% GST will be calculated automatically</span>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', marginBottom: '4px' }}>Platform Fee ($)</label>
+                <input 
+                  type="number" 
+                  step="0.01"
+                  placeholder="10.00"
+                  value={newService.platformFee} 
+                  onChange={(e) => setNewService({...newService, platformFee: e.target.value})}
+                  style={{ width: '100%', padding: '8px', fontSize: '13px', borderRadius: '6px', border: '1px solid var(--line)', boxSizing: 'border-box' }}
+                  required
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: 'var(--muted)', marginBottom: '4px' }}>Status</label>
+                <select 
+                  value={newService.status} 
+                  onChange={(e) => setNewService({...newService, status: e.target.value})}
+                  style={{ width: '100%', padding: '8px', fontSize: '13px', borderRadius: '6px', border: '1px solid var(--line)', boxSizing: 'border-box', background: '#fff' }}
+                >
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="PENDING">PENDING</option>
+                </select>
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px', marginTop: '10px', justifyContent: 'flex-end' }}>
+                <button type="button" onClick={() => setIsAddServiceOpen(false)} style={{ padding: '8px 14px', background: '#f1f5f9', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer', color: 'var(--muted)' }}>
+                  Cancel
+                </button>
+                <button type="submit" style={{ padding: '8px 14px', background: '#25108f', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+                  Save Service
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Floating Modal Popup Form for Creating a New Dynamic Pricing Rule */}
       {isAddRuleOpen && (

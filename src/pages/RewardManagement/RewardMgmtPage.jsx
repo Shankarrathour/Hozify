@@ -6,7 +6,7 @@ import {
 } from '../../components/common/popups/Modals';
 import { triggerDownload, generateCSV } from '../../utils/downloadHelper';
 import { 
-  Search, Plus, Download, Edit, Trash2, Eye, Trophy, Award, Gift, Clock, CheckCircle2
+  Search, Plus, Download, Edit, Trash2, Eye, Trophy, Award, Gift, Clock, CheckCircle2, HelpCircle
 } from 'lucide-react';
 
 const INITIAL_REWARDS = [
@@ -21,6 +21,9 @@ export default function RewardMgmtPage() {
   const [rewards, setRewards] = useState(INITIAL_REWARDS);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState('All');
+  
+  // Custom View Information Content State Toggle
+  const [showRewardInfo, setShowRewardInfo] = useState(false);
   
   // Modals
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -96,20 +99,76 @@ export default function RewardMgmtPage() {
         </div>
 
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <h1 className="custom-page-heading">Loyalty &amp; Reward Management</h1>
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Configure and settle user cashback, loyalty programs, referral milestones, and influencer commissions.</p>
           </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={handleExportCSV} className="custom-btn-secondary">
+          
+          {/* Action Buttons with Blue Styling & New Info Action */}
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            {/* NAYA BUTTON: Toggles detailed rewards guidelines */}
+            <button 
+              onClick={() => setShowRewardInfo(!showRewardInfo)} 
+              className="custom-btn-secondary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 16px',
+                borderRadius: '8px',
+                fontSize: '13px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                border: '1px solid #cbd5e1',
+                background: showRewardInfo ? '#e0e7ff' : '#fff',
+                color: '#2A2454'
+              }}
+            >
+              <HelpCircle size={16} /> {showRewardInfo ? 'Hide Information' : 'View Reward Details'}
+            </button>
+
+            <button 
+              onClick={handleExportCSV} 
+              className="custom-btn-secondary"
+              style={{ backgroundColor: '#2A2454', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+            >
               <Download size={16} strokeWidth={2.5} /> Export CSV
             </button>
-            <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
+            
+            <button 
+              onClick={() => setIsAddOpen(true)} 
+              className="custom-btn-primary"
+              style={{ backgroundColor: '#2A2454', color: '#fff', border: 'none', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}
+            >
               <Plus size={16} strokeWidth={2.5} /> Settle Reward
             </button>
           </div>
         </div>
+
+        {/* Dynamic Reward Content Block (Appears according to console details) */}
+        {showRewardInfo && (
+          <div style={{ background: '#f8fafc', borderLeft: '4px solid #2A2454', padding: '20px', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <h3 style={{ margin: 0, color: '#2A2454', fontSize: '15px', fontWeight: '700' }}>Active Console Guidelines & Metrics Matrix</h3>
+            <p style={{ margin: 0, fontSize: '13px', color: '#475569', lineHeight: '1.5' }}>
+              Currently managing <strong>{rewards.length} active pipelines</strong>. Check below your ongoing validation rules setup for distributed segments:
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px', marginTop: '4px' }}>
+              <div style={{ background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontWeight: '700', fontSize: '12px', color: '#2A2454' }}>💸 Cashback Threshold</div>
+                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Standard auto-settle active at $10.00 base trigger limit.</div>
+              </div>
+              <div style={{ background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontWeight: '700', fontSize: '12px', color: '#2A2454' }}>💎 Loyalty Multiplier</div>
+                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Points conversion ratio constant at 10 pts = $0.40 ledger value.</div>
+              </div>
+              <div style={{ background: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontWeight: '700', fontSize: '12px', color: '#2A2454' }}>📣 Partner & Influencer Link</div>
+                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Requires manual admin payout sign-off for actions exceeding $100.00.</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* KPI Cards */}
         <div className="custom-kpi-card-container">

@@ -175,15 +175,24 @@ export default function UserAppPage({ defaultTab = 'config' }) {
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Configure consumer application layouts, enable features, and schedule playstore forced updates.</p>
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button onClick={handleDownloadJSON} className="custom-btn-secondary">
-              <Download size={16} strokeWidth={2.5} /> Download JSON
+            <button onClick={handleDownloadJSON}  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+>
+              <Download size={16} strokeWidth={2.5} /> Download 
             </button>
-            <button onClick={handleExportCSV} className="custom-btn-secondary">
+            <button onClick={handleExportCSV}   className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+>
               <Download size={16} strokeWidth={2.5} /> Export CSV
-            </button>
-            <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
-              <Plus size={16} strokeWidth={2.5} /> Add Config
-            </button>
+             </button>
+            {/* <button onClick={() => setIsAddOpen(true)} className="custom-btn-primary">
+              <Plus size={16} strokeWidth={2.5} /> Add Features
+            </button> */}
+            <button
+  onClick={() => setIsAddOpen(true)}
+  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg"
+>
+  <Plus size={16} strokeWidth={2.5} />
+  Add User
+</button>
           </div>
         </div>
 
@@ -213,7 +222,7 @@ export default function UserAppPage({ defaultTab = 'config' }) {
             </div>
             <div>
               <span style={{ fontSize: '10px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Sidebar Nodes</span>
-              <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#d97706', margin: '2px 0 0 0' }}>{menuToggles} Nodes</h2>
+              <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#d97706', margin: '2px 0 0 0' }}>{menuToggles} </h2>
             </div>
           </div>
           <div className="custom-kpi-card">

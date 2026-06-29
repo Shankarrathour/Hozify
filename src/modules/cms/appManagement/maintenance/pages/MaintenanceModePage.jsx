@@ -3,7 +3,7 @@ import AdminShell from '../../../../../components/layouts/AdminShell';
 import Toggle from '../../../../../components/common/Toggle';
 import { useToast } from '../../../../../components/common/ToastNotification';
 import { 
-  AlertTriangle, ShieldCheck, Clock, Settings, Users, Server, FileText, CheckCircle2, Lock, X
+  AlertTriangle, ShieldCheck, Clock, Settings, Users, Server, FileText, CheckCircle2, Lock, X, Send
 } from 'lucide-react';
 
 export default function MaintenanceModePage() {
@@ -51,6 +51,16 @@ export default function MaintenanceModePage() {
     } else {
       addToast('System Maintenance Mode deactivated! All client applications restored to online status.', 'success');
     }
+  };
+
+  // Nayi function: Message send karne ke liye
+  const handleSendMessage = () => {
+    if (!downtimeMessage.trim()) {
+      addToast('Please enter a message before sending.', 'error');
+      return;
+    }
+    // Yahan aap apna backend API call add kar sakte hain agar zaroorat ho
+    addToast('Downtime message broadcasted successfully!', 'success');
   };
 
   return (
@@ -160,15 +170,40 @@ export default function MaintenanceModePage() {
               </div>
             </div>
 
-            {/* Downtime Message */}
+            {/* Downtime Message with Send Button */}
             <div>
               <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--text)', textTransform: 'uppercase', marginBottom: '8px' }}>Public Downtime Message</label>
-              <textarea
-                rows={3}
-                value={downtimeMessage}
-                onChange={(e) => setDowntimeMessage(e.target.value)}
-                style={{ width: '100%', border: '1px solid var(--line)', borderRadius: '6px', padding: '12px 16px', fontSize: '13px', outline: 'none', resize: 'none', lineHeight: '1.5' }}
-              />
+              <div style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                <textarea
+                  rows={4}
+                  value={downtimeMessage}
+                  onChange={(e) => setDowntimeMessage(e.target.value)}
+                  style={{ width: '100%', border: '1px solid var(--line)', borderRadius: '6px', padding: '12px 16px', paddingBottom: '50px', fontSize: '13px', outline: 'none', resize: 'none', lineHeight: '1.5' }}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    bottom: '12px',
+                    background: '#25108f',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '6px 14px',
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  <Send size={14} />
+                  Send Message
+                </button>
+              </div>
             </div>
 
             {/* Whitelisting */}
