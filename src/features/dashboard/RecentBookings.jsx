@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default function RecentBookings({ bookings = [] }) {
+export default function RecentBookings({ bookings = [], onViewAll }) {
   return (
     <div className="panel bookings-panel">
       <div className="panel-head">
         <h2>Recent Bookings</h2>
-        <button type="button">View All Bookings</button>
+        <button type="button" onClick={onViewAll}>View All Bookings</button>
       </div>
       <div className="table-wrap">
         <table>

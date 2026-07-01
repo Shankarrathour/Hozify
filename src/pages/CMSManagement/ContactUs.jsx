@@ -127,7 +127,7 @@ export default function ContactUs() {
             <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Inquiry Form Builder</h3>
-                <button style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                <button style={{ background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
                   <Plus size={14} /> Add New Field
                 </button>
               </div>

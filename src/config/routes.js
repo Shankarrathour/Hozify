@@ -178,6 +178,7 @@ export const ROUTES = {
   employeeAuditLogs: '/employees/audit-logs',
 
   // Booking Management sub-routes
+  bookingCreate: '/bookings/create',
   bookingAll: '/bookings/all',
   bookingPending: '/bookings/pending',
   bookingAssigned: '/bookings/assigned',

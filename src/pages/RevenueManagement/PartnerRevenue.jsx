@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 import { SlidersHorizontal, Download, Eye, Edit2, ShieldAlert, ShieldCheck, Trophy, Calendar } from "lucide-react";
 
-export default function SellerRevenue() {
+export default function PartnerRevenue() {
   // --- States for Filters & Functionalities ---
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedTimeframe, setSelectedTimeframe] = useState("Last 30 Days");
   const [currentPage, setCurrentPage] = useState(1);
 
   // --- Core Raw Data ---
-  const topSellersData = [
-    { id: 1, name: "Lumina Gear", category: "Electronics", amount: "$1.2M", change: "2.4%" },
-    { id: 2, name: "Aura Living", category: "Home & Decor", amount: "$984K", change: "12.8%" },
-    { id: 3, name: "Vigor Skin", category: "Beauty", amount: "$872K", change: "5.1%" },
+  const topPartnersData = [
+    { id: 1, name: "Alpha ISP Networks", category: "Technology", amount: "$2.2M", change: "4.1%" },
+    { id: 2, name: "Metro BSP Logistics", category: "Delivery", amount: "$1.8M", change: "8.2%" },
+    { id: 3, name: "Global Franchise Corp", category: "Consulting", amount: "$1.2M", change: "3.5%" },
   ];
 
   const initialTableData = [
-    { id: "SL-98234", name: "Lumina Gear", initial: "LG", bg: "bg-blue-50", text: "text-blue-600", category: "Electronics", catBg: "bg-indigo-50 text-indigo-600", sales: 1245000, feesRate: 15, status: "Active" },
-    { id: "SL-11202", name: "Aura Living", initial: "AL", bg: "bg-amber-50", text: "text-amber-600", category: "Home & Decor", catBg: "bg-sky-50 text-sky-600", sales: 984200, feesRate: 12, status: "Active" },
-    { id: "SL-88392", name: "Vigor Skin", initial: "VS", bg: "bg-purple-50", text: "text-purple-600", category: "Beauty", catBg: "bg-purple-50 text-purple-600", sales: 872150, feesRate: 10, status: "Suspended" },
+    { id: "PR-98234", name: "Alpha ISP Networks", initial: "AI", bg: "bg-blue-50", text: "text-blue-600", category: "Technology", catBg: "bg-indigo-50 text-indigo-600", sales: 2245000, feesRate: 5, status: "Active" },
+    { id: "PR-11202", name: "Metro BSP Logistics", initial: "ML", bg: "bg-emerald-50", text: "text-emerald-600", category: "Delivery", catBg: "bg-emerald-50 text-emerald-600", sales: 1884200, feesRate: 8, status: "Active" },
+    { id: "PR-88392", name: "Global Franchise Corp", initial: "GF", bg: "bg-amber-50", text: "text-amber-600", category: "Consulting", catBg: "bg-amber-50 text-amber-600", sales: 1272150, feesRate: 10, status: "Suspended" },
   ];
 
   const [tableData, setTableData] = useState(initialTableData);
@@ -30,15 +30,15 @@ export default function SellerRevenue() {
   });
 
   // --- Action Button Handlers ---
-  const handleViewSeller = (name) => {
+  const handleViewPartner = (name) => {
     alert(`Viewing detailed ledger & profile for: ${name}`);
   };
 
-  const handleEditSeller = (name) => {
+  const handleEditPartner = (name) => {
     alert(`Opening quick editor window for: ${name}`);
   };
 
-  const toggleSellerStatus = (id) => {
+  const togglePartnerStatus = (id) => {
     setTableData(prev => prev.map(item => {
       if (item.id === id) {
         const nextStatus = item.status === "Active" ? "Suspended" : "Active";
@@ -54,18 +54,18 @@ export default function SellerRevenue() {
 
   const handleDownloadReport = () => {
     // Basic structured CSV generator block
-    const headers = "Seller ID,Name,Category,Sales,Fees,Net Revenue,Status\n";
+    const headers = "Partner ID,Name,Type,GTV,Platform Commission,Partner Earnings,Status\n";
     const rows = filteredTableData.map(r => {
-      const fees = r.sales * (r.feesRate / 100);
-      const net = r.sales - fees;
-      return `${r.id},${r.name},${r.category},$${r.sales},$${fees},$${net},${r.status}`;
+      const commission = r.sales * (r.feesRate / 100);
+      const earnings = r.sales - commission;
+      return `${r.id},${r.name},${r.category},$${r.sales},$${commission},$${earnings},${r.status}`;
     }).join("\n");
     
     const blob = new Blob([headers + rows], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.setAttribute("href", url);
-    a.setAttribute("download", `Seller_Revenue_Report_${selectedCategory.replace(" ", "_")}.csv`);
+    a.setAttribute("download", `Partner_Revenue_Report_${selectedCategory.replace(" ", "_")}.csv`);
     a.click();
   };
 
@@ -76,9 +76,9 @@ export default function SellerRevenue() {
         {/* Header Section */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Seller Revenue</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Partner Revenue</h1>
             <p className="text-sm text-slate-500 mt-1">
-              Real-time marketplace performance and seller analytics.
+              Real-time marketplace performance and partner analytics.
             </p>
           </div>
 
@@ -91,9 +91,9 @@ export default function SellerRevenue() {
                 className="appearance-none bg-white border border-slate-200 rounded-lg pl-3 pr-8 py-2 text-xs font-semibold text-slate-600 focus:outline-none cursor-pointer hover:border-slate-300 transition"
               >
                 <option value="All Categories">All Categories</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Home & Decor">Home & Decor</option>
-                <option value="Beauty">Beauty</option>
+                <option value="Technology">Technology</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Consulting">Consulting</option>
               </select>
               <div className="absolute right-3 top-3.5 pointer-events-none border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-400 w-0 h-0" />
             </div>
@@ -115,33 +115,33 @@ export default function SellerRevenue() {
           </div>
         </div>
 
-        {/* Top 10 Sellers & Revenue Trends Widgets */}
+        {/* Top 10 Partners & Revenue Trends Widgets */}
         <div className="grid grid-cols-3 gap-6">
           
-          {/* Compact Top Sellers Card */}
+          {/* Compact Top Partners Card */}
           <div className="bg-white border rounded-xl p-5 flex flex-col justify-between min-h-[260px]">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-sm text-slate-900">Top Sellers</h3>
+                <h3 className="font-bold text-sm text-slate-900">Top Partners</h3>
                 <Trophy className="h-4 w-4 text-amber-500" />
               </div>
 
               <div className="space-y-3.5">
-                {topSellersData.map((seller) => (
-                  <div key={seller.id} className="flex items-center justify-between py-0.5">
+                {topPartnersData.map((partner) => (
+                  <div key={partner.id} className="flex items-center justify-between py-0.5">
                     <div className="flex items-center gap-2.5">
-                      <span className="text-xs font-bold text-slate-400 w-3">{seller.id}</span>
+                      <span className="text-xs font-bold text-slate-400 w-3">{partner.id}</span>
                       <div className="w-7 h-7 rounded bg-slate-50 border border-slate-100 flex items-center justify-center font-bold text-xs text-slate-500">
-                        {seller.name.charAt(0)}
+                        {partner.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-800">{seller.name}</p>
-                        <p className="text-[10px] text-slate-400">{seller.category}</p>
+                        <p className="text-xs font-bold text-slate-800">{partner.name}</p>
+                        <p className="text-[10px] text-slate-400">{partner.category}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs font-bold text-slate-800">{seller.amount}</p>
-                      <p className="text-[10px] font-bold text-emerald-600">↗ {seller.change}</p>
+                      <p className="text-xs font-bold text-slate-800">{partner.amount}</p>
+                      <p className="text-[10px] font-bold text-emerald-600">↗ {partner.change}</p>
                     </div>
                   </div>
                 ))}
@@ -159,8 +159,8 @@ export default function SellerRevenue() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <h3 className="font-bold text-sm text-slate-900">Revenue Trends</h3>
-                  <p className="text-[11px] text-slate-400">Aggregated marketplace sales vs. target projection</p>
+                  <h3 className="font-bold text-sm text-slate-900">Platform Earnings from Partners</h3>
+                  <p className="text-[11px] text-slate-400">Aggregated commission revenue vs. target projection</p>
                 </div>
                 <div className="flex items-center gap-3 text-[10px] font-semibold">
                   <div className="flex items-center gap-1">
@@ -193,12 +193,12 @@ export default function SellerRevenue() {
 
         </div>
 
-        {/* Seller Directory Table Section */}
+        {/* Partner Directory Table Section */}
         <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
           {/* Table Controls */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
             <div>
-              <h3 className="font-bold text-sm text-slate-900">Seller Directory</h3>
+              <h3 className="font-bold text-sm text-slate-900">Partner Directory</h3>
               <p className="text-[11px] text-slate-400 mt-0.5">Showing list updated according to selected parameters</p>
             </div>
             <div className="flex items-center gap-1.5">
@@ -226,11 +226,11 @@ export default function SellerRevenue() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50/70 border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                    <th className="px-5 py-3">Seller Information</th>
-                    <th className="px-5 py-3">Category</th>
-                    <th className="px-5 py-3">Sales Volume</th>
-                    <th className="px-5 py-3">Marketplace Fees</th>
-                    <th className="px-5 py-3">Net Revenue</th>
+                    <th className="px-5 py-3">Partner Information</th>
+                    <th className="px-5 py-3">Partner Type</th>
+                    <th className="px-5 py-3">Gross Transaction Val.</th>
+                    <th className="px-5 py-3">Platform Commission</th>
+                    <th className="px-5 py-3">Partner Earnings</th>
                     <th className="px-5 py-3">Status</th>
                     <th className="px-5 py-3 text-right">Actions</th>
                   </tr>
@@ -262,10 +262,10 @@ export default function SellerRevenue() {
                           <td className="px-5 py-3.5 text-slate-900 font-medium">
                             ${row.sales.toLocaleString()}
                           </td>
-                          <td className="px-5 py-3.5 text-rose-600">
+                          <td className="px-5 py-3.5 text-indigo-600 font-semibold">
                             ${computedFees.toLocaleString()} <span className="text-[10px] text-slate-400 font-normal">({row.feesRate}%)</span>
                           </td>
-                          <td className="px-5 py-3.5 text-slate-900 font-bold">
+                          <td className="px-5 py-3.5 text-emerald-600 font-bold">
                             ${computedNet.toLocaleString()}
                           </td>
                           <td className="px-5 py-3.5">
@@ -280,21 +280,21 @@ export default function SellerRevenue() {
                           <td className="px-5 py-3.5 text-right">
                             <div className="flex items-center justify-end gap-1.5">
                               <button 
-                                onClick={() => handleViewSeller(row.name)}
+                                onClick={() => handleViewPartner(row.name)}
                                 className="p-1 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded transition"
                                 title="View Details"
                               >
                                 <Eye className="h-3.5 w-3.5" />
                               </button>
                               <button 
-                                onClick={() => handleEditSeller(row.name)}
+                                onClick={() => handleEditPartner(row.name)}
                                 className="p-1 text-slate-400 hover:text-amber-600 hover:bg-slate-100 rounded transition"
                                 title="Edit Record"
                               >
                                 <Edit2 className="h-3.5 w-3.5" />
                               </button>
                               <button 
-                                onClick={() => toggleSellerStatus(row.id)}
+                                onClick={() => togglePartnerStatus(row.id)}
                                 className={`p-1 rounded transition ${
                                   row.status === "Active" ? "text-slate-400 hover:text-rose-600 hover:bg-rose-50" : "text-rose-500 hover:text-emerald-600 hover:bg-emerald-50"
                                 }`}
@@ -310,7 +310,7 @@ export default function SellerRevenue() {
                   ) : (
                     <tr>
                       <td colSpan={7} className="text-center py-8 text-slate-400 font-medium">
-                        No sellers found matching the "{selectedCategory}" category filter.
+                        No partners found matching the "{selectedCategory}" category filter.
                       </td>
                     </tr>
                   )}

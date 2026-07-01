@@ -11,18 +11,32 @@ import {
 import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
+import { useToast } from '../../components/common/ToastNotification';
 
 export default function NewMaterialRequest() {
   const { navigate } = useApp();
   const [bookingRef, setBookingRef] = useState('');
   const [department, setDepartment] = useState('Infrastructure & Civil');
+  const [currentStep, setCurrentStep] = useState(1);
+  const { addToast } = useToast();
 
   const handleCancel = () => {
     navigate(ROUTES.materialRequests);
   };
 
   const handleNextStep = () => {
-    alert('Moving to Step 2: Materials');
+    if (currentStep < 4) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      addToast('Material Request Submitted Successfully!', 'success');
+      setTimeout(() => {
+        navigate(ROUTES.materialRequests);
+      }, 1500);
+    }
+  };
+
+  const handlePrevStep = () => {
+    if (currentStep > 1) setCurrentStep(prev => prev - 1);
   };
 
   return (
@@ -51,49 +65,30 @@ export default function NewMaterialRequest() {
         <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '20px 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', flexWrap: 'wrap', gap: '24px' }}>
             
-            {/* Step 1 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#1d1b84', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '13px' }}>
-                1
-              </div>
-              <span style={{ fontSize: '13px', fontWeight: '800', color: '#1d1b84' }}>Booking Info</span>
-            </div>
-
-            <div style={{ flex: 1, height: '2px', background: '#eee9f6', minWidth: '40px', margin: '0 8px' }} />
-
-            {/* Step 2 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e2e8f0', color: '#7a7688', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '13px' }}>
-                2
-              </div>
-              <span style={{ fontSize: '13px', fontWeight: '700', color: '#7a7688' }}>Materials</span>
-            </div>
-
-            <div style={{ flex: 1, height: '2px', background: '#eee9f6', minWidth: '40px', margin: '0 8px' }} />
-
-            {/* Step 3 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e2e8f0', color: '#7a7688', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '13px' }}>
-                3
-              </div>
-              <span style={{ fontSize: '13px', fontWeight: '700', color: '#7a7688' }}>Budgeting</span>
-            </div>
-
-            <div style={{ flex: 1, height: '2px', background: '#eee9f6', minWidth: '40px', margin: '0 8px' }} />
-
-            {/* Step 4 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e2e8f0', color: '#7a7688', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '13px' }}>
-                4
-              </div>
-              <span style={{ fontSize: '13px', fontWeight: '700', color: '#7a7688' }}>Review</span>
-            </div>
+            {[1, 2, 3, 4].map((step, index) => {
+              const labels = ['Booking Info', 'Materials', 'Budgeting', 'Review'];
+              const isActive = currentStep >= step;
+              return (
+                <React.Fragment key={step}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: isActive ? '#1d1b84' : '#e2e8f0', color: isActive ? '#ffffff' : '#7a7688', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '13px' }}>
+                      {isActive && currentStep > step ? <Check size={16} /> : step}
+                    </div>
+                    <span style={{ fontSize: '13px', fontWeight: isActive ? '800' : '700', color: isActive ? '#1d1b84' : '#7a7688' }}>{labels[index]}</span>
+                  </div>
+                  {index < 3 && <div style={{ flex: 1, height: '2px', background: isActive && currentStep > step ? '#1d1b84' : '#eee9f6', minWidth: '40px', margin: '0 8px' }} />}
+                </React.Fragment>
+              );
+            })}
 
           </div>
         </div>
 
-        {/* Select Associated Booking Card */}
-        <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {/* Dynamic Content Area */}
+        {currentStep === 1 && (
+          <>
+            {/* Select Associated Booking Card */}
+            <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>
             Select Associated Booking
           </h2>
@@ -266,7 +261,39 @@ export default function NewMaterialRequest() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+          </>
+        )}
+
+        {currentStep === 2 && (
+          <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Step 2: Material Specifications</h2>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Please specify the required materials, quantities, and supplier details.</p>
+            <div style={{ border: '1px dashed var(--line)', padding: '40px', textAlign: 'center', borderRadius: '8px' }}>
+              <span style={{ fontSize: '14px', color: 'var(--muted)' }}>[ Mock Interface for Material Entry ]</span>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 3 && (
+          <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Step 3: Budgeting & Approvals</h2>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Allocate budgets and assign respective approvers for this request.</p>
+            <div style={{ border: '1px dashed var(--line)', padding: '40px', textAlign: 'center', borderRadius: '8px' }}>
+              <span style={{ fontSize: '14px', color: 'var(--muted)' }}>[ Mock Interface for Budgeting Allocation ]</span>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 4 && (
+          <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Step 4: Final Review</h2>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', margin: 0 }}>Review all details before finalizing and submitting the material request.</p>
+            <div style={{ border: '1px dashed var(--line)', padding: '40px', textAlign: 'center', borderRadius: '8px' }}>
+              <span style={{ fontSize: '14px', color: 'var(--muted)' }}>[ Mock Interface for Request Summary ]</span>
+            </div>
+          </div>
+        )}
 
         {/* Action Buttons Row */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', borderBottom: '1px solid var(--line)', paddingBottom: '24px' }}>
@@ -279,22 +306,44 @@ export default function NewMaterialRequest() {
           </button>
           
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button
-              onClick={() => alert('Draft saved successfully.')}
-              style={{
-                background: '#ffffff',
-                color: 'var(--text)',
-                border: '1px solid var(--line)',
-                borderRadius: '6px',
-                padding: '10px 20px',
-                fontSize: '13px',
-                fontWeight: '700',
-                cursor: 'pointer'
-              }}
-              type="button"
-            >
-              Save Draft
-            </button>
+            {currentStep > 1 && (
+              <button
+                onClick={handlePrevStep}
+                style={{
+                  background: '#ffffff',
+                  color: 'var(--text)',
+                  border: '1px solid var(--line)',
+                  borderRadius: '6px',
+                  padding: '10px 20px',
+                  fontSize: '13px',
+                  fontWeight: '700',
+                  cursor: 'pointer'
+                }}
+                type="button"
+              >
+                Previous Step
+              </button>
+            )}
+            
+            {currentStep < 4 && (
+              <button
+                onClick={() => addToast('Draft saved successfully.', 'info')}
+                style={{
+                  background: '#ffffff',
+                  color: 'var(--text)',
+                  border: '1px solid var(--line)',
+                  borderRadius: '6px',
+                  padding: '10px 20px',
+                  fontSize: '13px',
+                  fontWeight: '700',
+                  cursor: 'pointer'
+                }}
+                type="button"
+              >
+                Save Draft
+              </button>
+            )}
+
             <button
               onClick={handleNextStep}
               style={{
@@ -312,8 +361,9 @@ export default function NewMaterialRequest() {
               }}
               type="button"
             >
-              <span>Next Step: Materials</span>
-              <ArrowRight size={15} />
+              <span>{currentStep === 4 ? 'Submit Request' : 'Next Step'}</span>
+              {currentStep < 4 && <ArrowRight size={15} />}
+              {currentStep === 4 && <Check size={15} />}
             </button>
           </div>
         </div>

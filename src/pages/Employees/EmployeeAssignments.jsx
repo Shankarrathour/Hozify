@@ -19,7 +19,13 @@ export default function EmployeeAssignments() {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
   const filteredAssignments = MOCK_ASSIGNMENTS.filter(a => {
-    const matchSearch = a.employee.toLowerCase().includes(searchTerm.toLowerCase()) || a.task.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchLower = searchTerm.toLowerCase();
+    const matchSearch = 
+      a.employee.toLowerCase().includes(searchLower) || 
+      a.task.toLowerCase().includes(searchLower) ||
+      a.id.toLowerCase().includes(searchLower) ||
+      a.branch.toLowerCase().includes(searchLower) ||
+      a.assignedBy.toLowerCase().includes(searchLower);
     const matchStatus = statusFilter === 'All' || a.status === statusFilter;
     return matchSearch && matchStatus;
   });
@@ -108,7 +114,7 @@ export default function EmployeeAssignments() {
                 placeholder="Search assignments..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ fontSize: '12px', border: 'none', background: 'transparent', outline: 'none', paddingLeft: '8px', flex: 1 }}
+                style={{ fontSize: '12px', border: 'none', background: 'transparent', outline: 'none', paddingLeft: '8px', flex: 1, color: 'var(--text)' }}
               />
             </div>
             <select 

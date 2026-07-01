@@ -1,6 +1,6 @@
 import { useToast } from '../../components/common/ToastNotification';
 import React, { useState } from 'react';
-import { Download, SlidersHorizontal, CheckSquare, ShieldCheck, Landmark, ShieldAlert, AlertCircle, Eye, Share2, MoreVertical, Globe } from 'lucide-react';
+import { Download, SlidersHorizontal, CheckSquare, ShieldCheck, Landmark, ShieldAlert, AlertCircle, Eye, Share2, MoreVertical, Globe, Edit, Trash2 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
 
@@ -113,8 +113,8 @@ export default function BranchCompliance() {
                 <ShieldAlert size={16} style={{ color: '#ef4444' }} /> Critical Compliance Alerts
               </h2>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button style={{ cursor: 'pointer',  border: 'none', background: '#0f172a', color: '#fff', fontSize: '10px', fontWeight: '800', padding: '4px 10px', borderRadius: '4px', cursor: 'pointer' }} type="button" onClick={() => addToast('Action performed successfully.', 'success')}>Filter All</button>
-                <button style={{ cursor: 'pointer',  border: 'none', background: 'transparent', color: 'var(--muted)', fontSize: '10px', fontWeight: '800', cursor: 'pointer' }} type="button" onClick={() => addToast('Action performed successfully.', 'success')}>Resolve All</button>
+                <button style={{ cursor: 'pointer', border: 'none', background: '#0f172a', color: '#fff', fontSize: '10px', fontWeight: '800', padding: '4px 10px', borderRadius: '4px' }} type="button" onClick={() => addToast('Filtering all critical alerts...', 'info')}>Filter All</button>
+                <button style={{ cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--muted)', fontSize: '10px', fontWeight: '800' }} type="button" onClick={() => addToast('All critical alerts have been marked as resolved.', 'success')}>Resolve All</button>
               </div>
             </div>
 
@@ -133,8 +133,8 @@ export default function BranchCompliance() {
                     <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>{alert.time}</span>
                   </div>
                   <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-                    <button style={{ cursor: 'pointer',  border: 'none', background: 'transparent', color: '#4f46e5', cursor: 'pointer' }} aria-label="Review alert" onClick={() => addToast('Review alert performed successfully.', 'success')}><Eye size={16} /></button>
-                    <button style={{ cursor: 'pointer',  border: 'none', background: 'transparent', color: 'var(--muted)', cursor: 'pointer' }} aria-label="More options" onClick={() => addToast('More options performed successfully.', 'success')}><button className="secondary-action-btn" style={{ height: '32px', width: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => addToast('More Options menu opened.', 'info')} type="button"><MoreVertical size={16}  /></button></button>
+                    <button style={{ cursor: 'pointer', border: 'none', background: 'transparent', color: '#4f46e5' }} aria-label="Review alert" onClick={() => addToast(`Opening details for ${alert.title}...`, 'info')}><Eye size={16} /></button>
+                    <button className="secondary-action-btn" style={{ height: '32px', width: '32px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }} onClick={() => addToast(`More options opened for ${alert.title}`, 'info')} type="button"><MoreVertical size={16} /></button>
                   </div>
                 </div>
               ))}
@@ -193,13 +193,11 @@ export default function BranchCompliance() {
                       </td>
                       <td style={{ color: 'var(--muted)', fontSize: '12px' }}>{row.lastAudit}</td>
                       <td style={{ textAlign: 'right', paddingRight: '20px' }}>
-                        <button
-                          onClick={() => handleRowAction(row.id)}
-                          style={{ border: 'none', background: 'transparent', color: 'var(--muted)', cursor: 'pointer' }}
-                          title="Share / Audit detail"
-                        >
-                          <Share2 size={14} />
-                        </button>
+                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
+                          <button onClick={() => addToast(`Viewing audit details for ${row.id}`, 'info')} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#4f46e5', padding: 0 }} title="View"><Eye size={14} /></button>
+                          <button onClick={() => addToast(`Editing compliance record for ${row.id}`, 'success')} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#0ea5e9', padding: 0 }} title="Edit"><Edit size={14} /></button>
+                          <button onClick={() => addToast(`Deleting record for ${row.id}...`, 'warning')} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#ef4444', padding: 0 }} title="Delete"><Trash2 size={14} /></button>
+                        </div>
                       </td>
                     </tr>
                   ))}

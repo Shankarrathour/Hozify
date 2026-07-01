@@ -39,8 +39,8 @@ function CampaignRow({ name, id, targeting, reach, ctr, change, expiry, urgent }
       </td>
       <td className="py-4 px-4 text-right">
         <div className="flex items-center justify-end space-x-3 text-slate-400">
-          <button className="hover:text-slate-600"><Eye size={15} /></button>
-          <button className="hover:text-rose-500"><Trash2 size={15} /></button>
+          <button onClick={() => alert(`Viewing details for ${name}`)} className="hover:text-slate-600"><Eye size={15} /></button>
+          <button onClick={() => alert(`Deleting campaign ${name}`)} className="hover:text-rose-500"><Trash2 size={15} /></button>
         </div>
       </td>
     </tr>
@@ -87,7 +87,7 @@ export default function OfferBannersPage() {
               ))}
             </div>
             
-            <button className="flex items-center space-x-2 bg-white border border-gray-200 text-xs font-bold text-slate-600 px-3 py-2 rounded-lg shadow-sm hover:bg-gray-50">
+            <button onClick={() => alert('Opening filter options...')} className="flex items-center space-x-2 bg-white border border-gray-200 text-xs font-bold text-slate-600 px-3 py-2 rounded-lg shadow-sm hover:bg-gray-50">
               <Filter size={14} />
               <span>Filter</span>
             </button>
@@ -134,8 +134,8 @@ export default function OfferBannersPage() {
                   <span className="flex items-center space-x-1.5 text-rose-500 font-bold"><Clock size={13} /> <span>Expires in 42h 12m</span></span>
                 </div>
                 <div className="flex items-center space-x-1.5">
-                  <button className="p-1.5 border border-slate-200 rounded-lg text-slate-500 bg-white hover:bg-slate-50"><Edit2 size={13} /></button>
-                  <button className="p-1.5 border border-slate-200 rounded-lg text-slate-500 bg-white hover:bg-slate-50"><MoreVertical size={13} /></button>
+                  <button onClick={() => alert('Editing Summer Sale banner...')} className="p-1.5 border border-slate-200 rounded-lg text-slate-500 bg-white hover:bg-slate-50"><Edit2 size={13} /></button>
+                  <button onClick={() => alert('More options for Summer Sale...')} className="p-1.5 border border-slate-200 rounded-lg text-slate-500 bg-white hover:bg-slate-50"><MoreVertical size={13} /></button>
                 </div>
               </div>
             </div>
@@ -165,8 +165,8 @@ export default function OfferBannersPage() {
             <div className="flex justify-between items-center pt-4 text-xs">
               <span className="font-bold text-slate-900">CTA: Join Now</span>
               <div className="flex items-center space-x-1.5">
-                <button className="p-1.5 border border-slate-100 rounded-lg text-slate-400 bg-white hover:bg-slate-50"><Edit2 size={12} /></button>
-                <button className="p-1.5 border border-slate-100 rounded-lg text-slate-400 bg-white hover:bg-slate-50"><MoreVertical size={12} /></button>
+                <button onClick={() => alert('Editing Newsletter banner...')} className="p-1.5 border border-slate-100 rounded-lg text-slate-400 bg-white hover:bg-slate-50"><Edit2 size={12} /></button>
+                <button onClick={() => alert('More options for Newsletter...')} className="p-1.5 border border-slate-100 rounded-lg text-slate-400 bg-white hover:bg-slate-50"><MoreVertical size={12} /></button>
               </div>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function OfferBannersPage() {
             </div>
             <div className="flex justify-between items-center pt-2 text-xs">
               <span className="text-rose-500 font-bold flex items-center space-x-1"><AlertTriangle size={13} /> <span>Expiring soon</span></span>
-              <button className="font-bold text-indigo-950 hover:underline">Manage →</button>
+              <button onClick={() => alert('Managing Tech Upgrade banner...')} className="font-bold text-indigo-950 hover:underline">Manage →</button>
             </div>
           </div>
 
@@ -222,12 +222,12 @@ export default function OfferBannersPage() {
             </div>
             <div className="flex justify-between items-center pt-2 text-xs">
               <BadgTag text="In Review" styles="bg-purple-50 text-purple-600 lowercase border border-purple-100 px-2.5" />
-              <button className="p-1.5 border border-slate-100 rounded-lg text-slate-400 bg-white hover:bg-slate-50"><RefreshCw size={12} /></button>
+              <button onClick={() => alert('Refreshing review status...')} className="p-1.5 border border-slate-100 rounded-lg text-slate-400 bg-white hover:bg-slate-50"><RefreshCw size={12} /></button>
             </div>
           </div>
 
           {/* CREATE NEW OFFER BANNER BOX BUTTON */}
-          <div className="border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 rounded-2xl p-6 flex flex-col items-center justify-center text-center group cursor-pointer transition-all space-y-3 min-h-[300px]">
+          <div onClick={() => alert('Creating new offer banner...')} className="border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 rounded-2xl p-6 flex flex-col items-center justify-center text-center group cursor-pointer transition-all space-y-3 min-h-[300px]">
             <div className="text-2xl text-slate-400 group-hover:text-indigo-950 font-bold">+</div>
             <div className="space-y-1 max-w-[200px]">
               <h3 className="text-sm font-bold text-slate-900">Create Offer Banner</h3>
@@ -242,8 +242,8 @@ export default function OfferBannersPage() {
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
             <h3 className="text-sm font-bold text-slate-900">Live Performance Overview</h3>
             <div className="flex items-center space-x-2 text-xs font-semibold">
-              <button className="text-slate-500 hover:text-slate-800 px-3 py-1.5 bg-slate-50 rounded-lg hover:bg-slate-100">Export CSV</button>
-              <button className="bg-indigo-950 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-900 shadow-sm">Bulk Update</button>
+              <button onClick={() => alert('Exporting data to CSV...')} className="text-slate-500 hover:text-slate-800 px-3 py-1.5 bg-slate-50 rounded-lg hover:bg-slate-100">Export CSV</button>
+              <button onClick={() => alert('Opening bulk update tool...')} className="bg-indigo-950 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-900 shadow-sm">Bulk Update</button>
             </div>
           </div>
 

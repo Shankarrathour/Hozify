@@ -18,6 +18,7 @@ import AdminShell from '../../components/layouts/AdminShell';
 
 export default function SmsCampaigns({ activeTab = 'Notification Center' }) {
   const [timeframe, setTimeframe] = useState('Last 30 Days');
+  const [openDropdownId, setOpenDropdownId] = useState(null);
   const [showNewCampaignModal, setShowNewCampaignModal] = useState(false);
   const [campaigns, setCampaigns] = useState([
     { id: 'SMS-2024-001', name: 'Summer Flash Sale', recipients: '45,808', success: 99.1, status: 'COMPLETED', cost: '$675.00', color: '#10b981' },
@@ -269,10 +270,19 @@ export default function SmsCampaigns({ activeTab = 'Notification Center' }) {
                         </span>
                       </td>
                       <td style={{ padding: '16px', fontWeight: '700', color: 'var(--text)' }}>{c.cost}</td>
-                      <td style={{ padding: '16px', textAlign: 'right' }}>
-                        <button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }} aria-label="More actions">
+                      <td style={{ padding: '16px', textAlign: 'right', position: 'relative' }}>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setOpenDropdownId(openDropdownId === i ? null : i); }}
+                          style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }} aria-label="More actions">
                           <MoreVertical size={16} />
                         </button>
+                        {openDropdownId === i && (
+                          <div style={{ position: 'absolute', right: '40px', top: '16px', width: '140px', background: '#fff', border: '1px solid var(--line)', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 50, padding: '4px 0', textAlign: 'left' }}>
+                            <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('View Details clicked'); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: 'var(--text)' }}>View Details</button>
+                            <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('Resend SMS'); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#07956f' }}>Resend</button>
+                            <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('Delete Campaign'); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#e11d48' }}>Delete</button>
+                          </div>
+                        )}
                       </td>
                     </tr>
                   ))}

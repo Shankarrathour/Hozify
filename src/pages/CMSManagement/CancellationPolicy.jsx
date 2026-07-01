@@ -165,7 +165,7 @@ export default function CancellationPolicy() {
                 </div>
                 <button 
                   onClick={() => setShowAddClause(true)}
-                  style={{ background: 'transparent', border: 'none', color: 'var(--primary)', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}
+                  style={{ background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
                 >
                   <Plus size={14} /> Add Sub-clause
                 </button>

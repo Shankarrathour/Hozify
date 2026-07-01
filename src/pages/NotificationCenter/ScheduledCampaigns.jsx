@@ -286,9 +286,12 @@ export default function ScheduledCampaigns() {
                       <h3 className="text-sm font-bold text-[#1e224e]">
                         Queue ({activeChannelFilter === "ALL" ? "3 Total" : "Filtered View"})
                       </h3>
-                      <button className="text-xs font-bold text-slate-500 hover:text-[#1d1880] transition-colors">
+                      <button 
+                        onClick={() => alert("Viewing all queued campaigns...")}
+                        className="text-xs font-bold text-slate-500 hover:text-[#1d1880] transition-colors"
+                      >
                         View All
-                    </button>
+                      </button>
                     </div>
 
                     <div className="space-y-4">

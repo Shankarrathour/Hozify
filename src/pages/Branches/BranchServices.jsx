@@ -172,7 +172,12 @@ export default function BranchServices() {
                 {filteredServices.map((row) => (
                   <tr key={row.id}>
                     <td>
-                      <span style={{ color: '#4f46e5', fontWeight: '700' }}>{row.id}</span>
+                      <span 
+                        style={{ color: '#4f46e5', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}
+                        onClick={() => navigate('/services')}
+                      >
+                        {row.id}
+                      </span>
                     </td>
                     <td style={{ color: 'var(--text)', fontWeight: '700' }}>{row.name}</td>
                     <td style={{ color: 'var(--muted)' }}>{row.category}</td>

@@ -52,13 +52,13 @@ export default function RefundPolicy() {
           </div>
           
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <button style={{ padding: '8px 16px', background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => alert('Generating PDF preview...')} style={{ padding: '8px 16px', background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
               Preview PDF
             </button>
-            <button style={{ padding: '8px 16px', background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => alert('Changes discarded.')} style={{ padding: '8px 16px', background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
               Discard Changes
             </button>
-            <button style={{ padding: '8px 16px', background: '#312e81', border: 'none', color: '#fff', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => alert('Changes published successfully!')} style={{ padding: '8px 16px', background: '#312e81', border: 'none', color: '#fff', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
               Publish Changes
             </button>
           </div>
@@ -119,13 +119,13 @@ export default function RefundPolicy() {
                   </h3>
                   <div style={{ width: '1px', height: '24px', background: 'var(--line)' }} />
                   <div style={{ display: 'flex', gap: '4px' }}>
-                    <button className="editor-btn"><Bold size={16} /></button>
-                    <button className="editor-btn"><Italic size={16} /></button>
-                    <button className="editor-btn"><ListIcon size={16} /></button>
-                    <button className="editor-btn"><LinkIcon size={16} /></button>
+                    <button onClick={() => alert('Bold format applied')} className="editor-btn"><Bold size={16} /></button>
+                    <button onClick={() => alert('Italic format applied')} className="editor-btn"><Italic size={16} /></button>
+                    <button onClick={() => alert('List format applied')} className="editor-btn"><ListIcon size={16} /></button>
+                    <button onClick={() => alert('Link format applied')} className="editor-btn"><LinkIcon size={16} /></button>
                   </div>
                 </div>
-                <button style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                <button onClick={() => alert('Adding new sub-clause...')} style={{ background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
                   <Plus size={14} /> Add Sub-clause
                 </button>
               </div>
@@ -228,7 +228,7 @@ export default function RefundPolicy() {
                 <h3 style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Version History
                 </h3>
-                <button style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '11px', fontWeight: '800', cursor: 'pointer' }}>View All</button>
+                <button onClick={() => alert('Viewing all version history...')} style={{ background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '11px', fontWeight: '800', cursor: 'pointer' }}>View All</button>
               </div>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

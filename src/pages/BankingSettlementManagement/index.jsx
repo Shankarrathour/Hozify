@@ -88,7 +88,7 @@ function Shell({ children, title, subtitle, navigate, toast }) {
       <section className="banking-page">
         <div className="banking-page-head">
           <div><h1>{title}</h1><p>{subtitle}</p></div>
-          <div className="banking-actions"><Btn icon={Download} onClick={() => toast('Export queued locally.')}>Export CSV</Btn><Btn primary icon={Plus} onClick={() => navigate(ROUTES.bankAccountAdd)}>Register Account</Btn></div>
+          <div className="banking-actions"><button className="custom-btn-secondary" type="button" onClick={() => toast('Export queued locally.')}><Download size={16} /> Export CSV</button><Btn primary icon={Plus} onClick={() => navigate(ROUTES.bankAccountAdd)}>Register Account</Btn></div>
         </div>
         {children}
       </section>
@@ -128,10 +128,10 @@ function Progress({ label, value, danger }) {
   return <div className="banking-progress"><div><span>{label}</span><b>{value}%</b></div><em><i className={danger ? 'danger' : ''} style={{ width: `${value}%` }} /></em></div>;
 }
 
-function Dashboard({ nav, setModal }) {
+function Dashboard({ nav, setModal, toast }) {
   return (
     <>
-      <section className="banking-filter-panel"><b>Entity Type</b><span>All Bank Entities</span><b>Status Range</b><span>Active & Pending</span><b>Currency</b><span>USD / EUR / GBP</span><Btn icon={Filter}>Advanced Filters</Btn></section>
+      <section className="banking-filter-panel"><b>Entity Type</b><span>All Bank Entities</span><b>Status Range</b><span>Active & Pending</span><b>Currency</b><span>USD / EUR / GBP</span><Btn icon={Filter} onClick={() => toast('Advanced Filters panel opened.')}>Advanced Filters</Btn></section>
       <section className="banking-kpi-grid six"><Kpi label="Total Bank Accounts" value="142" note="+2.4%" icon={Wallet} /><Kpi label="Active Beneficiaries" value="8,941" icon={Users} /><Kpi label="Pending Settlements" value="24" icon={Clock} /><Kpi label="Processed (24h)" value="1,208" icon={CheckCircle2} /><Kpi label="Failed Transfers" value="03" note="Critical" icon={AlertTriangle} danger /><Kpi label="Pending Withdrawals" value="114" icon={Upload} /></section>
       <section className="banking-layout">
         <div className="banking-stack">
@@ -186,14 +186,33 @@ function AccountForm({ edit, toast }) {
   const [account, setAccount] = useState('7890123456');
   const [confirm, setConfirm] = useState('7890123456');
   const [ifsc, setIfsc] = useState('ABCD0123456');
+  const [protocol, setProtocol] = useState('penny');
+  const [docs, setDocs] = useState(['statement_q2_acme.pdf']);
+  const [isUploading, setIsUploading] = useState(false);
   const valid = account === confirm && /^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc);
+
+  const handleUpload = () => {
+    if (isUploading) return;
+    setIsUploading(true);
+    setTimeout(() => {
+      setIsUploading(false);
+      setDocs(prev => [...prev, `document_${Math.floor(Math.random() * 1000)}.pdf`]);
+      toast('Document uploaded successfully.');
+    }, 1200);
+  };
+
+  const removeDoc = (doc) => {
+    setDocs(prev => prev.filter(d => d !== doc));
+    toast('Document removed.');
+  };
+
   return (
     <section className="banking-layout">
       <div className="banking-stack">
         <article className="banking-card form"><h3>{edit ? 'Update Bank Details' : 'Account Architecture'}</h3><label>Account Holder Name<input placeholder="Acme Corp Institutional Holding" /></label><div className="banking-form-grid"><label>Bank Name<input placeholder="Select clearing bank" /></label><label>IFSC / SWIFT Code<input value={ifsc} onChange={(e) => setIfsc(e.target.value.toUpperCase())} /></label><label>Account Number<input value={account} onChange={(e) => setAccount(e.target.value)} /></label><label>Confirm Account Number<input value={confirm} onChange={(e) => setConfirm(e.target.value)} /></label><label>Branch Office<input placeholder="Central Business District, London" /></label></div>{!valid && <p className="banking-error">Account confirmation and IFSC format must be valid.</p>}</article>
-        <article className="banking-card"><h3>Verification Protocol</h3><div className="banking-choice-grid"><button className="active">Penny Drop<br /><small>Instant validation via micro-deposit.</small></button><button>Manual Verification<br /><small>Compliance review in 24-48 hours.</small></button></div><Btn primary onClick={() => valid ? toast(edit ? 'Bank account changes saved.' : 'Bank account submitted for verification.') : toast('Please fix validation errors.')}>{edit ? 'Save Changes' : 'Submit Account'}</Btn></article>
+        <article className="banking-card"><h3>Verification Protocol</h3><div className="banking-choice-grid"><button className={protocol === 'penny' ? 'active' : ''} onClick={() => setProtocol('penny')}>Penny Drop<br /><small>Instant validation via micro-deposit.</small></button><button className={protocol === 'manual' ? 'active' : ''} onClick={() => setProtocol('manual')}>Manual Verification<br /><small>Compliance review in 24-48 hours.</small></button></div><Btn primary onClick={() => valid ? toast(edit ? 'Bank account changes saved.' : 'Bank account submitted for verification.') : toast('Please fix validation errors.')}>{edit ? 'Save Changes' : 'Submit Account'}</Btn></article>
       </div>
-      <aside className="banking-stack"><article className="banking-card"><h3>Compliance Documents</h3><div className="banking-upload"><Upload />Click to upload<br /><small>PDF, JPEG or PNG</small></div><div className="banking-doc">statement_q2_acme.pdf <button><X /></button></div></article><article className="banking-dark"><h3>Onboarding Note</h3><p>Institutional accounts must match legal entity records. Discrepancies may delay reconciliation.</p></article></aside>
+      <aside className="banking-stack"><article className="banking-card"><h3>Compliance Documents</h3><div className="banking-upload" onClick={handleUpload} style={{ cursor: 'pointer', opacity: isUploading ? 0.5 : 1 }}><Upload />{isUploading ? 'Uploading...' : 'Click to upload'}<br /><small>PDF, JPEG or PNG</small></div>{docs.map(doc => <div key={doc} className="banking-doc">{doc} <button onClick={() => removeDoc(doc)}><X /></button></div>)}</article><article className="banking-dark"><h3>Onboarding Note</h3><p>Institutional accounts must match legal entity records. Discrepancies may delay reconciliation.</p></article></aside>
     </section>
   );
 }
@@ -203,7 +222,7 @@ function VerificationQueue({ nav, setModal }) {
     <>
       <section className="banking-kpi-grid four"><Kpi label="Pending" value="128" note="+12% from yesterday" /><Kpi label="Approved" value="1,402" note="94.2% success" /><Kpi label="Rejected" value="42" danger note="AML/KYC mismatches" /><Kpi label="Reupload Required" value="18" note="Blurred documentation" /></section>
       <div className="banking-filter-panel"><select><option>Last 7 Days</option></select><select><option>All Institutional</option></select><span>Showing 128 pending requests</span></div>
-      <Table cols={[{ key: 'holder', label: 'Account Holder', render: (v) => <div className="banking-entity"><span>{v.holder.slice(0, 2)}</span><div><b>{v.holder}</b><small>ID: {v.id}</small></div></div> }, { key: 'bank', label: 'Bank Institution', render: (v) => <><b>{v.bank}</b><small>**** {v.account} ({v.type})</small></> }, { key: 'submitted', label: 'Submission Date' }, { key: 'status', label: 'Status', render: (v) => <Badge status={v.status}>{v.status}</Badge> }, { key: 'confidence', label: 'Verification Confidence', render: (v) => <Progress label="" value={v.confidence} danger={v.confidence < 60} /> }]} rows={verificationQueue} actions={() => <><button onClick={() => nav(ROUTES.bankVerificationDetail)}><Eye size={16} /></button><button onClick={() => setModal(['Reject verification', 'Provide rejection notes for audit trail.'])}><XCircle size={16} /></button></>} />
+      <Table cols={[{ key: 'holder', label: 'Account Holder', render: (v) => <div className="banking-entity"><span>{v.holder.slice(0, 2)}</span><div><b>{v.holder}</b><small>ID: {v.id}</small></div></div> }, { key: 'bank', label: 'Bank Institution', render: (v) => <><b>{v.bank}</b><small>**** {v.account} ({v.type})</small></> }, { key: 'submitted', label: 'Submission Date' }, { key: 'status', label: 'Status', render: (v) => <Badge status={v.status}>{v.status}</Badge> }, { key: 'confidence', label: 'Verification Confidence', render: (v) => <Progress label="" value={v.confidence} danger={v.confidence < 60} /> }]} rows={verificationQueue} actions={(row) => <><button type="button" onClick={() => nav(ROUTES.bankVerificationDetail)}><Eye size={16} /></button><button type="button" onClick={() => setModal(['Reject verification', `Provide rejection notes for ${row.holder}'s audit trail.`, () => toast(`Verification for ${row.holder} rejected.`)])}><XCircle size={16} /></button></>} />
       <section className="banking-layout"><article className="banking-empty">Select an account from the queue to view detailed documentation, KYC validation results, and ownership trail.</article><article className="banking-card"><h3>Priority Insights</h3><p className="banking-info">AML update required for 3 accounts.</p><p className="banking-danger">High risk match requires senior manual review.</p></article></section>
     </>
   );
@@ -213,12 +232,71 @@ function VerificationDetail({ setModal }) {
   return <section className="banking-verification-detail"><aside className="banking-card"><button className="banking-link"><ArrowLeft size={18} /> Queue #82391-V</button><h2>Global Trade Partners Ltd</h2><Badge status="High Risk">Urgent Verification</Badge><h3>Entity Information</h3><p>REG-UK-2024-912803</p><p>United Kingdom</p><div className="banking-info-box"><b>HSBC UK Business Banking</b><span>{mask('9012')}</span><span>40-02-15</span></div><Timeline items={['KYC Initial Check', 'Document Match']} /></aside><article className="banking-doc-preview"><div className="banking-tabs"><button className="active">Statement</button><button>Voided Cheque</button></div><div className="banking-statement"><h3>HSBC Commercial Banking Unit</h3><p>Global Trade Partners Ltd<br />158 Victoria Street<br />London SW1E 5LB</p><table><tbody><tr><td>12 Sep</td><td>INTL WIRE TRSF</td><td>45,000.00</td><td>120,402.12</td></tr><tr><td>15 Sep</td><td>SETTLEMENT ADD 01</td><td>1,200.00</td><td>119,202.12</td></tr><tr><td>22 Sep</td><td>TECH CORP SERVICE FEE</td><td>4,500.00</td><td>114,702.12</td></tr></tbody></table></div></article><aside className="banking-card"><h3>AI Audit Confidence</h3><Progress label="High Reliability" value={98.2} /><p className="banking-success">Entity names match 1:1</p><p className="banking-success">Sort code checksum valid</p><p className="banking-warning">Scan quality is 300DPI</p><textarea placeholder="Add manual verification notes here..." /><label><input type="checkbox" /> Logo authenticity verified</label><label><input type="checkbox" /> No digital tampering detected</label><Btn primary onClick={() => setModal(['Approve bank account', 'This will approve the account for settlements.'])}>Approve Bank Account</Btn><Btn danger onClick={() => setModal(['Request reupload', 'Add the reupload reason for this account.'])}>Request Reupload</Btn></aside></section>;
 }
 
-function UpiCenter({ setModal }) {
-  return <section className="banking-layout"><article className="banking-card form"><h3>UPI Validation</h3><label>UPI ID<input placeholder="finance.partner@bank" /></label><label>Owner Name<input placeholder="Apex Logistics Corp" /></label><div className="banking-info-box"><b>Verification Result</b><span>VPA pattern valid</span><span>Owner name match: 96%</span><Badge status="Pending">Pending Approval</Badge></div><textarea placeholder="Verification notes..." /><div className="banking-actions"><Btn primary onClick={() => setModal(['Verify UPI ID', 'Approve this UPI ID for beneficiary payouts.'])}>Verify</Btn><Btn danger onClick={() => setModal(['Reject UPI ID', 'Add rejection notes.'])}>Reject</Btn></div></article><article className="banking-card"><h3>Recent UPI Checks</h3><Table cols={[{ key: 'name', label: 'Owner' }, { key: 'account', label: 'UPI ID' }, { key: 'status', label: 'Status', render: (b) => <Badge status={b.status}>{b.status}</Badge> }]} rows={beneficiaries.filter((b) => b.method === 'UPI ID')} /></article></section>;
+function UpiCenter({ setModal, toast }) {
+  const initialUpiList = beneficiaries.filter((b) => b.method === 'UPI ID');
+  const [upiList, setUpiList] = useState(initialUpiList);
+  const [selected, setSelected] = useState(initialUpiList[0] || null);
+
+  const handleAction = (status) => {
+    setUpiList(prev => prev.map(item => item.id === selected.id ? { ...item, status } : item));
+    setSelected(prev => ({ ...prev, status }));
+    toast(`UPI ID ${status === 'VERIFIED' ? 'Verified' : 'Rejected'} successfully.`);
+  };
+
+  return <section className="banking-layout">
+    <article className="banking-card form">
+      <h3>UPI Validation</h3>
+      <label>UPI ID<input value={selected?.account || ''} readOnly /></label>
+      <label>Owner Name<input value={selected?.name || ''} readOnly /></label>
+      <div className="banking-info-box">
+        <b>Verification Result</b>
+        <span>VPA pattern valid</span>
+        <span>Owner name match: {selected?.status === 'VERIFIED' ? '100%' : '96%'}</span>
+        <Badge status={selected?.status || 'Pending'}>{selected?.status || 'Pending Approval'}</Badge>
+      </div>
+      <textarea placeholder="Verification notes..." />
+      <div className="banking-actions">
+        <Btn primary onClick={() => setModal(['Verify UPI ID', `Approve ${selected?.account} for payouts?`, () => handleAction('VERIFIED')])}>Verify</Btn>
+        <Btn danger onClick={() => setModal(['Reject UPI ID', 'Add rejection notes.', () => handleAction('FAILED')])}>Reject</Btn>
+      </div>
+    </article>
+    <article className="banking-card">
+      <h3>Recent UPI Checks</h3>
+      <Table 
+        cols={[
+          { key: 'name', label: 'Owner' }, 
+          { key: 'account', label: 'UPI ID' }, 
+          { key: 'status', label: 'Status', render: (b) => <Badge status={b.status}>{b.status}</Badge> }
+        ]} 
+        rows={upiList}
+        actions={(b) => <><button onClick={() => setSelected(b)}><Eye size={16} /></button></>}
+      />
+    </article>
+  </section>;
 }
 
-function Beneficiaries({ setModal }) {
-  return <><section className="banking-kpi-grid four"><Kpi label="Total Beneficiaries" value="2,842" note="+12%" /><Kpi label="Active UPI IDs" value="1,120" note="40% of total" /><Kpi label="Pending Verification" value="48" danger note="Action Required" /><Kpi label="Success Rate" value="99.8%" /></section><div className="banking-filter-panel"><div className="banking-search wide"><Search size={18} /><input placeholder="Search by name, UPI ID, or account number..." /></div><select><option>All Types</option></select><select><option>All Statuses</option></select></div><Table cols={[{ key: 'name', label: 'Beneficiary Name', render: (b) => <><b>{b.name}</b><small>ID: {b.id}</small></> }, { key: 'method', label: 'Type', render: (b) => <Badge status="info">{b.method}</Badge> }, { key: 'account', label: 'UPI ID / Account' }, { key: 'bank', label: 'Bank / Provider' }, { key: 'status', label: 'Status', render: (b) => <Badge status={b.status}>{b.status}</Badge> }, { key: 'last', label: 'Last Validated' }]} rows={beneficiaries} actions={() => <><button><Eye size={16} /></button><button><Edit3 size={16} /></button><button onClick={() => setModal(['Disable beneficiary', 'Disable this beneficiary after adding a reason.'])}><XCircle size={16} /></button></>} /><section className="banking-layout"><article className="banking-card"><h3>Batch Verification</h3><p>Upload CSV/XLSX for bulk validation.</p><div className="banking-upload"><Upload />Drag & drop or click to upload</div></article><article className="banking-info-panel"><h3>System Health</h3><p>API Online</p><Progress label="Bank Server Uptime" value={99} /></article></section></>;
+function Beneficiaries({ setModal, toast }) {
+  const [list, setList] = useState(beneficiaries);
+  const [kpis, setKpis] = useState({ total: 2842, activeUpi: 1120 });
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleDelete = (id) => {
+    setList(prev => prev.filter(item => item.id !== id));
+    setKpis(prev => ({ ...prev, total: prev.total - 1 }));
+    toast('Beneficiary disabled successfully.');
+  };
+
+  const handleUpload = () => {
+    if (isUploading) return;
+    setIsUploading(true);
+    setTimeout(() => {
+      setIsUploading(false);
+      setKpis(prev => ({ ...prev, total: prev.total + 14, activeUpi: prev.activeUpi + 5 }));
+      toast('Batch file uploaded and 14 records processed.');
+    }, 1500);
+  };
+
+  return <><section className="banking-kpi-grid four"><Kpi label="Total Beneficiaries" value={kpis.total.toLocaleString()} note="+12%" /><Kpi label="Active UPI IDs" value={kpis.activeUpi.toLocaleString()} note="40% of total" /><Kpi label="Pending Verification" value="48" danger note="Action Required" /><Kpi label="Success Rate" value="99.8%" /></section><div className="banking-filter-panel"><div className="banking-search wide"><Search size={18} /><input placeholder="Search by name, UPI ID, or account number..." /></div><select><option>All Types</option></select><select><option>All Statuses</option></select></div><Table cols={[{ key: 'name', label: 'Beneficiary Name', render: (b) => <><b>{b.name}</b><small>ID: {b.id}</small></> }, { key: 'method', label: 'Type', render: (b) => <Badge status="info">{b.method}</Badge> }, { key: 'account', label: 'UPI ID / Account' }, { key: 'bank', label: 'Bank / Provider' }, { key: 'status', label: 'Status', render: (b) => <Badge status={b.status}>{b.status}</Badge> }, { key: 'last', label: 'Last Validated' }]} rows={list} actions={(b) => <><button onClick={() => toast(`Viewing details for ${b.name}`)}><Eye size={16} /></button><button onClick={() => toast(`Editing ${b.name}`)}><Edit3 size={16} /></button><button onClick={() => setModal(['Disable beneficiary', `Are you sure you want to disable ${b.name}?`, () => handleDelete(b.id)])}><XCircle size={16} /></button></>} /><section className="banking-layout"><article className="banking-card"><h3>Batch Verification</h3><p>Upload CSV/XLSX for bulk validation.</p><div className="banking-upload" onClick={handleUpload} style={{ cursor: 'pointer', opacity: isUploading ? 0.5 : 1 }}><Upload />{isUploading ? 'Uploading & Processing...' : 'Drag & drop or click to upload'}</div></article><article className="banking-info-panel"><h3>System Health</h3><p>API Online</p><Progress label="Bank Server Uptime" value={99} /></article></section></>;
 }
 
 function WithdrawalDashboard({ setModal }) {
@@ -230,47 +308,76 @@ function WithdrawalQueue({ setModal }) {
 }
 
 function WithdrawalTable({ setModal }) {
-  return <Table cols={[{ key: 'id', label: 'Request ID' }, { key: 'user', label: 'User / Entity', render: (w) => <div className="banking-entity"><span>{w.user.slice(0, 2)}</span><b>{w.user}</b></div> }, { key: 'amount', label: 'Amount', render: (w) => money(w.amount) }, { key: 'bank', label: 'Bank Name', render: (w) => <><b>{w.bank}</b><small>{mask(w.account)}</small></> }, { key: 'requested', label: 'Requested Date' }, { key: 'status', label: 'Status', render: (w) => <Badge status={w.status}>{w.status}</Badge> }]} rows={withdrawals} actions={() => <><button onClick={() => setModal(['Approve withdrawal', 'Add approval note.'])}><CheckCircle2 size={16} /></button><button onClick={() => setModal(['Reject withdrawal', 'Add rejection reason.'])}><XCircle size={16} /></button><button onClick={() => setModal(['Hold withdrawal', 'Add hold reason.'])}><Clock size={16} /></button></>} />;
+  return <Table cols={[{ key: 'id', label: 'Request ID' }, { key: 'user', label: 'User / Entity', render: (w) => <div className="banking-entity"><span>{w.user.slice(0, 2)}</span><b>{w.user}</b></div> }, { key: 'amount', label: 'Amount', render: (w) => money(w.amount) }, { key: 'bank', label: 'Bank Name', render: (w) => <><b>{w.bank}</b><small>{mask(w.account)}</small></> }, { key: 'requested', label: 'Requested Date' }, { key: 'status', label: 'Status', render: (w) => <Badge status={w.status}>{w.status}</Badge> }]} rows={withdrawals} actions={(row) => <><button type="button" onClick={() => setModal(['Approve withdrawal', `Add approval note for ${row.id}.`, () => toast(`Withdrawal ${row.id} approved.`)])}><CheckCircle2 size={16} /></button><button type="button" onClick={() => setModal(['Reject withdrawal', `Add rejection reason for ${row.id}.`, () => toast(`Withdrawal ${row.id} rejected.`)])}><XCircle size={16} /></button><button type="button" onClick={() => setModal(['Hold withdrawal', `Add hold reason for ${row.id}.`, () => toast(`Withdrawal ${row.id} held.`)])}><Clock size={16} /></button></>} />;
 }
 
 function WithdrawalDetail({ setModal }) {
   return <DetailDrawer title="Withdrawal Detail" id="WTH-99201" amount={124050000} setModal={setModal} />;
 }
 
-function SettlementDashboard() {
-  return <><section className="banking-kpi-grid four"><Kpi label="Pending Settlements" value="24" /><Kpi label="Processing" value="112" /><Kpi label="Completed" value="1,208" /><Kpi label="Failed" value="03" danger /></section><section className="banking-layout"><article className="banking-card"><h3>Settlement Volume</h3><Bars /></article><article className="banking-card"><h3>Bank Performance</h3>{bankPerformance.slice(0, 3).map((b) => <Progress key={b.id} label={b.institution} value={b.success} />)}</article></section><SettlementQueue /></>;
+function SettlementDashboard({ setModal, toast }) {
+  return <><section className="banking-kpi-grid four"><Kpi label="Pending Settlements" value="24" /><Kpi label="Processing" value="112" /><Kpi label="Completed" value="1,208" /><Kpi label="Failed" value="03" danger /></section><section className="banking-layout"><article className="banking-card"><h3>Settlement Volume</h3><Bars /></article><article className="banking-card"><h3>Bank Performance</h3>{bankPerformance.slice(0, 3).map((b) => <Progress key={b.id} label={b.institution} value={b.success} />)}</article></section><SettlementQueue setModal={setModal} toast={toast} /></>;
 }
 
-function SettlementQueue({ setModal = () => {} }) {
-  return <><div className="banking-filter-panel"><select><option>Status: All Queued</option></select><select><option>Partner: All Partners</option></select><span>Showing 1,248 transactions awaiting processing</span><Btn primary>Apply Filters</Btn><button>Reset</button></div><Table selectable cols={[{ key: 'id', label: 'Settlement ID' }, { key: 'partner', label: 'Partner Entity' }, { key: 'amount', label: 'Amount', render: (s) => <><b>{money(s.amount)}</b>{s.highValue && <Badge status="High Value">Institutional High Value</Badge>}</> }, { key: 'bank', label: 'Bank Details', render: (s) => <><b>BIC: {s.bank}</b><small>ACC: **** {s.account}</small></> }, { key: 'requested', label: 'Requested Date' }, { key: 'status', label: 'Status', render: (s) => <Badge status={s.status}>{s.status}</Badge> }]} rows={settlements} actions={() => <><button onClick={() => setModal(['Approve settlement', 'Add notes before approval.'])}><CheckCircle2 size={16} /></button><button onClick={() => setModal(['Reject settlement', 'Add rejection reason.'])}><XCircle size={16} /></button><button onClick={() => setModal(['Hold settlement', 'Add hold reason.'])}><Clock size={16} /></button></>} /><div className="banking-footer-bar"><span>Total Queue Value {money(1428512045)}</span><span>Selected Items (3) {money(521250000)}</span><Btn primary>Bulk Process Selected</Btn></div></>;
+function SettlementQueue({ setModal = () => {}, toast = () => {} }) {
+  const [list, setList] = useState(settlements);
+  const [queueValue, setQueueValue] = useState(1428512045);
+
+  const handleAction = (id, action) => {
+    setList(prev => prev.filter(item => item.id !== id));
+    toast(`Settlement ${id} ${action} successfully.`);
+    setQueueValue(prev => prev - 150000000); 
+  };
+
+  const handleBulk = () => {
+    toast('Bulk processing selected items...');
+  };
+
+  return <><div className="banking-filter-panel"><select><option>Status: All Queued</option></select><select><option>Partner: All Partners</option></select><span>Showing {list.length} transactions awaiting processing</span><Btn primary onClick={() => toast('Filters applied.')}>Apply Filters</Btn><button onClick={() => toast('Filters reset.')}>Reset</button></div><Table selectable cols={[{ key: 'id', label: 'Settlement ID' }, { key: 'partner', label: 'Partner Entity' }, { key: 'amount', label: 'Amount', render: (s) => <><b>{money(s.amount)}</b>{s.highValue && <Badge status="High Value">Institutional High Value</Badge>}</> }, { key: 'bank', label: 'Bank Details', render: (s) => <><b>BIC: {s.bank}</b><small>ACC: **** {s.account}</small></> }, { key: 'requested', label: 'Requested Date' }, { key: 'status', label: 'Status', render: (s) => <Badge status={s.status}>{s.status}</Badge> }]} rows={list} actions={(s) => <><button onClick={() => setModal(['Approve settlement', `Add notes before approval for ${s.id}.`, () => handleAction(s.id, 'approved')])}><CheckCircle2 size={16} /></button><button onClick={() => setModal(['Reject settlement', `Add rejection reason for ${s.id}.`, () => handleAction(s.id, 'rejected')])}><XCircle size={16} /></button><button onClick={() => setModal(['Hold settlement', `Add hold reason for ${s.id}.`, () => handleAction(s.id, 'held')])}><Clock size={16} /></button></>} /><div className="banking-footer-bar"><span>Total Queue Value {money(queueValue)}</span><span>Selected Items (3) {money(521250000)}</span><Btn primary onClick={handleBulk}>Bulk Process Selected</Btn></div></>;
 }
 
 function SettlementDetail({ setModal }) {
   return <DetailDrawer title="Settlement Detail" id="SETL-99201-HV" amount={425000000} retry setModal={setModal} />;
 }
 
-function BulkCenter({ setModal }) {
-  return <><div className="banking-filter-panel"><select><option>Reviewer: Finance Lead</option></select><textarea placeholder="Bulk approval notes..." /><Btn primary onClick={() => setModal(['Bulk approve settlements', 'Approve all selected settlements.'])}>Bulk Approve</Btn><Btn danger onClick={() => setModal(['Bulk reject settlements', 'Reject all selected settlements.'])}>Bulk Reject</Btn><Btn icon={Download}>Bulk Export</Btn><Btn icon={RefreshCcw} onClick={() => setModal(['Retry failed settlements', 'Retry selected failed settlements.'])}>Retry Failed</Btn></div><SettlementQueue setModal={setModal} /></>;
+function BulkCenter({ setModal, toast }) {
+  return <><div className="banking-filter-panel"><select><option>Reviewer: Finance Lead</option></select><textarea placeholder="Bulk approval notes..." /><Btn primary onClick={() => setModal(['Bulk approve settlements', 'Approve all selected settlements.'])}>Bulk Approve</Btn><Btn danger onClick={() => setModal(['Bulk reject settlements', 'Reject all selected settlements.'])}>Bulk Reject</Btn><Btn icon={Download} onClick={() => toast('Bulk export started. Download will begin shortly.')}>Bulk Export</Btn><Btn icon={RefreshCcw} onClick={() => setModal(['Retry failed settlements', 'Retry selected failed settlements.'])}>Retry Failed</Btn></div><SettlementQueue setModal={setModal} toast={toast} /></>;
 }
 
 function FailedManagement({ setModal }) {
-  return <><section className="banking-kpi-grid four"><Kpi label="Failed Today" value="28" note="Est. value: $1.4M USD" danger /><Kpi label="Failed This Week" value="142" note="84% recovery rate" /><Kpi label="Avg. Time to Resolve" value="3.4h" note="Fastest: 12m" /><article className="banking-dark"><h3>Queue Status</h3><p>Urgent intervention required.</p><Progress label="Resolved" value={62} /></article></section><div className="banking-filter-panel"><span>Filter By:</span><select><option>Failure Reason (All)</option></select><select><option>All Banks</option></select><input placeholder="mm/dd/yyyy" /><label><input type="checkbox" /> High Value Only</label></div><Table selectable cols={[{ key: 'id', label: 'Settlement ID' }, { key: 'reason', label: 'Failure Reason', render: (f) => <><Badge status="Failed">{f.reason}</Badge><p>{f.note}</p></> }, { key: 'bank', label: 'Counterparty Bank' }, { key: 'amount', label: 'Amount', render: (f) => money(f.amount) }, { key: 'status', label: 'Status', render: (f) => <Badge status={f.status}>{f.status}</Badge> }]} rows={failedSettlements} actions={() => <><button onClick={() => setModal(['Retry settlement', 'Retry this failed transfer.'])}><RefreshCcw size={16} /></button><button onClick={() => setModal(['Resolve settlement', 'Add resolution notes.'])}><CheckCircle2 size={16} /></button><button onClick={() => setModal(['Escalate settlement', 'Escalate to finance lead.'])}><AlertTriangle size={16} /></button></>} /></>;
+  return <><section className="banking-kpi-grid four"><Kpi label="Failed Today" value="28" note="Est. value: $1.4M USD" danger /><Kpi label="Failed This Week" value="142" note="84% recovery rate" /><Kpi label="Avg. Time to Resolve" value="3.4h" note="Fastest: 12m" /><article className="banking-dark"><h3>Queue Status</h3><p>Urgent intervention required.</p><Progress label="Resolved" value={62} /></article></section><div className="banking-filter-panel"><span>Filter By:</span><select><option>Failure Reason (All)</option></select><select><option>All Banks</option></select><input placeholder="mm/dd/yyyy" /><label><input type="checkbox" /> High Value Only</label></div><Table selectable cols={[{ key: 'id', label: 'Settlement ID' }, { key: 'reason', label: 'Failure Reason', render: (f) => <><Badge status="Failed">{f.reason}</Badge><p>{f.note}</p></> }, { key: 'bank', label: 'Counterparty Bank' }, { key: 'amount', label: 'Amount', render: (f) => money(f.amount) }, { key: 'status', label: 'Status', render: (f) => <Badge status={f.status}>{f.status}</Badge> }]} rows={failedSettlements} actions={(row) => <><button type="button" onClick={() => setModal(['Retry settlement', `Retry failed transfer for ${row.id}.`, () => toast(`Retrying settlement ${row.id}.`)])}><RefreshCcw size={16} /></button><button type="button" onClick={() => setModal(['Resolve settlement', `Add resolution notes for ${row.id}.`, () => toast(`Settlement ${row.id} resolved.`)])}><CheckCircle2 size={16} /></button><button type="button" onClick={() => setModal(['Escalate settlement', `Escalate ${row.id} to finance lead.`, () => toast(`Settlement ${row.id} escalated.`)])}><AlertTriangle size={16} /></button></>} /></>;
 }
 
-function Reconciliation({ setModal }) {
-  return <><section className="banking-kpi-grid four"><Kpi label="Matched" value="11,842" note="95.1% success rate" /><Kpi label="Unmatched" value="42" danger note="Missing platform records" /><Kpi label="Pending Review" value="512" /><Kpi label="Gateway Errors" value="54" /></section><div className="banking-filter-panel"><div className="banking-search wide"><Search size={18} /><input placeholder="Search Transaction ID, UTR, or Customer Name..." /></div><select><option>All Gateways</option></select><select><option>Status: All Discrepancies</option></select></div><section className="banking-recon-grid"><article className="banking-card"><h3>Active Issues (512)</h3>{reconciliationIssues.map((r) => <button className="banking-issue" key={r.id}><b>{r.id}</b><span>{r.customer}</span><Badge status={r.mismatch}>{r.mismatch}</Badge></button>)}</article><article className="banking-card"><div className="banking-card-head"><h3>Comparison: TXN_98214532</h3><Btn danger onClick={() => setModal(['Flag for audit', 'Flag this reconciliation issue for audit.'])}>Flag for Audit</Btn><Btn primary>Force Match</Btn></div><div className="banking-compare"><div><h4>Platform Record</h4><b>TXN_98214532</b><strong>{money(425000)}</strong><Badge status="Completed">Completed</Badge></div><div><h4>Gateway (Razorpay)</h4><b>pay_N92jks821</b><strong className="danger">{money(422550)}</strong><Badge status="Captured">Captured</Badge></div></div><div className="banking-info-panel"><b>Recommendation Engine Notice</b><p>This mismatch matches configured platform fee. Apply standard fee rule.</p></div></article></section></>;
+function Reconciliation({ setModal, toast }) {
+  const [issues, setIssues] = useState(reconciliationIssues);
+  const [selectedIssue, setSelectedIssue] = useState(reconciliationIssues[0]);
+
+  const handleAction = (id, action) => {
+    setIssues(prev => {
+      const next = prev.filter(iss => iss.id !== id);
+      if (selectedIssue?.id === id) {
+        setSelectedIssue(next[0] || null);
+      }
+      return next;
+    });
+    toast(`Issue ${id} ${action} successfully.`);
+  };
+
+  return <><section className="banking-kpi-grid four"><Kpi label="Matched" value="11,842" note="95.1% success rate" /><Kpi label="Unmatched" value={issues.length} danger note="Missing platform records" /><Kpi label="Pending Review" value="512" /><Kpi label="Gateway Errors" value="54" /></section><div className="banking-filter-panel"><div className="banking-search wide"><Search size={18} /><input placeholder="Search Transaction ID, UTR, or Customer Name..." /></div><select><option>All Gateways</option></select><select><option>Status: All Discrepancies</option></select></div><section className="banking-recon-grid"><article className="banking-card"><h3>Active Issues ({issues.length})</h3>{issues.map((r) => <button className={`banking-issue ${selectedIssue?.id === r.id ? 'active' : ''}`} key={r.id} onClick={() => setSelectedIssue(r)}><b>{r.id}</b><span>{r.customer}</span><Badge status={r.mismatch}>{r.mismatch}</Badge></button>)}</article>
+  {selectedIssue ? <article className="banking-card"><div className="banking-card-head"><h3>Comparison: {selectedIssue.id}</h3><Btn danger onClick={() => setModal(['Flag for audit', 'Flag this reconciliation issue for audit.', () => handleAction(selectedIssue.id, 'flagged for audit')])}>Flag for Audit</Btn><Btn primary onClick={() => handleAction(selectedIssue.id, 'force matched')}>Force Match</Btn></div><div className="banking-compare"><div><h4>Platform Record</h4><b>{selectedIssue.id}</b><strong>{money(selectedIssue.platform)}</strong><Badge status="Completed">Completed</Badge></div><div><h4>Gateway ({selectedIssue.gateway})</h4><b>pay_{selectedIssue.id.split('_')[1] || 'N92jks821'}</b><strong className="danger">{money(selectedIssue.gatewayAmount)}</strong><Badge status={selectedIssue.status}>{selectedIssue.status}</Badge></div></div><div className="banking-info-panel"><b>Recommendation Engine Notice</b><p>This mismatch matches configured platform fee. Apply standard fee rule.</p></div></article> : <article className="banking-card"><h3>No issue selected</h3></article>}
+  </section></>;
 }
 
 function ReconciliationDetail({ setModal }) {
   return <section className="banking-layout"><article className="banking-card"><h3>Difference Analysis</h3><div className="banking-compare"><div><h4>Gateway Transaction</h4><b>pay_N92jks821</b><strong>{money(422550)}</strong></div><div><h4>Wallet Transaction</h4><b>WLT-8842-XQ</b><strong>{money(425000)}</strong></div></div><p className="banking-danger">Difference: -₹2,450 fees unaccounted.</p><textarea placeholder="Resolution notes..." /><Btn primary onClick={() => setModal(['Mark resolved', 'Mark this reconciliation issue as resolved.'])}>Mark Resolved</Btn><Btn danger onClick={() => setModal(['Escalate reconciliation', 'Escalate to audit team.'])}>Escalate</Btn></article><article className="banking-card"><h3>Settlement Transaction</h3><SettlementMiniTable /></article></section>;
 }
 
-function Payouts({ setModal }) {
-  return <><section className="banking-kpi-grid four"><Kpi label="Payout Queue" value="342" /><Kpi label="Batches Processing" value="12" /><Kpi label="Succeeded" value="1,204" /><Kpi label="Failed" value="18" danger /></section><section className="banking-layout"><article className="banking-card"><h3>Payout Queue</h3><SettlementQueue setModal={setModal} /></article><article className="banking-card"><h3>Approval Workflow</h3><Timeline items={['Batch Created', 'Finance Review', 'Treasury Approval', 'Bank Transfer', 'Completion']} /><Btn icon={RefreshCcw} onClick={() => setModal(['Retry failed payouts', 'Retry failed payout batch.'])}>Retry Failed Payouts</Btn></article></section></>;
+function Payouts({ setModal, toast }) {
+  return <><section className="banking-kpi-grid four"><Kpi label="Payout Queue" value="342" /><Kpi label="Batches Processing" value="12" /><Kpi label="Succeeded" value="1,204" /><Kpi label="Failed" value="18" danger /></section><section className="banking-layout"><article className="banking-card"><h3>Payout Queue</h3><SettlementQueue setModal={setModal} toast={toast} /></article><article className="banking-card"><h3>Approval Workflow</h3><Timeline items={['Batch Created', 'Finance Review', 'Treasury Approval', 'Bank Transfer', 'Completion']} /><Btn icon={RefreshCcw} onClick={() => setModal(['Retry failed payouts', 'Retry failed payout batch.'])}>Retry Failed Payouts</Btn></article></section></>;
 }
 
 function Approvals({ setModal }) {
-  return <><section className="banking-kpi-grid four"><Kpi label="Pending Queue" value="142" /><Kpi label="High Priority" value="28" danger note="Immediate action" /><Kpi label="Avg Approval Time" value="4.2h" note="Target: 3.0h" /><Kpi label="Total Value Risk" value="₹1.4M" /></section><div className="banking-filter-panel"><button>All</button><button>Withdrawals</button><button>Settlements</button><button>Refunds</button><select><option>Reviewer: All</option></select><select><option>Highest Priority</option></select></div><Table selectable cols={[{ key: 'type', label: 'Type / ID', render: (a) => <><b>{a.type}</b><small>{a.id}</small></> }, { key: 'entity', label: 'Entity / Recipient', render: (a) => <><b>{a.entity}</b><small>{a.bank}</small></> }, { key: 'risk', label: 'Risk Score', render: (a) => <Progress label="" value={a.risk} danger={a.risk > 60} /> }, { key: 'reviewer', label: 'Reviewer' }, { key: 'amount', label: 'Amount', render: (a) => money(a.amount) }, { key: 'status', label: 'Status', render: (a) => <Badge status={a.status}>{a.status}</Badge> }]} rows={approvals} actions={() => <><button onClick={() => setModal(['Approve transaction', 'Add approval note.'])}><CheckCircle2 size={16} /></button><button onClick={() => setModal(['Reject transaction', 'Add rejection note.'])}><XCircle size={16} /></button><button onClick={() => setModal(['Assign reviewer', 'Choose reviewer and add context.'])}><Users size={16} /></button></>} /></>;
+  return <><section className="banking-kpi-grid four"><Kpi label="Pending Queue" value="142" /><Kpi label="High Priority" value="28" danger note="Immediate action" /><Kpi label="Avg Approval Time" value="4.2h" note="Target: 3.0h" /><Kpi label="Total Value Risk" value="₹1.4M" /></section><div className="banking-filter-panel"><button>All</button><button>Withdrawals</button><button>Settlements</button><button>Refunds</button><select><option>Reviewer: All</option></select><select><option>Highest Priority</option></select></div><Table selectable cols={[{ key: 'type', label: 'Type / ID', render: (a) => <><b>{a.type}</b><small>{a.id}</small></> }, { key: 'entity', label: 'Entity / Recipient', render: (a) => <><b>{a.entity}</b><small>{a.bank}</small></> }, { key: 'risk', label: 'Risk Score', render: (a) => <Progress label="" value={a.risk} danger={a.risk > 60} /> }, { key: 'reviewer', label: 'Reviewer' }, { key: 'amount', label: 'Amount', render: (a) => money(a.amount) }, { key: 'status', label: 'Status', render: (a) => <Badge status={a.status}>{a.status}</Badge> }]} rows={approvals} actions={(row) => <><button type="button" onClick={() => setModal(['Approve transaction', `Add approval note for ${row.id}.`, () => toast(`Transaction ${row.id} approved.`)])}><CheckCircle2 size={16} /></button><button type="button" onClick={() => setModal(['Reject transaction', `Add rejection note for ${row.id}.`, () => toast(`Transaction ${row.id} rejected.`)])}><XCircle size={16} /></button><button type="button" onClick={() => setModal(['Assign reviewer', `Choose reviewer and add context for ${row.id}.`, () => toast(`Reviewer assigned for ${row.id}.`)])}><Users size={16} /></button></>} /></>;
 }
 
 function Analytics({ performance = false }) {
@@ -308,7 +415,7 @@ function DetailDrawer({ title, id, amount, retry, setModal }) {
 
 function Modal({ modal, onClose }) {
   if (!modal) return null;
-  return <div className="banking-modal-backdrop" onClick={onClose}><section className="banking-modal" onClick={(e) => e.stopPropagation()}><h3>{modal[0]}</h3><p>{modal[1]}</p><textarea placeholder="Finance notes / reason..." /><div className="banking-actions"><Btn onClick={onClose}>Cancel</Btn><Btn primary onClick={onClose}>Confirm</Btn></div></section></div>;
+  return <div className="banking-modal-backdrop" onClick={onClose}><section className="banking-modal" onClick={(e) => e.stopPropagation()}><h3>{modal[0]}</h3><p>{modal[1]}</p><textarea placeholder="Finance notes / reason..." /><div className="banking-actions"><Btn onClick={onClose}>Cancel</Btn><Btn primary onClick={() => { if(modal[2]) modal[2](); onClose(); }}>Confirm</Btn></div></section></div>;
 }
 
 export default function BankingSettlementManagement() {

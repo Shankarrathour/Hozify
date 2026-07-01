@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useApp } from '../../hooks/useApp';
+import { ROUTES } from '../../config/routes';
 import { 
   Search, 
   Eye, 
@@ -14,10 +16,15 @@ import {
   AlertTriangle,
   Star
 } from 'lucide-react';
+import { useDateFilter } from '../../contexts/DateFilterContext';
+import DateFilter from '../../components/common/DateFilter';
+import SkeletonLoader from '../../components/common/SkeletonLoader';
+import EmptyState from '../../components/common/EmptyState';
 import AdminShell from '../../components/layouts/AdminShell';
 
 export default function PartnerAnalytics({ activeTab = 'Partner Management' }) {
-  const [timeTab, setTimeTab] = useState('Monthly');
+  const { navigate } = useApp();
+  const { preset, isFiltering, hasData } = useDateFilter();
 
   const kpis = [
     { title: "ISP PARTNERS", value: "1,248", trend: "+12%", positive: true, icon: Network, color: "#25108f", bg: "#f4eff8" },
@@ -54,26 +61,7 @@ export default function PartnerAnalytics({ activeTab = 'Partner Management' }) {
           </div>
 
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', background: '#f4eff8', borderRadius: '6px', padding: '3px', gap: '4px' }}>
-              {['Monthly', 'Quarterly', 'Yearly'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setTimeTab(tab)}
-                  style={{
-                    border: 'none',
-                    background: timeTab === tab ? '#25108f' : 'transparent',
-                    color: timeTab === tab ? '#fff' : 'var(--muted)',
-                    padding: '4px 12px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontWeight: '750',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
+            <DateFilter />
 
             <button
               onClick={() => alert("Generating full analytics PDF report...")}
@@ -98,6 +86,25 @@ export default function PartnerAnalytics({ activeTab = 'Partner Management' }) {
           </div>
         </div>
 
+        {isFiltering ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px' }}>
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.7fr 1fr', gap: '20px' }}>
+              <SkeletonLoader height="300px" />
+              <SkeletonLoader height="300px" />
+            </div>
+            <SkeletonLoader height="250px" />
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
         {/* KPI Cards Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '14px', overflowX: 'auto' }}>
           {kpis.map((kpi, idx) => {
@@ -333,6 +340,8 @@ export default function PartnerAnalytics({ activeTab = 'Partner Management' }) {
           </div>
         </div>
 
+        </>
+        )}
       </div>
     </AdminShell>
   );

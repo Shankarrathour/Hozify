@@ -198,7 +198,7 @@ export default function Targets() {
             <p className="text-xs text-slate-400 mt-0.5">Strategic revenue management and KPI tracking for Q4 2024.</p>
           </div>
 
-          <div className="flex items-center gap-2 self-end sm:self-auto">
+          <div className="flex items-center gap-2 self-end sm:self-auto relative">
             <button 
               type="button"
               onClick={(e) => {
@@ -213,6 +213,30 @@ export default function Targets() {
               <span>Filter: {activeFilter}</span>
             </button>
             
+            
+            {/* Filter Selection Dropdown */}
+            {showFilterDropdown && (
+              <div 
+                className="absolute top-full left-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-xl p-1.5 min-w-[150px] z-[60] space-y-0.5"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {["All", "Exceeded", "Near Target", "At Risk"].map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => {
+                      setActiveFilter(opt);
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-md text-xs font-semibold block transition-colors ${
+                      activeFilter === opt ? 'bg-indigo-950 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    {opt} {opt === "All" ? "Status" : ""}
+                  </button>
+                ))}
+              </div>
+            )}
             <button 
               type="button"
               onClick={() => setShowNewTargetModal(true)}

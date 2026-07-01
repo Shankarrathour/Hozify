@@ -17,10 +17,13 @@ import {
   Activity
 } from "lucide-react";
 
+import { useDateFilter } from "../../contexts/DateFilterContext";
+import DateFilter from "../../components/common/DateFilter";
+import SkeletonLoader from "../../components/common/SkeletonLoader";
+import EmptyState from "../../components/common/EmptyState";
+
 export default function Expenses() {
-  // Navigation timeframe dropdown states
-  const [showCalendarDropdown, setShowCalendarDropdown] = useState(false);
-  const [activeTimeframe, setActiveTimeframe] = useState("Monthly View");
+  const { preset, isFiltering, hasData } = useDateFilter();
   const [showSimulation, setShowSimulation] = useState(false);
   const [showAllExpenses, setShowAllExpenses] = useState(false);
 
@@ -126,9 +129,30 @@ export default function Expenses() {
     <AdminShell activeTab="Expenses" searchPlaceholder="Search operational costs...">
       <div 
         className="space-y-6 max-w-7xl mx-auto relative z-10 pointer-events-auto select-none"
-        onClick={() => setShowCalendarDropdown(false)}
       >
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight">Expenses Overview</h1>
+          <div className="relative z-50">
+            <DateFilter />
+          </div>
+        </div>
         
+        {isFiltering ? (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              <div className="lg:col-span-2"><SkeletonLoader height="300px" /></div>
+              <div><SkeletonLoader height="300px" /></div>
+            </div>
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
         {/* ========================================== */}
         {/*     2. TOP ROW PERFORMANCE WRAPPERS       */}
         {/* ========================================== */}
@@ -179,6 +203,10 @@ export default function Expenses() {
         </div>
 
         {/* ==========================================
+            3. MIDDLE ROW: ALLOCATION & DISTRIBUTION
+           ========================================== */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          
           {/* Allocation Progress Component */}
           <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
             <div className="flex justify-between items-center mb-6">
@@ -317,6 +345,51 @@ export default function Expenses() {
         </div>
 
         {/* =================================== */}
+          </>
+        )}
+      </div>
+
+      {/* SIMULATION MODAL */}
+      {showSimulation && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" onClick={() => setShowSimulation(false)}>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-5 border-b border-slate-100">
+              <h3 className="font-bold text-slate-900 flex items-center gap-2">
+                <Activity className="h-4 w-4 text-indigo-600" /> End of Month Forecast Simulation
+              </h3>
+              <button onClick={() => setShowSimulation(false)} className="text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <p className="text-sm text-slate-600 mb-4 font-medium leading-relaxed">
+                Projected total operational cost for EOM is <span className="font-bold text-indigo-950">$3.12M</span> based on current run rate and upcoming payroll cycles.
+              </p>
+
+              <div className="space-y-4">
+                <div className="bg-slate-50 border border-slate-100 rounded-lg p-4">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Payroll Run (Oct 15)</span>
+                    <span className="text-sm font-extrabold text-slate-900">$450K</span>
+                  </div>
+                </div>
+
+                <div className="bg-slate-50 border border-slate-100 rounded-lg p-4">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Logistics True-Up (Oct 20)</span>
+                    <span className="text-sm font-extrabold text-slate-900">$190K</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+              <button onClick={() => setShowSimulation(false)} className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-colors cursor-pointer">
+                Acknowledge
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminShell>
   );
 }

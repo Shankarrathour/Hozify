@@ -27,6 +27,30 @@ export default function TermsAndConditions() {
           </p>
         </div>
 
+        {/* Top Actions Bar */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', border: '1px solid var(--line)', padding: '16px 24px', borderRadius: '12px', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <span style={{ fontSize: '11px', fontWeight: '800', background: '#312e81', color: '#fff', padding: '6px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              DRAFT V4.2.2
+            </span>
+            <span style={{ fontSize: '12px', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Clock size={14} /> Last edited 4 mins ago by Alex M.
+            </span>
+          </div>
+          
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button onClick={() => alert('Generating PDF preview...')} style={{ padding: '8px 16px', background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+              Preview PDF
+            </button>
+            <button onClick={() => alert('Changes discarded.')} style={{ padding: '8px 16px', background: '#fff', border: '1px solid var(--line)', color: 'var(--text)', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+              Discard Changes
+            </button>
+            <button onClick={() => alert('Changes published successfully!')} style={{ padding: '8px 16px', background: '#312e81', border: 'none', color: '#fff', borderRadius: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}>
+              Publish Changes
+            </button>
+          </div>
+        </div>
+
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', lgGridTemplateColumns: '7fr 3fr', gap: '24px' }}>
           
           {/* LEFT COLUMN: Main Editor Area */}

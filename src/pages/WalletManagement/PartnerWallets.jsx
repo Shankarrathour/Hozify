@@ -10,11 +10,11 @@ import {
   ChevronDown,
   Upload,
   X,
-  CheckCircle,
   Building2
 } from "lucide-react";
 import PartnerExportButton from "../../components/ui/PartnerExportButton";
 import PartnerExportModal from "../../components/ui/PartnerExportModal";
+import { useToast } from "../../components/common/ToastNotification";
 
 // Initial Mock Data
 const initialWalletPartners = [
@@ -66,12 +66,11 @@ export default function PartnerWallets() {
   // Modal & Toast States for Dynamic Interaction
   const [activeModalData, setActiveModalData] = useState(null);
   const [isExportOpen, setIsExportOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  const { addToast } = useToast();
 
   // Trigger professional toast alert
   const showToast = (msg) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
+    addToast(msg, 'success');
   };
 
   // Dynamic Filtering
@@ -154,13 +153,7 @@ export default function PartnerWallets() {
     <AdminShell activeTab="Partner Wallets" searchPlaceholder="Search wallets...">
       <div className="space-y-5 max-w-[1400px] mx-auto p-2 text-slate-800 antialiased selection:bg-indigo-100">
         
-        {/* TOAST NOTIFICATION CONTAINER */}
-        {toastMessage && (
-          <div className="fixed top-5 right-5 z-50 flex items-center gap-3 rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-xl transition-all">
-            <CheckCircle size={16} className="text-emerald-400" />
-            <span>{toastMessage}</span>
-          </div>
-        )}
+        {/* Toast is handled globally by ToastNotification provider */}
 
         {/* TOP COMPACT CONTROLS & CALENDAR */}
         <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-100 shadow-sm">

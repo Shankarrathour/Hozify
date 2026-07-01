@@ -45,6 +45,13 @@ export default function ServiceRevenue() {
       >
         
         {/* ==========================================
+            1. TOP HEADER ROW
+           ========================================== */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Service Revenue</h1>
+            <p className="text-xs text-slate-400 mt-0.5 font-medium">
+              Analyze revenue performance across business service lines.
             </p>
           </div>
 
@@ -80,9 +87,9 @@ export default function ServiceRevenue() {
         </div>
 
         {/* ==========================================
-              </span>
-            </div>
-          </div>
+            2. TOP METRICS ROW
+           ========================================== */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           {/* Top Performing Line */}
           <div className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col justify-between shadow-sm min-h-[105px]">
@@ -109,6 +116,8 @@ export default function ServiceRevenue() {
               </span>
             </div>
           </div>
+
+        </div>
 
         {/* ==========================================
             3. MIDDLE ROW: SERVICE MIX & REVENUE TRENDS
@@ -256,6 +265,123 @@ export default function ServiceRevenue() {
         </div>
 
         {/* =================================== */}
+      </div>
+
+      {/* MODALS */}
+      {showDatasetModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" onClick={() => setShowDatasetModal(false)}>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[80vh]" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-5 border-b border-slate-100">
+              <h3 className="font-bold text-slate-900">Full Service Dataset</h3>
+              <button onClick={() => setShowDatasetModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto">
+              <p className="text-sm text-slate-600 mb-4 font-medium">
+                Comprehensive data breakdown of all active service lines across global regions.
+              </p>
+              <div className="overflow-x-auto border border-slate-100 rounded-lg">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <th className="px-4 py-2 border-b border-slate-100">Service Line</th>
+                      <th className="px-4 py-2 border-b border-slate-100">Region</th>
+                      <th className="px-4 py-2 border-b border-slate-100">Revenue</th>
+                      <th className="px-4 py-2 border-b border-slate-100">YOY Growth</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-xs text-slate-700">
+                    <tr>
+                      <td className="px-4 py-3 border-b border-slate-50">Express Delivery</td>
+                      <td className="px-4 py-3 border-b border-slate-50">North America</td>
+                      <td className="px-4 py-3 border-b border-slate-50 font-bold">$6.8M</td>
+                      <td className="px-4 py-3 border-b border-slate-50 text-emerald-600">+12%</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 border-b border-slate-50">Express Delivery</td>
+                      <td className="px-4 py-3 border-b border-slate-50">Europe</td>
+                      <td className="px-4 py-3 border-b border-slate-50 font-bold">$4.4M</td>
+                      <td className="px-4 py-3 border-b border-slate-50 text-emerald-600">+22%</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 border-b border-slate-50">Warehousing</td>
+                      <td className="px-4 py-3 border-b border-slate-50">North America</td>
+                      <td className="px-4 py-3 border-b border-slate-50 font-bold">$7.4M</td>
+                      <td className="px-4 py-3 border-b border-slate-50 text-emerald-600">+6.2%</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3">Tracking Pro</td>
+                      <td className="px-4 py-3">Global</td>
+                      <td className="px-4 py-3 font-bold">$6.2M</td>
+                      <td className="px-4 py-3 text-emerald-600">+11%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+              <button onClick={() => alert("Downloading CSV...")} className="px-4 py-2 bg-white border border-slate-200 text-slate-600 text-xs font-bold rounded-lg shadow-sm hover:bg-slate-50 transition-colors flex items-center gap-2">
+                <Download className="h-3.5 w-3.5" /> Export CSV
+              </button>
+              <button onClick={() => setShowDatasetModal(false)} className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showExpansionModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" onClick={() => setShowExpansionModal(false)}>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-5 border-b border-slate-100">
+              <h3 className="font-bold text-slate-900 flex items-center gap-2">
+                <BarChart2 className="h-4 w-4 text-indigo-600" /> Tracking Pro Expansion Plan
+              </h3>
+              <button onClick={() => setShowExpansionModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mb-5">
+                <h4 className="text-xs font-bold text-indigo-900 mb-1">Executive Summary</h4>
+                <p className="text-xs text-indigo-700/80 font-medium">
+                  European market penetration strategy targeting 2.4M ARR by Q2 2027 through strategic partnerships with local logistics providers.
+                </p>
+              </div>
+              <ul className="space-y-4">
+                <li className="flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500 shrink-0">1</div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Market Research & Compliance</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Complete GDPR compliance audit and localized API testing.</p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500 shrink-0">2</div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Soft Launch (UK & Germany)</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Rollout to 50 beta enterprise clients in tier-1 markets.</p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500 shrink-0">3</div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Full European Availability</p>
+                    <p className="text-xs text-slate-500 mt-0.5">General availability across the EU with dedicated localized support.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
+              <button onClick={() => setShowExpansionModal(false)} className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">
+                Approve Phase 1
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminShell>
   );
 }

@@ -10,7 +10,8 @@ export default function KpiCard({
   action,
   negative,
   topLabel,
-  topLabelClass
+  topLabelClass,
+  onActionClick
 }) {
   return (
     <div className={footer ? 'kpi-card subtle' : 'kpi-card'}>
@@ -20,7 +21,7 @@ export default function KpiCard({
         {trend && <em className={positive ? 'up' : 'down'}>↗ {trend}</em>}
         {footer === 'progress' && <div className="progress"><span /></div>}
         {footer && footer !== 'progress' && <small>{footer}</small>}
-        {action && <button type="button">{action}</button>}
+        {action && <button type="button" onClick={onActionClick}>{action}</button>}
       </div>
       <div className="kpi-card-right">
         {topLabel && <span className={`kpi-top-label ${topLabelClass || ''}`}>{topLabel}</span>}

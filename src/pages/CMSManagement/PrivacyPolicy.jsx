@@ -9,6 +9,7 @@ export default function PrivacyPolicy() {
   const [activeLang, setActiveLang] = useState('English');
   const [docTitle, setDocTitle] = useState('Global Privacy & Data Governance Policy');
   const [effectiveDate, setEffectiveDate] = useState('11/24/2023');
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   const [toggles, setToggles] = useState({
     publicVisibility: true,
@@ -163,8 +164,18 @@ export default function PrivacyPolicy() {
               <RefreshCw size={20} color="#0f172a" />
               <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#0f172a' }}>Data Collection Policy</h3>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
-              LAST EDITED: 2 HOURS AGO <ChevronDown size={14} />
+            <div style={{ position: 'relative' }}>
+              <div 
+                onClick={(e) => { e.stopPropagation(); setOpenDropdown(openDropdown === 'lastEdited1' ? null : 'lastEdited1'); }}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
+                LAST EDITED: 2 HOURS AGO <ChevronDown size={14} />
+              </div>
+              {openDropdown === 'lastEdited1' && (
+                <div style={{ position: 'absolute', right: 0, top: '24px', width: '130px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '4px', zIndex: 10, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
+                  <button onClick={() => { setOpenDropdown(null); alert("View History"); }} style={{ width: '100%', padding: '6px 12px', textAlign: 'left', background: 'transparent', border: 'none', fontSize: '12px', cursor: 'pointer', color: '#0f172a' }}>View History</button>
+                  <button onClick={() => { setOpenDropdown(null); alert("Restore Version"); }} style={{ width: '100%', padding: '6px 12px', textAlign: 'left', background: 'transparent', border: 'none', fontSize: '12px', cursor: 'pointer', color: '#0f172a' }}>Restore Version</button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -195,8 +206,18 @@ export default function PrivacyPolicy() {
               <ShieldCheck size={20} color="#0f172a" />
               <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#0f172a' }}>User Rights (GDPR/CCPA)</h3>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
-              LAST EDITED: 1 DAY AGO <ChevronDown size={14} />
+            <div style={{ position: 'relative' }}>
+              <div 
+                onClick={(e) => { e.stopPropagation(); setOpenDropdown(openDropdown === 'lastEdited2' ? null : 'lastEdited2'); }}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
+                LAST EDITED: 1 DAY AGO <ChevronDown size={14} />
+              </div>
+              {openDropdown === 'lastEdited2' && (
+                <div style={{ position: 'absolute', right: 0, top: '24px', width: '130px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '6px', padding: '4px', zIndex: 10, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
+                  <button onClick={() => { setOpenDropdown(null); alert("View History"); }} style={{ width: '100%', padding: '6px 12px', textAlign: 'left', background: 'transparent', border: 'none', fontSize: '12px', cursor: 'pointer', color: '#0f172a' }}>View History</button>
+                  <button onClick={() => { setOpenDropdown(null); alert("Restore Version"); }} style={{ width: '100%', padding: '6px 12px', textAlign: 'left', background: 'transparent', border: 'none', fontSize: '12px', cursor: 'pointer', color: '#0f172a' }}>Restore Version</button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -280,7 +301,7 @@ export default function PrivacyPolicy() {
               />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
                 <span style={{ fontSize: '11px', color: '#64748b' }}>Auto-resets on policy update</span>
-                <span style={{ fontSize: '12px', fontWeight: '700', color: '#0f172a', cursor: 'pointer', textDecoration: 'underline' }}>Preview Banner</span>
+                <span onClick={() => alert("Previewing Cookie Banner...")} style={{ fontSize: '12px', fontWeight: '700', color: '#0f172a', cursor: 'pointer', textDecoration: 'underline' }}>Preview Banner</span>
               </div>
             </div>
 
@@ -289,13 +310,13 @@ export default function PrivacyPolicy() {
 
         {/* Bottom Actions */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px', marginTop: '16px' }}>
-          <button style={{ padding: '10px 24px', background: '#fff', border: '1px solid #e2e8f0', color: '#475569', borderRadius: '6px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+          <button onClick={() => alert('Draft discarded successfully!')} style={{ padding: '10px 24px', background: '#fff', border: '1px solid #e2e8f0', color: '#475569', borderRadius: '6px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
             Discard Draft
           </button>
-          <button style={{ padding: '10px 24px', background: '#fff', border: '1px solid #312e81', color: '#312e81', borderRadius: '6px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+          <button onClick={() => alert('Privacy policy saved as draft!')} style={{ padding: '10px 24px', background: '#fff', border: '1px solid #312e81', color: '#312e81', borderRadius: '6px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
             Save as Draft
           </button>
-          <button style={{ padding: '10px 24px', background: '#1e1b4b', border: 'none', color: '#fff', borderRadius: '6px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+          <button onClick={() => alert('Privacy policy scheduled for release!')} style={{ padding: '10px 24px', background: '#1e1b4b', border: 'none', color: '#fff', borderRadius: '6px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
             Schedule for Release
           </button>
         </div>

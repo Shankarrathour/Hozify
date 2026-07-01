@@ -175,8 +175,21 @@ function Table({ columns, rows, actions, selectable }) {
   );
 }
 
-function Filters({ children }) {
-  return <div className="sos-filters">{children || ['Priority Level', 'Incident Type', 'Status', 'City / Region', 'Date'].map((label) => <label key={label}>{label}<select><option>{label.includes('City') ? 'Global View' : 'All'}</option></select></label>)}<Button primary>Apply Filter</Button><Button icon={RefreshCcw} ghost /></div>;
+function Filters({ children, onApply, onRefresh }) {
+  return (
+    <div className="sos-filters">
+      {children || ['Priority Level', 'Incident Type', 'Status', 'City / Region', 'Date'].map((label) => (
+        <label key={label}>
+          {label}
+          <select>
+            <option>{label.includes('City') ? 'Global View' : 'All'}</option>
+          </select>
+        </label>
+      ))}
+      <Button primary onClick={onApply}>Apply Filter</Button>
+      <Button icon={RefreshCcw} ghost onClick={onRefresh} />
+    </div>
+  );
 }
 
 function CaseIdentity({ item }) {
@@ -242,12 +255,12 @@ function Dashboard({ nav, setModal }) {
 function ActiveQueue({ nav, setModal, setDrawer }) {
   return (
     <>
-      <div className="sos-page-toolbar"><div><b>Dashboard › Active SOS Queue</b><p>Tactical Triage Console</p></div><div><Button icon={Download}>Export Log</Button><Button primary icon={Siren} onClick={() => setModal({ type: 'create', title: 'Create Manual SOS' })}>Manual SOS</Button></div></div>
-      <Filters />
+      <div className="sos-page-toolbar"><div><b>Dashboard › Active SOS Queue</b><p>Tactical Triage Console</p></div><div><Button icon={Download} onClick={() => setModal({ type: 'export', title: 'Export Active SOS Log' })}>Export Log</Button><Button primary icon={Siren} onClick={() => setModal({ type: 'create', title: 'Create Manual SOS' })}>Manual SOS</Button></div></div>
+      <Filters onRefresh={() => setModal({ type: 'success', title: 'Queue Refreshed' })} onApply={() => setModal({ type: 'success', title: 'Filters Applied' })} />
       <Card><SosCaseTable nav={nav} setModal={setModal} setDrawer={setDrawer} /><div className="sos-pagination"><span>Showing 1-10 of 42 active incidents</span><b>1</b><span>2</span><span>3</span><span>...</span><span>5</span></div></Card>
       <section className="sos-layout">
         <Card><div className="sos-card-head"><div><h3>Live Incident Mapping</h3><p>Global hotspots and response density</p></div><Button ghost onClick={() => nav(ROUTES.sosTracking)}>Expand Full Map</Button></div><MapPanel /></Card>
-        <Card className="sos-dark"><h3>Response Efficiency</h3><p>Avg. Dispatch Time</p><strong>1m 14s</strong><small>8% faster than last hour</small><Button danger onClick={() => nav(ROUTES.sosEscalated)}>1 Critical Pending</Button><Button>View Optimization Report</Button></Card>
+        <Card className="sos-dark"><h3>Response Efficiency</h3><p>Avg. Dispatch Time</p><strong>1m 14s</strong><small>8% faster than last hour</small><Button danger onClick={() => nav(ROUTES.sosEscalated)}>1 Critical Pending</Button><Button onClick={() => setModal({ type: 'optimization', title: 'Response Optimization Report' })}>View Optimization Report</Button></Card>
       </section>
     </>
   );
@@ -276,7 +289,7 @@ function Details({ setModal, setDrawer, nav }) {
       {tab === 'Incident Report' && <InvestigationWorkspace compact setModal={setModal} />}
       {tab === 'Communications' && <CommunicationCenter setDrawer={setDrawer} />}
       {tab === 'Timeline' && <Card><Timeline /></Card>}
-      {tab === 'Audit Logs' && <AuditCenter compact />}
+      {tab === 'Audit Logs' && <AuditCenter compact setModal={setModal} />}
       <section className="sos-layout"><Card><h3>Live Comms Log</h3>{communications.slice(0, 3).map((c) => <div className="sos-message" key={c.time}><b>{c.recipient}</b><p>{c.message}</p><small>{c.time}</small></div>)}<div className="sos-input-row"><input placeholder="Type message to responders..." /><Button primary icon={Send} /></div></Card><Card><h3>High-Res Location</h3><MapPanel /></Card></section>
     </>
   );
@@ -319,7 +332,7 @@ function EscalationCenter({ setModal }) {
   return (
     <>
       <section className="sos-kpi-grid four"><Kpi label="Level 1" value="14 Cases" note="Active" /><Kpi label="Level 2" value="08 Cases" note="Triage" /><Kpi label="Level 3" value="03 Cases" note="High" danger /><Kpi label="Critical" value="01 Case" note="SLA overdue" danger /></section>
-      <section className="sos-layout"><Card><h3>Open Escalations</h3>{escalations.map((e) => <div className="sos-escalation-card" key={e.id}><Badge tone={e.level}>{e.level}</Badge><h3>{e.title}</h3><p>{e.note}</p><small>Assigned: {e.owner} • {e.elapsed}</small><button onClick={() => setModal({ type: 'escalation', title: e.title })}>Details</button></div>)}</Card><Card><div className="sos-alert-header"><AlertTriangle /><div><h2>CRITICAL: Site-42 Reactor</h2><Badge tone="Critical">SLA Overdue</Badge></div><strong>01:42:15</strong></div><Timeline items={['System Auto-Escalation', 'Dispatcher Triage', 'Critical Upgrade']} /><div className="sos-action-panel"><b>Manager Intervention Required</b><Button>Reject Plan</Button><Button danger icon={ShieldCheck}>Authorize Protocol</Button></div></Card></section>
+      <section className="sos-layout"><Card><h3>Open Escalations</h3>{escalations.map((e) => <div className="sos-escalation-card" key={e.id}><Badge tone={e.level}>{e.level}</Badge><h3>{e.title}</h3><p>{e.note}</p><small>Assigned: {e.owner} • {e.elapsed}</small><button onClick={() => setModal({ type: 'escalation', title: e.title })}>Details</button></div>)}</Card><Card><div className="sos-alert-header"><AlertTriangle /><div><h2>CRITICAL: Site-42 Reactor</h2><Badge tone="Critical">SLA Overdue</Badge></div><strong>01:42:15</strong></div><Timeline items={['System Auto-Escalation', 'Dispatcher Triage', 'Critical Upgrade']} /><div className="sos-action-panel"><b>Manager Intervention Required</b><Button onClick={() => setModal({ type: 'rejectPlan', title: 'Reject Response Plan' })}>Reject Plan</Button><Button danger icon={ShieldCheck} onClick={() => setModal({ type: 'authorizeProtocol', title: 'Authorize Safety Protocol' })}>Authorize Protocol</Button></div></Card></section>
     </>
   );
 }
@@ -358,7 +371,7 @@ function Heatmap() {
 }
 
 function ReportsListing({ nav, setModal }) {
-  return <><Filters><label>Status<select><option>All Statuses</option></select></label><label>Category<select><option>All Categories</option></select></label><label>Date<select><option>Last 30 Days</option></select></label></Filters><Card><Table columns={[{ key: 'id', label: 'Incident ID' }, { key: 'sos', label: 'SOS ID' }, { key: 'category', label: 'Category' }, { key: 'status', label: 'Status', render: (r) => <Badge tone={r.status}>{r.status}</Badge> }, { key: 'date', label: 'Created Date' }]} rows={incidentReports} actions={() => <><button onClick={() => nav(ROUTES.sosIncidentReportDetails)}>View</button><button onClick={() => setModal({ type: 'export', title: 'Export Incident Report' })}>Export</button></>} /></Card></>;
+  return <><Filters onRefresh={() => setModal({ type: 'success', title: 'Reports Refreshed' })} onApply={() => setModal({ type: 'success', title: 'Filters Applied' })}><label>Status<select><option>All Statuses</option></select></label><label>Category<select><option>All Categories</option></select></label><label>Date<select><option>Last 30 Days</option></select></label></Filters><Card><Table columns={[{ key: 'id', label: 'Incident ID' }, { key: 'sos', label: 'SOS ID' }, { key: 'category', label: 'Category' }, { key: 'status', label: 'Status', render: (r) => <Badge tone={r.status}>{r.status}</Badge> }, { key: 'date', label: 'Created Date' }]} rows={incidentReports} actions={() => <><button onClick={() => nav(ROUTES.sosIncidentReportDetails)}>View</button><button onClick={() => setModal({ type: 'export', title: 'Export Incident Report' })}>Export</button></>} /></Card></>;
 }
 
 function ReportDetails({ setModal }) {
@@ -387,7 +400,7 @@ function SosInvestigation({ setModal }) {
 
 function EmergencyReports({ setModal }) {
   const reportTypes = ['SOS Report', 'Incident Report', 'Response Time Report', 'Escalation Report', 'Resource Utilization Report'];
-  return <section className="sos-layout"><div className="sos-stack"><Card><h3>Reports</h3><div className="sos-card-grid compact">{reportTypes.map((r) => <button className="sos-channel" key={r}><FileText size={18} />{r}</button>)}</div></Card><Filters><label>Date<select><option>Last 30 Days</option></select></label><label>Incident Type<select><option>All</option></select></label><label>City<select><option>All Cities</option></select></label><label>Status<select><option>All</option></select></label></Filters><Card><h3>Recent Exports</h3><Table columns={[{ key: 'id', label: 'Report' }, { key: 'category', label: 'Type' }, { key: 'date', label: 'Date' }, { key: 'status', label: 'Status', render: (r) => <Badge tone={r.status}>{r.status}</Badge> }]} rows={incidentReports} /></Card></div><Card><h3>Generate Export</h3><div className="sos-choice active">PDF</div><div className="sos-choice">Excel</div><div className="sos-choice">CSV</div><Button primary icon={Download} onClick={() => setModal({ type: 'export', title: 'Generate Emergency Report' })}>Export</Button></Card></section>;
+  return <section className="sos-layout"><div className="sos-stack"><Card><h3>Reports</h3><div className="sos-card-grid compact">{reportTypes.map((r) => <button className="sos-channel" key={r}><FileText size={18} />{r}</button>)}</div></Card><Filters onRefresh={() => setModal({ type: 'success', title: 'Emergency Reports Data Refreshed' })} onApply={() => setModal({ type: 'success', title: 'Filters Applied' })}><label>Date<select><option>Last 30 Days</option></select></label><label>Incident Type<select><option>All</option></select></label><label>City<select><option>All Cities</option></select></label><label>Status<select><option>All</option></select></label></Filters><Card><h3>Recent Exports</h3><Table columns={[{ key: 'id', label: 'Report' }, { key: 'category', label: 'Type' }, { key: 'date', label: 'Date' }, { key: 'status', label: 'Status', render: (r) => <Badge tone={r.status}>{r.status}</Badge> }]} rows={incidentReports} /></Card></div><Card><h3>Generate Export</h3><div className="sos-choice active">PDF</div><div className="sos-choice">Excel</div><div className="sos-choice">CSV</div><Button primary icon={Download} onClick={() => setModal({ type: 'export', title: 'Generate Emergency Report' })}>Export</Button></Card></section>;
 }
 
 function SettingsPage({ setModal }) {
@@ -399,8 +412,8 @@ function AuthorityIntegration({ setModal }) {
   return <><section className="sos-card-grid">{agencies.map((a, i) => <Card key={a}><div className="sos-card-head"><h3>{a}</h3><Badge tone={i === 3 ? 'Pending' : 'Verified'}>{i === 3 ? 'Limited' : 'Connected'}</Badge></div><p>API Status: {i === 3 ? 'Manual fallback' : 'Operational'}</p><Button onClick={() => setModal({ type: 'confirm', title: `Test ${a} Connection` })}>Test Connection</Button><Button ghost>Update Contact</Button></Card>)}</section><Card><h3>Emergency Contacts</h3><Table columns={[{ key: 'name', label: 'Agency Contact' }, { key: 'type', label: 'Type' }, { key: 'phone', label: 'Number' }, { key: 'status', label: 'Status', render: (r) => <Badge tone={r.status}>{r.status}</Badge> }]} rows={contacts.map((c, i) => ({ ...c, id: c.name + i }))} /></Card></>;
 }
 
-function AuditCenter({ compact }) {
-  return <Card><Filters><label>Action Type<select><option>All Actions</option></select></label><label>Admin<select><option>All Admins</option></select></label><label>Date<select><option>Today</option></select></label><label>SOS ID<input placeholder="SOS ID" /></label></Filters><Table columns={[{ key: 'id', label: 'Log ID' }, { key: 'action', label: 'Action' }, { key: 'admin', label: 'Admin' }, { key: 'date', label: 'Date' }, { key: 'sos', label: 'SOS ID' }, { key: 'device', label: 'IP / Device' }]} rows={compact ? audits.slice(0, 2) : audits} actions={() => <button>Export</button>} /></Card>;
+function AuditCenter({ compact, setModal }) {
+  return <Card><Filters onRefresh={setModal ? () => setModal({ type: 'success', title: 'Audit Logs Refreshed' }) : undefined} onApply={setModal ? () => setModal({ type: 'success', title: 'Filters Applied' }) : undefined}><label>Action Type<select><option>All Actions</option></select></label><label>Admin<select><option>All Admins</option></select></label><label>Date<select><option>Today</option></select></label><label>SOS ID<input placeholder="SOS ID" /></label></Filters><Table columns={[{ key: 'id', label: 'Log ID' }, { key: 'action', label: 'Action' }, { key: 'admin', label: 'Admin' }, { key: 'date', label: 'Date' }, { key: 'sos', label: 'SOS ID' }, { key: 'device', label: 'IP / Device' }]} rows={compact ? audits.slice(0, 2) : audits} actions={() => <button>Export</button>} /></Card>;
 }
 
 function CommandCenter({ nav, setModal }) {
@@ -424,6 +437,10 @@ function GenericModal({ modal, close }) {
     fraud: ['Risk Indicators', 'False Alarm Count', 'Location Spoofing Result', 'Risk Score'],
     resource: ['Available Responder', 'Nearby Team', 'Vehicle', 'Assignment Notes'],
     confirm: ['Audit Note'],
+    archive: ['Archive Reason', 'Confirm (Yes/No)'],
+    optimization: ['Report ID', 'Optimization Metrics', 'Focus Areas', 'Notes'],
+    rejectPlan: ['Rejection Reason', 'Alternative Proposal Notes'],
+    authorizeProtocol: ['Security Authorization Key', 'Action Notes'],
     success: []
   }[modal.type] || ['Notes'];
   return (
@@ -509,7 +526,7 @@ export default function SOSManagement() {
           </div>
           <div className="sos-head-actions">
             <Button danger icon={Siren} onClick={() => setModal({ type: 'create', title: 'Emergency Alert' })}>Deploy Quick SOS</Button>
-            <Button icon={Bell} ghost>Archive</Button>
+            <Button icon={Bell} ghost onClick={() => setModal({ type: 'archive', title: 'Archive SOS Records' })}>Archive</Button>
           </div>
         </div>
         {renderScreen(screen, { nav: navigate, setModal, setDrawer })}

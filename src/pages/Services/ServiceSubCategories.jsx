@@ -200,7 +200,7 @@ export default function ServiceSubCategories({ onAddSubCategory }) {
 
       {/* Table Panel */}
       <section className="panel" style={{ padding: '0', overflow: 'hidden', borderRadius: '12px' }}>
-        <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)' }}>
+        <div style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)', position: 'relative', zIndex: 20 }}>
           <h2 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text)', margin: '0' }}>Sub Categories List</h2>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', position: 'relative' }}>
             
@@ -215,7 +215,7 @@ export default function ServiceSubCategories({ onAddSubCategory }) {
             </button>
 
             {showFilterDropdown && (
-              <div style={{ position: 'absolute', top: '42px', right: 0, background: '#ffffff', border: '1px solid var(--line)', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', zIndex: 10, minWidth: '140px', display: 'flex', flexDirection: 'column', padding: '4px 0' }}>
+              <div style={{ position: 'absolute', top: '42px', right: 0, background: '#ffffff', border: '1px solid var(--line)', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', zIndex: 30, minWidth: '140px', display: 'flex', flexDirection: 'column', padding: '4px 0' }}>
                 {['ALL', 'ACTIVE', 'INACTIVE'].map((status) => (
                   <button
                     key={status}

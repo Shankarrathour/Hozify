@@ -5,7 +5,7 @@ import { useToast } from '../../components/common/ToastNotification';
 import { 
   User, Mail, Phone, Shield, Camera, Key, CheckCircle, ShieldAlert,
   Clock, ShieldCheck, Activity, LogOut, Terminal, MapPin, Eye, FileText,
-  TrendingUp, TrendingDown, AlertCircle
+  TrendingUp, TrendingDown, AlertCircle, Edit2
 } from 'lucide-react';
 
 export default function MyProfile() {

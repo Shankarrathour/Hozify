@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 import { 
   Search, 
   Bell, 
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 
 export default function GeofenceManagement() {
+  const { addToast } = useToast();
   // ==========================================
   // ACTIVE BOUNDARIES DATA (Fully Clickable)
   // ==========================================
@@ -97,6 +99,25 @@ export default function GeofenceManagement() {
     );
   }, [boundaries, searchQuery]);
 
+  const handleCreateFence = () => {
+    const newId = `GF-0${boundaries.length + 1}`;
+    const newFence = {
+      id: newId,
+      name: `New Custom Zone ${boundaries.length + 1}`,
+      type: "POLYGONAL",
+      violations: 0,
+      status: "Active",
+      latLng: "40.7128° N, 74.0060° W",
+      svgPoints: "150,120 380,90 420,220 220,260",
+      pinX: "300px",
+      pinY: "160px",
+      associatedLogs: []
+    };
+    setBoundaries(prev => [newFence, ...prev]);
+    setSelectedGeo(newFence);
+    addToast(`Successfully created ${newFence.name}`, "success");
+  };
+
   const handleTableAction = (assetId, actionType) => {
     alert(`Protocol Initiated: Executing "${actionType}" workflow command for Fleet Asset ${assetId}.`);
   };
@@ -121,7 +142,7 @@ export default function GeofenceManagement() {
               <span>Export Logs</span>
             </button>
             <button 
-              onClick={() => alert("Opening Map Drawer Wizard...")}
+              onClick={handleCreateFence}
               className="flex items-center gap-1.5 px-4 py-2 bg-black text-white rounded-lg text-xs font-bold hover:bg-slate-900 shadow-sm transition-all"
             >
               <Plus className="h-3.5 w-3.5" />

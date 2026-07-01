@@ -361,7 +361,86 @@ export default function EmployeeRevenue() {
         </div>
 
         {/* =================================== */}
-    </div>
-</AdminShell>
+      </div>
+
+      {/* FORECAST MODAL */}
+      {showForecastModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" onClick={() => setShowForecastModal(false)}>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-4 border-b border-slate-100">
+              <h3 className="font-bold text-slate-900">Detailed Revenue Forecasts</h3>
+              <button onClick={() => setShowForecastModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <p className="text-sm text-slate-600 mb-4 font-medium leading-relaxed">
+                Based on current quarter trends, employee revenue generation is projected to grow by <span className="font-bold text-indigo-600">12%</span> in the next quarter. 
+                Sarah Miller and Elena Laurent are driving the majority of enterprise conversions.
+              </p>
+              <div className="bg-slate-50 p-4 rounded-lg space-y-3 border border-slate-100">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Q3 Target</span>
+                  <span className="font-bold text-slate-900">$210.5M</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Projected Q3</span>
+                  <span className="font-bold text-emerald-600">$225.0M</span>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button onClick={() => setShowForecastModal(false)} className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CRITERIA MODAL */}
+      {showCriteriaModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" onClick={() => setShowCriteriaModal(false)}>
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-4 border-b border-slate-100">
+              <h3 className="font-bold text-slate-900">Achievement Criteria</h3>
+              <button onClick={() => setShowCriteriaModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-4">
+                <li className="flex gap-3">
+                  <CheckCircle className="h-5 w-5 text-emerald-500 shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Revenue Target</p>
+                    <p className="text-xs text-slate-500 mt-0.5 font-medium">Must exceed $1M in generated revenue.</p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <CheckCircle className="h-5 w-5 text-emerald-500 shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Client Retention</p>
+                    <p className="text-xs text-slate-500 mt-0.5 font-medium">Maintain {">"}95% client retention rate.</p>
+                  </div>
+                </li>
+                <li className="flex gap-3">
+                  <CheckCircle className="h-5 w-5 text-emerald-500 shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Compliance</p>
+                    <p className="text-xs text-slate-500 mt-0.5 font-medium">100% adherence to SLA and policies.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button onClick={() => setShowCriteriaModal(false)} className="px-5 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">
+                Acknowledge
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </AdminShell>
   );
 }

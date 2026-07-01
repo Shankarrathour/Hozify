@@ -148,7 +148,10 @@ export default function BSPPartners() {
               <h2 className="mt-2 text-2xl font-bold text-slate-900">BSP Directory</h2>
               <p className="mt-0.5 text-sm text-slate-400">Monitor all business service providers network metrics</p>
             </div>
-            <button className="flex items-center gap-2 rounded-2xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50 transition">
+            <button 
+              onClick={() => alert("Advanced filters panel opened.")} 
+              className="flex items-center gap-2 rounded-2xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50 transition"
+            >
               <Filter size={16} />
               Advanced Filters
             </button>

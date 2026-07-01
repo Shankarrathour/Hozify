@@ -37,7 +37,7 @@ export default function BranchBookings() {
             <p className="page-subtitle">Track service requests, scheduling, and revenue across branches.</p>
           </div>
           <div className="partners-header-buttons">
-            <button className="primary-action-btn font-bold" style={{ cursor: 'pointer',  height: '36px' }} onClick={() => addToast('Action performed successfully.', 'success')}>
+            <button className="primary-action-btn font-bold" style={{ cursor: 'pointer',  height: '36px' }} onClick={() => navigate('/bookings/create')}>
               <Plus size={14} style={{ marginRight: '4px' }} />
               <span>Create Booking</span>
             </button>
@@ -173,7 +173,12 @@ export default function BranchBookings() {
                 {filteredBookings.map((row) => (
                   <tr key={row.id}>
                     <td>
-                      <span style={{ color: '#4f46e5', fontWeight: '700', textDecoration: 'underline', cursor: 'pointer' }}>{row.id}</span>
+                      <span 
+                        style={{ color: '#4f46e5', fontWeight: '700', textDecoration: 'underline', cursor: 'pointer' }}
+                        onClick={() => navigate('/bookings')}
+                      >
+                        {row.id}
+                      </span>
                     </td>
                     <td style={{ color: 'var(--text)', fontWeight: '700' }}>{row.customer}</td>
                     <td style={{ color: 'var(--muted)' }}>{row.service}</td>

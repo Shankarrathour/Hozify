@@ -10,9 +10,13 @@ import {
   MoreVertical
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
+import { useDateFilter } from '../../contexts/DateFilterContext';
+import DateFilter from '../../components/common/DateFilter';
+import SkeletonLoader from '../../components/common/SkeletonLoader';
+import EmptyState from '../../components/common/EmptyState';
 
 export default function UserAnalytics({ activeTab = 'Dashboard' }) {
-  const [timeTab, setTimeTab] = useState('Daily');
+  const { preset, isFiltering, hasData } = useDateFilter();
 
   const kpis = [
     { title: "New Users", value: "2,842", subtitle: "this week", trend: "+12%", positive: true, icon: UserCheck, color: "#07956f", bg: "#ecfdf5" },
@@ -54,28 +58,29 @@ export default function UserAnalytics({ activeTab = 'Dashboard' }) {
             </p>
           </div>
 
-          <div style={{ display: 'flex', background: '#f4eff8', borderRadius: '6px', padding: '3px', gap: '4px' }}>
-            {['Daily', 'Weekly', 'Monthly', 'Quarterly'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setTimeTab(tab)}
-                style={{
-                  border: 'none',
-                  background: timeTab === tab ? '#25108f' : 'transparent',
-                  color: timeTab === tab ? '#fff' : 'var(--muted)',
-                  padding: '4px 12px',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                  fontWeight: '750',
-                  cursor: 'pointer'
-                }}
-              >
-                {tab}
-              </button>
-            ))}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <DateFilter />
           </div>
         </div>
 
+        {isFiltering ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.7fr 1fr', gap: '20px' }}>
+              <SkeletonLoader height="280px" />
+              <SkeletonLoader height="280px" />
+            </div>
+            <SkeletonLoader height="300px" />
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
         {/* KPI Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
           {kpis.map((kpi, idx) => {
@@ -229,7 +234,7 @@ export default function UserAnalytics({ activeTab = 'Dashboard' }) {
                 <div style={{ width: '62%', height: '100%', background: '#64748b' }} />
               </div>
             </div>
-          </div>
+        </div>
         </div>
 
         {/* Referrers & Blocked Lists */}
@@ -325,9 +330,9 @@ export default function UserAnalytics({ activeTab = 'Dashboard' }) {
               </table></div>
             </div>
           </div>
-
         </div>
-
+        </>
+      )}
       </div>
     </AdminShell>
   );

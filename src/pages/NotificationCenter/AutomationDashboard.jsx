@@ -21,6 +21,7 @@ import AdminShell from '../../components/layouts/AdminShell';
 
 export default function AutomationDashboard({ activeTab = 'Notification Center' }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [openDropdownId, setOpenDropdownId] = useState(null);
   const [showNewRuleModal, setShowNewRuleModal] = useState(false);
   const [incidents, setIncidents] = useState([
     { id: 1, type: 'critical', title: 'API Connection Timeout', rule: 'Rule: Salesforce Sync L2' },
@@ -269,10 +270,20 @@ export default function AutomationDashboard({ activeTab = 'Notification Center' 
                         </td>
                         <td style={{ padding: '16px', color: 'var(--text)', fontWeight: '700' }}>{rule.lastRun}</td>
                         <td style={{ padding: '16px', fontWeight: '800', color: rule.status === 'Warning' ? '#b45309' : 'var(--text)' }}>{rule.successRate}</td>
-                        <td style={{ padding: '16px', textAlign: 'right' }}>
-                          <button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}>
+                        <td style={{ padding: '16px', textAlign: 'right', position: 'relative' }}>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setOpenDropdownId(openDropdownId === rule.id ? null : rule.id); }}
+                            style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}
+                          >
                             <MoreVertical size={16} />
                           </button>
+                          {openDropdownId === rule.id && (
+                            <div style={{ position: 'absolute', right: '40px', top: '16px', width: '140px', background: '#fff', border: '1px solid var(--line)', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 50, padding: '4px 0', textAlign: 'left' }}>
+                              <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('View Logs'); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: 'var(--text)' }}>View Logs</button>
+                              <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('Edit Rule'); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: 'var(--primary)' }}>Edit Rule</button>
+                              <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('Delete Rule'); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#e11d48' }}>Delete</button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     );

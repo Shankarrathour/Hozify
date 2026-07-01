@@ -440,7 +440,7 @@ export default function BranchAuditLogs() {
                       </span>
                     </td>
                     <td style={{ textAlign: 'center' }}>
-                      <button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#9ca3af', padding: '2px' }}>
+                      <button onClick={() => addToast(`Opening options for ${row.id}`, 'info')} style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: '#9ca3af', padding: '2px' }} title="Log Options">
                         <MoreVertical size={12} />
                       </button>
                     </td>

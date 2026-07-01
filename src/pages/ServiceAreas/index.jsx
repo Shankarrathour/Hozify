@@ -2,10 +2,13 @@ import React from 'react';
 import { ShieldCheck, SlidersHorizontal, Search, Settings, Map, Compass, ShieldAlert, Award, AlertCircle, Edit, PlusCircle, VolumeX, Trash2, Eye } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
 import { useToast } from '../../components/common/ToastNotification';
+import { useApp } from '../../hooks/useApp';
 
 export default function ServiceAreas({ mode = 'areas' }) {
   const { addToast } = useToast();
+  const { navigate } = useApp();
   const isCoverage = mode === 'coverage';
+  const [activeSubTab, setActiveSubTab] = React.useState('GIS Mapper');
 
   return (
     <AdminShell
@@ -30,9 +33,23 @@ export default function ServiceAreas({ mode = 'areas' }) {
           </div>
 
           <div style={{ display: 'flex', gap: '8px', background: '#f1f5f9', padding: '4px', borderRadius: '6px', fontSize: '12px', fontWeight: '700' }}>
-            <span style={{ padding: '4px 10px', color: 'var(--muted)' }}>Directory</span>
-            <span style={{ padding: '4px 10px', color: 'var(--muted)' }}>Analytics</span>
-            <span style={{ padding: '4px 10px', background: '#fff', color: '#0f172a', borderRadius: '4px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>GIS Mapper</span>
+            {['Directory', 'Analytics', 'GIS Mapper'].map(tab => (
+              <span 
+                key={tab}
+                onClick={() => {
+                  setActiveSubTab(tab);
+                  addToast(`${tab} view selected.`, 'success');
+                }}
+                style={{ 
+                  padding: '4px 10px', 
+                  cursor: 'pointer',
+                  borderRadius: '4px', 
+                  ...(activeSubTab === tab ? { background: '#fff', color: '#0f172a', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' } : { color: 'var(--muted)' })
+                }}
+              >
+                {tab}
+              </span>
+            ))}
           </div>
         </div>
 
@@ -353,7 +370,7 @@ export default function ServiceAreas({ mode = 'areas' }) {
               </thead>
               <tbody>
                  <tr>
-                  <td><span style={{ color: '#4f46e5', fontWeight: '700' }}>ARE-101</span></td>
+                  <td><span onClick={() => navigate('/services/coverage')} style={{ color: '#4f46e5', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}>ARE-101</span></td>
                   <td style={{ fontWeight: '700' }}>Downtown Zone A</td>
                   <td>Central Metro</td>
                   <td>12.4</td>
@@ -368,7 +385,7 @@ export default function ServiceAreas({ mode = 'areas' }) {
                   </td>
                 </tr>
                 <tr>
-                  <td><span style={{ color: '#4f46e5', fontWeight: '700' }}>ARE-102</span></td>
+                  <td><span onClick={() => navigate('/services/coverage')} style={{ color: '#4f46e5', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}>ARE-102</span></td>
                   <td style={{ fontWeight: '700' }}>Riverview Corridor</td>
                   <td>North Side</td>
                   <td>8.2</td>
@@ -383,7 +400,7 @@ export default function ServiceAreas({ mode = 'areas' }) {
                   </td>
                 </tr>
                 <tr>
-                  <td><span style={{ color: '#4f46e5', fontWeight: '700' }}>ARE-103</span></td>
+                  <td><span onClick={() => navigate('/services/coverage')} style={{ color: '#4f46e5', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}>ARE-103</span></td>
                   <td style={{ fontWeight: '700' }}>Liberty Peak Foothills</td>
                   <td>West Suburbs</td>
                   <td>24.5</td>

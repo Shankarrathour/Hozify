@@ -17,6 +17,8 @@ export default function LeaveManagement() {
   // लीव रिमार्क्स को हैंडल करने के लिए स्टेट
   const [employeeRemarks, setEmployeeRemarks] = useState({});
 
+  const [isApplyModalOpen, setApplyModalOpen] = useState(false);
+
   const executeStatusTrigger = (employeeId, name, nextStatus) => {
     setRequests(requests.map(r => 
       r.id === employeeId 
@@ -44,6 +46,42 @@ export default function LeaveManagement() {
 
   return (
     <div className="leave-management-flow" style={{ paddingBottom: '40px' }}>
+      {isApplyModalOpen && (
+        <>
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)', zIndex: 999 }} onClick={() => setApplyModalOpen(false)} />
+          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: '#fff', padding: '24px', borderRadius: '12px', zIndex: 1000, width: '400px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '16px', color: 'var(--text)' }}>Apply for Leave</h2>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px' }}>LEAVE TYPE</label>
+              <select style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--line)', fontSize: '13px', outline: 'none' }}>
+                <option>Annual Leave</option>
+                <option>Sick Leave</option>
+                <option>Bereavement</option>
+                <option>Unpaid Leave</option>
+              </select>
+            </div>
+            <div style={{ marginBottom: '16px', display: 'flex', gap: '12px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px' }}>START DATE</label>
+                <input type="date" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--line)', fontSize: '13px', outline: 'none' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px' }}>END DATE</label>
+                <input type="date" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--line)', fontSize: '13px', outline: 'none' }} />
+              </div>
+            </div>
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '12px', fontWeight: '800', color: 'var(--muted)', marginBottom: '6px' }}>REASON / JUSTIFICATION</label>
+              <textarea placeholder="Please provide details for your leave request..." style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--line)', fontSize: '13px', minHeight: '80px', resize: 'vertical', outline: 'none' }}></textarea>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button onClick={() => setApplyModalOpen(false)} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid var(--line)', background: '#fff', color: 'var(--text)', cursor: 'pointer', fontSize: '13px', fontWeight: '700' }}>Cancel</button>
+              <button onClick={() => { addToast("Leave application submitted successfully!", "success"); setApplyModalOpen(false); }} style={{ padding: '8px 16px', borderRadius: '6px', border: 'none', background: '#4f46e5', color: '#fff', cursor: 'pointer', fontSize: '13px', fontWeight: '700' }}>Submit Application</button>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Title Header */}
       <div className="partners-page-header">
         <div>
@@ -60,6 +98,13 @@ export default function LeaveManagement() {
               aria-label="Search leave requests by name or reason"
             />
           </div>
+          <button 
+            onClick={() => setApplyModalOpen(true)}
+            className="primary-action-btn font-bold cursor-pointer" 
+            style={{ height: '34px', padding: '0 16px', background: '#4f46e5', color: '#fff', borderRadius: '6px', border: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            Apply Leave
+          </button>
         </div>
       </div>
 
@@ -68,59 +113,55 @@ export default function LeaveManagement() {
         {/* Pending Requests */}
         <div 
           onClick={() => addToast("Card clicked: Pending leave requests details", "success")}
-          className="kpi-card" 
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '16px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
         >
           <div>
-            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>
-              Pending Requests 
-              <span style={{ fontSize: '8px', padding: '2px 4px', background: '#e0e7ff', color: '#4f46e5', borderRadius: '4px', marginLeft: '6px', fontWeight: '800' }}>LIVE</span>
-            </span>
-            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>24 <span style={{ fontSize: '11px', color: '#ef4444', fontWeight: '700' }}>↗ +12%</span></strong>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Pending Requests</span>
+            <strong style={{ display: 'block', fontSize: '20px', margin: '4px 0 2px', color: 'var(--text)' }}>24</strong>
+            <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: '800' }}>↗ +12% vs last month</span>
           </div>
-          <div style={{ width: '100%', height: '3px', background: '#e2e8f0', borderRadius: '2px' }} />
+          <span style={{ fontSize: '9px', padding: '3px 6px', background: '#e0e7ff', color: '#4f46e5', borderRadius: '4px', fontWeight: '800' }}>LIVE</span>
         </div>
 
         {/* Active Leaves */}
         <div 
           onClick={() => addToast("Card clicked: Active leaves today list", "success")}
-          className="kpi-card" 
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '16px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
         >
           <div>
-            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>
-              Active Leaves 
-              <span style={{ fontSize: '8px', padding: '2px 4px', background: '#f8fafc', color: 'var(--muted)', borderRadius: '4px', marginLeft: '6px', fontWeight: '800', border: '1px solid var(--line)' }}>TODAY</span>
-            </span>
-            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>42 <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '700' }}>↘ -5%</span></strong>
+            <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Active Leaves</span>
+            <strong style={{ display: 'block', fontSize: '20px', margin: '4px 0 2px', color: 'var(--text)' }}>42</strong>
+            <span style={{ fontSize: '10px', color: '#10b981', fontWeight: '800' }}>↘ -5% vs last month</span>
           </div>
-          <div style={{ width: '100%', height: '3px', background: '#e2e8f0', borderRadius: '2px' }} />
+          <span style={{ fontSize: '9px', padding: '3px 6px', background: '#f8fafc', color: 'var(--muted)', borderRadius: '4px', border: '1px solid var(--line)', fontWeight: '800' }}>TODAY</span>
         </div>
 
         {/* Approval Rate */}
         <div 
           onClick={() => addToast("Card clicked: Leave approval rate analysis", "success")}
-          className="kpi-card" 
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '16px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
         >
           <div>
             <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Approval Rate</span>
-            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>94% <span style={{ fontSize: '11px', color: '#059669', fontWeight: '800', marginLeft: '4px' }}>✓ Stable</span></strong>
+            <strong style={{ display: 'block', fontSize: '20px', margin: '4px 0 2px', color: 'var(--text)' }}>94%</strong>
+            <span style={{ fontSize: '10px', color: '#059669', fontWeight: '800' }}>✓ Stable trend</span>
           </div>
-          <div style={{ width: '100%', height: '3px', background: '#e2e8f0', borderRadius: '2px' }} />
         </div>
 
         {/* Staff on Floor */}
         <div 
           onClick={() => addToast("Card clicked: Present staff count details", "success")}
-          className="kpi-card" 
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '12px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', cursor: 'pointer' }}
+          className="panel kpi-card" 
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '16px', minHeight: '80px', background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', cursor: 'pointer', marginBottom: 0 }}
         >
           <div>
             <span style={{ fontSize: '9px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>Staff on Floor</span>
-            <strong style={{ display: 'block', fontSize: '18px', margin: '4px 0 2px', color: 'var(--text)' }}>186 <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 'normal' }}>/ 228 total</span></strong>
+            <strong style={{ display: 'block', fontSize: '20px', margin: '4px 0 2px', color: 'var(--text)' }}>186</strong>
+            <span style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: '700' }}>out of 228 total</span>
           </div>
-          <div style={{ width: '100%', height: '3px', background: '#e2e8f0', borderRadius: '2px' }} />
         </div>
       </section>
 

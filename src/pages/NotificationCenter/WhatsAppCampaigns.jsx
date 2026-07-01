@@ -20,6 +20,7 @@ import AdminShell from '../../components/layouts/AdminShell';
 
 export default function WhatsAppCampaigns({ activeTab = 'Notification Center' }) {
   const [dateFilter, setDateFilter] = useState('Last 30 Days');
+  const [openDropdownId, setOpenDropdownId] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -302,9 +303,19 @@ export default function WhatsAppCampaigns({ activeTab = 'Notification Center' })
                             <Play size={15} />
                           )}
                         </button>
-                        <button style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setOpenDropdownId(openDropdownId === i ? null : i); }}
+                          style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--muted)' }}
+                        >
                           <MoreVertical size={16} />
                         </button>
+                        {openDropdownId === i && (
+                          <div style={{ position: 'absolute', right: '40px', top: '16px', width: '140px', background: '#fff', border: '1px solid var(--line)', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 50, padding: '4px 0', textAlign: 'left' }}>
+                            <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); setToastMessage('Viewing Campaign Details'); setShowToast(true); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: 'var(--text)' }}>View Details</button>
+                            <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); setToastMessage('WhatsApp Campaign Restarted'); setShowToast(true); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#07956f' }}>Restart</button>
+                            <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); setToastMessage('Campaign Deleted'); setShowToast(true); }} style={{ display: 'block', width: '100%', padding: '8px 16px', border: 'none', background: 'transparent', textAlign: 'left', fontSize: '12px', fontWeight: '600', cursor: 'pointer', color: '#e11d48' }}>Delete</button>
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>

@@ -1,0 +1,18 @@
+/* DateFilter custom overrides */
+.date-filter-container .rdrCalendarWrapper {
+  background: transparent;
+  color: #1e293b;
+}
+
+.date-filter-container .rdrDayNumber span {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.date-filter-container .rdrDayPassive .rdrDayNumber span {
+  color: #cbd5e1;
+}
+
+.date-filter-container .rdrDayToday .rdrDayNumber span::after {
+  background: #2563eb;
+}

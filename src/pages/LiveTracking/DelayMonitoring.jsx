@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useApp } from "../../hooks/useApp";
+import { ROUTES } from "../../config/routes";
 import { 
   Search, 
   Bell, 
@@ -11,10 +13,12 @@ import {
   ShieldAlert, 
   TrendingDown, 
   Send, 
-  SlidersHorizontal 
+  SlidersHorizontal,
+  ArrowLeft
 } from "lucide-react";
 
 export default function DelayMonitoring() {
+  const { navigate } = useApp();
   // ==========================================
   // MASTER DELAY INCIDENTS MOCK DATA
   // ==========================================
@@ -108,6 +112,9 @@ export default function DelayMonitoring() {
         {/* TOP GLOBAL HEADER ROW */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-2 rounded-xl border border-slate-200 shadow-xs">
           <div className="flex items-center gap-2 pl-2">
+            <button onClick={() => navigate(-1)} className="p-1 -ml-1 text-slate-500 hover:text-indigo-950 hover:bg-slate-100 rounded-full transition-colors">
+              <ArrowLeft className="h-5 w-5" />
+            </button>
             <h1 className="text-xl font-black text-indigo-950 tracking-tight">Delay Monitoring</h1>
           </div>
           
@@ -122,19 +129,26 @@ export default function DelayMonitoring() {
             />
           </div>
 
-          <div className="flex items-center gap-4 pr-2">
-            <button className="text-slate-500 hover:text-indigo-950 relative">
+          <div className="flex items-center gap-4 pr-2 justify-end">
+            <button onClick={() => navigate(ROUTES.notifications)} className="text-slate-500 hover:text-indigo-950 transition-colors relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-0 right-0 w-2 h-2 bg-rose-600 rounded-full" />
             </button>
-            <button className="text-slate-500 hover:text-indigo-950">
+            <button onClick={() => navigate(ROUTES.support)} className="text-slate-500 hover:text-indigo-950 transition-colors">
               <HelpCircle className="h-5 w-5" />
             </button>
-            <div className="flex items-center gap-2 border-l border-slate-200 pl-4">
+            <button onClick={() => navigate(ROUTES.settings)} className="text-slate-500 hover:text-indigo-950 transition-colors">
+              <Settings className="h-5 w-5" />
+            </button>
+            <div className="flex items-center gap-2 border-l border-slate-200 pl-4 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => navigate(ROUTES.myProfile)}>
+              <div className="text-right hidden md:block">
+                <p className="text-xs font-black text-indigo-950 leading-tight">Admin Panel</p>
+                <p className="text-[10px] text-slate-400 font-bold tracking-wider uppercase">ENTERPRISE VIEW</p>
+              </div>
               <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" 
                 alt="Profile" 
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-100"
               />
             </div>
           </div>

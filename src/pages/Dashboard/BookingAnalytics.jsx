@@ -13,11 +13,13 @@ import {
   Minimize2
 } from 'lucide-react';
 import AdminShell from '../../components/layouts/AdminShell';
-import DateRangePicker from '../../components/common/DateRangePicker';
+import { useDateFilter } from '../../contexts/DateFilterContext';
+import DateFilter from '../../components/common/DateFilter';
+import SkeletonLoader from '../../components/common/SkeletonLoader';
+import EmptyState from '../../components/common/EmptyState';
 
 export default function BookingAnalytics({ activeTab = 'Booking Management' }) {
-  const [selectedRange, setSelectedRange] = useState('Oct 24 - Oct 30');
-  const [timeTab, setTimeTab] = useState('Weekly');
+  const { preset, isFiltering, hasData } = useDateFilter();
 
   const tabData = {
     Daily: {
@@ -55,19 +57,8 @@ export default function BookingAnalytics({ activeTab = 'Booking Management' }) {
     }
   };
 
-  const handleTabChange = (tab) => {
-    setTimeTab(tab);
-    setSelectedRange(tabData[tab].range);
-  };
-
-  const handleDateRangeChange = (range) => {
-    setSelectedRange(range.label);
-    // Remove active tab styling if a custom range is picked that doesn't match the tabs exactly
-    setTimeTab('Custom');
-  };
-
   // Generate dynamic KPIs based on the time tab or custom range
-  const kpis = timeTab !== 'Custom' && tabData[timeTab] ? tabData[timeTab].kpis : tabData['Weekly'].kpis.map(k => ({
+  const kpis = tabData[preset] ? tabData[preset].kpis : tabData['Weekly'].kpis.map(k => ({
     ...k,
     value: (parseInt(k.value.replace(/,/g, '')) * 1.5).toLocaleString('en-US'),
   }));
@@ -105,56 +96,30 @@ export default function BookingAnalytics({ activeTab = 'Booking Management' }) {
           </div>
 
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-            {/* Daily/Weekly/Monthly segment */}
-            <div style={{ display: 'flex', background: '#f4eff8', borderRadius: '6px', padding: '3px', gap: '4px' }}>
-              {['Daily', 'Weekly', 'Monthly'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => handleTabChange(tab)}
-                  style={{
-                    border: 'none',
-                    background: timeTab === tab ? '#25108f' : 'transparent',
-                    color: timeTab === tab ? '#fff' : 'var(--muted)',
-                    padding: '4px 12px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontWeight: '750',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Custom Range Picker */}
-            <DateRangePicker 
-              onChange={handleDateRangeChange}
-              buttonContent={(currentLabel) => (
-                <button 
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '8px', 
-                    border: '1px solid var(--line)', 
-                    background: '#fff', 
-                    padding: '7px 14px', 
-                    borderRadius: '6px', 
-                    fontSize: '13px', 
-                    fontWeight: '750', 
-                    cursor: 'pointer' 
-                  }}
-                  type="button"
-                >
-                  <Calendar size={14} style={{ color: 'var(--muted)' }} />
-                  <span>{selectedRange}</span>
-                </button>
-              )}
-            />
+            <DateFilter />
           </div>
         </div>
 
-        {/* 6 KPI Cards horizontal flow */}
+        {isFiltering ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+              <SkeletonLoader height="300px" />
+              <SkeletonLoader height="300px" />
+            </div>
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
+        {/* Top KPIs Cards horizontal flow */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '12px', overflowX: 'auto' }}>
           {kpis.map((kpi, index) => (
             <div key={index} className="panel" style={{ padding: '16px', minWidth: '110px' }}>
@@ -372,9 +337,9 @@ export default function BookingAnalytics({ activeTab = 'Booking Management' }) {
             </div>
 
           </div>
-
         </div>
-
+          </>
+        )}
       </div>
     </AdminShell>
   );

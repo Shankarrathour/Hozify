@@ -75,6 +75,7 @@ import Analytics from '../../pages/Analytics';
 import Users from '../../pages/Users';
 import BlockedUsersPage from '../../pages/Users/BlockedUsersPage';
 import BookingManagement from '../../pages/BookingManagement';
+import CreateBooking from '../../pages/BookingManagement/CreateBooking';
 import Placeholder from '../../pages/Placeholder';
 import AboutUs from '../../pages/CMSManagement/AboutUs';
 import RefundPolicy from '../../pages/CMSManagement/RefundPolicy';
@@ -171,6 +172,7 @@ import FinancialHealth from '../../pages/RevenueManagement/FinancialHealth';
 import LiveDashboard from '../../pages/LiveTracking/LiveDashboard';
 import OperationalMap from '../../pages/LiveTracking/OperationalMap';
 import ActiveJobs from '../../pages/LiveTracking/ActiveJobs';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 import EmployeeTracking from '../../pages/LiveTracking/EmployeeTracking';
 import RouteTracking from '../../pages/LiveTracking/RouteTracking';
 import ETAMonitoring from '../../pages/LiveTracking/ETAmonitoring';
@@ -451,6 +453,8 @@ export function Router() {
       return <Employees />;
     case ROUTES.bookings:
       return <BookingManagement />;
+    case ROUTES.bookingCreate:
+      return <CreateBooking />;
     case ROUTES.liveTracking:
       return <LiveDashboard />;
     case ROUTES.materials:
@@ -709,7 +713,7 @@ export function Router() {
     case ROUTES.liveOpsMap:
      return <OperationalMap/>
     case ROUTES.liveActiveJobs:
-    return <ActiveJobs/>
+    return <ErrorBoundary><ActiveJobs/></ErrorBoundary>
     case ROUTES.liveEmployeeTracking:
       return <EmployeeTracking/>
     case ROUTES.liveRouteTracking:
@@ -1315,6 +1319,27 @@ export function Router() {
       return <MaintenanceMode />;
     case ROUTES.settingsSystemLogs:
       return <SystemLogs />;
+
+    // Live Tracking sub-routes
+    case ROUTES.liveDashboard: return <LiveDashboard />;
+    case ROUTES.liveOpsMap: return <OperationalMap />;
+    case ROUTES.liveActiveJobs: return <ErrorBoundary><ActiveJobs /></ErrorBoundary>;
+    case ROUTES.liveEmployeeTracking: return <EmployeeTracking />;
+    case ROUTES.liveRouteTracking: return <RouteTracking />;
+    case ROUTES.liveEta: return <ETAMonitoring />;
+    case ROUTES.liveDelay: return <DelayMonitoring />;
+    case ROUTES.liveGeofence: return <GeofenceManagement />;
+    case ROUTES.liveGeofenceLogs: return <GeofenceLogs />;
+    case ROUTES.liveHistory: return <MovementHistory />;
+    case ROUTES.liveHeatmaps: return <Heatmaps />;
+    case ROUTES.liveSos: return <SOStracking />;
+    case ROUTES.liveAnalytics: return <TrackingAnalytics />;
+
+    case ROUTES.notifications:
+      return <InAppNotifications />;
+      
+    case ROUTES.support:
+      return <SupportOperationsOverview />;
 
     case ROUTES.myProfile:
       return <MyProfile />;

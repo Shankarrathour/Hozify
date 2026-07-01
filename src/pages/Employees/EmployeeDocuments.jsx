@@ -19,6 +19,8 @@ export default function EmployeeDocuments() {
   const [previewDoc, setPreviewDoc] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
+  const [date, setDate] = useState('2024-06-14');
+
   const filteredDocs = MOCK_DOCUMENTS.filter(d => {
     const matchSearch = d.employee.toLowerCase().includes(searchTerm.toLowerCase()) || d.type.toLowerCase().includes(searchTerm.toLowerCase());
     const matchStatus = statusFilter === 'All' || d.status === statusFilter;
@@ -32,6 +34,15 @@ export default function EmployeeDocuments() {
       <div className="panel" style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h3 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>Document Repository</h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}>
+            <Calendar size={16} />
+            <input 
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', fontFamily: 'inherit' }}
+            />
+          </div>
         </div>
 
         <div className="table-wrap" style={{ overflowX: 'auto' }}>

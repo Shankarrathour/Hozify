@@ -28,6 +28,7 @@ export default function EmployeeAnalytics() {
   const [searchTerm, setSearchTerm] = useState('');
   const [branchFilter, setBranchFilter] = useState('All Branches');
   const [deptFilter, setDeptFilter] = useState('All Departments');
+  const [dateRange, setDateRange] = useState('');
 
   const filteredEmployees = MOCK_EMPLOYEES.filter(emp => {
     const matchSearch = emp.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -75,22 +76,35 @@ export default function EmployeeAnalytics() {
             <option value="Support">Support</option>
             <option value="Administration">Administration</option>
           </select>
-          <button 
-            onClick={() => addToast("Opened date selection calendar", "success")}
-            style={{ height: '36px', padding: '0 12px', border: '1px solid var(--line)', background: '#fff', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '600', color: 'var(--text)', cursor: 'pointer' }}
-          >
-            <Calendar size={14} /> Oct 1 - Oct 31, 2026
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}>
+            <Calendar size={14} />
+            <span style={{ fontWeight: '600', fontSize: '13px' }}>{dateRange ? '' : 'Oct 1 - Oct 31, 2026'}</span>
+            <input 
+              type="date"
+              value={dateRange}
+              onChange={(e) => setDateRange(e.target.value)}
+              style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '600', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', fontFamily: 'inherit', width: dateRange ? 'auto' : '20px' }}
+            />
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <button 
-            onClick={() => addToast("Exporting comprehensive operational analytics spreadsheet...", "success")}
+            onClick={() => {
+              addToast("Preparing CSV export...", "info");
+              setTimeout(() => addToast("Employee_Analytics.csv downloaded successfully", "success"), 1500);
+            }}
             style={{ height: '36px', padding: '0 16px', border: 'none', background: '#e0e7ff', color: '#4f46e5', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
           >
             <Download size={14} /> EXPORT CSV
           </button>
           <button 
-            onClick={() => addToast("Generating executive PDF analytics report...", "success")}
+            onClick={() => {
+              addToast("Preparing PDF export...", "info");
+              setTimeout(() => {
+                addToast("Analytics_Report.pdf generated successfully", "success");
+                window.print();
+              }, 1500);
+            }}
             style={{ height: '36px', padding: '0 16px', border: 'none', background: '#1e293b', color: '#fff', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '700', cursor: 'pointer' }}
           >
             <FileText size={14} /> PDF REPORT

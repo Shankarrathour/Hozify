@@ -11,7 +11,8 @@ import {
   X,
   Eye,
   CheckCircle,
-  HelpCircle
+  HelpCircle,
+  User
 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
@@ -19,6 +20,59 @@ import AdminShell from '../../components/layouts/AdminShell';
 
 export default function SupportOperationsList({ activeTab = 'Support Center', defaultFilter = 'all' }) {
   const { navigate } = useApp();
+
+  const getHeaderInfo = () => {
+    switch (defaultFilter) {
+      case 'open':
+        return {
+          title: 'Open Tickets',
+          desc: 'Review active, unassigned or pending customer support tickets.'
+        };
+      case 'in-progress':
+        return {
+          title: 'In Progress Tickets',
+          desc: 'Manage tickets currently being handled by support agents.'
+        };
+      case 'closed':
+        return {
+          title: 'Closed Tickets',
+          desc: 'Review resolved and finalized customer support cases.'
+        };
+      case 'bookings':
+        return {
+          title: 'Booking Issues',
+          desc: 'Track and resolve tickets related to booking anomalies or schedules.'
+        };
+      case 'payments':
+        return {
+          title: 'Payment & Billing Issues',
+          desc: 'Address client disputes, refund issues, and transactional inquiries.'
+        };
+      case 'wallet':
+        return {
+          title: 'Wallet Issues',
+          desc: 'Investigate customer balance errors, rewards, and wallet discrepancies.'
+        };
+      case 'technical':
+        return {
+          title: 'Technical Issues',
+          desc: 'Coordinate debug resources for app glitches and technical bugs.'
+        };
+      case 'kyc':
+        return {
+          title: 'KYC & Account Issues',
+          desc: 'Review identity verification challenges and corporate account queries.'
+        };
+      default:
+        return {
+          title: 'Support Operations',
+          desc: 'Manage and resolve high-priority enterprise support requests.'
+        };
+    }
+  };
+
+  const { title, desc } = getHeaderInfo();
+
   const [selectedPriority, setSelectedPriority] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedAgent, setSelectedAgent] = useState('All');
@@ -63,6 +117,42 @@ export default function SupportOperationsList({ activeTab = 'Support Center', de
       status: 'ON HOLD',
       agent: { name: 'Sarah J.', initials: 'SJ', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&fit=crop&q=80' },
       createdDate: 'Oct 12, 01:55 PM'
+    },
+    {
+      id: '#TK-8846',
+      user: { name: 'David Kim', email: 'd.kim@outlook.com', initials: 'DK', color: '#8b5cf6', bg: '#f5f3ff' },
+      category: 'Bookings',
+      priority: 'High',
+      status: 'CLOSED',
+      agent: { name: 'Mark T.', initials: 'MT', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&fit=crop&q=80' },
+      createdDate: 'Oct 13, 08:20 AM'
+    },
+    {
+      id: '#TK-8847',
+      user: { name: 'Alice Watson', email: 'alice.w@design.co', initials: 'AW', color: '#ec4899', bg: '#fdf2f8' },
+      category: 'Bookings',
+      priority: 'Medium',
+      status: 'OPEN',
+      agent: { name: 'Sarah J.', initials: 'SJ', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&fit=crop&q=80' },
+      createdDate: 'Oct 13, 11:05 AM'
+    },
+    {
+      id: '#TK-8848',
+      user: { name: 'Chris Evans', email: 'c.evans@avengers.io', initials: 'CE', color: '#ef4444', bg: '#fef2f2' },
+      category: 'Wallet',
+      priority: 'Low',
+      status: 'OPEN',
+      agent: { name: 'Unassigned', initials: 'UN', avatar: null },
+      createdDate: 'Oct 14, 02:30 PM'
+    },
+    {
+      id: '#TK-8849',
+      user: { name: 'Diana Prince', email: 'diana.p@justice.org', initials: 'DP', color: '#10b981', bg: '#ecfdf5' },
+      category: 'Technical',
+      priority: 'Medium',
+      status: 'CLOSED',
+      agent: { name: 'Sarah J.', initials: 'SJ', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&fit=crop&q=80' },
+      createdDate: 'Oct 14, 04:15 PM'
     }
   ]);
 
@@ -178,10 +268,10 @@ export default function SupportOperationsList({ activeTab = 'Support Center', de
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <h1 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>
-              Support Operations
+              {title}
             </h1>
             <p style={{ fontSize: '13px', color: 'var(--muted)', margin: '4px 0 0' }}>
-              Manage and resolve high-priority enterprise support requests.
+              {desc}
             </p>
           </div>
 

@@ -13,10 +13,14 @@ import {
   Mail,
   TrendingDown
 } from 'lucide-react';
+import { useDateFilter } from '../../contexts/DateFilterContext';
+import DateFilter from '../../components/common/DateFilter';
+import SkeletonLoader from '../../components/common/SkeletonLoader';
+import EmptyState from '../../components/common/EmptyState';
 import AdminShell from '../../components/layouts/AdminShell';
 
 export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
-  const [timeframe, setTimeframe] = useState('Last 30 Days');
+  const { preset, isFiltering, hasData } = useDateFilter();
   const [regionFilter, setRegionFilter] = useState('Filter by Region');
 
   return (
@@ -42,27 +46,7 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
           </div>
 
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', background: '#e9e2f6', padding: '3px', borderRadius: '8px' }}>
-              {['Last 30 Days', 'Quarterly', 'Yearly'].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTimeframe(t)}
-                  style={{
-                    border: 'none',
-                    padding: '6px 14px',
-                    background: timeframe === t ? 'var(--primary)' : 'transparent',
-                    color: timeframe === t ? '#fff' : 'var(--muted)',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontWeight: '700',
-                    fontSize: '12px',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
+            <DateFilter />
 
             <button
               onClick={() => alert('Exporting attribution analysis...')}
@@ -89,6 +73,24 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
           </div>
         </div>
 
+        {isFiltering ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+              <SkeletonLoader height="100px" />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
+              <SkeletonLoader height="300px" />
+              <SkeletonLoader height="300px" />
+            </div>
+            <SkeletonLoader height="250px" />
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
         {/* KPI Row */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
           
@@ -517,6 +519,8 @@ export default function ChannelPerformance({ activeTab = 'Dashboard' }) {
           </div>
         </div>
 
+        </>
+        )}
       </div>
     </AdminShell>
   );

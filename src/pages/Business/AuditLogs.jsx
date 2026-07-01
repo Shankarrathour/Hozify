@@ -134,6 +134,8 @@ function statusStyle(s) {
 export default function AuditLogs() {
   const { addToast } = useToast();
   const [currentPage, setCurrentPage] = useState(1);
+  const [categoryFilter, setCategoryFilter] = useState('All');
+  const [dateFilter, setDateFilter] = useState('7Days');
 
   // Read selected business from localStorage
   const biz = useMemo(() => {
@@ -154,6 +156,14 @@ export default function AuditLogs() {
   };
 
   const logs = useMemo(() => generateLogs(business), [business]);
+  
+  const filteredLogs = useMemo(() => {
+    return logs.filter(log => {
+      const matchCategory = categoryFilter === 'All' || log.category === categoryFilter;
+      return matchCategory;
+    });
+  }, [logs, categoryFilter]);
+
   const seed = seedFromId(business.id);
 
   // Dynamic stats from business
@@ -301,18 +311,39 @@ export default function AuditLogs() {
           {/* Filters Bar */}
           <div className="p-4 border-b border-[#E4E4E7] flex flex-wrap items-center justify-between gap-4 bg-[#FAFAFA]">
             <div className="flex items-center gap-3">
-              <button className="h-[36px] px-3 rounded-lg border border-[#E4E4E7] bg-white text-[13px] font-medium text-[#27272A] inline-flex items-center gap-6 shadow-sm">
-                <span>All Categories</span>
-                <ChevronDown size={14} className="text-[#71717A]" />
-              </button>
-              <button className="h-[36px] px-3 rounded-lg border border-[#E4E4E7] bg-white text-[13px] font-medium text-[#27272A] inline-flex items-center gap-3 shadow-sm">
-                <span>Last 7 Days</span>
-                <Calendar size={14} className="text-[#71717A]" />
-              </button>
+              <select 
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="h-[36px] px-3 pr-8 rounded-lg border border-[#E4E4E7] bg-white text-[13px] font-medium text-[#27272A] shadow-sm hover:bg-slate-50 transition-colors focus:outline-none appearance-none"
+                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2371717A\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center', backgroundSize: '1.2em 1.2em' }}
+              >
+                <option value="All">All Categories</option>
+                <option value="SECURITY">Security</option>
+                <option value="FINANCE">Finance</option>
+                <option value="ACCESS">Access</option>
+                <option value="CONFIGURATION">Configuration</option>
+                <option value="STATUS">Status</option>
+                <option value="COMPLIANCE">Compliance</option>
+                <option value="KYC">KYC</option>
+              </select>
+              <select 
+                value={dateFilter}
+                onChange={(e) => {
+                  setDateFilter(e.target.value);
+                  addToast(`Date range changed to ${e.target.options[e.target.selectedIndex].text}`, 'success');
+                }}
+                className="h-[36px] px-3 pr-8 rounded-lg border border-[#E4E4E7] bg-white text-[13px] font-medium text-[#27272A] shadow-sm hover:bg-slate-50 transition-colors focus:outline-none appearance-none"
+                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2371717A\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z\'%3E%3C/path%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center', backgroundSize: '1.2em 1.2em' }}
+              >
+                <option value="7Days">Last 7 Days</option>
+                <option value="30Days">Last 30 Days</option>
+                <option value="ThisMonth">This Month</option>
+                <option value="AllTime">All Time</option>
+              </select>
             </div>
             <div className="text-[13px] text-[#71717A]">
               Business: <span className="font-semibold text-[#4f46e5]">{business.name}</span>
-              &nbsp;·&nbsp; Showing <span className="font-semibold text-black">1–{logs.length}</span> of {(seed % 300) + 50} logs
+              &nbsp;·&nbsp; Showing <span className="font-semibold text-black">{filteredLogs.length > 0 ? '1' : '0'}–{filteredLogs.length}</span> of {categoryFilter === 'All' ? ((seed % 300) + 50) : filteredLogs.length} logs
             </div>
           </div>
 
@@ -330,9 +361,10 @@ export default function AuditLogs() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E4E4E7] text-[13px] bg-white">
-                {logs.map((log) => {
-                  const st = statusStyle(log.status);
-                  return (
+                {filteredLogs.length > 0 ? (
+                  filteredLogs.map((log) => {
+                    const st = statusStyle(log.status);
+                    return (
                     <tr key={log.id} className="hover:bg-[#FAFAFA]">
                       <td className="py-4 px-5 text-[#27272A] font-medium leading-tight">
                         {log.date}<br />
@@ -367,7 +399,14 @@ export default function AuditLogs() {
                       </td>
                     </tr>
                   );
-                })}
+                })
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="py-8 text-center text-[#71717A] font-medium">
+                      No logs found for the selected category.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table></div>
           </div>
@@ -425,7 +464,10 @@ export default function AuditLogs() {
               encrypted in real-time. System integrity at 100%.
             </p>
           </div>
-          <button className="h-[40px] rounded bg-black px-5 text-[14px] font-bold text-white hover:bg-[#222] transition-colors shadow-md">
+          <button 
+            onClick={() => addToast('System integrity review initiated. Log hashes match expected values.', 'success')}
+            className="h-[40px] rounded bg-black px-5 text-[14px] font-bold text-white hover:bg-[#222] transition-colors shadow-md"
+          >
             Review Logs Integrity
           </button>
         </div>

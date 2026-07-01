@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 import { 
   ChevronLeft, ChevronRight, Calendar, AlertTriangle, 
@@ -29,7 +29,7 @@ function ScheduledSlotCard({ title, status, zone, dateRange, bgImg }) {
           <Calendar size={10} /> <span>{dateRange}</span>
         </p>
       </div>
-      <button className="text-slate-400 hover:text-slate-600 shrink-0">
+      <button onClick={() => alert(`Opening options for ${title}`)} className="text-slate-400 hover:text-slate-600 shrink-0">
         <MoreVertical size={14} />
       </button>
     </div>
@@ -54,6 +54,51 @@ function FilterCheckbox({ label, colorClass, checked }) {
 
 export default function BannerSchedulingPage() {
   const [viewTab, setViewTab] = useState("Timeline");
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 10, 1));
+  const quickScheduleRef = useRef(null);
+  
+  const [scheduledSlots, setScheduledSlots] = useState([
+    { id: 1, title: "Winter Launch 2024", status: "LIVE", zone: "Homepage Hero", dateRange: "Nov 10 - Nov 20", bgImg: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=600" },
+    { id: 2, title: "Early Bird Promo", status: "SCHEDULED", zone: "Homepage Hero", dateRange: "Nov 14 - Nov 18", bgImg: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600" }
+  ]);
+
+  const [newCampaignName, setNewCampaignName] = useState("");
+  const [newZone, setNewZone] = useState("Homepage Hero");
+  const [newStartDate, setNewStartDate] = useState("");
+  const [newEndDate, setNewEndDate] = useState("");
+  const [showAllSlotsModal, setShowAllSlotsModal] = useState(false);
+
+  const handlePrevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  const handleNextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const year = currentDate.getFullYear();
+
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+
+  const handleScheduleNewBanner = () => {
+    setShowScheduleModal(true);
+  };
+
+  const handleCreateSchedule = () => {
+    if (!newCampaignName || !newStartDate || !newEndDate) {
+      alert("Please fill all fields");
+      return;
+    }
+    const newSlot = {
+      id: Date.now(),
+      title: newCampaignName,
+      status: "SCHEDULED",
+      zone: newZone,
+      dateRange: `${newStartDate} - ${newEndDate}`,
+      bgImg: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
+    };
+    setScheduledSlots([newSlot, ...scheduledSlots]);
+    setNewCampaignName("");
+    setNewStartDate("");
+    setNewEndDate("");
+    setShowScheduleModal(false);
+    alert("Schedule created successfully!");
+  };
 
   return (
     <AdminShell activeTab="Banners" searchPlaceholder="Search campaigns or users...">
@@ -80,7 +125,7 @@ export default function BannerSchedulingPage() {
                 </button>
               ))}
             </div>
-            <button className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all">
+            <button onClick={handleScheduleNewBanner} className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md transition-all">
               <Plus size={18} />
               <span>Schedule New Banner</span>
             </button>
@@ -105,7 +150,7 @@ export default function BannerSchedulingPage() {
                   </p>
                 </div>
               </div>
-              <button className="whitespace-nowrap bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors shadow-sm">
+              <button onClick={() => alert('Opening conflict resolution tool...')} className="whitespace-nowrap bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors shadow-sm">
                 Resolve Now
               </button>
             </div>
@@ -116,9 +161,9 @@ export default function BannerSchedulingPage() {
               {/* MONTH NAVIGATION + FILTER PILLS GROUP BAR */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-50">
                 <div className="flex items-center space-x-3 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-xl">
-                  <button className="text-slate-500 hover:text-slate-800 p-0.5"><ChevronLeft size={14} /></button>
-                  <span className="text-xs font-bold text-slate-800 min-w-[90px] text-center">November 2024</span>
-                  <button className="text-slate-500 hover:text-slate-800 p-0.5"><ChevronRight size={18} /></button>
+                  <button onClick={handlePrevMonth} className="text-slate-500 hover:text-slate-800 p-0.5"><ChevronLeft size={14} /></button>
+                  <span className="text-xs font-bold text-slate-800 min-w-[90px] text-center">{monthName} {year}</span>
+                  <button onClick={handleNextMonth} className="text-slate-500 hover:text-slate-800 p-0.5"><ChevronRight size={18} /></button>
                 </div>
                 
                 {/* Horizontal custom interactive filters checklist checkboxes group box */}
@@ -155,22 +200,31 @@ export default function BannerSchedulingPage() {
                     <div className="col-span-5 grid grid-cols-5 gap-2 px-2 relative h-7">
                       <div className="col-start-3 col-span-2 bg-emerald-500 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm truncate">Winter Sale Launch</div>
                       <div className="col-start-4 col-span-2 bg-orange-500 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm border border-rose-600/30 truncate absolute top-1 bottom-1 left-4 right-0 z-10">Exclusive Early Bird</div>
+                      {scheduledSlots.filter(s => s.id > 2 && s.zone === "Homepage Hero").map((slot, idx) => (
+                        <div key={idx} className="col-span-2 bg-indigo-500 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm truncate absolute top-1 bottom-1 left-0 z-20">{slot.title}</div>
+                      ))}
                     </div>
                   </div>
 
                   {/* Row 2: Offers Sidebar Slot Tracking Line */}
-                  <div className="grid grid-cols-6 items-center text-xs border-b border-slate-50 py-4">
+                  <div className="grid grid-cols-6 items-center text-xs border-b border-slate-50 py-4 relative">
                     <div className="font-bold text-slate-800 px-4">Offers Sidebar</div>
-                    <div className="col-span-5 grid grid-cols-5 gap-2 px-2 h-7">
+                    <div className="col-span-5 grid grid-cols-5 gap-2 px-2 h-7 relative">
                       <div className="col-start-2 col-span-4 bg-blue-600 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm truncate">App-Only Promo</div>
+                      {scheduledSlots.filter(s => s.id > 2 && s.zone === "Offers Sidebar").map((slot, idx) => (
+                        <div key={idx} className="col-span-2 bg-indigo-500 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm truncate absolute top-1 bottom-1 left-0 z-20">{slot.title}</div>
+                      ))}
                     </div>
                   </div>
 
                   {/* Row 3: Category Header Slot Tracking Line */}
-                  <div className="grid grid-cols-6 items-center text-xs border-b border-slate-50 py-4">
+                  <div className="grid grid-cols-6 items-center text-xs border-b border-slate-50 py-4 relative">
                     <div className="font-bold text-slate-800 px-4">Category Header</div>
-                    <div className="col-span-5 grid grid-cols-5 gap-2 px-2 h-7">
+                    <div className="col-span-5 grid grid-cols-5 gap-2 px-2 h-7 relative">
                       <div className="col-start-4 col-span-2 bg-emerald-400 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm truncate">Flash Sale Category</div>
+                      {scheduledSlots.filter(s => s.id > 2 && s.zone === "Category Header").map((slot, idx) => (
+                        <div key={idx} className="col-span-2 bg-indigo-500 text-white rounded-lg flex items-center justify-center font-extrabold text-[9px] px-2 shadow-sm truncate absolute top-1 bottom-1 left-0 z-20">{slot.title}</div>
+                      ))}
                     </div>
                   </div>
 
@@ -201,13 +255,13 @@ export default function BannerSchedulingPage() {
                 {/* Input text name campaign selection field */}
                 <div className="space-y-1">
                   <label className="font-bold text-slate-600 block">Campaign Name</label>
-                  <input type="text" placeholder="e.g. Black Friday 2024" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none font-medium placeholder-slate-300 text-slate-700" />
+                  <input ref={quickScheduleRef} value={newCampaignName} onChange={(e) => setNewCampaignName(e.target.value)} type="text" placeholder="e.g. Black Friday 2024" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none font-medium placeholder-slate-300 text-slate-700" />
                 </div>
                 
                 {/* Selection dropdown menu placement fields option box block container */}
                 <div className="space-y-1">
                   <label className="font-bold text-slate-600 block">Zone Placement</label>
-                  <select className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none font-medium text-slate-700">
+                  <select value={newZone} onChange={(e) => setNewZone(e.target.value)} className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none font-medium text-slate-700">
                     <option>Homepage Hero</option>
                     <option>Offers Sidebar</option>
                     <option>Category Header</option>
@@ -218,15 +272,15 @@ export default function BannerSchedulingPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <label className="font-bold text-slate-600 block">Start Date</label>
-                    <input type="text" placeholder="mm/dd/yyyy" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none text-center font-medium placeholder-slate-300 text-slate-700" />
+                    <input value={newStartDate} onChange={(e) => setNewStartDate(e.target.value)} type="text" placeholder="mm/dd/yyyy" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none text-center font-medium placeholder-slate-300 text-slate-700" />
                   </div>
                   <div className="space-y-1">
                     <label className="font-bold text-slate-600 block">End Date</label>
-                    <input type="text" placeholder="mm/dd/yyyy" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none text-center font-medium placeholder-slate-300 text-slate-700" />
+                    <input value={newEndDate} onChange={(e) => setNewEndDate(e.target.value)} type="text" placeholder="mm/dd/yyyy" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none text-center font-medium placeholder-slate-300 text-slate-700" />
                   </div>
                 </div>
 
-                <button className="w-full bg-indigo-950 hover:bg-indigo-900 text-white font-bold py-2.5 rounded-xl mt-2 transition-colors shadow-sm text-center">
+                <button onClick={handleCreateSchedule} className="w-full bg-indigo-950 hover:bg-indigo-900 text-white font-bold py-2.5 rounded-xl mt-2 transition-colors shadow-sm text-center">
                   Create Schedule
                 </button>
               </div>
@@ -265,6 +319,7 @@ export default function BannerSchedulingPage() {
     <ExternalLink
       size={16}
       className="text-slate-400 cursor-pointer hover:text-slate-600"
+      onClick={() => alert("Opening latest asset in new tab...")}
     />
   </div>
 
@@ -293,29 +348,78 @@ export default function BannerSchedulingPage() {
        <div className="space-y-4 -mt-60">
           <div className="flex justify-between items-center">
             <h3 className="text-sm font-bold text-gray-900">Scheduled Slots Detail</h3>
-            <button className="text-xs font-bold text-indigo-600 hover:underline">View All</button>
+            <button onClick={() => setShowAllSlotsModal(true)} className="text-xs font-bold text-indigo-600 hover:underline">View All</button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-          <ScheduledSlotCard
-  title="Winter Launch 2024"
-  status="LIVE"
-  zone="Homepage Hero"
-  dateRange="Nov 10 - Nov 20"
-  bgImg="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=600"
-/>
-
-<ScheduledSlotCard
-  title="Early Bird Promo"
-  status="SCHEDULED"
-  zone="Homepage Hero"
-  dateRange="Nov 14 - Nov 18"
-  bgImg="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600"
-/>
+            {scheduledSlots.slice(0, 3).map(slot => (
+              <ScheduledSlotCard key={slot.id} {...slot} />
+            ))}
           </div>
         </div>
 
       </div>
+
+      {showAllSlotsModal && (
+        <div className="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-6 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[80vh] flex flex-col">
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-slate-900">All Scheduled Slots</h2>
+              <button onClick={() => setShowAllSlotsModal(false)} className="text-slate-400 hover:text-slate-600 font-bold text-3xl">&times;</button>
+            </div>
+            <div className="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {scheduledSlots.map(slot => (
+                <ScheduledSlotCard key={slot.id} {...slot} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showScheduleModal && (
+        <div className="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-6 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md flex flex-col p-6 space-y-4">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900">Schedule New Banner</h2>
+                <p className="text-xs text-slate-500 mt-1">Configure and deploy a new promotional asset.</p>
+              </div>
+              <button onClick={() => setShowScheduleModal(false)} className="text-slate-400 hover:text-slate-600 font-bold text-2xl">&times;</button>
+            </div>
+            
+            <div className="space-y-4 pt-2">
+              <div className="space-y-1">
+                <label className="font-bold text-slate-600 block text-sm">Campaign Name</label>
+                <input value={newCampaignName} onChange={(e) => setNewCampaignName(e.target.value)} type="text" placeholder="e.g. Black Friday 2024" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none font-medium text-slate-700" />
+              </div>
+              
+              <div className="space-y-1">
+                <label className="font-bold text-slate-600 block text-sm">Zone Placement</label>
+                <select value={newZone} onChange={(e) => setNewZone(e.target.value)} className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none font-medium text-slate-700">
+                  <option>Homepage Hero</option>
+                  <option>Offers Sidebar</option>
+                  <option>Category Header</option>
+                </select>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-600 block text-sm">Start Date</label>
+                  <input value={newStartDate} onChange={(e) => setNewStartDate(e.target.value)} type="text" placeholder="mm/dd/yyyy" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none text-center font-medium text-slate-700" />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-600 block text-sm">End Date</label>
+                  <input value={newEndDate} onChange={(e) => setNewEndDate(e.target.value)} type="text" placeholder="mm/dd/yyyy" className="w-full bg-slate-50 border border-slate-100 px-3 py-2 rounded-xl outline-none text-center font-medium text-slate-700" />
+                </div>
+              </div>
+
+              <button onClick={handleCreateSchedule} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl mt-4 transition-colors shadow-sm text-center">
+                Create Schedule
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminShell>
   );
 }

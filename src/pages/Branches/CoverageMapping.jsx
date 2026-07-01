@@ -168,7 +168,12 @@ export default function CoverageMapping() {
                 {filteredRegions.map((row) => (
                   <tr key={row.id}>
                     <td>
-                      <span style={{ color: '#4f46e5', fontWeight: '700' }}>{row.id}</span>
+                      <span 
+                        style={{ color: '#4f46e5', fontWeight: '700', textDecoration: 'underline', cursor: 'pointer' }}
+                        onClick={() => navigate('/service-areas')}
+                      >
+                        {row.id}
+                      </span>
                     </td>
                     <td style={{ color: 'var(--text)', fontWeight: '700' }}>{row.regionName}</td>
                     <td style={{ color: 'var(--text)' }}>{row.zones} zones</td>

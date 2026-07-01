@@ -13,18 +13,20 @@ import {
 import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
+import { useToast } from '../../components/common/ToastNotification';
+
+const initialRequests = [
+  { id: '#PR-8821', name: 'James Dalton', dept: 'Infrastructure Div.', initial: 'JD', category: 'Structural Steel', amount: '$42,500.00', status: 'PENDING REVIEW', statusColor: '#d97706', timeline: 'Requested 2h ago', barColor: '#f59e0b' },
+  { id: '#PR-8819', name: 'Sarah Kovic', dept: 'Maintenance', initial: 'SK', category: 'HVAC Systems', amount: '$12,800.00', status: 'URGENT ACTION', statusColor: '#dc2626', timeline: 'Delayed 18h', barColor: '#ef4444' },
+  { id: '#PR-8815', name: 'Markus Liao', dept: 'Logistics Ops.', initial: 'ML', category: 'Precision Tools', amount: '$5,240.00', status: 'PENDING REVIEW', statusColor: '#d97706', timeline: 'Requested 5h ago', barColor: '#3b82f6' },
+  { id: '#PR-8799', name: 'Elena Vance', dept: 'Procurement Analyst', initial: 'EL', category: 'Office Electronics', amount: '$85,300.00', status: 'HIGH VALUE CHECK', statusColor: '#d97706', timeline: 'Under verification', barColor: '#111827' }
+];
 
 export default function ApprovalPipeline() {
   const { navigate, setSelectedRequestId } = useApp();
+  const { addToast } = useToast();
   const [activeSegment, setActiveSegment] = useState('All');
-
-  // Request queue details mimicking Screen 5
-  const requests = [
-    { id: '#PR-8821', name: 'James Dalton', dept: 'Infrastructure Div.', initial: 'JD', category: 'Structural Steel', amount: '$42,500.00', status: 'PENDING REVIEW', statusColor: '#d97706', timeline: 'Requested 2h ago', barColor: '#f59e0b' },
-    { id: '#PR-8819', name: 'Sarah Kovic', dept: 'Maintenance', initial: 'SK', category: 'HVAC Systems', amount: '$12,800.00', status: 'URGENT ACTION', statusColor: '#dc2626', timeline: 'Delayed 18h', barColor: '#ef4444' },
-    { id: '#PR-8815', name: 'Markus Liao', dept: 'Logistics Ops.', initial: 'ML', category: 'Precision Tools', amount: '$5,240.00', status: 'PENDING REVIEW', statusColor: '#d97706', timeline: 'Requested 5h ago', barColor: '#3b82f6' },
-    { id: '#PR-8799', name: 'Elena Vance', dept: 'Procurement Analyst', initial: 'EL', category: 'Office Electronics', amount: '$85,300.00', status: 'HIGH VALUE CHECK', statusColor: '#d97706', timeline: 'Under verification', barColor: '#111827' }
-  ];
+  const [requestsList, setRequestsList] = useState(initialRequests);
 
   const handleRowClick = (reqId) => {
     if (setSelectedRequestId) {
@@ -35,11 +37,38 @@ export default function ApprovalPipeline() {
 
   const handleAction = (e, reqId, action) => {
     e.stopPropagation();
-    alert(`${action} on request ${reqId}`);
+    
+    if (action === 'Menu Open') {
+      addToast(`Opening context menu for ${reqId}`, 'info');
+      return;
+    }
+
+    const itemIndex = initialRequests.findIndex(r => r.id === reqId);
+    if (itemIndex > -1) {
+      initialRequests[itemIndex].status = action === 'Approve' ? 'APPROVED' : 'REJECTED';
+      initialRequests[itemIndex].statusColor = action === 'Approve' ? '#059669' : '#dc2626';
+    }
+    
+    setRequestsList(prev => prev.map(req => {
+      if (req.id === reqId) {
+        return { 
+          ...req, 
+          status: action === 'Approve' ? 'APPROVED' : 'REJECTED',
+          statusColor: action === 'Approve' ? '#059669' : '#dc2626'
+        };
+      }
+      return req;
+    }));
+
+    if (action === 'Approve') {
+      addToast(`Successfully approved ${reqId}.`, 'success');
+    } else {
+      addToast(`Request ${reqId} has been rejected.`, 'error');
+    }
   };
 
   // Filter queue items based on Bulk / Urgent tabs
-  const filteredRequests = requests.filter(item => {
+  const filteredRequests = requestsList.filter(item => {
     if (activeSegment === 'Urgent') return item.status === 'URGENT ACTION';
     if (activeSegment === 'Bulk') {
       const numericVal = parseFloat(item.amount.replace(/[^0-9.-]+/g, ''));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Users,
   CheckCircle,
@@ -81,6 +81,7 @@ const kycAlerts = [
 
 export default function EmployeeOverview({ onNavigateToWorkforce }) {
   const { addToast } = useToast();
+  const [dateRange, setDateRange] = useState('');
 
   return (
     <div className="employee-overview-flow">
@@ -91,13 +92,15 @@ export default function EmployeeOverview({ onNavigateToWorkforce }) {
           <p className="page-subtitle">Real-time status of your global workforce at Hozify.</p>
         </div>
         <div className="partners-header-buttons">
-          <div 
-            onClick={() => addToast("Opened date selection calendar", "success")}
-            className="date-select-picker-wrap" 
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}>
             <Calendar size={16} />
-            <span style={{ fontWeight: '700', fontSize: '13px' }}>Last 30 Days</span>
+            <span style={{ fontWeight: '700', fontSize: '13px' }}>{dateRange ? '' : 'Last 30 Days'}</span>
+            <input 
+              type="date"
+              value={dateRange}
+              onChange={(e) => setDateRange(e.target.value)}
+              style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', fontFamily: 'inherit', width: dateRange ? 'auto' : '20px' }}
+            />
           </div>
         </div>
       </div>

@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
-import { ArrowUpRight, TrendingUp, Calendar, Building2, FileBarChart2, ChevronDown } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Building2, FileBarChart2 } from "lucide-react";
+import { useDateFilter } from "../../contexts/DateFilterContext";
+import DateFilter from "../../components/common/DateFilter";
+import SkeletonLoader from "../../components/common/SkeletonLoader";
+import EmptyState from "../../components/common/EmptyState";
 
 const weeklyData = [
   { day: "Mon", value: 65, amount: "$96,920" },
@@ -40,11 +44,7 @@ const branchData = [
 ];
 
 export default function WeeklyRevenue() {
-  // Timeframe states
-  const [selectedTimeframe, setSelectedTimeframe] = useState("Current Week");
-  const [showTimeframeDropdown, setShowTimeframeDropdown] = useState(false);
-
-  const timeframes = ["Current Week", "Previous Week", "Last 30 Days"];
+  const { preset, isFiltering, hasData } = useDateFilter();
 
   return (
     <AdminShell activeTab="Revenue" searchPlaceholder="Search weekly revenue...">
@@ -62,38 +62,24 @@ export default function WeeklyRevenue() {
           
           {/* Working Timeframe Dropdown */}
           <div className="relative">
-            <button 
-              onClick={() => setShowTimeframeDropdown(!showTimeframeDropdown)}
-              className="text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm transition-all"
-            >
-              <Calendar className="h-3.5 w-3.5 text-indigo-600" />
-              <span>{selectedTimeframe}</span>
-              <ChevronDown className="h-3 w-3 text-slate-400 transition-transform duration-200" style={{ transform: showTimeframeDropdown ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-            </button>
-
-            {showTimeframeDropdown && (
-              <div className="absolute right-0 mt-1.5 w-40 bg-white border border-slate-200 rounded-lg shadow-lg py-1 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                {timeframes.map((timeframe) => (
-                  <button
-                    key={timeframe}
-                    onClick={() => {
-                      setSelectedTimeframe(timeframe);
-                      setShowTimeframeDropdown(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs font-semibold block transition-colors ${
-                      selectedTimeframe === timeframe 
-                        ? "bg-indigo-50 text-indigo-700" 
-                        : "text-slate-600 hover:bg-slate-50"
-                    }`}
-                  >
-                    {timeframe}
-                  </button>
-                ))}
-              </div>
-            )}
+            <DateFilter />
           </div>
         </div>
 
+        {isFiltering ? (
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+            </div>
+            <SkeletonLoader height="280px" />
+            <SkeletonLoader height="200px" />
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
         {/* Slim & Compact KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           
@@ -266,6 +252,8 @@ export default function WeeklyRevenue() {
             Weekly revenue registered an upward shift of <span className="font-bold text-slate-900">15.3%</span> relative to the historical baseline. Friday volume operations generated optimal velocity, steering approximately 19% of the aggregate weekly yield. Outlying branch distribution metrics reveal <span className="font-bold text-slate-900">North Region HQ</span> remains the primary driver of corporate financial momentum.
           </p>
         </div>
+          </>
+        )}
 
       </div>
     </AdminShell>

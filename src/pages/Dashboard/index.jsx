@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { 
   Calendar, 
   Download, 
@@ -33,6 +34,10 @@ import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
 import { downloadDummyPDF } from '../../utils/downloadHelper';
+import { useDateFilter } from '../../contexts/DateFilterContext';
+import DateFilter from '../../components/common/DateFilter';
+import SkeletonLoader from '../../components/common/SkeletonLoader';
+import EmptyState from '../../components/common/EmptyState';
 
 // Original dashboard components and data
 import KpiCard from '../../features/dashboard/KpiCard';
@@ -77,13 +82,17 @@ export default function Dashboard() {
   const [dashboardView, setDashboardView] = useState('global'); // 'global' | 'system' | 'procurement'
   const [chartMode, setChartMode] = useState('Volume');
   const [showToast, setShowToast] = useState(true);
-  const [timeframe, setTimeframe] = useState('Last 30 Days');
-  const [calendarOpen, setCalendarOpen] = useState(false);
+  const { preset, dateRange, isFiltering, hasData } = useDateFilter();
   const [trendView, setTrendView] = useState('Monthly');
   const [openMenuId, setOpenMenuId] = useState(null);
 
   const getMultiplier = () => {
-    switch(timeframe) {
+    if (preset === 'Custom' && dateRange?.startDate && dateRange?.endDate) {
+      const diffTime = Math.abs(dateRange.endDate - dateRange.startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+      return diffDays / 30;
+    }
+    switch(preset) {
       case 'Today': return 0.03;
       case 'Last 7 Days': return 0.23;
       case 'Last 30 Days': return 1;
@@ -185,11 +194,45 @@ export default function Dashboard() {
   ) : null;
 
   const renderDashboardContent = () => {
+    if (isFiltering) {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
+            <SkeletonLoader height="130px" />
+            <SkeletonLoader height="130px" />
+            <SkeletonLoader height="130px" />
+            <SkeletonLoader height="130px" />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
+            <SkeletonLoader height="500px" />
+            <SkeletonLoader height="500px" />
+          </div>
+        </div>
+      );
+    }
+
+    if (!hasData) {
+      return <EmptyState />;
+    }
+
     if (dashboardView === 'system') {
       return (
         <>
           <section className="kpi-grid">
-            {originalKpis.map((kpi) => <KpiCard key={kpi.title} {...kpi} value={applyMultiplier(kpi.value)} />)}
+            {originalKpis.map((kpi) => {
+              let handler = undefined;
+              if (kpi.title === 'Pending Approvals') {
+                handler = () => navigate(ROUTES.approvalQueue);
+              }
+              return (
+                <KpiCard
+                  key={kpi.title}
+                  {...kpi}
+                  value={applyMultiplier(kpi.value)}
+                  onActionClick={handler}
+                />
+              );
+            })}
           </section>
           <section className="dash-columns">
             <div className="dash-left">
@@ -197,7 +240,7 @@ export default function Dashboard() {
                 <div className="panel-head">
                   <div>
                     <h2>Revenue & Booking Trends</h2>
-                    <p>{timeframe} performance metrics</p>
+                    <p>{preset} performance metrics</p>
                   </div>
                   <div className="segmented">
                     <button className={trendView === 'Monthly' ? "active" : ""} onClick={() => setTrendView('Monthly')} type="button">Monthly</button>
@@ -227,7 +270,7 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
-              <RecentBookings bookings={originalBookings} />
+              <RecentBookings bookings={originalBookings} onViewAll={() => navigate(ROUTES.bookings)} />
             </div>
             <aside className="dash-right">
               <QuickActions />
@@ -401,7 +444,7 @@ export default function Dashboard() {
               <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                   <h2 style={{ fontSize: '16px', fontWeight: '800', color: 'var(--text)', margin: 0 }}>High-Priority Work Orders</h2>
-                  <button onClick={(e) => { e.preventDefault(); toast.success("Action performed successfully!"); }} style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }} type="button">
+                  <button onClick={() => navigate(ROUTES.bookings)} style={{ border: 'none', background: 'transparent', color: '#4f46e5', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }} type="button">
                     View All
                   </button>
                 </div>
@@ -576,7 +619,7 @@ export default function Dashboard() {
                 <div style={{ borderTop: '1px solid #f1f5f9', marginTop: '16px', paddingTop: '12px', textAlign: 'center' }}>
                   <a
                     href="#catalog"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => { e.preventDefault(); navigate(ROUTES.services); }}
                     style={{ fontSize: '12px', color: '#4f46e5', fontWeight: '800', textDecoration: 'none' }}
                   >
                     Browse Entire Catalog
@@ -596,6 +639,7 @@ export default function Dashboard() {
                   </p>
                 </div>
                 <button
+                  onClick={() => navigate(ROUTES.support)}
                   style={{
                     width: '100%',
                     height: '38px',
@@ -814,8 +858,8 @@ export default function Dashboard() {
                 </h2>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fcfaff' }}>
                   <select
-                    value={timeframe}
-                    onChange={(e) => setTimeframe(e.target.value)}
+                    value={preset === 'Current Year' ? 'Current Year' : 'Last Quarter'}
+                    onChange={(e) => {}}
                     style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '700', fontSize: '13px', cursor: 'pointer', color: '#565365' }}
                     aria-label="Select timeframe"
                   >
@@ -1093,40 +1137,9 @@ export default function Dashboard() {
             {/* Actions for original views */}
             {dashboardView !== 'procurement' && (
               <div style={{ position: 'relative', display: 'flex', gap: '12px' }}>
-                <div style={{ position: 'relative' }}>
-                  <button
-                    onClick={() => setCalendarOpen(!calendarOpen)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      background: '#e0e7ff',
-                      color: '#1e1b4b',
-                      border: 'none',
-                      borderRadius: '6px',
-                      padding: '8px 16px',
-                      fontSize: '13px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                    type="button"
-                  >
-                    <Calendar size={16} />
-                    <span>{timeframe}</span>
-                    <ChevronDown size={14} />
-                  </button>
-                  {calendarOpen && (
-                    <div style={{ position: 'absolute', top: '100%', left: 0, marginTop: '8px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', padding: '8px', display: 'flex', flexDirection: 'column', gap: '4px', zIndex: 100, minWidth: '150px' }}>
-                      {['Today', 'Last 7 Days', 'Last 30 Days', 'This Month', 'Current Year'].map(t => (
-                        <button key={t} onClick={() => { setTimeframe(t); setCalendarOpen(false); }} style={{ padding: '8px 12px', background: timeframe === t ? '#f1f5f9' : 'transparent', border: 'none', borderRadius: '4px', textAlign: 'left', cursor: 'pointer', fontSize: '13px', fontWeight: timeframe === t ? '600' : '500', color: '#1e293b' }}>
-                          {t}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <DateFilter />
                 <button
-                  onClick={() => downloadDummyPDF(`Dashboard Executive Summary (${timeframe})`, `Total Users: ${applyMultiplier('128,402')}\nTotal Partners: ${applyMultiplier('4,810')}\nActive Bookings: ${applyMultiplier('1,842')}\nTotal Revenue: $${applyMultiplier('1,420,000')}`)}
+                  onClick={() => downloadDummyPDF(`Dashboard Executive Summary (${preset})`, `Total Users: ${applyMultiplier('128,402')}\nTotal Partners: ${applyMultiplier('4,810')}\nActive Bookings: ${applyMultiplier('1,842')}\nTotal Revenue: $${applyMultiplier('1,420,000')}`)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',

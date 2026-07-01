@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 import { useToast } from "../../components/common/ToastNotification";
 
-function MetricCard({ title, value, change, icon }) {
+function MetricCard({ title, value, change, icon, onClick }) {
   return (
-    <div className="bg-white border border-slate-300 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all">
+    <div className="bg-white border border-slate-300 rounded-2xl p-5 shadow-md hover:shadow-lg transition-all cursor-pointer" onClick={onClick}>
       <div className="flex justify-between items-start">
         <div>
           <p className="text-[9px] uppercase tracking-widest font-extrabold text-slate-500">
@@ -43,9 +43,9 @@ function MetricCard({ title, value, change, icon }) {
   );
 }
 
-function CampaignItem({ icon, title, referrals, conv }) {
+function CampaignItem({ icon, title, referrals, conv, onClick }) {
   return (
-    <div className="flex items-center gap-3 py-4 border-b border-slate-100">
+    <div className="flex items-center gap-3 py-4 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors rounded-lg px-2" onClick={onClick}>
       <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-700">
         {icon}
       </div>
@@ -61,7 +61,9 @@ function CampaignItem({ icon, title, referrals, conv }) {
 }
 
 export default function ReferralDashboard() {
+  const { addToast } = useToast();
   // Dynamic Transactions State
+  const [chartView, setChartView] = useState("Daily");
   const [transactions, setTransactions] = useState([
     {
       id: 1,
@@ -144,12 +146,12 @@ export default function ReferralDashboard() {
           </div>
 
           <div className="flex flex-wrap gap-3 w-full lg:w-auto">
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border rounded-xl font-medium text-sm">
+            <button type="button" onClick={() => addToast("Filtering data for Last 30 Days", "info")} className="flex items-center gap-2 px-4 py-2 bg-white border rounded-xl font-medium text-sm hover:bg-slate-50 transition-colors">
               <Calendar size={14} />
               Last 30 Days
             </button>
 
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border rounded-xl font-medium text-sm">
+            <button type="button" onClick={() => addToast("Exporting Dashboard as PDF...", "info")} className="flex items-center gap-2 px-4 py-2 bg-white border rounded-xl font-medium text-sm hover:bg-slate-50 transition-colors">
               <Download size={14} />
               Export PDF
             </button>
@@ -204,10 +206,12 @@ export default function ReferralDashboard() {
             <div className="flex justify-between mb-6">
               <h3 className="font-black text-indigo-950">Referral Volume</h3>
               <div className="flex gap-2">
-                <button className="bg-indigo-800 text-white px-3 py-1 rounded text-xs">
+                <button type="button" onClick={() => setChartView("Daily")} className={`px-3 py-1 rounded text-xs transition-colors ${chartView === "Daily" ? "bg-indigo-800 text-white" : "text-slate-500 hover:bg-slate-100"}`}>
                   Daily
                 </button>
-                <button className="text-xs text-slate-500">Weekly</button>
+                <button type="button" onClick={() => setChartView("Weekly")} className={`px-3 py-1 rounded text-xs transition-colors ${chartView === "Weekly" ? "bg-indigo-800 text-white" : "text-slate-500 hover:bg-slate-100"}`}>
+                  Weekly
+                </button>
               </div>
             </div>
 
@@ -276,7 +280,7 @@ export default function ReferralDashboard() {
             <h3 className="font-black text-indigo-950">
               Recent Transactions
             </h3>
-            <button className="font-bold text-indigo-700 text-sm">
+            <button type="button" onClick={() => addToast("Navigating to full transaction history", "info")} className="font-bold text-indigo-700 hover:text-indigo-900 text-sm cursor-pointer">
               View History
             </button>
           </div>

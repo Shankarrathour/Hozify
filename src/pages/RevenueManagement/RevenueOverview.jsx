@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import AdminShell from "../../components/layouts/AdminShell";
 // FIX: 'Global' ko hata kar sahi icon name 'Globe' kiya hai
-import { ArrowUpRight, TrendingUp, Users, Building2, AlertCircle, ChevronDown, Calendar, Globe } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Building2, AlertCircle, Globe } from "lucide-react";
+import { useDateFilter } from "../../contexts/DateFilterContext";
+import DateFilter from "../../components/common/DateFilter";
+import SkeletonLoader from "../../components/common/SkeletonLoader";
+import EmptyState from "../../components/common/EmptyState";
 
 export default function RevenueOverview() {
-  // Timeframe and Dropdown States
-  const [selectedTimeframe, setSelectedTimeframe] = useState("Yearly");
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const timeframes = ["Monthly", "Quarterly", "Yearly"];
+  const { preset, isFiltering, hasData } = useDateFilter();
 
   const branches = [
     { name: "Singapore - Regional Hub", revenue: "$1.24M", width: "100%" },
@@ -30,10 +30,8 @@ export default function RevenueOverview() {
 
   return (
     <AdminShell activeTab="Revenue" searchPlaceholder="Search revenue metrics...">
-      {/* CRITICAL BINDINGS: layer reset controls layout blocks */}
       <div 
         className="space-y-5 max-w-7xl mx-auto relative z-10 pointer-events-auto select-none"
-        onClick={() => setShowDropdown(false)}
       >
 
         {/* Header Section */}
@@ -48,41 +46,28 @@ export default function RevenueOverview() {
           </div>
 
           {/* Working Timeframe Dropdown Widget */}
-          <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              onClick={() => setShowDropdown(!showDropdown)}
-              className="text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
-            >
-              <Calendar className="h-3.5 w-3.5 text-indigo-600" />
-              <span>{selectedTimeframe} View</span>
-              <ChevronDown className="h-3 w-3 text-slate-400 transition-transform duration-200" style={{ transform: showDropdown ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-            </button>
-
-            {showDropdown && (
-              <div className="absolute right-0 mt-1.5 w-36 bg-white border border-slate-200 rounded-lg shadow-lg py-1 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                {timeframes.map((tf) => (
-                  <button
-                    key={tf}
-                    type="button"
-                    onClick={() => {
-                      setSelectedTimeframe(tf);
-                      setShowDropdown(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs font-semibold block transition-colors cursor-pointer ${
-                      selectedTimeframe === tf
-                        ? "bg-indigo-50 text-indigo-700"
-                        : "text-slate-600 hover:bg-slate-50"
-                    }`}
-                  >
-                    {tf} Breakdown
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="relative flex items-center justify-end z-50">
+            <DateFilter />
           </div>
         </div>
 
+        {isFiltering ? (
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+              <SkeletonLoader height="120px" />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <SkeletonLoader height="280px" />
+              <SkeletonLoader height="280px" />
+            </div>
+          </div>
+        ) : !hasData ? (
+          <EmptyState />
+        ) : (
+          <>
         {/* Compact & Slim KPI Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
@@ -287,6 +272,8 @@ export default function RevenueOverview() {
             </div>
           </div>
         </div>
+          </>
+        )}
 
       </div>
     </AdminShell>

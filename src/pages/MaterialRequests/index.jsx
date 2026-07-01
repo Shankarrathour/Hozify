@@ -18,9 +18,19 @@ import {
 import AdminShell from '../../components/layouts/AdminShell';
 import { useApp } from '../../hooks/useApp';
 import { ROUTES } from '../../config/routes';
+import { useToast } from '../../components/common/ToastNotification';
+
+const initialRequests = [
+  { id: 'REQ-8902', bookingId: 'BK-2024-112', type: 'Premium Oak Flooring', qty: '450 sq ft', cost: '$12,450.00', status: 'Pending', branch: 'North Hub' },
+  { id: 'REQ-8899', bookingId: 'BK-2024-098', type: 'Industrial Copper Piping', qty: '120 Units', cost: '$4,200.00', status: 'Approved', branch: 'South Hub' },
+  { id: 'REQ-8895', bookingId: 'BK-2024-105', type: 'Reinforced Steel Beams', qty: '15 Units', cost: '$28,900.00', status: 'Rejected', branch: 'East Hub' },
+  { id: 'REQ-8890', bookingId: 'BK-2024-121', type: 'External Facade Panels', qty: '2,000 sq ft', cost: '$45,000.00', status: 'Pending', branch: 'West Hub' },
+  { id: 'REQ-8888', bookingId: 'BK-2024-130', type: 'Smart Lighting Controllers', qty: '64 Units', cost: '$18,200.00', status: 'Approved', branch: 'North Hub' }
+];
 
 export default function MaterialRequests() {
   const { navigate } = useApp();
+  const { addToast } = useToast();
   
   // Filter states
   const [bookingId, setBookingId] = useState('BK-2024-');
@@ -29,19 +39,37 @@ export default function MaterialRequests() {
   const [status, setStatus] = useState('All Statuses');
 
   // Hardcoded table data mimicking Screen 4
-  const [requests, setRequests] = useState([
-    { id: 'REQ-8902', bookingId: 'BK-2024-112', type: 'Premium Oak Flooring', qty: '450 sq ft', cost: '$12,450.00', status: 'Pending' },
-    { id: 'REQ-8899', bookingId: 'BK-2024-098', type: 'Industrial Copper Piping', qty: '120 Units', cost: '$4,200.00', status: 'Approved' },
-    { id: 'REQ-8895', bookingId: 'BK-2024-105', type: 'Reinforced Steel Beams', qty: '15 Units', cost: '$28,900.00', status: 'Rejected' },
-    { id: 'REQ-8890', bookingId: 'BK-2024-121', type: 'External Facade Panels', qty: '2,000 sq ft', cost: '$45,000.00', status: 'Pending' },
-    { id: 'REQ-8888', bookingId: 'BK-2024-130', type: 'Smart Lighting Controllers', qty: '64 Units', cost: '$18,200.00', status: 'Approved' }
-  ]);
+  const [requests, setRequests] = useState(initialRequests);
+
+  const handleFilter = () => {
+    let filtered = initialRequests;
+    
+    if (bookingId && bookingId.trim() !== '' && bookingId !== 'BK-2024-') {
+      filtered = filtered.filter(req => req.bookingId.toLowerCase().includes(bookingId.toLowerCase()));
+    }
+    if (materialType !== 'All Types') {
+      filtered = filtered.filter(req => {
+        if (materialType === 'Structural') return req.type.includes('Steel') || req.type.includes('Facade');
+        if (materialType === 'Electrical' || materialType === 'Lighting') return req.type.includes('Lighting');
+        return req.type.toLowerCase().includes(materialType.toLowerCase());
+      });
+    }
+    if (branch !== 'All Branches') {
+      filtered = filtered.filter(req => req.branch === branch);
+    }
+    if (status !== 'All Statuses') {
+      filtered = filtered.filter(req => req.status === status);
+    }
+    
+    setRequests(filtered);
+  };
 
   const handleResetFilters = () => {
-    setBookingId('');
+    setBookingId('BK-2024-');
     setMaterialType('All Types');
     setBranch('All Branches');
     setStatus('All Statuses');
+    setRequests(initialRequests);
   };
 
   const handleRowClick = (reqId) => {
@@ -54,7 +82,21 @@ export default function MaterialRequests() {
 
   const handleAction = (event, reqId, action) => {
     event.stopPropagation();
-    alert(`${action} performed on request ${reqId}`);
+    
+    // Update the master mock data so filters remain accurate
+    const itemIndex = initialRequests.findIndex(r => r.id === reqId);
+    if (itemIndex > -1) {
+      initialRequests[itemIndex].status = action;
+    }
+    
+    // Update local table state
+    setRequests(prev => prev.map(req => req.id === reqId ? { ...req, status: action } : req));
+    
+    if (action === 'Approved') {
+      addToast(`Request ${reqId} has been successfully approved.`, 'success');
+    } else if (action === 'Rejected') {
+      addToast(`Request ${reqId} has been rejected.`, 'error');
+    }
   };
 
   return (
@@ -278,6 +320,7 @@ export default function MaterialRequests() {
             {/* Action Buttons */}
             <div style={{ display: 'flex', gap: '8px' }}>
               <button
+                onClick={handleFilter}
                 style={{
                   height: '38px',
                   background: '#0b1329',
@@ -420,8 +463,8 @@ export default function MaterialRequests() {
             </span>
             <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
               <button 
+                onClick={() => addToast("You are already on the first page.", "info")}
                 style={{ background: 'transparent', border: '1px solid var(--line)', color: '#565365', borderRadius: '4px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-                disabled
                 aria-label="Previous Page"
                 type="button"
               >
@@ -446,6 +489,7 @@ export default function MaterialRequests() {
                 3
               </button>
               <button 
+                onClick={() => addToast("No more pages available.", "info")}
                 style={{ background: 'transparent', border: '1px solid var(--line)', color: '#565365', borderRadius: '4px', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
                 aria-label="Next Page"
                 type="button"

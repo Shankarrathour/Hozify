@@ -42,7 +42,7 @@ export default function PartnerExportModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm animate-fade-in p-4">
-      <div className="w-full max-w-md overflow-hidden rounded-[28px] border border-slate-200 bg-slate-50 p-6 shadow-2xl">
+      <div className="w-full max-w-md max-h-[95vh] overflow-y-auto rounded-[28px] border border-slate-200 bg-slate-50 p-6 shadow-2xl">
         <div className="overflow-hidden rounded-[24px] border border-sky-100 bg-white p-6 shadow-sm">
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -64,7 +64,7 @@ export default function PartnerExportModal({
           <p className="mt-4 text-sm leading-6 text-slate-600">{description}</p>
           {helper && <p className="mt-3 text-xs text-slate-500">{helper}</p>}
 
-          <div className="mt-5 grid gap-3">
+          <div className="mt-5 grid gap-3 max-h-[30vh] overflow-y-auto pr-2 custom-scrollbar">
             {exportOptions.map((option) => (
               <button
                 key={option.id}

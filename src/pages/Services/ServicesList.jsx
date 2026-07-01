@@ -19,7 +19,7 @@ const initialServices = [
     revenue: '$229,400',
     rating: '4.9',
     status: 'Verified',
-    image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7eed?auto=format&fit=crop&w=80&h=80&q=80'
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=80&h=80&q=80'
   },
   {
     id: '#SRV-4412',
@@ -62,6 +62,22 @@ export default function ServicesList({ onAddService, onViewProfile, onViewApprov
   const [selectedCity, setSelectedCity] = useState('All Locations');
   const [statusFilter, setStatusFilter] = useState('Active'); // 'Active' | 'Pending' | 'Disabled'
 
+  // Computed Filtering
+  const filteredServices = services.filter((service) => {
+    // Basic match by category
+    const matchCat = selectedCategory === 'All Categories' || service.category === selectedCategory;
+    
+    // Status match
+    // Map initial statuses to filter buttons if needed (Verified -> Active)
+    let sStatus = service.status;
+    if (sStatus === 'Verified') sStatus = 'Active';
+    if (sStatus === 'High Risk') sStatus = 'Disabled'; // Example mapping
+
+    const matchStatus = statusFilter === 'All' || sStatus === statusFilter;
+    
+    return matchCat && matchStatus;
+  });
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
@@ -71,7 +87,7 @@ export default function ServicesList({ onAddService, onViewProfile, onViewApprov
         {/* Active Services */}
         <div className="panel" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid var(--line)', padding: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Active Services</span>
-          <strong style={{ fontSize: '28px', color: 'var(--text)', fontWeight: '800' }}>128</strong>
+          <strong style={{ fontSize: '28px', color: 'var(--text)', fontWeight: '800' }}>{services.filter(s => s.status === 'Verified' || s.status === 'Active').length}</strong>
           <span style={{ fontSize: '12px', color: '#059669', fontWeight: '700', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
             📈 +12% vs last month
           </span>
@@ -100,50 +116,56 @@ export default function ServicesList({ onAddService, onViewProfile, onViewApprov
         {/* Pending Review */}
         <div className="panel" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid var(--line)', padding: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pending Review</span>
-          <strong style={{ fontSize: '28px', color: '#4f46e5', fontWeight: '800' }}>09</strong>
-          <a href="#action" onClick={(e) => { e.preventDefault(); onViewApprovals(); }} style={{ fontSize: '12px', color: '#4f46e5', fontWeight: '800', textDecoration: 'none', marginTop: '6px', display: 'inline-block' }}>
-            Action required →
-          </a>
+          <strong style={{ fontSize: '28px', color: 'var(--text)', fontWeight: '800' }}>{services.filter(s => s.status === 'Pending').length}</strong>
+          <span style={{ fontSize: '12px', color: '#d97706', fontWeight: '700', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            ⚠️ Action Required
+          </span>
         </div>
       </div>
 
-      {/* Filters Panel */}
+      {/* Main Filter Section */}
       <div className="panel" style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid var(--line)', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        
+        {/* Top search & basic filters */}
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           
-          {/* Category Selector */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: '1', minWidth: '180px' }}>
-            <label htmlFor="service-cat-filter" style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Category</label>
-            <select
-              id="service-cat-filter"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              style={{ height: '38px', border: '1px solid var(--line)', padding: '0 10px', borderRadius: '6px', fontSize: '13px', fontWeight: '700', outline: 'none', background: '#fff' }}
-            >
-              <option>All Categories</option>
-              <option>Engineering & Facilities</option>
-              <option>IT & Cybersecurity</option>
-              <option>Cleaning Services</option>
-              <option>Consulting</option>
-            </select>
+          <div style={{ flex: '1 1 300px', position: 'relative' }}>
+            <Search size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
+            <input 
+              type="text"
+              placeholder="Search services by ID, Name or Keyword..."
+              style={{ width: '100%', height: '42px', paddingLeft: '40px', paddingRight: '16px', borderRadius: '8px', border: '1px solid var(--line)', fontSize: '13px', background: '#f8fafc', outline: 'none' }}
+            />
           </div>
 
-          {/* City Selector */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: '1', minWidth: '180px' }}>
-            <label htmlFor="service-city-filter" style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>City</label>
-            <select
-              id="service-city-filter"
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              style={{ height: '38px', border: '1px solid var(--line)', padding: '0 10px', borderRadius: '6px', fontSize: '13px', fontWeight: '700', outline: 'none', background: '#fff' }}
-            >
-              <option>All Locations</option>
-              <option>New York</option>
-              <option>Chicago</option>
-              <option>San Francisco</option>
-            </select>
-          </div>
+          <select 
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            style={{ height: '42px', padding: '0 16px', borderRadius: '8px', border: '1px solid var(--line)', fontSize: '13px', background: '#f8fafc', fontWeight: '600', color: 'var(--text)', outline: 'none', minWidth: '180px' }}
+          >
+            <option>All Categories</option>
+            <option>Engineering & Facilities</option>
+            <option>IT & Cybersecurity</option>
+            <option>Cleaning Services</option>
+            <option>Consulting</option>
+          </select>
 
+          <select 
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            style={{ height: '42px', padding: '0 16px', borderRadius: '8px', border: '1px solid var(--line)', fontSize: '13px', background: '#f8fafc', fontWeight: '600', color: 'var(--text)', outline: 'none', minWidth: '160px' }}
+          >
+            <option>All Locations</option>
+            <option>New York</option>
+            <option>London</option>
+            <option>Singapore</option>
+          </select>
+
+        </div>
+
+        {/* Secondary filters line */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', paddingTop: '16px', borderTop: '1px dashed var(--line)' }}>
+          
           {/* Status selector */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</label>
@@ -153,14 +175,15 @@ export default function ServicesList({ onAddService, onViewProfile, onViewApprov
                   key={status}
                   onClick={() => setStatusFilter(status)}
                   style={{
+                    padding: '0 20px',
+                    fontSize: '13px',
+                    fontWeight: '700',
                     border: 'none',
                     background: statusFilter === status ? '#4f46e5' : '#ffffff',
                     color: statusFilter === status ? '#ffffff' : 'var(--muted)',
-                    padding: '0 16px',
-                    fontSize: '13px',
-                    fontWeight: '700',
                     cursor: 'pointer',
-                    transition: 'all 0.2s'
+                    transition: 'all 0.2s',
+                    borderRight: status !== 'Disabled' ? '1px solid var(--line)' : 'none'
                   }}
                   type="button"
                 >
@@ -170,44 +193,28 @@ export default function ServicesList({ onAddService, onViewProfile, onViewApprov
             </div>
           </div>
 
-          {/* Filter Actions */}
-          <div style={{ display: 'flex', gap: '8px', alignSelf: 'stretch', alignItems: 'flex-end' }}>
+          <div style={{ display: 'flex', gap: '12px' }}>
             <button
               style={{
                 height: '38px',
-                width: '38px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--line)',
-                borderRadius: '6px',
+                padding: '0 16px',
                 background: '#ffffff',
                 color: 'var(--text)',
-                cursor: 'pointer'
-              }}
-              type="button"
-              title="Advanced Filters"
-            >
-              <SlidersHorizontal size={18} />
-            </button>
-            
-            <button
-              style={{
-                height: '38px',
-                padding: '0 20px',
-                background: '#0f172a',
-                color: '#ffffff',
-                border: 'none',
+                border: '1px solid var(--line)',
                 borderRadius: '6px',
                 fontSize: '13px',
-                fontWeight: '700',
-                cursor: 'pointer'
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
               }}
               type="button"
             >
-              Apply Filters
+              <Download size={16} />
+              <span>Export CSV</span>
             </button>
-
+            
             <button
               onClick={onAddService}
               style={{
@@ -230,41 +237,49 @@ export default function ServicesList({ onAddService, onViewProfile, onViewApprov
               <span>Add Service</span>
             </button>
           </div>
+
         </div>
       </div>
 
       {/* Services Table Card */}
-      <div className="panel" style={{ background: '#ffffff', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
-        <div style={{ overflowX: 'auto' }}>
-          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}><table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid var(--line)' }}>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Service ID</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Service Name</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Base Price</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Bookings</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Revenue</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Rating</th>
-                <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
-                <th style={{ padding: '12px 8px', width: '90px' }} />
-              </tr>
-            </thead>
-            <tbody>
-              {services.map((service) => (
-                <tr key={service.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  {/* ID */}
-                  <td style={{ padding: '16px 8px', fontSize: '13px', fontWeight: '700', color: 'var(--text)' }}>
-                    {service.id}
-                  </td>
+      <div className="panel user-detail-table-panel">
+        <div className="table-wrap">
+          <div className="table-responsive" style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch' }}>
+            <table className="user-management-inner-table user-detail-wide-table" style={{ width: '100%', minWidth: '900px', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid var(--line)' }}>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Service ID</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Service Name</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Base Price</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Bookings</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Revenue</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Rating</th>
+                  <th style={{ padding: '12px 8px', fontSize: '11px', fontWeight: '800', color: 'var(--muted)', textTransform: 'uppercase' }}>Status</th>
+                  <th style={{ padding: '12px 8px', width: '90px' }} />
+                </tr>
+              </thead>
+              <tbody>
+                {filteredServices.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} style={{ padding: '30px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>
+                      No services match your active filters.
+                    </td>
+                  </tr>
+                ) : filteredServices.map((service) => (
+                  <tr key={service.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                    {/* ID */}
+                    <td style={{ padding: '16px 8px', fontSize: '13px', fontWeight: '700', color: 'var(--text)' }}>
+                      {service.id}
+                    </td>
                   
-                  {/* Image + Name + Category */}
-                  <td style={{ padding: '16px 8px' }}>
-                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <img
-                        src={service.image}
-                        alt={service.name}
-                        style={{ width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover', border: '1px solid var(--line)' }}
-                      />
+                    {/* Image + Name + Category */}
+                    <td style={{ padding: '16px 8px' }}>
+                      <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                        <img
+                          src={service.image}
+                          alt={service.name}
+                          style={{ width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover', border: '1px solid var(--line)' }}
+                        />
                       <div>
                         <strong style={{ display: 'block', fontSize: '14px', color: 'var(--text)' }}>{service.name}</strong>
                         <span style={{ display: 'block', fontSize: '11px', color: 'var(--muted)', marginTop: '2px' }}>

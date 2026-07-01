@@ -175,6 +175,8 @@ export default function ISPPartners() {
 
   const [expandedPartnerId, setExpandedPartnerId] = useState(null);
   const [selectedKycDoc, setSelectedKycDoc] = useState(null);
+  const [activeDropdownId, setActiveDropdownId] = useState(null);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   const handleExport = (format) => {
     setIsExportOpen(false);
@@ -331,7 +333,12 @@ export default function ISPPartners() {
               <h2 className="mt-2 text-2xl font-bold text-slate-900">ISP Directory</h2>
               <p className="mt-0.5 text-sm text-slate-400">Monitor all registered internet service providers</p>
             </div>
-            <button className="flex items-center gap-2 rounded-2xl border border-slate-200 px-4 py-2 text-sm font-medium hover:bg-slate-50 transition">
+             <button 
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              className={`flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-medium transition ${
+                showAdvancedFilters ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-bold" : "border-slate-200 hover:bg-slate-50 text-slate-700"
+              }`}
+            >
               <Filter size={16} />
               Advanced Filters
             </button>
@@ -363,77 +370,79 @@ export default function ISPPartners() {
           </div>
 
           {/* Filtering Header */}
-          <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-slate-50/30">
-            <div className="flex items-center gap-4 relative">
-              <div className="flex rounded-xl bg-slate-200/60 p-0.5 text-xs font-semibold">
-                {["All", "Active", "Pending", "Inactive", "Top Rated"].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => {
-                      setActiveTab(tab);
-                      setSelectedCity("All Cities");
-                      setSelectedService("All Services");
-                    }}
-                    className={`rounded-lg px-4 py-1.5 transition ${
-                      activeTab === tab ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-900"
-                    }`}
+          {showAdvancedFilters && (
+            <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-slate-50/30">
+              <div className="flex items-center gap-4 relative">
+                <div className="flex rounded-xl bg-slate-200/60 p-0.5 text-xs font-semibold">
+                  {["All", "Active", "Pending", "Inactive", "Top Rated"].map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => {
+                        setActiveTab(tab);
+                        setSelectedCity("All Cities");
+                        setSelectedService("All Services");
+                      }}
+                      className={`rounded-lg px-4 py-1.5 transition ${
+                        activeTab === tab ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-900"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="relative">
+                  <button 
+                    onClick={() => { setIsCityDropdownOpen(!isCityDropdownOpen); setIsServiceDropdownOpen(false); }}
+                    className="flex items-center gap-1 text-xs text-slate-700 font-bold bg-white border border-slate-200 rounded-xl px-3 py-1.5 hover:bg-slate-50 transition"
                   >
-                    {tab}
+                    {selectedCity}
+                    <ChevronDown size={14} />
                   </button>
-                ))}
+                  {isCityDropdownOpen && (
+                    <div className="absolute left-0 mt-2 w-44 rounded-xl border border-slate-100 bg-white shadow-lg z-30 py-1">
+                      {availableCities.map((city) => (
+                        <button
+                          key={city}
+                          onClick={() => { setSelectedCity(city); setIsCityDropdownOpen(false); }}
+                          className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-50 transition ${selectedCity === city ? "font-bold text-indigo-600 bg-indigo-50/30" : "text-slate-600"}`}
+                        >
+                          {city}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="relative">
+                  <button 
+                    onClick={() => { setIsServiceDropdownOpen(!isServiceDropdownOpen); setIsCityDropdownOpen(false); }}
+                    className="flex items-center gap-1 text-xs text-slate-700 font-bold bg-white border border-slate-200 rounded-xl px-3 py-1.5 hover:bg-slate-50 transition"
+                  >
+                    {selectedService === "All Services" ? "Service Type" : selectedService}
+                    <ChevronDown size={14} />
+                  </button>
+                  {isServiceDropdownOpen && (
+                    <div className="absolute left-0 mt-2 w-48 rounded-xl border border-slate-100 bg-white shadow-lg z-30 py-1">
+                      {availableServices.map((service) => (
+                        <button
+                          key={service}
+                          onClick={() => { setSelectedService(service); setIsServiceDropdownOpen(false); }}
+                          className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-50 transition ${selectedService === service ? "font-bold text-indigo-600 bg-indigo-50/30" : "text-slate-600"}`}
+                        >
+                          {service}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="relative">
-                <button 
-                  onClick={() => { setIsCityDropdownOpen(!isCityDropdownOpen); setIsServiceDropdownOpen(false); }}
-                  className="flex items-center gap-1 text-xs text-slate-700 font-bold bg-white border border-slate-200 rounded-xl px-3 py-1.5 hover:bg-slate-50 transition"
-                >
-                  {selectedCity}
-                  <ChevronDown size={14} />
-                </button>
-                {isCityDropdownOpen && (
-                  <div className="absolute left-0 mt-2 w-44 rounded-xl border border-slate-100 bg-white shadow-lg z-30 py-1">
-                    {availableCities.map((city) => (
-                      <button
-                        key={city}
-                        onClick={() => { setSelectedCity(city); setIsCityDropdownOpen(false); }}
-                        className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-50 transition ${selectedCity === city ? "font-bold text-indigo-600 bg-indigo-50/30" : "text-slate-600"}`}
-                      >
-                        {city}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="relative">
-                <button 
-                  onClick={() => { setIsServiceDropdownOpen(!isServiceDropdownOpen); setIsCityDropdownOpen(false); }}
-                  className="flex items-center gap-1 text-xs text-slate-700 font-bold bg-white border border-slate-200 rounded-xl px-3 py-1.5 hover:bg-slate-50 transition"
-                >
-                  {selectedService === "All Services" ? "Service Type" : selectedService}
-                  <ChevronDown size={14} />
-                </button>
-                {isServiceDropdownOpen && (
-                  <div className="absolute left-0 mt-2 w-48 rounded-xl border border-slate-100 bg-white shadow-lg z-30 py-1">
-                    {availableServices.map((service) => (
-                      <button
-                        key={service}
-                        onClick={() => { setSelectedService(service); setIsServiceDropdownOpen(false); }}
-                        className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-50 transition ${selectedService === service ? "font-bold text-indigo-600 bg-indigo-50/30" : "text-slate-600"}`}
-                      >
-                        {service}
-                      </button>
-                    ))}
-                  </div>
-                )}
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                {filteredPartners.length} Matches
               </div>
             </div>
-
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              {filteredPartners.length} Matches
-            </div>
-          </div>
+          )}
 
           {/* Directory Table */}
           <div className="overflow-x-auto">
@@ -501,9 +510,52 @@ export default function ISPPartners() {
                               Verification
                               <ChevronDown size={14} className={`transform transition-transform duration-200 ${expandedPartnerId === partner.id ? "rotate-180" : ""}`} />
                             </button>
-                            <button className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition">
-                              <MoreVertical size={16} />
-                            </button>
+                            <div className="relative">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveDropdownId(activeDropdownId === partner.id ? null : partner.id);
+                                }}
+                                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
+                              >
+                                <MoreVertical size={16} />
+                              </button>
+                              {activeDropdownId === partner.id && (
+                                <div 
+                                  className="absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-lg shadow-lg z-30 py-1 text-left"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <button 
+                                    className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                                    onClick={() => {
+                                      alert(`Viewing profile details for ${partner.name}`);
+                                      setActiveDropdownId(null);
+                                    }}
+                                  >
+                                    <Eye size={14} /> View Details
+                                  </button>
+                                  <button 
+                                    className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                                    onClick={() => {
+                                      alert(`Configuring network parameters for ${partner.name}`);
+                                      setActiveDropdownId(null);
+                                    }}
+                                  >
+                                    <FileText size={14} /> Configure
+                                  </button>
+                                  <button 
+                                    className={`w-full text-left px-4 py-2 text-xs flex items-center gap-2 hover:bg-slate-50 ${partner.status === 'Inactive' ? 'text-green-600' : 'text-orange-600'}`}
+                                    onClick={() => {
+                                      setPartners(prev => prev.map(p => p.id === partner.id ? { ...p, status: p.status === 'Active' ? 'Inactive' : 'Active' } : p));
+                                      setActiveDropdownId(null);
+                                    }}
+                                  >
+                                    {partner.status === 'Inactive' ? <CheckCircle size={14} /> : <Ban size={14} />}
+                                    {partner.status === 'Inactive' ? 'Activate' : 'Suspend'}
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </td>
                       </tr>

@@ -40,10 +40,10 @@ export default function SystemHealth({ activeTab = 'Dashboard' }) {
     { title: "Maps API Health", value: "18ms", sub: "Geo-query latency", status: "Ready", positive: true, icon: Map, color: "#1e40af", bg: "#eff6ff" }
   ];
 
-  // 30 days blocks mock (30 blocks: 28 green, 2 yellow warning)
-  const blocksNormal = Array(20).fill('green');
-  const blocksWarning1 = ['green', 'green', 'yellow', 'green', 'green', 'green', 'yellow', 'green', 'green', 'green'];
-  const uptimeBlocks = [...blocksNormal, ...blocksWarning1].slice(0, 30);
+  // Uptime blocks based on Day/Month view
+  const uptimeBlocks = uptimeView === 'Day'
+    ? [...Array(20).fill('green'), 'green', 'green', 'yellow', 'green', 'green', 'green', 'yellow', 'green', 'green', 'green'].slice(0, 30)
+    : ['green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'green', 'yellow', 'green'];
 
   const regionalData = [
     { region: "us-east-1 (N. Virginia)", status: "OPERATIONAL", statusColor: "#07956f", statusBg: "#ecfdf5", load: "34%", errors: "0.0001%", net: "1.2 GB/s / 840 MB/s", actionText: "Metrics", actionColor: "#25108f" },
@@ -137,7 +137,7 @@ export default function SystemHealth({ activeTab = 'Dashboard' }) {
           {/* Uptime history block grid */}
           <div className="panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontSize: '14px', fontWeight: '850', color: 'var(--text)', margin: 0 }}>Uptime History (Last 30 Days)</h2>
+              <h2 style={{ fontSize: '14px', fontWeight: '850', color: 'var(--text)', margin: 0 }}>Uptime History ({uptimeView === 'Day' ? 'Last 30 Days' : 'Last 12 Months'})</h2>
               
               <div style={{ display: 'flex', background: '#f4eff8', borderRadius: '6px', padding: '3px', gap: '4px' }}>
                 {['Day', 'Month'].map((tab) => (

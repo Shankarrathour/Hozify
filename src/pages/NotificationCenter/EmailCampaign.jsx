@@ -29,6 +29,7 @@ export default function CampaignListing() {
   const [campaigns, setCampaigns] = useState(INITIAL_CAMPAIGNS);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Statuses");
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
   // Dynamic Action: Clear All Filters
   const handleClearAll = () => {
@@ -207,10 +208,20 @@ export default function CampaignListing() {
                     </td>
                     <td className="p-2 border-r border-slate-200 text-right font-medium text-slate-800">{row.clickRate}</td>
                     <td className="p-2 border-r border-slate-200 text-slate-500 font-sans">{row.date}</td>
-                    <td className="p-2 text-center bg-slate-50/30">
-                      <button className="text-slate-400 hover:text-slate-700 p-0.5">
+                    <td className="p-2 text-center bg-slate-50/30 relative">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setOpenDropdownId(openDropdownId === row.id ? null : row.id); }}
+                        className="text-slate-400 hover:text-slate-700 p-0.5 rounded hover:bg-slate-200 transition-colors"
+                      >
                         <MoreVertical size={14} />
                       </button>
+                      {openDropdownId === row.id && (
+                        <div className="absolute right-10 top-8 w-32 bg-white border border-slate-200 rounded-lg shadow-xl z-50 py-1 text-left text-xs font-sans">
+                          <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('View Details clicked'); }} className="block w-full px-4 py-2 text-slate-700 hover:bg-slate-50 text-left font-medium">View Details</button>
+                          <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('Duplicate Campaign'); }} className="block w-full px-4 py-2 text-indigo-600 hover:bg-slate-50 text-left font-medium">Duplicate</button>
+                          <button onClick={(e) => { e.stopPropagation(); setOpenDropdownId(null); alert('Delete Campaign'); }} className="block w-full px-4 py-2 text-rose-600 hover:bg-slate-50 text-left font-medium">Delete</button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

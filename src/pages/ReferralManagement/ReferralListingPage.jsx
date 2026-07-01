@@ -30,6 +30,7 @@ export default function ReferralListingPage() {
   const [campaignFilter, setCampaignFilter] = useState("All Campaigns");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
   const filteredReferrals = MOCK_REFERRALS.filter((ref) => {
     const matchesStatus = statusFilter === "All Statuses" || ref.status === statusFilter;

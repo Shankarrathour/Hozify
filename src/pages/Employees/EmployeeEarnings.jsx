@@ -118,7 +118,7 @@ export default function EmployeeEarnings() {
                     placeholder="Search employees..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ fontSize: '12px', border: 'none', background: 'transparent', outline: 'none', paddingLeft: '8px', flex: 1 }}
+                    style={{ fontSize: '12px', border: 'none', background: 'transparent', outline: 'none', paddingLeft: '8px', flex: 1, color: 'var(--text)' }}
                   />
                 </div>
                 <select 

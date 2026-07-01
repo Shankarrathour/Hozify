@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useApp } from "../../hooks/useApp";
 import AdminShell from "../../components/layouts/AdminShell";
 import { ArrowUpRight, ShieldCheck, Clock, FileText, X, ArrowLeftRight } from "lucide-react";
+import { ROUTES } from "../../config/routes";
 
 const hourlyData = [
   60, 45, 30, 20, 65, 90, 95, 70, 82, 100, 85, 75,
@@ -46,6 +48,7 @@ const transactions = [
 ];
 
 export default function DailyRevenue() {
+  const { navigate } = useApp();
   // Sidebar/Ledger visibility state
   const [isLedgerOpen, setIsLedgerOpen] = useState(false);
 
@@ -152,7 +155,7 @@ export default function DailyRevenue() {
               Top 10 Transactions (Today)
             </h3>
             <button 
-              onClick={() => setIsLedgerOpen(true)}
+              onClick={() => navigate(ROUTES.walletTransactions)}
               className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 bg-white border border-slate-200 px-2.5 py-1 rounded-md shadow-sm hover:border-slate-300 transition-all"
             >
               <ArrowLeftRight className="h-3 w-3" />

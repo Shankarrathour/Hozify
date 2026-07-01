@@ -143,9 +143,15 @@ export default function GlobalAdminShell({ children }) {
   };
 
   const isParentActive = (module) => {
-    if (module.label === activeTab) return true;
+    if (hasRoute(module, route)) return true;
     if (module.route === route) return true;
-    return hasRoute(module, route) || module.children?.some(c => c.label === activeTab);
+    if (module.label === activeTab) return true;
+    
+    // Prevent multiple modules from becoming active when child labels (e.g. 'Audit Logs') are duplicated
+    if (module.label === openModule) {
+      return module.children?.some(c => c.label === activeTab) || false;
+    }
+    return false;
   };
 
   function hasRoute(item, currentRoute) {

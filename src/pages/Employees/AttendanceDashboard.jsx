@@ -10,11 +10,15 @@ const attendanceDetails = [
 
 export default function AttendanceDashboard() {
   const { addToast } = useToast();
-  const [date, setDate] = useState('June 14, 2024');
+  const [date, setDate] = useState('2024-06-14');
   const [viewType, setViewType] = useState('Real-time');
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   return (
     <div className="attendance-dashboard-flow">
+      {activeDropdown !== null && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 40 }} onClick={() => setActiveDropdown(null)} />
+      )}
       {/* Title Header */}
       <div className="partners-page-header">
         <div>
@@ -22,17 +26,18 @@ export default function AttendanceDashboard() {
           <p className="page-subtitle">Monitoring real-time presence across all branches.</p>
         </div>
         <div className="partners-header-buttons">
-          <div 
-            onClick={() => addToast("Opened date selection calendar", "success")}
-            className="date-select-picker-wrap" 
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--line)', padding: '6px 12px', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}>
             <Calendar size={16} />
-            <span style={{ fontWeight: '700', fontSize: '13px' }}>{date}</span>
+            <input 
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              style={{ border: 'none', background: 'transparent', outline: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--text)', cursor: 'pointer', fontFamily: 'inherit' }}
+            />
           </div>
 
           <button 
-            onClick={() => addToast("Exporting attendance report PDF...", "success")}
+            onClick={() => window.print()}
             className="primary-action-btn font-bold cursor-pointer" 
             type="button" 
             style={{ height: '36px' }}
@@ -224,13 +229,27 @@ export default function AttendanceDashboard() {
                     </span>
                   </td>
                   <td onClick={(e) => e.stopPropagation()}>
-                    <button 
-                      onClick={() => addToast(`Opening action drop for ${emp.name}`, "success")}
-                      className="table-row-action-btn cursor-pointer" 
-                      type="button"
-                    >
-                      <MoreVertical size={16} />
-                    </button>
+                    <div style={{ position: 'relative', zIndex: activeDropdown === index ? 50 : 1 }}>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveDropdown(activeDropdown === index ? null : index);
+                        }}
+                        className="table-row-action-btn cursor-pointer" 
+                        style={{ border: 'none', background: 'transparent', color: 'var(--muted)', padding: '4px' }}
+                        type="button"
+                      >
+                        <MoreVertical size={16} />
+                      </button>
+                      
+                      {activeDropdown === index && (
+                        <div style={{ position: 'absolute', right: 0, top: '100%', background: '#fff', border: '1px solid var(--line)', borderRadius: '8px', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)', minWidth: '140px', padding: '6px 0', marginTop: '4px' }}>
+                          <button onClick={(e) => { e.stopPropagation(); addToast(`Editing record for ${emp.name}...`, "info"); setActiveDropdown(null); }} style={{ width: '100%', textAlign: 'left', padding: '8px 16px', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '13px', color: 'var(--text)' }}>Edit Record</button>
+                          <button onClick={(e) => { e.stopPropagation(); addToast(`Marking ${emp.name} as absent...`, "info"); setActiveDropdown(null); }} style={{ width: '100%', textAlign: 'left', padding: '8px 16px', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '13px', color: 'var(--text)' }}>Mark Absent</button>
+                          <button onClick={(e) => { e.stopPropagation(); addToast(`Deleting record for ${emp.name}...`, "error"); setActiveDropdown(null); }} style={{ width: '100%', textAlign: 'left', padding: '8px 16px', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '13px', color: '#ef4444' }}>Delete</button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
