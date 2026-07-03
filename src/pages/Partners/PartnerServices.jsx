@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AdminShell from "../../components/layouts/AdminShell";
+import { useToast } from "../../components/common/ToastNotification";
 import {
   Map,
   ArrowUpRight,
@@ -89,6 +90,7 @@ const mappingOptions = [
 ];
 
 export default function PartnerServices() {
+  const { addToast } = useToast();
   const [activeService, setActiveService] = useState(serviceCategories[0]);
   const [showServiceInfo, setShowServiceInfo] = useState(false);
   const [showMappingOptions, setShowMappingOptions] = useState(false);
@@ -296,12 +298,24 @@ export default function PartnerServices() {
                 <p className="mt-2 text-sm text-slate-700">{activeService.summary}</p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-semibold text-indigo-700">
+                <button
+                  type="button"
+                  onClick={() => addToast(`${activeService.title} data loaded and synced successfully.`, 'success')}
+                  className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-semibold text-indigo-700 shadow-sm hover:bg-indigo-50 hover:shadow-md transition-all cursor-pointer active:scale-95 border border-indigo-100"
+                >
                   Loaded
-                </span>
-                <span className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowMappingOptions(true);
+                    addToast(`Viewing all ${activeService.count} for ${activeService.title}.`, 'info');
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                  }}
+                  className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 hover:shadow-md transition-all cursor-pointer active:scale-95"
+                >
                   {activeService.count}
-                </span>
+                </button>
               </div>
             </div>
           </div>

@@ -888,7 +888,39 @@ function RiskSection() {
       <div className="kyc-flow-stats six"><StatCard label="Duplicate Aadhaar" value="3" tone="danger" /><StatCard label="Duplicate PAN" value="2" tone="danger" /><StatCard label="Multiple Accounts" value="8" /><StatCard label="Device Mismatch" value="New IMEI" tone="danger" /><StatCard label="Geo Mismatch" value="Flagged" /><StatCard label="Verification Score" value="98.4%" /></div>
       <div className="kyc-flow-grid risk">
         <Panel title="Global Risk Score"><div className="kyc-risk-gauge"><strong>75</strong><span>High Risk</span></div><Badge tone="danger">Fraudulent patterns detected</Badge></Panel>
-        <Panel title="Linked Account Network Visualization"><div className="kyc-network-map"><i /><i /><i /><strong>Target Subject</strong></div></Panel>
+        <Panel title="Linked Account Network Visualization">
+          <div className="kyc-network-map" style={{ position: 'relative', overflow: 'hidden' }}>
+            <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+              <line x1="50%" y1="50%" x2="25%" y2="30%" stroke="rgba(239, 68, 68, 0.6)" strokeWidth="2" strokeDasharray="4 4" />
+              <line x1="50%" y1="50%" x2="25%" y2="70%" stroke="rgba(239, 68, 68, 0.6)" strokeWidth="2" />
+              <line x1="50%" y1="50%" x2="75%" y2="50%" stroke="rgba(99, 102, 241, 0.6)" strokeWidth="2" />
+            </svg>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}>
+              <div style={{ background: '#ef4444', padding: '12px', borderRadius: '50%', boxShadow: '0 0 20px rgba(239, 68, 68, 0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Users size={24} color="white" />
+              </div>
+              <strong style={{ background: '#ef4444', borderRadius: '999px', fontSize: '10px', padding: '4px 10px', textTransform: 'uppercase', color: 'white' }}>Target Subject</strong>
+            </div>
+            <div style={{ position: 'absolute', top: '30%', left: '25%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}>
+              <div style={{ background: '#1e1b4b', border: '2px solid #ef4444', padding: '10px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <AlertTriangle size={18} color="#fca5a5" />
+              </div>
+              <span style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: '600' }}>Flagged Device</span>
+            </div>
+            <div style={{ position: 'absolute', top: '70%', left: '25%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}>
+              <div style={{ background: '#1e1b4b', border: '2px solid #ef4444', padding: '10px', borderRadius: '50%', boxShadow: '0 0 15px rgba(239, 68, 68, 0.4)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Activity size={18} color="#fca5a5" />
+              </div>
+              <span style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: '600' }}>Shared IP (3x)</span>
+            </div>
+            <div style={{ position: 'absolute', top: '50%', left: '75%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', zIndex: 2 }}>
+              <div style={{ background: '#1e1b4b', border: '2px solid #6366f1', padding: '10px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <IdCard size={18} color="#818cf8" />
+              </div>
+              <span style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: '600' }}>Linked PAN</span>
+            </div>
+          </div>
+        </Panel>
         <Panel title="Recent Suspicious Events">{['Rapid Sequential Logins', 'Aadhaar Data Match', 'VPN Detection'].map((item) => <div className="kyc-alert-row" key={item}><strong>{item}</strong><span>Risk engine raised a critical signal.</span><button type="button" className="cursor-pointer" onClick={() => toast.success(`Fraud event "${item}" successfully added to investigation case.`)}>Trace</button></div>)}</Panel>
       </div>
     </>
@@ -959,7 +991,27 @@ function InvestigationSection() {
         <div className="kyc-flow-stats four"><StatCard label="Composite Risk" value="78/100" tone="danger" /><StatCard label="Identity Status" value="L2 Verified" /><StatCard label="Account Longevity" value="14 Days" /><StatCard label="Avg Transaction" value="$1,200" /></div>
         <div className="kyc-doc-review"><DocumentCard title="KYC Comparison Viewer" /><div className="kyc-status-stack"><span>Full Name: Alex Rodriguez Rivera</span><span>DOB: 1988-04-12</span><span>ID Number: G-2009384-B2</span><span>Address: TX</span></div></div>
       </Panel>
-      <Panel title="Evidence Panel"><div className="kyc-network-map small"><i /><i /><strong>Entity relationship graph</strong></div><textarea placeholder="Add investigation findings..." /><button type="button" className="primary-action-btn mt-2 cursor-pointer w-full text-center py-2 text-xs font-bold" onClick={() => toast.success("Notes saved to investigation diary.")}>Save Investigation Notes</button></Panel>
+      <Panel title="Evidence Panel">
+        <div className="kyc-network-map small" style={{ position: 'relative', overflow: 'hidden' }}>
+          <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+            <line x1="30%" y1="50%" x2="70%" y2="50%" stroke="rgba(99, 102, 241, 0.6)" strokeWidth="2" strokeDasharray="4 4" />
+          </svg>
+          <div style={{ position: 'absolute', top: '50%', left: '30%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', zIndex: 2 }}>
+            <div style={{ background: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: '0 0 15px rgba(239, 68, 68, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Users size={16} color="white" />
+            </div>
+            <strong style={{ background: '#ef4444', borderRadius: '999px', fontSize: '9px', padding: '3px 8px', textTransform: 'uppercase', color: 'white' }}>Subject</strong>
+          </div>
+          <div style={{ position: 'absolute', top: '50%', left: '70%', transform: 'translate(-50%, -50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', zIndex: 2 }}>
+            <div style={{ background: '#1e1b4b', border: '2px solid #6366f1', padding: '8px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <IdCard size={16} color="#818cf8" />
+            </div>
+            <span style={{ fontSize: '9px', color: '#cbd5e1', fontWeight: '600' }}>Linked Entity</span>
+          </div>
+        </div>
+        <textarea placeholder="Add investigation findings..." className="mt-4" />
+        <button type="button" className="primary-action-btn mt-2 cursor-pointer w-full text-center py-2 text-xs font-bold" onClick={() => toast.success("Notes saved to investigation diary.")}>Save Investigation Notes</button>
+      </Panel>
     </div>
   );
 }
@@ -1552,7 +1604,7 @@ function DocumentCard({ title, small = false }) {
       </div>
       <div 
         className="kyc-id-card transition-transform duration-200"
-        style={{ transform: `rotate(${degree}deg)` }}
+        style={{ transform: `rotate(${degree}deg) scale(${degree % 180 !== 0 ? 0.75 : 1})` }}
       >
         <IdCard size={34} />
         <strong>{title}</strong>

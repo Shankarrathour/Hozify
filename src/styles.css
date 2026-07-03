@@ -5421,7 +5421,7 @@ td:first-child strong {
   border-radius: 8px;
   display: flex;
   justify-content: center;
-  min-height: 300px;
+  min-height: 360px;
   padding: 18px;
   position: relative;
 }

@@ -189,7 +189,15 @@ export default function ContractsPage() {
               {filteredData.length > 0 ? (
                 filteredData.map(row => (
                   <tr key={row.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '18px 24px', fontWeight: '700', fontFamily: 'monospace', color: '#4f46e5' }}>{row.id}</td>
+                    <td style={{ padding: '18px 24px', fontWeight: '700', fontFamily: 'monospace', color: '#4f46e5' }}>
+                      <span 
+                        onClick={() => { setSelectedItem(row); setIsPreviewOpen(true); }}
+                        style={{ cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+                        title="View Details"
+                      >
+                        {row.id}
+                      </span>
+                    </td>
                     <td style={{ padding: '18px 24px', fontWeight: '700' }}>{row.entity}</td>
                     <td style={{ padding: '18px 24px' }}>{row.type}</td>
                     <td style={{ padding: '18px 24px', fontFamily: 'monospace' }}>{row.startDate}</td>
